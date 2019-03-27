@@ -5,7 +5,7 @@
 # Pull base image.
 FROM ubuntu:18.04
 
-# Load binaries to image. Much smaller container size than building.
+# Load binaries to image. Much smaller size than building.
 ADD ./app/* /usr/local/bin/
 
 RUN \
