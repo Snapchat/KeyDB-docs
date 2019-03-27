@@ -22,9 +22,9 @@ Comment out “bind 127.0.0.1”, change "protected-mode" from yes to no. If you
 $ docker inspect -f '{{ (index .NetworkSettings.Networks "mynetwork").IPAddress }}' mynode1
 ```
 If I wanted to run a client to connect to a node on this network:
-'''
+```
 $ docker run -it --net mynetwork eqalpha/keydb keydb-cli -h <ip-address-of-node> -p 6379
-'''
+```
 
 ### Test:
 Try creating two nodes, then connect one client to each as stated above. Once you are connected to the keydb server with keydb-cli, call each node to be a replica of the other node via ` REPLICAOF <your-node-ip-address>:6379 `
