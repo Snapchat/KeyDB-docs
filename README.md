@@ -10,3 +10,12 @@ Regarding documentation, seeing as this database is a fork of Redis, a lot of ex
 
 If you have an interesting use case you would like to share please create a PR and we would be happy to integrate. This repo is to both help our users and better understand your needs.
 
+We can be reached:
+* support@eqalpha.com
+* on [gitter community](https://gitter.im/KeyDB/community)
+* start an issue or make a PR in this repo
+* our main [keydb repo on github](https://github.com/johnsully/keydb)
+* [our website]( https://www.eqalpha.com/)
+* [linkedin](https://www.linkedin.com/company/eqalphatechnology/)
+* [facebook](https://www.facebook.com/EQ-Alpha-Technology-285755075380958/)
+* [twitter](https://twitter.com/TechnologyEq)
