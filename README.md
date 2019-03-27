@@ -2,7 +2,7 @@
 
 # KeyDB Doc's
 
-### Repo for instructions, examples, tutorials
+### Repo for instructions, examples, tutorials and supplemental files.
 
 This repo is meant for anyone using KeyDB and its content will in large part be based off your feedback and input. If you have a specific request please let us know and we will see if we can help out. If one person has a question its likely others will as well.
 
