@@ -1,5 +1,6 @@
+
 # KeyDB Fresh Build
-# 
+#
 # This Dcoker image will be used to generate the latest binaries from github
 #
 # Useage: docker run -it --rm -v /path-to-dump-binaries:/keydb_bin eqalpha/keydb-build-bin
@@ -9,11 +10,11 @@ FROM ubuntu:18.04
 # setup up container with dependencies for build
 RUN apt-get update -y && \
  DEBIAN_FRONTEND=noninteractive apt-get install -qqy \
- build-essential apt-utils nasm autotools-dev autoconf libjemalloc-dev tcl tcl-dev uuid-dev git -y && \
+ build-essential apt-utils nasm autotools-dev autoconf libjemalloc-dev tcl tcl-dev uuid-dev git libtool libnuma-dev -y && \
  apt-get clean && \
  mkdir /keydb_bin
-# upon launch we will build project and dump binaries into specified folder on host
+# upon launch we will build and move binaries to dump folder on host. Specify make MALLOC=memkind for flash support build
 CMD ["sh","-c", "cd /tmp && git clone https://github.com/JohnSully/KeyDB.git && \
  cd KeyDB  && \
- make && \
+ make MALLOC=memkind && \
  cp ./src/keydb-* /keydb_bin"]

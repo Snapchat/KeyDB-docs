@@ -13,7 +13,11 @@ $ docker run --name mynode1 --net mynetwork eqalpha/keydb
 ```
 ### To launch with custom config file:
 ```
-$ docker run -v /path-to-config-file/redis.conf:/etc/keydb/redis.conf --name mynode1 -d eqalpha/keydb
+$ docker run -v /path-to-config-file/redis.conf:/etc/keydb/redis.conf --net mynetwork --name mynode1 -d eqalpha/keydb
+```
+### To launch with updates to current config file:
+```
+$ docker run --net mynetwork --name mynode1 -d eqalpha/keydb keydb-server /etc/keydb/redis.conf --active-replica yes
 ```
 ### The following may assist when updating redis.config obtained from our [github page](https://github.com/johnsully/keydb) or use the updated one contained in this example:
 Comment out “bind 127.0.0.1”, change "protected-mode" from yes to no. If you want to enable Active Replica Support then uncomment "active-replica yes".
