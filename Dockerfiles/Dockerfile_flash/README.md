@@ -6,8 +6,8 @@ This image has additional dependencies required to run binaries. You must use th
 ```
 $ docker run -it --rm -v /path-to-dump-binaries:/keydb_bin eqalpha/keydb-build-bin:flash
 ```
-These binaries will be copied to docker image. Currently supported for x86_64 (amd64). For useage:
+Note these binaries are pulled from unstable branch, we use the binaries from latest release. These binaries to be copied to docker image. Currently supported for x86_64 (amd64). For useage:
 ```
-docker run -it --name mykeydb --mount type=bind,destination=/keydbflash,source=/mnt/btrfs-ssd-mount-location-you-made/ eqalpha/keydb:flash
+docker run -it --name mykeydb --mount type=bind,target=/tmp/keydbflash,source=/path-to-btrfs-ssd-mount-location-you-made/ eqalpha/keydb:flash
 ```
 for a detailed walthrough check out the example in Docker_Examples
