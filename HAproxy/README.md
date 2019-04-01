@@ -11,4 +11,4 @@ The HAproxy performs health checks to decide where to direct traffic and maintai
 
 ### Performance 
 
-If you are having performance issues consider increasing maxconn for the servers (backend) as well as in defaults and global sections. If you are still having perfomance issues check your cpu useage during high loads to find the bottleneck. HAproxy can run multiple threads and this may need to be configured.
+If you are having performance issues consider increasing maxconn for the servers (backend) as well as in defaults and global sections. Believe the default is 2000. If you are still having perfomance issues check your cpu useage during high loads to find the bottleneck. HAproxy can run multiple threads and this may need to be configured.

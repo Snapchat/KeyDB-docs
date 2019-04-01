@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+for port in 7000 7001 7002 7003 7004 7005
+do
+  mkdir ${port}
+  cd ${port}
+  cat >redis.conf << EOF
+port ${port}
+cluster-enabled yes
+cluster-config-file nodes.conf
+cluster-node-timeout 5000
+appendonly yes
+
+dir ./
+loglevel notice
+logfile ${port}.log
+
+save 900 1
+save 300 10
+save 60 10000
+EOF
+  cd ..
+done
