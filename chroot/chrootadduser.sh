@@ -4,9 +4,9 @@
 
 #Useage: chrootadduser.sh  [username] [location of redis.config to be used]
 
-# Note that this example contains several different options you may want to include include. This example sets up in home directory
-# but change to wherever you would like to store. In this example we ammend username to "chrootjail", however you can just use your
-# username as the directory pending it meets the regex standard.
+# Note that this example contains several different options you may want to include. This example sets up in home directory
+# but change to wherever you would like to store. In this example we ammend username to "chrootjail". Please ensure the username
+# you create is acceptable regex
 
 
 #add user to own this chrooted environment. This examplpe is to add automatically without password/setup
@@ -18,18 +18,18 @@ mkdir /home/chrootjail_$1
 chmod 755 /home/chrootjail_$1
 mkdir -p /home/chrootjail_$1/{bin,lib64,lib,var}
 mkdir /home/chrootjail_$1/var/log
-mkdir /home/chrootjail_$1/var/log/redis
+mkdir /home/chrootjail_$1/var/log/keydb
 
 # make some optional directories to use
 mkdir /home/chrootjail_$1/scratchfile
 mkdir -p /home/chrootjail_$1/var/modules
-mkdir /ebsdump/ebs_$1
+mkdir /path-to-ebs-location/ebs_$1
 
 # make a volume that will not be removed from server machine, possibly cheaper ebs volume where we will save our dump.rdb files and logfiles.
 # you do not have to do it this way, especially if your rooted environment is not temporary/depending on your needs
-# ensure you update the "dir" location in redis.conf to reflect this.
+# ensure you update the "dir" location in redis.conf to reflect this. Also the logfile location mapped here or to /home/chrootjail_$1/var/log/keydb
 mkdir /home/chrootjail_$1/ebsdump
-mount --rbind /ebsdump/ebs_$1 /home/chrootjail_$1/ebsdump
+mount --rbind /path-to-ebs-location/ebs_$1 /home/chrootjail_$1/ebsdump
 touch /home/chrootjail_$1/ebsdump/keydbserver.log
 
 # if you want to enable flash storage you can mount the scratchfile directory we made above, to your nvme/SSD volume (btrfs filesystem).

@@ -25,7 +25,7 @@ Comment out “bind 127.0.0.1”, change "protected-mode" from yes to no. If you
 ```
 $ docker inspect -f '{{ (index .NetworkSettings.Networks "mynetwork").IPAddress }}' mynode1
 ```
-If I wanted to run a client to connect to a node on this network:
+If you wanted to run a client to connect to a node on this network:
 ```
 $ docker run -it --net mynetwork eqalpha/keydb keydb-cli -h <ip-address-of-node> -p 6379
 ```

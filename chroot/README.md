@@ -1,6 +1,6 @@
 # How to run your KeyDB servers in a chrooted environment
 
-Take a look at these attached scripts for a walthrough example of setting up a chrooted environment to run your applications in. Many will use docker, but if you are looking to chroot an instance, take a look
+Take a look at the attached scripts for a walthrough example of setting up a chrooted environment to run your applications in.
 
 Making a chroot jail is fairly simple. Set up your minimal system files and dependencies, load binaries, and run with chroot. The minimal requirements needed to run are as follows:
 

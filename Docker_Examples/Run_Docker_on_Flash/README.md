@@ -2,7 +2,7 @@
 
 ### Docker image to use
 
-First ensure you are pulling the correct image "eqalpha/keydb:flash". This is built with make=MALLOC=memkind and is not our 'latest' image (traditional make) so ensure you use the tag "flash" when pulling. Binaries for this image were generated on the latest release and currently for x86-64 / amd64.
+First ensure you are pulling the correct image "eqalpha/keydb:flash". This is built with make=MALLOC=memkind and is not our 'latest' image (traditional make) so ensure you use the tag "flash" when pulling. Binaries for this image were generated on the latest release and currently for x86-64 (amd64).
 
 ### Setting up flash
 
@@ -32,6 +32,6 @@ Now get ip of you container `docker inspect --format '{{ .NetworkSettings.IPAddr
 ```
 cat data1.txt | keydb-cli --pipe -h <ipaddress-of-container> -p 6379
 ```
-You should be able to reboot your machine and the mount location in "lsblk", "df" should still be there. Values will be backed up to dump.rdb when the server stops. This is stored on a VOLUME that was created in the dockerfile and is stored by docker in their /var/lib/docker/volumes/
+You should be able to reboot your machine and the mount location you set up should still be there. Check with "lsblk", "df" where it should still be there. Values will be backed up to dump.rdb when the server stops. This is stored on a VOLUME that was created in the dockerfile and is stored by docker in their /var/lib/docker/volumes/
 
 

@@ -79,7 +79,6 @@ or replicate a specific master by connecting to new node and:
 ```
 cluster replicate 3c3a0c74aae0b56170ccb03a76b60cfe7dc1912e
 ```
-
 reshard:
 ```
 keydb-cli reshard <host>:<port> --cluster-from <node-id> --cluster-to <node-id> --cluster-slots <number of slots> --cluster-yes
