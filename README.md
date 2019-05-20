@@ -1,4 +1,4 @@
-![image](https://www.eqalpha.com/img/keydb.png)
+![image](https://www.eqalpha.com/assets/img/slides/keydb.png)
 
 # KeyDB Doc's
 
