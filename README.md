@@ -2,7 +2,7 @@
 
 # KeyDB Doc's
 
-## [This repo is no longer being updated with content. Please check out KeyDB-Docs section on our website which is more user friendly and now being updated with additional content.](https://keydb.dev/docs/intro). If you feel like contributing documentation you can still make a PR here or send a markdown copy to support@eqalpha.com. Webpage is much easier to navigate
+## [This repo is no longer being updated with content. Please check out KeyDB-Docs section on our website which is more user friendly and now being updated with additional content.](https://docs.keydb.dev/docs/intro). If you feel like contributing documentation you can still make a PR here or send a markdown copy to support@eqalpha.com. Webpage is much easier to navigate
 
 *please keep in mind this repo is in its early stages and will be changing a lot over the next few weeks as its populated. So please  mind any minor mistakes and lack of info*
 
