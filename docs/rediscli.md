@@ -1,5 +1,5 @@
 ---
-id: rediscli
+id: keydbcli
 title: KeyDB Client - Command Line Interface
 sidebar_label: keydb-cli
 ---

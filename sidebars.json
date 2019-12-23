@@ -9,7 +9,7 @@
     "HAProxy": ["haproxy"],
     "Security": ["security", "acl", "encryption"],
     "Troubleshooting": ["debugging", "ldb", "latency", "latency-monitor"],
-    "Clients/APIs/Protocols": ["clients", "rediscli", "protocol", "gopher"],
+    "Clients/APIs/Protocols": ["clients", "keydbcli", "protocol", "gopher"],
     "More": ["ARM", "faq", "memory-optimization", "license"]
   }
 }
