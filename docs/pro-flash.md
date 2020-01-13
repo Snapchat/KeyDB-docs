@@ -1,14 +1,16 @@
 ---
 id: pro-flash          
-title: KeyDB Pro on FLASH
-sidebar_label: KeyDB Pro on FLASH
+title: KeyDB Pro on FLASH - Enhanced FLASH
+sidebar_label: Enhanced FLASH
 ---
+<div id="blog_body">
+## Enhanced FLASH
 
-# KeyDB on FLASH
+Enhanced FLASH offered with KeyDB Pro is architected much differently than our open source legacy FLASH. It does not require any special file system and is built on RocksDB. Enhanced FLASH is much faster than legacy FLASH and is also persistent to the storage medium it is written to.
 
-KeyDB on FLASH for KeyDB Pro enables you to expand memory capacity greatly without a huge compromise on performance. Best of all your data persists to the FLASH memory as it is written eliminating the need for AOF/RDB files. KeyDB on FLASH is great for applications where memory is limited or too costly for the application. It is also a great option for databases that often near or exceed their maxmemory limit. 
+Enhanced FLASH enables you to expand memory capacity greatly without a huge compromise on performance. Best of all your data persists to the FLASH memory as it is written eliminating the need for AOF/RDB files. KeyDB on FLASH is great for applications where memory is limited or too costly for the application. It is also a great option for databases that often near or exceed their maxmemory limit. 
 
-This document discusses how KeyDB on FLASH works and how it can be used.
+This document discusses how Enhanced FLASH works and how it can be used.
 
 ## How it works:
 
@@ -34,6 +36,12 @@ It is best using a FLASH storage medium when closest to the CPU. If you are usin
 Enable keydb professional, specify storage medium, and configure maxmemory and eviction policy. For example:
 ``` 
 keydb-server --enable-pro [license-key] --storage-provider  flash  [path-to-flash-storage] --maxmemory [max-memory-for-DRAM… ie. 500mb or 1G] --eviction-policy allkeys-lru
+```
+
+## Docker Quick Setup
+
+```
+sudo docker run -d -it --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb keydb-server --enable-pro --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --eviction-policy [eviction-policy ie. allkeys-lfu]
 ```
 
 ## Using KeyDB on FLASH - Detailed Setup:
@@ -80,3 +88,4 @@ It is recommended to use a policy such as ‘allkeys-lru’ or ‘allkeys-lfu’
 
 Specify with `--eviction-policy allkeys-lfu`
 
+</div>

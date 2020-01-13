@@ -8,9 +8,11 @@ This page contains the dockerfiles used to generate different images and tags us
 
 If you find some major improvements you think are beneficial we are open to feedback. 
 
-The images are all built from the offical release branch. The tag will be versioned at the end, ie. `v0.9.5`. You will also see the version number when you launch the server.
+The images are all built from the offical release branch. The tag will be versioned at the end, ie. `v5.0.3`. You will also see the version number when you launch the server.
 
 There is an image generated every morning at 4am Eastern time for the unstable branch for those who like to kep up with the development of this project.
+
+Note that both KeyDB Community and KeyDB Professional binaries are included in this image.
 
 ## Manifest
 
@@ -40,29 +42,29 @@ RUN groupadd -r keydb && useradd -r -g keydb keydb
 # https://github.com/tianon/gosu/releases
 ENV GOSU_VERSION 1.10
 RUN set -ex; \
-	\
-	fetchDeps=" \
-		ca-certificates \
-		dirmngr \
-		gnupg \
-		wget \
-	"; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends libcurl4-openssl-dev $fetchDeps; \
-	rm -rf /var/lib/apt/lists/*; \
-	\
-	dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
-	wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
-	wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
-	export GNUPGHOME="$(mktemp -d)"; \
-	gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
-	gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
-	gpgconf --kill all; \
-	rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc; \
-	chmod +x /usr/local/bin/gosu; \
-	gosu nobody true; \
-	\
-	apt-get purge -y --auto-remove $fetchDeps
+        \
+        fetchDeps=" \
+                ca-certificates \
+                dirmngr \
+                gnupg \
+                wget \
+        "; \
+        apt-get update; \
+        apt-get install -y --no-install-recommends libcurl4-openssl-dev $fetchDeps; \
+        rm -rf /var/lib/apt/lists/*; \
+        \
+        dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
+        wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
+        wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
+        export GNUPGHOME="$(mktemp -d)"; \
+        gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
+        gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
+        gpgconf --kill all; \
+        rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc; \
+        chmod +x /usr/local/bin/gosu; \
+        gosu nobody true; \
+        \
+        apt-get purge -y --auto-remove $fetchDeps
 
 
 # Load binaries to image. Much smaller size than building.
@@ -73,24 +75,29 @@ RUN \
   mkdir -p /etc/keydb && \
   mv -f *.conf /etc/keydb && \
 # update config file for use in container
-  sed -i 's/^\(bind .*\)$/# \1/' /etc/keydb/redis.conf && \
-  sed -i 's/^\(daemonize .*\)$/# \1/' /etc/keydb/redis.conf && \
-  sed -i 's/^\(dir .*\)$/# \1\ndir \/data/' /etc/keydb/redis.conf && \
-  sed -i 's/^\(logfile .*\)$/# \1/' /etc/keydb/redis.conf && \
-  sed -i 's/protected-mode yes/protected-mode no/g' /etc/keydb/redis.conf
+  sed -i 's/^\(bind .*\)$/# \1/' /etc/keydb/keydb.conf && \
+  sed -i 's/^\(daemonize .*\)$/# \1/' /etc/keydb/keydb.conf && \
+  sed -i 's/^\(dir .*\)$/# \1\ndir \/data/' /etc/keydb/keydb.conf && \
+  sed -i 's/^\(logfile .*\)$/# \1/' /etc/keydb/keydb.conf && \
+  sed -i 's/protected-mode yes/protected-mode no/g' /etc/keydb/keydb.conf
 
 # Define default command.
 #CMD ["keydb-server", "/etc/keydb/redis.conf"]
 
-RUN mkdir /data && chown keydb:keydb /data
+RUN \
+  mkdir /data && chown keydb:keydb /data && \
+  mkdir /flash && chown keydb:keydb /flash
+
 VOLUME /data
 WORKDIR /data
+ENV KEYDB_PRO_DIRECTORY=/usr/local/bin/
 
 #COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 6379
-CMD ["keydb-server", "/etc/keydb/redis.conf"]
+CMD ["keydb-server", "/etc/keydb/keydb.conf"]
+
 ```
 
 ## ARM Build
@@ -151,76 +158,6 @@ CMD ["keydb-server", "/etc/keydb/redis.conf"]
 RUN [ "cross-build-end" ]
 ```
 
-## Flash Build
-
-```
-#
-# KeyDB Dockerfile for x86_64
-#
-# Useage: docker run -it --name mykeydb --mount type=bind,target=/tmp/keydbflash,source=/path-to-my-btrfs-volume/ eqalpha/keydb:flash
-#
-# Pull base image.
-FROM ubuntu:18.04
-
-# add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
-RUN groupadd -r keydb && useradd -r -g keydb keydb
-
-# grab gosu for easy step-down from root
-# https://github.com/tianon/gosu/releases
-ENV GOSU_VERSION 1.10
-RUN set -ex; \
-        \
-        fetchDeps=" \
-                ca-certificates \
-                dirmngr \
-                gnupg \
-                wget \
-        "; \
-        apt-get update; \
-        apt-get install -y --no-install-recommends $fetchDeps; \
-        rm -rf /var/lib/apt/lists/*; \
-        \
-        dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
-        wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
-        wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
-        export GNUPGHOME="$(mktemp -d)"; \
-        gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
-        gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
-        gpgconf --kill all; \
-        rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc; \
-        chmod +x /usr/local/bin/gosu; \
-        gosu nobody true; \
-        \
-        apt-get purge -y --auto-remove $fetchDeps
-
-# Load binaries to image. Much smaller size than building.
-ADD ./app/* /usr/local/bin/
-
-RUN \
-  apt-get install -y libnuma-dev libtool libcurl4-openssl-dev && \
-  cd /usr/local/bin && \
-  mkdir -p /etc/keydb && \
-  mkdir /tmp/keydbflash && \
-  mv -f *.conf /etc/keydb && \
-# update config file for use in container
-  sed -i 's/^\(bind .*\)$/# \1/' /etc/keydb/redis.conf && \
-  sed -i 's/^\(daemonize .*\)$/# \1/' /etc/keydb/redis.conf && \
-  sed -i 's/^\(dir .*\)$/# \1\ndir \/data/' /etc/keydb/redis.conf && \
-  sed -i 's/^\(logfile .*\)$/# \1/' /etc/keydb/redis.conf && \
-  sed -i 's/protected-mode yes/protected-mode no/g' /etc/keydb/redis.conf && \
-  sed -i '/scratch-file-path/a \scratch-file-path /tmp/keydbflash' /etc/keydb/redis.conf
-
-RUN mkdir /data && chown keydb:keydb /data
-VOLUME /data
-WORKDIR /data
-
-#COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
-
-EXPOSE 6379
-CMD ["keydb-server", "/etc/keydb/redis.conf"]
-```
-
 ## Unstable Builds
 
 This is the same as standard builds, except binaries are generated from the unstable branch on github.
@@ -249,7 +186,7 @@ CMD ["sh","-c", "cd /tmp && git clone https://github.com/JohnSully/KeyDB.git && 
  cp ./src/keydb-* /keydb_bin"]
 ```
 
-## Docker Builder - Flash
+## Docker Builder - Legacy Flash
 
 ```
 #

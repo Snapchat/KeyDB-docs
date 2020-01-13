@@ -1,12 +1,12 @@
 {
   "docs": {
     "KeyDB Docs": ["intro", "coming-soon"],
-    "Getting Started": ["build", "docker-bin", "using-keydb", "first-test", "config-file", "intro-admin"],
+    "Getting Started": ["using-keydb", "first-test", "migration", "config-file", "intro-admin", "build", "docker-bin"],
     "KeyDB Pro": ["pro-intro", "pro-coming-soon", "pro-getting-started", "pro-flash", "pro-mvcc", "pro-non-blocking-queries"],
     "Benchmarking": ["benchmarking"],
     "Server Infrastucture": ["active-rep", "multi-master", "flash-storage", "replication", "cluster-spec", "cluster-man", "cluster-create", "cluster-tutorial", "sentinel"],
     "Commands": ["commands", "pubsub", "transactions", "data-types-intro", "data-types", "indexes", "signals", "notifications", "persistence", "pipelining", "streams-intro", "partitioning", "mass-insert", "lru-cache"],
-    "Docker": ["docker-basics", "docker-active-rep", "docker-flash", "dockerfiles"],
+    "Docker": ["docker-basics", "docker-active-rep", "dockerfiles"],
     "HAProxy": ["haproxy"],
     "Security": ["security", "acl", "encryption"],
     "Troubleshooting": ["debugging", "ldb", "latency", "latency-monitor"],

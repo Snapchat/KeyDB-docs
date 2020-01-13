@@ -1,10 +1,10 @@
 ---
 id: intro-admin
-title: Using KeyDB
-sidebar_label: Using KeyDB
+title: Introduction to KeyDB
+sidebar_label: Admin Intro
 ---
-Introduction to KeyDB
-===
+
+<div id="blog_body">
 
 KeyDB is an open source, in-memory **data structure store**, used as a database, cache and message broker. It supports data structures such as strings, hashes, lists, sets, sorted sets with range queries, bitmaps), hyperloglogs, geospatial indexes with radius queries and streams. KeyDB has built-in replication, Lua scripting, LRU eviction, transactions and different levels of on-disk persistence, and provides high availability via Active-Replication or Sentinel and automatic partitioning with KeyDB Cluster.
 
@@ -18,9 +18,9 @@ set.
 
 In order to achieve its outstanding performance, KeyDB works with an
 **in-memory dataset**. Depending on your use case, you can persist it either
-by [dumping the dataset to disk](/topics/persistence#snapshotting)
+by [dumping the dataset to disk](https://docs.keydb.dev/docs/persistence/#snapshotting)
 every once in a while, or by [appending each command to a
-log](/topics/persistence#append-only-file). Persistence can be optionally
+log](https://docs.keydb.dev/docs/persistence/#append-only-file). Persistence can be optionally
 disabled, if you just need a feature-rich, networked, in-memory cache.
 
 KeyDB also supports trivial-to-setup master-slave asynchronous replication, with very fast non-blocking first synchronization, auto-reconnection with partial resynchronization on net split.
@@ -56,7 +56,7 @@ KeyDB setup hints
 * Make sure to disable Linux kernel feature *transparent huge pages*, it will affect greatly both memory usage and latency in a negative way. This is accomplished with the following command: `echo never > /sys/kernel/mm/transparent_hugepage/enabled`.
 + Make sure to **setup some swap** in your system (we suggest as much as swap as memory). If Linux does not have swap and your KeyDB instance accidentally consumes too much memory, either KeyDB will crash for out of memory or the Linux kernel OOM killer will kill the KeyDB process. When swapping is enabled KeyDB will work in a bad way, but you'll likely notice the latency spikes and do something before it's too late.
 + Set an explicit `maxmemory` option limit in your instance in order to make sure that the instance will report errors instead of failing when the system memory limit is near to be reached. Note that maxmemory should be set calculating the overhead that KeyDB has, other than data, and the fragmentation overhead. So if you think you have 10 GB of free memory, set it to 8 or 9.
-+ If you are using KeyDB in a very write-heavy application, while saving an RDB file on disk or rewriting the AOF log **KeyDB may use up to 2 times the memory normally used**. The additional memory used is proportional to the number of memory pages modified by writes during the saving process, so it is often proportional to the number of keys (or aggregate types items) touched during this time. Make sure to size your memory accordingly.
++ If you are using KeyDB in a very write-heavy application, while saving an RDB file on disk or rewriting the AOF log **KeyDB may use up to 2 times the memory normally used**. The additional memory used is proportional to the number of memory pages modified by writes during the saving process, so it is often proportional to the number of keys (or aggregate types items) touched during this time. Make sure to size your memory accordingly. Please note this does not apply to KeyDB Pro which uses forkless background saving.
 + Use `daemonize no` when running under daemontools.
 + Make sure to setup some non trivial replication backlog, which must be set in proportion to the amount of memory KeyDB is using. In a 20 GB instance it does not make sense to have just 1 MB of backlog. The backlog will allow replicas to resynchronize with the master instance much easily.
 + Even if you have persistence disabled, KeyDB will need to perform RDB saves if you use replication, unless you use the new diskless replication feature. If you have no disk usage on the master, make sure to enable diskless replication.
@@ -83,9 +83,9 @@ Upgrading or restarting a KeyDB instance without downtime
 -------------------------------------------------------
 
 KeyDB is designed to be a very long running process in your server.
-For instance many configuration options can be modified without any kind of restart using the [CONFIG SET command](/commands/config-set).
+For instance many configuration options can be modified without any kind of restart using the [CONFIG SET command](https://docs.keydb.dev/docs/commands/#config-set).
 
-Starting from KeyDB 2.2 it is even possible to switch from AOF to RDB snapshots persistence or the other way around without restarting KeyDB. Check the output of the `CONFIG GET *` command for more information.
+It is even possible to switch from AOF to RDB snapshots persistence or the other way around without restarting KeyDB. Check the output of the `CONFIG GET *` command for more information.
 
 However from time to time a restart is mandatory, for instance in order to upgrade the KeyDB process to a newer version, or when you need to modify some configuration parameter that is currently not supported by the CONFIG command.
 
@@ -99,3 +99,4 @@ The following steps provide a very commonly used way in order to avoid any downt
 * Configure all your clients in order to use the new instance (that is, the slave). Note that you may want to use the `CLIENT PAUSE` command in order to make sure that no client can write to the old master during the switch.
 * Once you are sure that the master is no longer receiving any query (you can check this with the [MONITOR command](/commands/monitor)), elect the slave to master using the **SLAVEOF NO ONE** command, and shut down your master.
 
+</div>

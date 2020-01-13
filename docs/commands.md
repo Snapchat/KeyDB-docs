@@ -90,15 +90,24 @@ Simple String Reply
 
 ---
 
+## BGSAVE
 
+Save the DB in background.
+The OK code is immediately returned.
+KeyDB forks, the parent continues to serve the clients, the child saves the DB
+on disk then exits.
+A client may be able to check if the operation succeeded using the `LASTSAVE`
+command.
+
+Please refer to the [persistence documentation][https://docs.keydb.dev/docs/persistence/] for detailed information.
+
+---
 
 ## BGWRITEAOF
 
-Instruct KeyB to start an [Append Only File][tpaof] rewrite process.
+Instruct KeyB to start an [Append Only File][https://docs.keydb.dev/docs/persistence/] rewrite process.
 The rewrite will create a small optimized version of the current Append Only
 File.
-
-[tpaof]: /topics/persistence#append-only-file
 
 If `BGREWRITEAOF` fails, no data gets lost as the old AOF will be untouched.
 
@@ -118,9 +127,7 @@ Specifically:
 Since KeyDB 2.4 the AOF rewrite is automatically triggered by KeyDB, however the
 `BGREWRITEAOF` command can be used to trigger a rewrite at any time.
 
-Please refer to the [persistence documentation][tp] for detailed information.
-
-[tp]: /topics/persistence
+Please refer to the [persistence documentation](https://docs.keydb.dev/docs/persistence/) for detailed information.
 
 #### Return:
 

@@ -4,6 +4,7 @@ title: Using and Setting up the Config File
 sidebar_label:  Configuration Options
 ---
 
+<div id="blog_body">
 KeyDB loads the default config file as shown below. If you specify the config file, you can customize for a quick and repetitive load. `keydb-server /path-to-custom-conf/keydb.conf`
 
 When running multiple servers, replicas, etc its a good idea to customize your config file and at the minumum specify the following commands to keep separate:
@@ -94,13 +95,13 @@ as we hit the 2 megabyte memory limit.
 Basically in this configuration KeyDB acts in a similar way to memcached.
 We have more extensive documentation about using Redis as an LRU cache in the "commands" section.
 
-
+</div>
 See below the default keydb configuration file (currently labeled keydb.conf). It explains configuraiton parameters.
 
 ```
-# Redis configuration file example.
+# KeyDB configuration file example.
 #
-# Note that in order to read the configuration file, Redis must be
+# Note that in order to read the configuration file, KeyDB must be
 # started with the file path as first argument:
 #
 # ./keydb-server /path/to/keydb.conf
@@ -120,12 +121,12 @@ See below the default keydb configuration file (currently labeled keydb.conf). I
 ################################## INCLUDES ###################################
 
 # Include one or more other config files here.  This is useful if you
-# have a standard template that goes to all Redis servers but also need
+# have a standard template that goes to all KeyDB servers but also need
 # to customize a few per-server settings.  Include files can include
 # other files, so use this wisely.
 #
 # Notice option "include" won't be rewritten by command "CONFIG REWRITE"
-# from admin or Redis Sentinel. Since Redis always uses the last processed
+# from admin or KeyDB Sentinel. Since KeyDB always uses the last processed
 # line as value of a configuration directive, you'd better put includes
 # at the beginning of this file to avoid overwriting config change at runtime.
 #
@@ -145,7 +146,7 @@ See below the default keydb configuration file (currently labeled keydb.conf). I
 
 ################################## NETWORK #####################################
 
-# By default, if no "bind" configuration directive is specified, Redis listens
+# By default, if no "bind" configuration directive is specified, KeyDB listens
 # for connections from all the network interfaces available on the server.
 # It is possible to listen to just one or multiple selected interfaces using
 # the "bind" configuration directive, followed by one or more IP addresses.
@@ -155,11 +156,11 @@ See below the default keydb configuration file (currently labeled keydb.conf). I
 # bind 192.168.1.100 10.0.0.1
 # bind 127.0.0.1 ::1
 #
-# ~~~ WARNING ~~~ If the computer running Redis is directly exposed to the
+# ~~~ WARNING ~~~ If the computer running KeyDB is directly exposed to the
 # internet, binding to all the interfaces is dangerous and will expose the
 # instance to everybody on the internet. So by default we uncomment the
-# following bind directive, that will force Redis to listen only into
-# the IPv4 loopback interface address (this means Redis will be able to
+# following bind directive, that will force KeyDB to listen only into
+# the IPv4 loopback interface address (this means KeyDB will be able to
 # accept connections only from clients running into the same computer it
 # is running).
 #
@@ -169,7 +170,7 @@ See below the default keydb configuration file (currently labeled keydb.conf). I
 bind 127.0.0.1
 
 # Protected mode is a layer of security protection, in order to avoid that
-# Redis instances left open on the internet are accessed and exploited.
+# KeyDB instances left open on the internet are accessed and exploited.
 #
 # When protected mode is on and if:
 #
@@ -182,13 +183,13 @@ bind 127.0.0.1
 # sockets.
 #
 # By default protected mode is enabled. You should disable it only if
-# you are sure you want clients from other hosts to connect to Redis
+# you are sure you want clients from other hosts to connect to KeyDB
 # even if no authentication is configured, nor a specific set of interfaces
 # are explicitly listed using the "bind" directive.
 protected-mode yes
 
 # Accept connections on the specified port, default is 6379 (IANA #815344).
-# If port 0 is specified Redis will not listen on a TCP socket.
+# If port 0 is specified KeyDB will not listen on a TCP socket.
 port 6379
 
 # TCP listen() backlog.
@@ -203,10 +204,10 @@ tcp-backlog 511
 # Unix socket.
 #
 # Specify the path for the Unix socket that will be used to listen for
-# incoming connections. There is no default, so Redis will not listen
+# incoming connections. There is no default, so KeyDB will not listen
 # on a unix socket when not specified.
 #
-# unixsocket /tmp/redis.sock
+# unixsocket /tmp/keydb.sock
 # unixsocketperm 700
 
 # Close the connection after a client is idle for N seconds (0 to disable)
@@ -226,19 +227,19 @@ timeout 0
 # On other kernels the period depends on the kernel configuration.
 #
 # A reasonable value for this option is 300 seconds, which is the new
-# Redis default starting with Redis 3.2.1.
+# KeyDB default starting with Redis 3.2.1.
 tcp-keepalive 300
 
 ################################# GENERAL #####################################
 
-# By default Redis does not run as a daemon. Use 'yes' if you need it.
-# Note that Redis will write a pid file in /var/run/redis.pid when daemonized.
+# By default KeyDB does not run as a daemon. Use 'yes' if you need it.
+# Note that KeyDB will write a pid file in /var/run/keydb.pid when daemonized.
 daemonize no
 
-# If you run Redis from upstart or systemd, Redis can interact with your
+# If you run KeyDB from upstart or systemd, KeyDB can interact with your
 # supervision tree. Options:
 #   supervised no      - no supervision interaction
-#   supervised upstart - signal upstart by putting Redis into SIGSTOP mode
+#   supervised upstart - signal upstart by putting KeyDB into SIGSTOP mode
 #   supervised systemd - signal systemd by writing READY=1 to $NOTIFY_SOCKET
 #   supervised auto    - detect upstart or systemd method based on
 #                        UPSTART_JOB or NOTIFY_SOCKET environment variables
@@ -246,16 +247,16 @@ daemonize no
 #       They do not enable continuous liveness pings back to your supervisor.
 supervised no
 
-# If a pid file is specified, Redis writes it where specified at startup
+# If a pid file is specified, KeyDB writes it where specified at startup
 # and removes it at exit.
 #
 # When the server runs non daemonized, no pid file is created if none is
 # specified in the configuration. When the server is daemonized, the pid file
-# is used even if not specified, defaulting to "/var/run/redis.pid".
+# is used even if not specified, defaulting to "/var/run/keydb.pid".
 #
-# Creating a pid file is best effort: if Redis is not able to create it
+# Creating a pid file is best effort: if KeyDB is not able to create it
 # nothing bad happens, the server will start and run normally.
-pidfile /var/run/redis_6379.pid
+pidfile /var/run/keydb_6379.pid
 
 # Specify the server verbosity level.
 # This can be one of:
@@ -266,7 +267,7 @@ pidfile /var/run/redis_6379.pid
 loglevel notice
 
 # Specify the log file name. Also the empty string can be used to force
-# Redis to log on the standard output. Note that if you use standard
+# KeyDB to log on the standard output. Note that if you use standard
 # output for logging but daemonize, logs will be sent to /dev/null
 logfile ""
 
@@ -275,7 +276,7 @@ logfile ""
 # syslog-enabled no
 
 # Specify the syslog identity.
-# syslog-ident redis
+# syslog-ident keydb
 
 # Specify the syslog facility. Must be USER or between LOCAL0-LOCAL7.
 # syslog-facility local0
@@ -285,7 +286,7 @@ logfile ""
 # dbid is a number between 0 and 'databases'-1
 databases 16
 
-# By default Redis shows an ASCII art logo only when started to log to the
+# By default KeyDB shows an ASCII art logo only when started to log to the
 # standard output and if the standard output is a TTY. Basically this means
 # that normally a logo is displayed only in interactive sessions.
 #
@@ -319,17 +320,17 @@ save 900 1
 save 300 10
 save 60 10000
 
-# By default Redis will stop accepting writes if RDB snapshots are enabled
+# By default KeyDB will stop accepting writes if RDB snapshots are enabled
 # (at least one save point) and the latest background save failed.
 # This will make the user aware (in a hard way) that data is not persisting
 # on disk properly, otherwise chances are that no one will notice and some
 # disaster will happen.
 #
-# If the background saving process will start working again Redis will
+# If the background saving process will start working again KeyDB will
 # automatically allow writes again.
 #
-# However if you have setup your proper monitoring of the Redis server
-# and persistence, you may want to disable this feature so that Redis will
+# However if you have setup your proper monitoring of the KeyDB server
+# and persistence, you may want to disable this feature so that KeyDB will
 # continue to work as usual even if there are problems with disk,
 # permissions, and so forth.
 stop-writes-on-bgsave-error yes
@@ -364,18 +365,18 @@ dir ./
 
 ################################# REPLICATION #################################
 
-# Master-Replica replication. Use replicaof to make a Redis instance a copy of
-# another Redis server. A few things to understand ASAP about Redis replication.
+# Master-Replica replication. Use replicaof to make a KeyDB instance a copy of
+# another KeyDB server. A few things to understand ASAP about KeyDB replication.
 #
 #   +------------------+      +---------------+
 #   |      Master      | ---> |    Replica    |
 #   | (receive writes) |      |  (exact copy) |
 #   +------------------+      +---------------+
 #
-# 1) Redis replication is asynchronous, but you can configure a master to
+# 1) KeyDB replication is asynchronous, but you can configure a master to
 #    stop accepting writes if it appears to be not connected with at least
 #    a given number of replicas.
-# 2) Redis replicas are able to perform a partial resynchronization with the
+# 2) KeyDB replicas are able to perform a partial resynchronization with the
 #    master if the replication link is lost for a relatively small amount of
 #    time. You may want to configure the replication backlog size (see the next
 #    sections of this file) with a sensible value depending on your needs.
@@ -392,7 +393,7 @@ dir ./
 #
 # masterauth <master-password>
 #
-# However this is not enough if you are using Redis ACLs (for Redis version
+# However this is not enough if you are using KeyDB ACLs (for Redis version
 # 6 or greater), and the default user is not capable of running the PSYNC
 # command and/or other commands needed for replication. In this case it's
 # better to configure a special user to use with replication, and specify the
@@ -445,10 +446,10 @@ replica-read-only yes
 # synchronization". An RDB file is transmitted from the master to the replicas.
 # The transmission can happen in two different ways:
 #
-# 1) Disk-backed: The Redis master creates a new process that writes the RDB
+# 1) Disk-backed: The KeyDB master creates a new process that writes the RDB
 #                 file on disk. Later the file is transferred by the parent
 #                 process to the replicas incrementally.
-# 2) Diskless: The Redis master creates a new process that directly writes the
+# 2) Diskless: The KeyDB master creates a new process that directly writes the
 #              RDB file to replica sockets, without touching the disk at all.
 #
 # With disk-backed replication, while the RDB file is generated, more replicas
@@ -497,7 +498,7 @@ repl-diskless-sync-delay 5
 
 # Disable TCP_NODELAY on the replica socket after SYNC?
 #
-# If you select "yes" Redis will use a smaller number of TCP packets and
+# If you select "yes" KeyDB will use a smaller number of TCP packets and
 # less bandwidth to send data to replicas. But this can add a delay for
 # the data to appear on the replica side, up to 40 milliseconds with
 # Linux kernels using a default configuration.
@@ -536,8 +537,8 @@ repl-disable-tcp-nodelay no
 #
 # repl-backlog-ttl 3600
 
-# The replica priority is an integer number published by Redis in the INFO output.
-# It is used by Redis Sentinel in order to select a replica to promote into a
+# The replica priority is an integer number published by KeyDB in the INFO output.
+# It is used by KeyDB Sentinel in order to select a replica to promote into a
 # master if the master is no longer working correctly.
 #
 # A replica with a low priority number is considered better for promotion, so
@@ -546,7 +547,7 @@ repl-disable-tcp-nodelay no
 #
 # However a special priority of 0 marks the replica as not able to perform the
 # role of master, so a replica with priority of 0 will never be selected by
-# Redis Sentinel for promotion.
+# KeyDB Sentinel for promotion.
 #
 # By default the priority is 100.
 replica-priority 100
@@ -573,10 +574,10 @@ replica-priority 100
 # By default min-replicas-to-write is set to 0 (feature disabled) and
 # min-replicas-max-lag is set to 10.
 
-# A Redis master is able to list the address and port of the attached
+# A KeyDB master is able to list the address and port of the attached
 # replicas in different ways. For example the "INFO replication" section
 # offers this information, which is used, among other tools, by
-# Redis Sentinel in order to discover replica instances.
+# KeyDB Sentinel in order to discover replica instances.
 # Another place where this info is available is in the output of the
 # "ROLE" command of a master.
 #
@@ -604,7 +605,7 @@ replica-priority 100
 
 ################################## SECURITY ###################################
 
-# Warning: since Redis is pretty fast an outside user can try up to
+# Warning: since KeyDB is pretty fast an outside user can try up to
 # 1 million passwords per second against a modern box. This means that you
 # should use very strong passwords, otherwise they will be very easy to break.
 # Note that because the password is really a shared secret between the client
@@ -612,7 +613,7 @@ replica-priority 100
 # can be easily a long string from /dev/urandom or whatever, so by using a
 # long and unguessable password no brute force attack will be possible.
 
-# Redis ACL users are defined in the following format:
+# KeyDB ACL users are defined in the following format:
 #
 #   user <username> ... acl rules ...
 #
@@ -639,7 +640,7 @@ replica-priority 100
 #  +@<category> Allow the execution of all the commands in such category
 #               with valid categories are like @admin, @set, @sortedset, ...
 #               and so forth, see the full list in the server.c file where
-#               the Redis command table is described and defined.
+#               the KeyDB command table is described and defined.
 #               The special category @all means all the commands, but currently
 #               present in the server, and that will be loaded in the future
 #               via modules.
@@ -708,7 +709,7 @@ replica-priority 100
 # The format of the external ACL user file is exactly the same as the
 # format that is used inside keydb.conf to describe users.
 #
-# aclfile /etc/redis/users.acl
+# aclfile /etc/keydb/users.acl
 
 # IMPORTANT NOTE: starting with Redis 6 "requirepass" is just a compatiblity
 # layer on top of the new ACL system. The option effect will be just setting
@@ -746,12 +747,12 @@ replica-priority 100
 ################################### CLIENTS ####################################
 
 # Set the max number of connected clients at the same time. By default
-# this limit is set to 10000 clients, however if the Redis server is not
+# this limit is set to 10000 clients, however if the KeyDB server is not
 # able to configure the process file limit to allow for the specified limit
 # the max number of allowed clients is set to the current file limit
-# minus 32 (as Redis reserves a few file descriptors for internal uses).
+# minus 32 (as KeyDB reserves a few file descriptors for internal uses).
 #
-# Once the limit is reached Redis will close all the new connections sending
+# Once the limit is reached KeyDB will close all the new connections sending
 # an error 'max number of clients reached'.
 #
 # maxclients 10000
@@ -759,15 +760,15 @@ replica-priority 100
 ############################## MEMORY MANAGEMENT ################################
 
 # Set a memory usage limit to the specified amount of bytes.
-# When the memory limit is reached Redis will try to remove keys
+# When the memory limit is reached KeyDB will try to remove keys
 # according to the eviction policy selected (see maxmemory-policy).
 #
-# If Redis can't remove keys according to the policy, or if the policy is
-# set to 'noeviction', Redis will start to reply with errors to commands
+# If KeyDB can't remove keys according to the policy, or if the policy is
+# set to 'noeviction', KeyDB will start to reply with errors to commands
 # that would use more memory, like SET, LPUSH, and so on, and will continue
 # to reply to read-only commands like GET.
 #
-# This option is usually useful when using Redis as an LRU or LFU cache, or to
+# This option is usually useful when using KeyDB as an LRU or LFU cache, or to
 # set a hard memory limit for an instance (using the 'noeviction' policy).
 #
 # WARNING: If you have replicas attached to an instance with maxmemory on,
@@ -783,7 +784,7 @@ replica-priority 100
 #
 # maxmemory <bytes>
 
-# MAXMEMORY POLICY: how Redis will select what to remove when maxmemory
+# MAXMEMORY POLICY: how KeyDB will select what to remove when maxmemory
 # is reached. You can select among five behaviors:
 #
 # volatile-lru -> Evict using approximated LRU among the keys with an expire set.
@@ -801,7 +802,7 @@ replica-priority 100
 # Both LRU, LFU and volatile-ttl are implemented using approximated
 # randomized algorithms.
 #
-# Note: with any of the above policies, Redis will return an error on write
+# Note: with any of the above policies, KeyDB will return an error on write
 #       operations, when there are no suitable keys for eviction.
 #
 #       At the date of writing these commands are: set setnx setex append
@@ -816,7 +817,7 @@ replica-priority 100
 
 # LRU, LFU and minimal TTL algorithms are not precise algorithms but approximated
 # algorithms (in order to save memory), so you can tune it for speed or
-# accuracy. For default Redis will check five keys and pick the one that was
+# accuracy. For default KeyDB will check five keys and pick the one that was
 # used less recently, you can change the sample size using the following
 # configuration directive.
 #
@@ -847,16 +848,16 @@ replica-priority 100
 
 ############################# LAZY FREEING ####################################
 
-# Redis has two primitives to delete keys. One is called DEL and is a blocking
+# KeyDB has two primitives to delete keys. One is called DEL and is a blocking
 # deletion of the object. It means that the server stops processing new commands
 # in order to reclaim all the memory associated with an object in a synchronous
 # way. If the key deleted is associated with a small object, the time needed
 # in order to execute the DEL command is very small and comparable to most other
-# O(1) or O(log_N) commands in Redis. However if the key is associated with an
+# O(1) or O(log_N) commands in KeyDB. However if the key is associated with an
 # aggregated value containing millions of elements, the server can block for
 # a long time (even seconds) in order to complete the operation.
 #
-# For the above reasons Redis also offers non blocking deletion primitives
+# For the above reasons KeyDB also offers non blocking deletion primitives
 # such as UNLINK (non blocking DEL) and the ASYNC option of FLUSHALL and
 # FLUSHDB commands, in order to reclaim memory in background. Those commands
 # are executed in constant time. Another thread will incrementally free the
@@ -864,9 +865,9 @@ replica-priority 100
 #
 # DEL, UNLINK and ASYNC option of FLUSHALL and FLUSHDB are user-controlled.
 # It's up to the design of the application to understand when it is a good
-# idea to use one or the other. However the Redis server sometimes has to
+# idea to use one or the other. However the KeyDB server sometimes has to
 # delete keys or flush the whole database as a side effect of other operations.
-# Specifically Redis deletes objects independently of a user call in the
+# Specifically KeyDB deletes objects independently of a user call in the
 # following scenarios:
 #
 # 1) On eviction, because of the maxmemory and maxmemory policy configurations,
@@ -896,20 +897,20 @@ replica-lazy-flush no
 
 ############################## APPEND ONLY MODE ###############################
 
-# By default Redis asynchronously dumps the dataset on disk. This mode is
-# good enough in many applications, but an issue with the Redis process or
+# By default KeyDB asynchronously dumps the dataset on disk. This mode is
+# good enough in many applications, but an issue with the KeyDB process or
 # a power outage may result into a few minutes of writes lost (depending on
 # the configured save points).
 #
 # The Append Only File is an alternative persistence mode that provides
 # much better durability. For instance using the default data fsync policy
-# (see later in the config file) Redis can lose just one second of writes in a
+# (see later in the config file) KeyDB can lose just one second of writes in a
 # dramatic event like a server power outage, or a single write if something
-# wrong with the Redis process itself happens, but the operating system is
+# wrong with the KeyDB process itself happens, but the operating system is
 # still running correctly.
 #
 # AOF and RDB persistence can be enabled at the same time without problems.
-# If the AOF is enabled on startup Redis will load the AOF, that is the file
+# If the AOF is enabled on startup KeyDB will load the AOF, that is the file
 # with the better durability guarantees.
 #
 # Please check http://redis.io/topics/persistence for more information.
@@ -924,7 +925,7 @@ appendfilename "appendonly.aof"
 # instead of waiting for more data in the output buffer. Some OS will really flush
 # data on disk, some other OS will just try to do it ASAP.
 #
-# Redis supports three different modes:
+# KeyDB supports three different modes:
 #
 # no: don't fsync, just let the OS flush the data when it wants. Faster.
 # always: fsync after every write to the append only log. Slow, Safest.
@@ -950,7 +951,7 @@ appendfsync everysec
 # When the AOF fsync policy is set to always or everysec, and a background
 # saving process (a background save or AOF log background rewriting) is
 # performing a lot of I/O against the disk, in some Linux configurations
-# Redis may block too long on the fsync() call. Note that there is no fix for
+# KeyDB may block too long on the fsync() call. Note that there is no fix for
 # this currently, as even performing fsync in a different thread will block
 # our synchronous write(2) call.
 #
@@ -958,7 +959,7 @@ appendfsync everysec
 # that will prevent fsync() from being called in the main process while a
 # BGSAVE or BGREWRITEAOF is in progress.
 #
-# This means that while another child is saving, the durability of Redis is
+# This means that while another child is saving, the durability of KeyDB is
 # the same as "appendfsync none". In practical terms, this means that it is
 # possible to lose up to 30 seconds of log in the worst scenario (with the
 # default Linux settings).
@@ -969,10 +970,10 @@ appendfsync everysec
 no-appendfsync-on-rewrite no
 
 # Automatic rewrite of the append only file.
-# Redis is able to automatically rewrite the log file implicitly calling
+# KeyDB is able to automatically rewrite the log file implicitly calling
 # BGREWRITEAOF when the AOF log size grows by the specified percentage.
 #
-# This is how it works: Redis remembers the size of the AOF file after the
+# This is how it works: KeyDB remembers the size of the AOF file after the
 # latest rewrite (if no rewrite has happened since the restart, the size of
 # the AOF at startup is used).
 #
@@ -988,19 +989,19 @@ no-appendfsync-on-rewrite no
 auto-aof-rewrite-percentage 100
 auto-aof-rewrite-min-size 64mb
 
-# An AOF file may be found to be truncated at the end during the Redis
+# An AOF file may be found to be truncated at the end during the KeyDB
 # startup process, when the AOF data gets loaded back into memory.
-# This may happen when the system where Redis is running
+# This may happen when the system where KeyDB is running
 # crashes, especially when an ext4 filesystem is mounted without the
-# data=ordered option (however this can't happen when Redis itself
+# data=ordered option (however this can't happen when KeyDB itself
 # crashes or aborts but the operating system still works correctly).
 #
-# Redis can either exit with an error when this happens, or load as much
+# KeyDB can either exit with an error when this happens, or load as much
 # data as possible (the default now) and start if the AOF file is found
 # to be truncated at the end. The following option controls this behavior.
 #
 # If aof-load-truncated is set to yes, a truncated AOF file is loaded and
-# the Redis server starts emitting a log to inform the user of the event.
+# the KeyDB server starts emitting a log to inform the user of the event.
 # Otherwise if the option is set to no, the server aborts with an error
 # and refuses to start. When the option is set to no, the user requires
 # to fix the AOF file using the "keydb-check-aof" utility before to restart
@@ -1008,17 +1009,17 @@ auto-aof-rewrite-min-size 64mb
 #
 # Note that if the AOF file will be found to be corrupted in the middle
 # the server will still exit with an error. This option only applies when
-# Redis will try to read more data from the AOF file but not enough bytes
+# KeyDB will try to read more data from the AOF file but not enough bytes
 # will be found.
 aof-load-truncated yes
 
-# When rewriting the AOF file, Redis is able to use an RDB preamble in the
+# When rewriting the AOF file, KeyDB is able to use an RDB preamble in the
 # AOF file for faster rewrites and recoveries. When this option is turned
 # on the rewritten AOF file is composed of two different stanzas:
 #
 #   [RDB file][AOF tail]
 #
-# When loading Redis recognizes that the AOF file starts with the "REDIS"
+# When loading KeyDB recognizes that the AOF file starts with the "REDIS"
 # string and loads the prefixed RDB file, and continues loading the AOF
 # tail.
 aof-use-rdb-preamble yes
@@ -1027,7 +1028,7 @@ aof-use-rdb-preamble yes
 
 # Max execution time of a Lua script in milliseconds.
 #
-# If the maximum execution time is reached Redis will log that a script is
+# If the maximum execution time is reached KeyDB will log that a script is
 # still in execution after the maximum allowed time and will start to
 # reply to queries with an error.
 #
@@ -1041,17 +1042,17 @@ aof-use-rdb-preamble yes
 # Set it to 0 or a negative value for unlimited execution without warnings.
 lua-time-limit 5000
 
-################################ REDIS CLUSTER  ###############################
+################################ KEYDB CLUSTER  ###############################
 
-# Normal Redis instances can't be part of a Redis Cluster; only nodes that are
-# started as cluster nodes can. In order to start a Redis instance as a
+# Normal KeyDB instances can't be part of a KeyDB Cluster; only nodes that are
+# started as cluster nodes can. In order to start a KeyDB instance as a
 # cluster node enable the cluster support uncommenting the following:
 #
 # cluster-enabled yes
 
 # Every cluster node has a cluster configuration file. This file is not
-# intended to be edited by hand. It is created and updated by Redis nodes.
-# Every Redis Cluster node requires a different cluster configuration file.
+# intended to be edited by hand. It is created and updated by KeyDB nodes.
+# Every KeyDB Cluster node requires a different cluster configuration file.
 # Make sure that instances running in the same system do not have
 # overlapping cluster configuration file names.
 #
@@ -1127,7 +1128,7 @@ lua-time-limit 5000
 #
 # cluster-migration-barrier 1
 
-# By default Redis Cluster nodes stop accepting queries if they detect there
+# By default KeyDB Cluster nodes stop accepting queries if they detect there
 # is at least an hash slot uncovered (no available node is serving it).
 # This way if the cluster is partially down (for example a range of hash slots
 # are no longer covered) all the cluster becomes, eventually, unavailable.
@@ -1155,11 +1156,11 @@ lua-time-limit 5000
 
 ########################## CLUSTER DOCKER/NAT support  ########################
 
-# In certain deployments, Redis Cluster nodes address discovery fails, because
+# In certain deployments, KeyDB Cluster nodes address discovery fails, because
 # addresses are NAT-ted or because ports are forwarded (the typical case is
 # Docker and other containers).
 #
-# In order to make Redis Cluster working in such environments, a static
+# In order to make KeyDB Cluster working in such environments, a static
 # configuration where each node knows its public address is needed. The
 # following two options are used for this scope, and are:
 #
@@ -1172,7 +1173,7 @@ lua-time-limit 5000
 # so that other nodes will be able to correctly map the address of the node
 # publishing the information.
 #
-# If the above options are not used, the normal Redis Cluster auto-detection
+# If the above options are not used, the normal KeyDB Cluster auto-detection
 # will be used instead.
 #
 # Note that when remapped, the bus port may not be at the fixed offset of
@@ -1188,14 +1189,14 @@ lua-time-limit 5000
 
 ################################## SLOW LOG ###################################
 
-# The Redis Slow Log is a system to log queries that exceeded a specified
+# The KeyDB Slow Log is a system to log queries that exceeded a specified
 # execution time. The execution time does not include the I/O operations
 # like talking with the client, sending the reply and so forth,
 # but just the time needed to actually execute the command (this is the only
 # stage of command execution where the thread is blocked and can not serve
 # other requests in the meantime).
 #
-# You can configure the slow log with two parameters: one tells Redis
+# You can configure the slow log with two parameters: one tells KeyDB
 # what is the execution time, in microseconds, to exceed in order for the
 # command to get logged, and the other parameter is the length of the
 # slow log. When a new command is logged the oldest one is removed from the
@@ -1212,9 +1213,9 @@ slowlog-max-len 128
 
 ################################ LATENCY MONITOR ##############################
 
-# The Redis latency monitoring subsystem samples different operations
+# The KeyDB latency monitoring subsystem samples different operations
 # at runtime in order to collect data related to possible sources of
-# latency of a Redis instance.
+# latency of a KeyDB instance.
 #
 # Via the LATENCY command this information is available to the user that can
 # print graphs and obtain reports.
@@ -1233,7 +1234,7 @@ latency-monitor-threshold 0
 
 ############################# EVENT NOTIFICATION ##############################
 
-# Redis can notify Pub/Sub clients about events happening in the key space.
+# KeyDB can notify Pub/Sub clients about events happening in the key space.
 # This feature is documented at http://redis.io/topics/notifications
 #
 # For instance if keyspace events notification is enabled, and a client
@@ -1243,7 +1244,7 @@ latency-monitor-threshold 0
 # PUBLISH __keyspace@0__:foo del
 # PUBLISH __keyevent@0__:del foo
 #
-# It is possible to select the events that Redis will notify among a set
+# It is possible to select the events that KeyDB will notify among a set
 # of classes. Every class is identified by a single character:
 #
 #  K     Keyspace events, published with __keyspace@<db>__ prefix.
@@ -1279,12 +1280,12 @@ notify-keyspace-events ""
 
 ############################### GOPHER SERVER #################################
 
-# Redis contains an implementation of the Gopher protocol, as specified in
+# KeyDB contains an implementation of the Gopher protocol, as specified in
 # the RFC 1436 (https://www.ietf.org/rfc/rfc1436.txt).
 #
 # The Gopher protocol was very popular in the late '90s. It is an alternative 
 # to the web, and the implementation both server and client side is so simple
-# that the Redis server has just 100 lines of code in order to implement this
+# that the KeyDB server has just 100 lines of code in order to implement this
 # support.
 #
 # What do you do with Gopher nowadays? Well Gopher never *really* died, and
@@ -1294,18 +1295,18 @@ notify-keyspace-events ""
 # controlled, and it's cool to create an alternative space for people that
 # want a bit of fresh air.
 #
-# Anyway for the 10nth birthday of the Redis, we gave it the Gopher protocol
+# Anyway for the 10nth birthday of the KeyDB, we gave it the Gopher protocol
 # as a gift.
 #
 # --- HOW IT WORKS? ---
 #
-# The Redis Gopher support uses the inline protocol of Redis, and specifically
+# The KeyDB Gopher support uses the inline protocol of KeyDB, and specifically
 # two kind of inline requests that were anyway illegal: an empty request
-# or any request that starts with "/" (there are no Redis commands starting
+# or any request that starts with "/" (there are no KeyDB commands starting
 # with such a slash). Normal RESP2/RESP3 requests are completely out of the
 # path of the Gopher protocol implementation and are served as usually as well.
 #
-# If you open a connection to Redis when Gopher is enabled and send it
+# If you open a connection to KeyDB when Gopher is enabled and send it
 # a string like "/foo", if there is a key named "/foo" it is served via the
 # Gopher protocol.
 #
@@ -1316,7 +1317,7 @@ notify-keyspace-events ""
 #
 # --- SECURITY WARNING ---
 #
-# If you plan to put Redis on the internet in a publicly accessible address
+# If you plan to put KeyDB on the internet in a publicly accessible address
 # to server Gopher pages MAKE SURE TO SET A PASSWORD to the instance.
 # Once a password is set:
 #
@@ -1410,8 +1411,8 @@ stream-node-max-bytes 4096
 stream-node-max-entries 100
 
 # Active rehashing uses 1 millisecond every 100 milliseconds of CPU time in
-# order to help rehashing the main Redis hash table (the one mapping top-level
-# keys to values). The hash table implementation Redis uses (see dict.c)
+# order to help rehashing the main KeyDB hash table (the one mapping top-level
+# keys to values). The hash table implementation KeyDB uses (see dict.c)
 # performs a lazy rehashing: the more operation you run into a hash table
 # that is rehashing, the more rehashing "steps" are performed, so if the
 # server is idle the rehashing is never complete and some more memory is used
@@ -1422,7 +1423,7 @@ stream-node-max-entries 100
 #
 # If unsure:
 # use "activerehashing no" if you have hard latency requirements and it is
-# not a good thing in your environment that Redis can reply from time to time
+# not a good thing in your environment that KeyDB can reply from time to time
 # to queries with 2 milliseconds delay.
 #
 # use "activerehashing yes" if you don't have such hard requirements but
@@ -1474,21 +1475,21 @@ client-output-buffer-limit pubsub 32mb 8mb 60
 #
 # client-query-buffer-limit 1gb
 
-# In the Redis protocol, bulk requests, that are, elements representing single
+# In the KeyDB protocol, bulk requests, that are, elements representing single
 # strings, are normally limited ot 512 mb. However you can change this limit
 # here.
 #
 # proto-max-bulk-len 512mb
 
-# Redis calls an internal function to perform many background tasks, like
+# KeyDB calls an internal function to perform many background tasks, like
 # closing connections of clients in timeout, purging expired keys that are
 # never requested, and so forth.
 #
-# Not all tasks are performed with the same frequency, but Redis checks for
+# Not all tasks are performed with the same frequency, but KeyDB checks for
 # tasks to perform according to the specified "hz" value.
 #
 # By default "hz" is set to 10. Raising the value will use more CPU when
-# Redis is idle, but at the same time will make Redis more responsive when
+# KeyDB is idle, but at the same time will make KeyDB more responsive when
 # there are many keys expiring at the same time, and timeouts may be
 # handled with more precision.
 #
@@ -1502,7 +1503,7 @@ hz 10
 # avoid too many clients are processed for each background task invocation
 # in order to avoid latency spikes.
 #
-# Since the default HZ value by default is conservatively set to 10, Redis
+# Since the default HZ value by default is conservatively set to 10, KeyDB
 # offers, and enables by default, the ability to use an adaptive HZ value
 # which will temporary raise when there are many connected clients.
 #
@@ -1519,22 +1520,22 @@ dynamic-hz yes
 # big latency spikes.
 aof-rewrite-incremental-fsync yes
 
-# When redis saves RDB file, if the following option is enabled
+# When KeyDB saves RDB file, if the following option is enabled
 # the file will be fsync-ed every 32 MB of data generated. This is useful
 # in order to commit the file to the disk more incrementally and avoid
 # big latency spikes.
 rdb-save-incremental-fsync yes
 
-# Redis LFU eviction (see maxmemory setting) can be tuned. However it is a good
+# KeyDB LFU eviction (see maxmemory setting) can be tuned. However it is a good
 # idea to start with the default settings and only change them after investigating
 # how to improve the performances and how the keys LFU change over time, which
 # is possible to inspect via the OBJECT FREQ command.
 #
-# There are two tunable parameters in the Redis LFU implementation: the
+# There are two tunable parameters in the KeyDB LFU implementation: the
 # counter logarithm factor and the counter decay time. It is important to
 # understand what the two parameters mean before changing them.
 #
-# The LFU counter is just 8 bits per key, it's maximum value is 255, so Redis
+# The LFU counter is just 8 bits per key, it's maximum value is 255, so KeyDB
 # uses a probabilistic increment with logarithmic behavior. Given the value
 # of the old counter, when a key is accessed, the counter is incremented in
 # this way:
@@ -1586,7 +1587,7 @@ rdb-save-incremental-fsync yes
 # What is active defragmentation?
 # -------------------------------
 #
-# Active (online) defragmentation allows a Redis server to compact the
+# Active (online) defragmentation allows a KeyDB server to compact the
 # spaces left between small allocations and deallocations of data in memory,
 # thus allowing to reclaim back memory.
 #
@@ -1598,7 +1599,7 @@ rdb-save-incremental-fsync yes
 # in an "hot" way, while the server is running.
 #
 # Basically when the fragmentation is over a certain level (see the
-# configuration options below) Redis will start to create new copies of the
+# configuration options below) KeyDB will start to create new copies of the
 # values in contiguous memory regions by exploiting certain specific Jemalloc
 # features (in order to understand if an allocation is causing fragmentation
 # and to allocate it in a better place), and at the same time, will release the
@@ -1607,8 +1608,8 @@ rdb-save-incremental-fsync yes
 #
 # Important things to understand:
 #
-# 1. This feature is disabled by default, and only works if you compiled Redis
-#    to use the copy of Jemalloc we ship with the source code of Redis.
+# 1. This feature is disabled by default, and only works if you compiled KeyDB
+#    to use the copy of Jemalloc we ship with the source code of KeyDB.
 #    This is the default with Linux builds.
 #
 # 2. You never need to enable this feature if you don't have fragmentation
@@ -1661,5 +1662,12 @@ server-threads 2
 # replicas will still sync in the normal way and incorrect ordering when
 # bringing up replicas can result in data loss (the first master will win).
 # active-replica yes
+
+# Enable Pro?  KeyDB pro provides support for pro only features
+#   note: you may omit the license key to demo pro features for a limited time
+# enable-pro [License Key]
+
+# Enable FLASH support? (Pro Only)
+# storage-provider flash /path/to/flash/db
 
 ```

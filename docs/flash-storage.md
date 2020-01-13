@@ -1,10 +1,20 @@
 ---
 id: flash-storage
 title: Using Non-Volatile Memory in Addition to RAM
-sidebar_label: KeyDB on FLASH
+sidebar_label: Legacy FLASH
 ---
+<div id="blog_body">
+## KeyDB on FLASH
 
-## About FLASH Storage
+KeyDB FLASH documentation is separated into two sections.
+
+For our new KeyDB Pro FLASH feature see [Enhanced FLASH](https://docs.keydb.dev/docs/pro-flash)
+
+For our legacy FLASH feature you can follow this document.
+
+For new deployments we recommend the use of KeyDB Pro FLASH. Our Enhanced FLASH option built into pro is built on RocksDB and is much faster than the legacy flash product because of how its architected. It also does not require a special file system as does legacy. 
+
+## About Legacy FLASH Storage
 -------------------
 
 DRAM is significantly more expensive per GB than non volatile memory such as FLASH.  When enabled KeyDB can store less frequently accessed data in non volatile storage instead of RAM.  KeyDB will actively page data in and out of non volatile storage as necessary.  Of course you can also use plain spinning disks, but it is not recommended as performance will be poor.  KeyDB expects the underlying device to have good random I/O performance.
@@ -31,3 +41,4 @@ Note: As a consequence of how the automatic deletion works you may not see the f
 When compiling the malloc must be set to 'memkind' using the following command:
 
     make MALLOC=memkind
+</div>
