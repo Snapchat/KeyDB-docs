@@ -10,6 +10,8 @@ sidebar_label: Get Started in Minutes
 
 KeyDB remains up to date with the current version of Redis and as such maintains compatibility with standard Redis API's and protocols. Front-end tools, redis clients, API's and modules will work with KeyDB. KeyDB is a drop in alternative to Redis. You can see more in [migration](https://docs.keydb.dev/docs/migration)
 
+KeyDB is compatible with all Redis clients as listed [here](https://redis.io/clients) so this should not be a concern. Simply use your client as you would with Redis.
+
 ## Run on Docker
 
 ### Install Docker
