@@ -26,7 +26,7 @@ You will likely want to customize your configuration on startup. You can find ou
 
 ### Launching an Instance
 ```
-$ docker run -name mycontainername -d eqalpha/keydb keydb-server --requirepass mypassword 
+$ docker run --name mycontainername -d eqalpha/keydb keydb-server --requirepass mypassword 
 ```
 Here we launched a container with name 'mycontainername', it was launched in 'detached' mode to run in the background, we specified the repository 'eqalpha/keydb', followed by calling the program 'keydb-server' with an update to the 'requirepass' parameter. keydb-server will launch by default if a program is not otherwise specified. You have to specify the program if you plan to pass in additional parameters.
 
