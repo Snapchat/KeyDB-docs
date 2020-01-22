@@ -49,6 +49,16 @@ docker run -it --rm eqalpha/keydb keydb-cli -h <ipaddress-from-above> -p 6379
 ```
 The 'rm' parameter removes the container when you are done with it
 
+## Using the KeyDB PPA
+
+Please see [this article](https://docs.keydb.dev/docs/ppa-deb/) for more details on our PPA and using deb packages. However in order to use the PPA its as simple as:
+```
+$ curl -s --compressed "https://benschermel.github.io/keydb-ppa/KEY.gpg" | sudo apt-key add -
+$ sudo curl -s --compressed -o /etc/apt/sources.list.d/keydb.list "https://benschermel.github.io/keydb-ppa/keydb.list"
+$ sudo apt update
+$ sudo apt install keydb
+```
+
 ## Binaries for Ubuntu 18.04
 
 ### Download & Install Binaries

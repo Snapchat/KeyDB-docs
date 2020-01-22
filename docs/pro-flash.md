@@ -3,7 +3,9 @@ id: pro-flash
 title: KeyDB Pro on FLASH - Enhanced FLASH
 sidebar_label: Enhanced FLASH
 ---
+
 <div id="blog_body">
+
 ## Enhanced FLASH
 
 Enhanced FLASH offered with KeyDB Pro is architected much differently than our open source legacy FLASH. It does not require any special file system and is built on RocksDB. Enhanced FLASH is much faster than legacy FLASH and is also persistent to the storage medium it is written to.
