@@ -8,22 +8,17 @@ sidebar_label: Getting Started
 
 ## Downloading KeyDB-Pro
 
-It is currently recommended to use docker images with KeyDB Pro. We do have binaries available to download for Ubuntu 18.04. In the near future we plan to have the binaries available in DEB packages and RPM packages for common builds. 
+It is currently recommended to use docker, ppa deb packages, or rpm packages with KeyDB Pro. 
 
-KeyDB-Pro binaries can be downloaded through our <a href=”https://keydb.dev/downloads.html”><span style=:color:red”>website here</span></a>. Please note these are Ubuntu 18.04 binaries and should not be used on other platforms. We plan to offer downloads for many other builds in the near future.
+### KeyDB PPA
 
-### Download & Install Binaries
-You can download these via our website [here](https://keydb.dev/downloads.html)
+Please see [this article](https://docs.keydb.dev/docs/ppa-deb/) for more details on our PPA and using deb packages. However in order to use the PPA its as simple as:
 ```
-$ wget https://download.keydb.dev/keydb-bin.tar.gz
-$ tar -xvf keydb-bin.tar.gz
-$ cd keydb-bin
-$ cp keydb-* /usr/bin/
-$ cp *.conf /path/to/directory/for/config
+$ curl -s --compressed "https://download.keydb.dev/keydb-ppa/KEY.gpg" | sudo apt-key add -
+$ sudo curl -s --compressed -o /etc/apt/sources.list.d/keydb.list https://download.keydb.dev/keydb-ppa/keydb.list
+$ sudo apt update
+$ sudo apt install keydb
 ```
-Here we grabbed the binaries off the keydb website, extracted the tar.gz file and then moved the binaries to /usr/bin so they can be called from anywhere. If you dont want to move them to bin, make sure to call the program directly
-
-Keep the configuration files where you would like (ie. /etc/keydb/) so you can customize the configuration file and specify it when you launch.
 
 ### Download Docker Image
 
@@ -62,7 +57,7 @@ enable-pro [license-key]
 
 ### Launching Enhanced FLASH
 ```
-keydb-server --enable-pro [license-key] --storage-provider  flash  [path-to-flash-storage] --maxmemory [max-memory-for-DRAM… ie. 500mb or 1G] --eviction-policy allkeys-lru
+keydb-server --enable-pro [license-key] --storage-provider  flash  [path-to-flash-storage] --maxmemory [max-memory-for-DRAM… ie. 500mb or 1G] --maxmemory-policy allkeys-lru
 ```
 In your config file you will find descriptions of each parameter used above. You can also find out more about using Enhanced FLASH [here]( https://docs.keydb.dev/docs/pro-flash/)
 
@@ -92,7 +87,7 @@ KeyDB pro is part of the binary package. If you do not have a license key you ca
 
 ### Launching Enhanced FLASH
 ```
-sudo docker run -d -it --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb keydb-server --enable-pro --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --eviction-policy [eviction-policy ie. allkeys-lfu]
+sudo docker run -d -it --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb keydb-server --enable-pro --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --maxmemory-policy [eviction-policy ie. allkeys-lfu]
 ```
 This launches Pro with FLASH storage. Specify your flash location, mount it, and specify the appropriate configuration parameters. You can see more [here](https://hub.docker.com/r/eqalpha/keydb).
 

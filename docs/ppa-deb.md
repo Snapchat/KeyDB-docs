@@ -10,17 +10,18 @@ Debian installation packages make installation of KeyDB easy. No need to worry a
 
 Please note this will be the official PPA for KeyDB with the Launchpad PPA distribution becoming deprecated in the near future. Hosting the PPA ourselves enables more flexibility for binary distribution and allows us to serve you better. 
 
-## KeyDB's PPA
+## KeyDB PPA
 
 A PPA (Personal Package Archive) allows you to easily install, update and remove packages with commands such as `apt` or `dpkg`. When you follow the commands below to install KeyDB, the proper package will be selected for your installation. Current packages are available for arm64 and amd64 (x86_64) machines. These are built on Ubuntu 18.04 (bionic build).
 
 In order to get your keydb-ppa, simply follow these commands below:
 ```
-$ curl -s --compressed "https://benschermel.github.io/keydb-ppa/KEY.gpg" | sudo apt-key add -
-$ sudo curl -s --compressed -o /etc/apt/sources.list.d/keydb.list "https://benschermel.github.io/keydb-ppa/keydb.list"
+$ curl -s --compressed "https://download.keydb.dev/keydb-ppa/KEY.gpg" | sudo apt-key add -
+$ sudo curl -s --compressed -o /etc/apt/sources.list.d/keydb.list https://download.keydb.dev/keydb-ppa/keydb.list
 $ sudo apt update
 $ sudo apt install keydb
 ```
+In order to install keydb professional `$ sudo apt install keydb-pro`
 
 During the `apt install` phase you can choose from several installation methods:
 
@@ -36,9 +37,22 @@ Use `apt install keydb`. This installs both keydb-server and keydb-tools. This i
 ### keydb-sentinel
 For those using keydb-sentinel and want to run it as a service you will need to run `apt install keydb-sentinel`
 
-## Using KeyDB
+### keydb-pro-tools
+Use `apt install keydb-pro-tools` to install pro binaries only. This method is for someone who wants the program installed but not configured to run automatically (as a service). This package contains keydb pro binaries exclusively.
 
-When keydb-server is set up as a service you can start, stop and check status via:
+### keydb-pro-server
+Use `apt install keydb-pro-server` to run keydb-pro-server as a service. Systemd files will be set up as well as directory structures for pid files, conf files, etc. keydb-pro-tools is a dependancy for this package and will be installed if not already
+
+### keydb-pro
+Use `apt install keydb-pro`. This installs both keydb-pro-server and keydb-pro-tools. This is a common installation for most and enables keydb-pro features to run with the services configured exclusively for pro
+
+### keydb-pro-sentinel
+For those using keydb-pro-sentinel and want to run it as a service you will need to run `apt install keydb-pro-sentinel`
+
+
+## Using KeyDB as a Service
+
+When keydb-server or keydb-pro-server is set up as a service you can start, stop and check status via:
 ```
 $ sudo service keydb-server status
 $ sudo service keydb-server start
@@ -55,47 +69,48 @@ Other relevant files updated with keydb-server are:
 
 Binaries installed with keydb-tools are placed in /usr/bin/
 
+## Run on Boot
 
-## DEB Packages
+By default the service is disabled and will be disabled if your machine is rebooted. If you would like to have KeyDB start on system boot:
+```
+$ sudo systemctl enable keydb-server
+```
 
-If you do not wish to use the PPA, you can download the deb packages individually and install them. This method is more manual than using the PPA and any updates will be a manual process.
+## Setting up FLASH with systemd
 
-### Installation
-To install the deb packages first unzip the contents of the package you have downloaded, then install the package(s) you would like. You will have to specify the package and install keydb-tools before keydb-server or keydb-sentinel.
+If you are running KeyDB as a service with FLASH options enabled, you need to let systemd know you will be accessing the flash volume and make sure the keydb user/group have access. You will need to update the systemd file  `/lib/systemd/system/keydb-server.service` and append the following line below where the others are located:
+```
+ReadWriteDirectories=-/path/to/your/flash/volume/db/folder
+```
+This followed by `sudo systemctl daemon-reload`
 
-### AMD64 Bionic
+You will then need to change the ownership on the directory of the specified flash volume
 ```
-$ wget https://keydb.dev/downloads/keydb-deb_bionic_amd64.tar.gz
-$ tar -xvf keydb-deb_bionic_amd64.tar.gz
-$ cd keydb-deb_bionic_amd64
-$ apt install keydb-tools_x.x.x-1chl1~bionic1_amd64.deb
-$ apt install keydb-server_x.x.x-1chl1~bionic1_amd64.deb
+sudo chown -R keydb:keydb /path/to/your/flash/volume/db/folder
+
 ```
-### ARM64 Bionic
-```
-$ wget https://keydb.dev/downloads/keydb-deb_bionic_arm64.tar.gz
-$ tar -xvf keydb-deb_bionic_arm64.tar.gz
-$ cd keydb-deb_bionic_arm64
-$ apt install keydb-tools_x.x.x-1chl1~bionic1_arm64.deb
-$ apt install keydb-server_x.x.x-1chl1~bionic1_amd64.deb
-```
+Now you should be able to run keydb pro with flash as a service and start/stop with `sudo service keydb-server start/stop/status`
+
+
 
 ## Uninstall
 ```
 $ sudo apt autoremove --purge keydb keydb-server keydb-sentinel keydb-tools
 ```
-Choose which package to uninstall based on which packages were installed in the first place. All packages are listed in above command
+or for pro
+```
+$ sudo apt autoremove --purge keydb-pro keydb-pro-server keydb-pro-sentinel keydb-pro-tools
+```
+Choose which package to uninstall based on which packages were installed in the first place. All packages are listed in above command, however some of the packages will remove the packages dependent on them as well.
 
-If you want to remove the ppa from your list of programs to update on `apt update`, then remove the .list file in sources:
+If you want to remove the ppa from your list of programs to update on `sudo apt update`, then remove the .list file in sources:
 ```
 $ sudo rm /etc/apt/sources.list.d/keydb.list
 ```
 
 ## Issues and Requests
 
-If you have a build request, issue, or would like to make updates to the packages please visit our github page for the ppa where you can create an issue or PR. 
-
-https://github.com/benschermel/keydb-ppa
+If you have a build request, issue, or would like to make updates to the packages please email support@keydb.dev or create an issue on [github](https://github.com/JohnSully/KeyDB/issues)
 
 
 </div>

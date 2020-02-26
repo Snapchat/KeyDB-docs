@@ -59,7 +59,7 @@ Alternatively include this in your own config file as `enable-pro [license-key]`
 ## using Enhanced FLASH Storage
 
 ```
-sudo docker run -d -it --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb keydb-server --enable-pro --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --eviction-policy [eviction-policy ie. allkeys-lfu]
+sudo docker run -d -it --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb keydb-server --enable-pro --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --maxmemory-policy [eviction-policy ie. allkeys-lfu]
 ```
 You need to mount your flash storage volume (ssd/flash) to the docker container so it has a place to write its data. `src=/path/to/flash` references the location you have set up. Specify `-it' to enable the container to communicate with it. The docker container already has a directory inside it named `/flash` which we will use internally as a reference. `--storage-provider <storage-type> <storage-location> is used to specify the storage type and location. For this docker container it will always be `--storage-provider flash /flash`. 
 

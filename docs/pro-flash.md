@@ -37,13 +37,13 @@ It is best using a FLASH storage medium when closest to the CPU. If you are usin
 
 Enable keydb professional, specify storage medium, and configure maxmemory and eviction policy. For example:
 ``` 
-keydb-server --enable-pro [license-key] --storage-provider  flash  [path-to-flash-storage] --maxmemory [max-memory-for-DRAM… ie. 500mb or 1G] --eviction-policy allkeys-lru
+keydb-server --enable-pro [license-key] --storage-provider  flash  [path-to-flash-storage] --maxmemory [max-memory-for-DRAM… ie. 500mb or 1G] --maxmemory-policy allkeys-lru
 ```
 
 ## Docker Quick Setup
 
 ```
-sudo docker run -d -it --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb keydb-server --enable-pro --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --eviction-policy [eviction-policy ie. allkeys-lfu]
+sudo docker run -d -it --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb keydb-server --enable-pro --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --maxmemory-policy [eviction-policy ie. allkeys-lfu]
 ```
 
 ## Using KeyDB on FLASH - Detailed Setup:
@@ -88,6 +88,6 @@ The policies volatile-lru, volatile-random and volatile-ttl behave like noevicti
 
 It is recommended to use a policy such as ‘allkeys-lru’ or ‘allkeys-lfu’ to ensure you never run out of memory and data can always be moved to FLASH storage. These directives work best for most scenarios using FLASH.
 
-Specify with `--eviction-policy allkeys-lfu`
+Specify with `--maxmemory-policy allkeys-lfu`
 
 </div>

@@ -1,7 +1,7 @@
 {
   "docs": {
     "KeyDB Docs": ["intro", "coming-soon"],
-    "Getting Started": ["using-keydb", "first-test", "migration", "config-file", "intro-admin", "ppa-deb", "docker-basics", "build"],
+    "Getting Started": ["using-keydb", "first-test", "migration", "config-file", "intro-admin", "ppa-deb", "rpm", "docker-basics", "build"],
     "KeyDB Pro": ["pro-intro", "pro-coming-soon", "pro-getting-started", "pro-flash", "pro-mvcc", "pro-non-blocking-queries"],
     "Benchmarking": ["benchmarking"],
     "Server Infrastucture": ["active-rep", "multi-master", "flash-storage", "replication", "cluster-spec", "cluster-man", "cluster-create", "cluster-tutorial", "sentinel"],
