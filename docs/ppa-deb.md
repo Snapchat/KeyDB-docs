@@ -23,6 +23,14 @@ $ sudo apt install keydb
 ```
 In order to install keydb professional `$ sudo apt install keydb-pro`
 
+Note that in addition to our Ubuntu18.04 Bionic PPA above we also have an Ubuntu16.04 Xenial PPA for amd64. You can install it by replacing the  first two lines above with the following:
+```
+$ curl -s --compressed "https://download.keydb.dev/keydb-ppa-xenial/KEY.gpg" | sudo apt-key add -
+$ sudo curl -s --compressed -o /etc/apt/sources.list.d/keydb.list https://download.keydb.dev/keydb-ppa-xenial/keydb.list
+```
+
+## Installation
+
 During the `apt install` phase you can choose from several installation methods:
 
 ### keydb-tools
@@ -48,6 +56,15 @@ Use `apt install keydb-pro`. This installs both keydb-pro-server and keydb-pro-t
 
 ### keydb-pro-sentinel
 For those using keydb-pro-sentinel and want to run it as a service you will need to run `apt install keydb-pro-sentinel`
+
+## KeyDB DEB Packages
+For those not getting KeyDB DEB packages via the PPA repository, they can be accessed at https://download.keydb.dev/packages/deb/. In this directory listing you can access deb packages for all previous versions as well as the latest versions. For each release there are 4 deb packages available as described above and they are consoldated to their own versioned directory for each release. 
+
+In the higher level directories there is a "keydb-latest" or "keydb-pro-latest" directory linked to the latest version for ease of access and those running scripts. See above for more information on each deb package.
+
+Unlike with the PPA, you will need to manually install the 'tools' package prior to the others, and you will have to install both 'tools' and 'server' prior to just the 'keydb' or 'keydb-pro' deb packages. 
+
+The directory listing structure narrows down by distribution --> architecture --> keydb --> package
 
 
 ## Using KeyDB as a Service

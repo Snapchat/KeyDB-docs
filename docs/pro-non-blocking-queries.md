@@ -20,7 +20,7 @@ There are a lot of O(n) heavy commands that can drastically block resources and 
 
 ![image](https://keydb.dev/assets/img/blog/keys-prod-good-time.png)
                                                          
-There’s a reason we often hear “don’t use KEYS”, and “don’t use fsync always”…there are a lot of “do not’s” with Redis that can affect performance in big ways. You shouldn’t need to be an expert to avoid major issues running your database. Redis’ single threaded nature and their requirement to keep a minimal codebase has ended up effecting the work required by the end user. This this correlates to external tools, running multiple types of databases, excessive sharding, limited node capacity, etc.
+There’s a reason we often hear “don’t use KEYS”, and “don’t use fsync always”…there are a lot of “do not’s” with Redis that can affect performance in big ways. You shouldn’t need to be an expert to avoid major issues running your database. Redis’ single threaded nature and their requirement to keep a minimal codebase has ended up effecting the work required by the end user. This correlates to external tools, running multiple types of databases, excessive sharding, limited node capacity, etc.
 
 When it comes to database management, if you care about your data you want to be able to properly manage and sift through it. Running queries to assist with understanding the data you have is important. Being able to run such queries in a non-blocking fashion, using separate threads, adds a powerful set of tools that doesn’t severely affect your production workloads and user experience.
 
