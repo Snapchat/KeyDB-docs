@@ -22,7 +22,7 @@ Benefits of the AMI:
 ## Get going quickly
 
 This is a quick reference to get going. For more information see the detailed walkthrough section further down
-1.	Select the KeyDB AMI to use, you can find our AMI [here](https://aws.amazon.com/marketplace/pp/EQ-Alpha-Technology-Ltd-KeyDB-v502/B07YP1PFX5). Click “Continue to Subscribe” and accept terms
+1.	Select the KeyDB AMI to use, you can find our AMI [here](https://aws.amazon.com/marketplace/pp/B086WNHBGJ). Click “Continue to Subscribe” and accept terms
 2.	Choose your instance type. 
 3.	Copy the sample script below into the “user data” section to automatically configure the instance. 
 	* Start by entering your keydb.conf parameter changes under ‘config_parameters’. Make sure you set your password by updating the “requirepass” parameter. Any other instance specific parameters can be enabled here as well, ie `replicaof [ip] [port]` or `active-replica yes`, etc. ‘bind 0.0.0.0’ enables KeyDB to be accessed from outside this machine.
@@ -54,8 +54,8 @@ exit
 ```
 4.	Choose your volumes to add. Based on your selection above please ensure your volumes satisfy the following:
 	* For all options below please note the flash script looks for any unused (non-root) volumes to configure for the flash database. The `nvme` option will look for all direct attached NVMe SSDs attached and set them up in a RAID array. Similarly if `ebs` argument is given the script will look for all unused EBS SSD volumes and set them up in a RAID array.
-	* For `keydb-flash-setup.sh nvme` the flash database can grow as large as your nvme volumes attached. Because these volumes can be removed if you stop the instance, by default RDB save is enabled and you should select your root volume to be of equal size to your NVMe FLASH volume. You do have the option to add the `nordb` argument but keep in mind the possibility of aws detaching these under certain scenarios. A typical reboot will not disconnect the volumes.
-	* For `keydb-flash-setup.sh ebs` it is assumed you are using a separate volume for the flash database. It also assumes you will be saving an RDB file redundantly on the root volume. As such your root volume and additional EBS volume should be the same size.
+	* For `keydb-flash-setup.sh nvme` rdb backups can require up to 2x the NVMe database size + swap (equivalent to RAM), hence we typically recommend sizing the root EBS volume 2.5x the size of NVMe volumes. Because these volumes can be removed if you stop the instance, by default RDB save is enabled. You do have the option to add the `nordb` argument but keep in mind the possibility of aws detaching these under certain scenarios. A typical reboot will not disconnect the volumes.
+	* For `keydb-flash-setup.sh ebs` it is assumed you are using a separate volume for the flash database. It also assumes you will be saving an RDB file redundantly on the root volume. As such your root volume should be over 2x the size of your EBS volumes.
 	* For `keydb-flash-setup.sh ebs nordb` rdb saving is disabled. Add an EBS volume of any size for and do not worry about root volume size.
 	* If you do not run the `keydb-flash-setup.sh` script with user data or pass arguments to it, the SSD drives will not be configured and FLASH will not be enabled. This can be done later by SSH’ing to the instance later and calling the `keydb-flash-setup.sh scripts or launching the keydb-setup.sh tool. 
 5.	Set your security group:
@@ -91,7 +91,7 @@ This will only happen if your aws machine is stopped. If this happens, SSH in an
 
 ### Select the KeyDB Pro AMI
 
-You can select the AMI [here](https://aws.amazon.com/marketplace/pp/EQ-Alpha-Technology-Ltd-KeyDB-v502/B07YP1PFX5#pdp-overview). 
+You can select the AMI [here](https://aws.amazon.com/marketplace/pp/B086WNHBGJ). 
 
 Click “Continue to Subscribe” and “Accept Terms”
 
@@ -154,13 +154,13 @@ exit
 ![image](/img/doc/ami/add_storage.png)
 
 Choose your volumes to add. 
-* If you have already chosen an instance with direct attached NVMe storage its recommended to select you Root volume to be similar size if you plan on keeping RDB backup files stored.
+* If you have already chosen an instance with direct attached NVMe storage its recommended to select the root volume to be large enough to store RDB backups in addition to swap space and system requirements. Swap space is the same size as RAM, and RDB backups may take up to twice their volume during the backup process (old rdb not removed until new one written). Hence it is often recommended to size at 2.5x the NVMe requirement.
 * If you plan on using EBS volumes for KeyDB on FLASH you can add additional EBS volumes. Ideally add one, however several can be selected and will be configured for FLASH in a raid array.
 
 If you chose to run the user data script, keep in mind the following actions taken by the `keydb-flash-setup.sh` script.
 * For all options below please note the flash script looks for any unused (non-root) volumes to configure for the flash database. The `nvme` option will look for all direct attached NVMe SSDs attached and set them up in a RAID array. Similarly if `ebs` argument is given the script will look for all unused EBS SSD volumes and set them up in a RAID array.
-* For `keydb-flash-setup.sh nvme` the flash database can grow as large as your nvme volumes attached. Because these volumes can be removed if you stop the instance, by default RDB save is enabled and you should select your root volume to be of equal size to your NVMe FLASH volume
-* For `keydb-flash-setup.sh ebs` it is assumed you are using a separate volume for the flash database. It also assumes you will be saving an RDB file redundantly on the root volume. As such your root volume and additional EBS volume should be the same size.
+* For `keydb-flash-setup.sh nvme` the flash database can grow as large as your nvme volumes attached. Because these volumes can be removed if you stop the instance, by default RDB save is enabled and you should select your root volume to be ~2.5x the size of your NVMe FLASH volume
+* For `keydb-flash-setup.sh ebs` it is assumed you are using a separate volume for the flash database. It also assumes you will be saving an RDB file redundantly on the root volume. As such your root volume should be 2.5x the size of your EBS volume.
 * For `keydb-flash-setup.sh ebs nordb` rdb saving is disabled. Add an EBS volume of any size for use and do not worry about root volume size.
 * If you do not run the `keydb-flash-setup.sh` script with user data or pass arguments to it, the SSD drives will not be configured and FLASH will not be enabled. This can be done later by SSH’ing to the instance later and calling the script. 
 
@@ -235,7 +235,7 @@ This will pull the latest binaries, stop the keydb service, swap out binaries, t
 If you need to revert to a previous AMI version you can run the update script and pass an argument for the specific version. For example:
 
 ```
-$ sudo keydb-update 6.0.3
+$ sudo keydb-update.sh 6.0.3
 ```
 
 </div>

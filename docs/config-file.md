@@ -1644,6 +1644,10 @@ rdb-save-incremental-fsync yes
 # the main dictionary scan
 # active-defrag-max-scan-fields 1000
 
+# The minimum number of clients on a thread before KeyDB assigns new connections to a different thread
+#  Tuning this parameter is a tradeoff between locking overhead and distributing the workload over multiple cores
+# min-clients-per-thread 50
+
 # Path to directory for file backed scratchpad.  The file backed scratchpad
 # reduces memory requirements by storing rarely accessed data on disk 
 # instead of RAM.  A temporary file will be created in this directory.

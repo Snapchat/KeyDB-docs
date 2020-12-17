@@ -14,37 +14,39 @@ It is currently recommended to use docker, ppa deb packages, or rpm packages wit
 
 Please see [this article](https://docs.keydb.dev/docs/ppa-deb/) for more details on our PPA and using deb packages. However in order to use the PPA its as simple as:
 ```
-$ curl -s --compressed "https://download.keydb.dev/keydb-ppa/KEY.gpg" | sudo apt-key add -
+$ sudo curl -s --compressed -o /etc/apt/trusted.gpg.d/keydb.gpg https://download.keydb.dev/keydb-ppa/keydb.gpg
 $ sudo curl -s --compressed -o /etc/apt/sources.list.d/keydb.list https://download.keydb.dev/keydb-ppa/keydb.list
 $ sudo apt update
-$ sudo apt install keydb
+$ sudo apt install keydb-pro
 ```
 
 ### Download Docker Image
 
-If you use docker, simply run our official image you are used to which now contains the KeyDB Pro binaries as well. You can check out docker <a href=”https://hub.docker.com/r/eqalpha/keydb”><span style=:color:red”>here</span></a> or pull the image directly via 
+If you use docker, simply run our official image you are used to which now contains the KeyDB Pro binaries as well. You can check out docker <a href=”https://hub.docker.com/r/eqalpha/keydb-pro”><span style=:color:red”>here</span></a> or pull the image directly via 
 ```
-$ sudo docker pull eqalpha/keydb`. 
+$ sudo docker pull eqalpha/keydb-pro`. 
 ```
 
-Please note that the Community and Professional versions are packaged together as of January 6, 2020. The open source version by default is used, however Pro features can be enabled easily via the config file or command line. If you have downloaded KeyDB on docker or via the website you likely have KeyDB-Pro features already available to you. 
+Please note that for most packages, the Community versions also contain the pro binary (docker/rpm). If you have downloaded KeyDB on docker or via the website you likely have KeyDB-Pro features already available to you. 
 
 ## Obtain license Key
 
-KeyDB-Pro requires a license key that you can obtain <a href=”https://checkout.keydb.dev/”><span style=:color:red”>here</span></a>. Current pricing is very affordable at $69.99/month with no limits to single node usage. A single KeyDB node will be able to maximize use of the server it is on with KeyDB’s multithreading. There is no limit to DRAM, FLASH, threads enabled, etc. All KeyDB-Pro features are available with the purchase of a license. Licenses cannot be shared between instances but are transferrable. KeyDB replica and cluster nodes with the same license key cannot connect to each other.
+KeyDB-Pro requires a license key that you can obtain by contacting sales@keydb.dev. Current pricing is very affordable with no limits to single node usage. Prices are a fraction of Redis Enterprise and also far more affordable than Elasticache. A single KeyDB node will be able to maximize use of the server it is on with KeyDB’s multithreading. There is no limit to DRAM, FLASH, threads enabled, etc. All KeyDB-Pro features are available with the purchase of a license key.
 
 Once you have your license key you can run Pro at the command line by specifying it with:
 ```
-keydb-server --enable-pro [license-key]
+keydb-pro-server --enable-pro [license-key]
 ```
 Where “[license-key]” is the license key provided to you following purchase.
 
 ## Or Start Using Immediately without a Key
 
-If you want to play around with KeyDB-Pro before purchasing a license Key, you can use it for 20 minutes before the process is killed and you have to restart it. Hence you can use it to develop on and test, but not in production. Simply specify the option to run Pro without adding in a license key 
+If you want to play around with KeyDB-Pro before purchasing a license Key, you can use it for 120 minutes before the process is killed and you have to restart it. Hence you can use it to develop on and test, but not in production. Simply specify the option to run Pro without adding in a license key 
 ```
-keydb-server --enable-pro
+keydb-pro-server
 ```
+If you are using the community docker container you can call keydb-pro-server binary directly or specify `keydb-server --enable-pro` which willl also call the pro binary.
+
 ## Updating the Config File
 
 Open up your configuration file you are using for KeyDB, typically found in /etc/keydb/keydb.conf, or wherever you have specified the directory for it. Scroll to the bottom where the pro features are located and update the file to enable pro and provide the license key with it. 
@@ -57,7 +59,7 @@ enable-pro [license-key]
 
 ### Launching Enhanced FLASH
 ```
-keydb-server --enable-pro [license-key] --storage-provider  flash  [path-to-flash-storage] --maxmemory [max-memory-for-DRAM… ie. 500mb or 1G] --maxmemory-policy allkeys-lru
+keydb-pro-server --enable-pro [license-key] --storage-provider  flash  [path-to-flash-storage] 
 ```
 In your config file you will find descriptions of each parameter used above. You can also find out more about using Enhanced FLASH [here]( https://docs.keydb.dev/docs/pro-flash/)
 
@@ -69,32 +71,34 @@ If you havent installed docker you can install with `$ sudo apt-get install dock
 
 ### Run KeyDB
 
-Pull the latest KeyDB docker image with `$sudo docker pull eqalpha/keydb`. Alternatively, if you start by using the run command, docker will pull the latest image prior to running. The basic run command will be `$ sudo docker run eqalpha/keydb`
+Pull the latest KeyDB docker image with `$sudo docker pull eqalpha/keydb-pro`. Alternatively, if you start by using the run command, docker will pull the latest image prior to running. The basic run command will be `$ sudo docker run eqalpha/keydb-pro`
 
-You will likely want to customize your configuration on startup. You can find out more on our [docker page](https://hub.docker.com/r/eqalpha/keydb). We will go over a few examples here on launching docker containers:
+You will likely want to customize your configuration on startup. You can find out more on our [docker page](https://hub.docker.com/r/eqalpha/keydb-pro). We will go over a few examples here on launching docker containers:
 
 ### Launching an Instance
 ```
-$ docker run -name mycontainername -d eqalpha/keydb keydb-server --requirepass mypassword 
+$ docker run -name mycontainername -d eqalpha/keydb-pro keydb-pro-server /etc/keydb/keydb.conf --requirepass mypassword 
 ```
-Here we launched a container with name 'mycontainername', it was launched in 'detached' mode to run in the background, we specified the repository 'eqalpha/keydb', followed by calling the program 'keydb-server' with an update to the 'requirepass' parameter. keydb-server will launch by default if a program is not otherwise specified. You have to specify the program if you plan to pass in additional parameters.
+Here we launched a container with name 'mycontainername', it was launched in 'detached' mode to run in the background, we specified the repository 'eqalpha/keydb-pro', followed by calling the program 'keydb-pro-server' with the contained config file and an update to the 'requirepass' parameter. keydb-pro-server will launch by default if a program is not otherwise specified. You have to specify the program if you plan to pass in additional parameters.
+
+If you want to bind the container to the node/machine so it is accessible externally pass the parameter `-p 6379:6379`
 
 ### Launching Pro
 ```
-$ docker run --name mycontainername -d eqalpha/keydb keydb-server --enable-pro [license-key]
+$ docker run --name mycontainername -d eqalpha/keydb-pro keydb-pro-server /etc/keydb/keydb.conf --enable-pro [license-key]
 ```
-KeyDB pro is part of the binary package. If you do not have a license key you can use it in trial mode for 20 minutes after which time you will have to restart it. If you have a license key you can enter it here or speicfy it in your configuration file (see more [here](https://hub.docker.com/r/eqalpha/keydb).
+KeyDB pro is part of the binary package for the open source docker container so can also be launched via eqalpha/keydb image. If you do not have a license key you can use it in trial mode for 120 minutes after which time you will have to restart it. If you have a license key you can enter it here or speicfy it in your configuration file (see more [here](https://hub.docker.com/r/eqalpha/keydb-pro).
 
 ### Launching Enhanced FLASH
 ```
-sudo docker run -d -it --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb keydb-server --enable-pro --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --maxmemory-policy [eviction-policy ie. allkeys-lfu]
+sudo docker run -d -it --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb-pro keydb-server /etc/keydb/keydb.conf --enable-pro --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --maxmemory-policy [eviction-policy ie. allkeys-lfu]
 ```
-This launches Pro with FLASH storage. Specify your flash location, mount it, and specify the appropriate configuration parameters. You can see more [here](https://hub.docker.com/r/eqalpha/keydb).
+This launches Pro with FLASH storage. Specify your flash location, mount it, and specify the appropriate configuration parameters. You can see more [here](https://hub.docker.com/r/eqalpha/keydb-pro).
 
 ### Connect with keydb-cli
 you can grab the ip of the container with docker inspect --format '{{ .NetworkSettings.IPAddress }}' mycontainername then run the following:
 ```
-docker run -it --rm eqalpha/keydb keydb-cli -h <ipaddress-from-above> -p 6379
+docker run -it --rm eqalpha/keydb-pro keydb-cli -h <ipaddress-from-above> -p 6379
 ```
 The 'rm' parameter removes the container when you are done with it
 

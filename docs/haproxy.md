@@ -75,7 +75,7 @@ defaults
 # If you have a password you will have to include it here and set the same for both nodes.
 
 # Note that in a common master-replica setup you will "expect string role:master" to vaildate you are only sending traffic to the healthy master
-# With Active-rep, you will "expect string role:acitve-replica" as that is the role when in active-rep mode. Understanding this concept of getting data and
+# With Active-rep, you will "expect string role: active-replica" as that is the role when in active-rep mode. Understanding this concept of getting data and
 # health checking you can probe for other info if needed.
 
 listen mykeydb 
@@ -87,11 +87,11 @@ listen mykeydb
     option tcp-check
     #uncomment these lines if you have basic auth
     #tcp-check send AUTH\ yourpassword\r\n
-    #tcp-check expect +OK
+    #tcp-check expect string +OK
     tcp-check send PING\r\n
     tcp-check expect string +PONG
     tcp-check send info\ replication\r\n
-    tcp-check expect string role:master
+    tcp-check expect string role: master
     tcp-check send QUIT\r\n
     tcp-check expect string +OK
     server keydb3 172.19.0.3:6379 maxconn 20000 check inter 1s

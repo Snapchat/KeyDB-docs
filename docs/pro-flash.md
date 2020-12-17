@@ -43,7 +43,7 @@ keydb-server --enable-pro [license-key] --storage-provider  flash  [path-to-flas
 ## Docker Quick Setup
 
 ```
-sudo docker run -d -it --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb keydb-server --enable-pro --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --maxmemory-policy [eviction-policy ie. allkeys-lfu]
+sudo docker run -d -it -p 6379:6379 --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb-pro keydb-pro-server --enable-pro [license-key] --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --maxmemory-policy [eviction-policy ie. allkeys-lfu]
 ```
 
 ## Using KeyDB on FLASH - Detailed Setup:

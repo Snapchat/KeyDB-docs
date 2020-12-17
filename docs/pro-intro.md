@@ -12,7 +12,7 @@ This section of docs houses all documentation relating specifically to KeyDB Pro
 
 KeyDB-Pro is not your typical enterprise database product. Today nearly everyone uses a database, and the old enterprise model is complex and unaffordable for most. Startups, small business and developers need easy access to powerful solutions, and this is what we provide with KeyDB-Pro.
 
-We want to enable simple and affordable solutions that don’t require high touch, complex or lock-in sales tactics. Our product costs less than your typical cell phone bill while offering powerful features that will surpass other enterprise offerings. Our philosophy is simple, times are changing and the masses need an affordable, user-friendly product thats easy to get and easy to use. With KeyDB, you will be able to  start eliminating the need for multiple databases and greatly reduce the complexity of your setup. Scaling and high availability becomes easier and less complex with a lot less moving parts to maintain.
+We want to enable simple and affordable solutions that don’t require complex or lock-in sales tactics. Our product costs a fraction of Redis Enterprise while offering powerful features that will surpass other enterprise offerings. Our philosophy is simple, times are changing and the masses need an affordable, user-friendly product thats easy to get and easy to use. With KeyDB, you will be able to  start eliminating the need for multiple databases and greatly reduce the complexity of your setup. Scaling and high availability becomes easier and less complex with a lot less moving parts to maintain.
 
 ## What Makes KeyDB-Pro Different from other NOSQL databases?
 
@@ -32,17 +32,9 @@ Features such as MVCC and “memory access app direct mode” for Optane PMEM ar
 
 KeyDB-community version (open-source) started as a fork of redis and contains all Redis has to offer but with many powerful features Redis doesn’t offer. KeyDB-Pro takes it to the next level and will remain affordable to everyone, not just the big guys.
 
-## Pricing and billing 
-
-KeyDB is $60/month. Period. Provide your email address and pay via stripe. Your license key will be emailed to you. If you want to use KeyDB prior to paying, you can use the pro binaries, however they will be shut down after an hour without a key and you will need to restart it. If you decide you don’t want to use KeyDB-Pro anymore please email sales@keydb.dev to cancel your subscription. 
-
 ## No Commitment or Vendor Lock-in 
 
 KeyDB remains fully compatible with Redis API, Modules, Protocol. We work with Redis clients and are a drop in replacement for your current Redis deployment. If you develop with KeyDB, your efforts still enable you to change to Redis (minus KeyDB specific features). There are no contracts with KeyDB-Pro and we offer you the ability to pay monthly enabling you to cancel at any time. Annual offerings are also available for those who prefer.
-
-## It's Effortless to Try... You May Already Have It!
-
-If you are currently using open source KeyDB, our binary packages now include both the open source and pro binaries. You can try out or use our pro binaries simply by specifying `--enable-pro [license-key]` when launching or update in your config file. To try you don’t need a license key but the process wil be killed after an hour. This allows for development and to test out features to see if you wan them. For a walkthrough on getting set up with KeyDB-Pro see <a href=”https://docs.keydb.dev/docs/pro-getting-started”>Getting Started</a>
 
 ## Support
 

@@ -13,6 +13,17 @@ You can find all KeyDB RPM packages here: https://download.keydb.dev/packages/rp
 
 KeyDB RPM packages when installed download dependencies, install binaries and set up systemd services for keydb and sentinel. You can obtain packages as shown below for your setup:
 
+## RPM Signing Key
+
+RPM packages are signed. You can get the public key [here](https://download.keydb.dev/packages/rpm/) or simply import it with the following command:
+```
+$ rpm --import https://download.keydb.dev/packages/rpm/RPM-GPG-KEY-keydb
+```
+You can validate signature of the package with:
+```
+$ rpm -Kv keydb-rpm-package-you-downloaded.rpm
+```
+
 ## KeyDB Community Download
 
 ### amd64 (x86_64):

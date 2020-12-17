@@ -28,21 +28,25 @@ You will likely want to customize your configuration on startup. You can find ou
 
 ### Launching an Instance
 ```
-$ docker run --name mycontainername -d eqalpha/keydb keydb-server --requirepass mypassword 
+$ docker run -p 6379:6379 --name mycontainername -d eqalpha/keydb keydb-server /etc/keydb/keydb.conf --requirepass mypassword 
 ```
-Here we launched a container with name 'mycontainername', it was launched in 'detached' mode to run in the background, we specified the repository 'eqalpha/keydb', followed by calling the program 'keydb-server' with an update to the 'requirepass' parameter. keydb-server will launch by default if a program is not otherwise specified. You have to specify the program if you plan to pass in additional parameters.
+Here we launched a container with name 'mycontainername', it was launched in 'detached' mode to run in the background, we specified the repository 'eqalpha/keydb', followed by calling the program 'keydb-server' and referencing the config file with an update to the 'requirepass' parameter. keydb-server will launch by default if a program is not otherwise specified. You have to specify the program if you plan to pass in additional parameters.
 
 ### Launching Pro
 ```
-$ docker run --name mycontainername -d eqalpha/keydb keydb-server --enable-pro [license-key]
+$ docker run -p 6379:6379 --name mycontainername -d eqalpha/keydb keydb-server /etc/keydb/keydb.conf --enable-pro [license-key]
 ```
-KeyDB pro is part of the binary package. If you do not have a license key you can use it in trial mode for 20 minutes after which time you will have to restart it. If you have a license key you can enter it here or speicfy it in your configuration file (see more [here](https://hub.docker.com/r/eqalpha/keydb).
+OR
+```
+docker run -p 6379:6379 --name mycontainername -d eqalpha/keydb-pro keydb-pro-server /etc/keydb/keydb.conf --enable-pro [license-key]
+```
+KeyDB pro is part of the community docker image. If you do not have a license key you can use it in trial mode for 120 minutes after which time you will have to restart it. If you have a license key you can enter it here or speicfy it in your configuration file (see more [here](https://hub.docker.com/r/eqalpha/keydb).
 
 ### Launching Enhanced FLASH
 ```
-sudo docker run -d -it --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb keydb-server --enable-pro --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --mexmemory-policy [eviction-policy ie. allkeys-lfu]
+sudo docker run -p 6379:6379 -d -it --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb-pro keydb-pro-server --enable-pro [license-key] --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --mexmemory-policy [eviction-policy ie. allkeys-lfu]
 ```
-This launches Pro with FLASH storage. Specify your flash location, mount it, and specify the appropriate configuration parameters. You can see more [here](https://hub.docker.com/r/eqalpha/keydb).
+This launches Pro with FLASH storage. Specify your flash location, mount it, and specify the appropriate configuration parameters. You can see more [here](https://hub.docker.com/r/eqalpha/keydb-pro).
 
 ### Connect with keydb-cli
 
@@ -56,7 +60,7 @@ The 'rm' parameter removes the container when you are done with it
 
 Please see [this article](https://docs.keydb.dev/docs/ppa-deb/) for more details on our PPA and using deb packages. However in order to use the PPA its as simple as:
 ```
-$ curl -s --compressed "https://download.keydb.dev/keydb-ppa/KEY.gpg" | sudo apt-key add -
+$ sudo curl -s --compressed -o /etc/apt/trusted.gpg.d/keydb.gpg https://download.keydb.dev/keydb-ppa/keydb.gpg
 $ sudo curl -s --compressed -o /etc/apt/sources.list.d/keydb.list https://download.keydb.dev/keydb-ppa/keydb.list
 $ sudo apt update
 $ sudo apt install keydb
@@ -76,11 +80,11 @@ $ keydb-server ./path/to/config/keydb.conf
 
 You can either specify keydb-server to run the pro binary: `keydb-server --enable-pro [license-key]` or you can just call the pro binary directly `keydb-pro-server`
 
-If you do not have a license key you can use it in trial mode for 20 minutes after which time you will have to restart it. If you have a license key you can enter it here or speicfy it in your configuration file
+If you do not have a license key you can use it in trial mode for 120 minutes after which time you will have to restart it. If you have a license key you can enter it here or speicfy it in your configuration file
 
 ### Launching Enhanced FLASH
 ```
-keydb-server --enable-pro [license-key] --storage-provider  flash  [path-to-flash-storage] 
+keydb-pro-server --enable-pro [license-key] --storage-provider  flash  [path-to-flash-storage] 
 ```
 Note that if maxmemory and eviction policy are not set, they will default to `maxmemory [half the available RAM]` and `maxmemory-policy allkeys-lru`
 

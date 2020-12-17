@@ -9,7 +9,7 @@ sidebar_label: Using Docker
 
 ## Whats New?
 
-[KeyDB Professional](https://keydb.dev/keydb-pro.html) is now avaiable! If you are using KeyDB on Docker our images now include KeyDB Pro binaries in addition to open source KeyDB. KeyDB Pro costs less than your cell phone bill and does not require a license key to try it (20min recurring demo time)!
+[KeyDB Professional](https://keydb.dev/keydb-pro.html) is now avaiable! If you are using KeyDB on Docker our images now include KeyDB Pro binaries in addition to open source KeyDB. KeyDB Pro costs far less than the competition and does not require a license key to try it (120min recurring demo time)!
 
 KeyDB Pro has a new [Enhanced FLASH Storage](https://docs.keydb.dev/docs/pro-flash/) which is built on RocksDB. This new FLASH feature offers substantially higher performance than was possible with our previous FLASH implementation and does not require special filesystems. In addition FLASH offers persistent storage without requiring periodic RDB backups.
 

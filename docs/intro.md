@@ -13,7 +13,7 @@ KeyDB is a high performance fork of Redis with a focus on multithreading, memory
 
 KeyDB is an open source project, [BSD licensed](https://github.com/JohnSully/KeyDB/blob/unstable/COPYING) containing multithreading, active replication, aws s3 backup, multi-master control (experimental, all without restriction.
 
-[KeyDB Pro](https://keydb.dev/keydb-pro.html) is available as part of our binary distribution packages (currently [docker](https://hub.docker.com/r/eqalpha/keydb) or [binary downloads](https://keydb.dev/downloads.html)). This is included with the open source binaries and enabled easily via command line config, update to the config file, or running as standalone binary. KeyDB Pro offers powerful features at a cost far lower than any other database. Major architectural changes have enabled features such as MVCC, persistent FLASH, non-blocking queries, forkless background saving, and others. Features comming soon include transaction rollbacks, Intel Optane Persistent Memory Support at DRAM speeds, compression, encryption and others.
+[KeyDB Pro](https://keydb.dev/keydb-pro.html) can be downloaded [here](https://keydb.dev/downloads.html). KeyDB Pro offers powerful features at a cost far lower than any other database. Major architectural changes have enabled features such as MVCC, persistent FLASH, non-blocking queries, forkless background saving, and others. Features comming soon include transaction rollbacks, Intel Optane Persistent Memory Support at DRAM speeds, compression, encryption and others.
 
 [KeyDB Pro](https://keydb.dev/keydb-pro.html) is intended to finance and support the development of KeyDB which will always remain open source under the BSD license. All pro features will always be kept in a separate binary to differentiate it from our open source distribution.
 
@@ -31,5 +31,5 @@ We want to hear from you! As our users you likely have insights to the applicati
 
 ## Community
 
-Please [join our gitter chat](https://gitter.im/KeyDB/community) where you can reach out directly with other KeyDB users.
+Please [join our community forum](https://community.keydb.dev/) where you can reach out directly with other KeyDB users.
 </div>

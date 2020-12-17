@@ -16,7 +16,7 @@ A PPA (Personal Package Archive) allows you to easily install, update and remove
 
 In order to get your keydb-ppa, simply follow these commands below:
 ```
-$ curl -s --compressed "https://download.keydb.dev/keydb-ppa/KEY.gpg" | sudo apt-key add -
+$ sudo curl -s --compressed -o /etc/apt/trusted.gpg.d/keydb.gpg https://download.keydb.dev/keydb-ppa/keydb.gpg
 $ sudo curl -s --compressed -o /etc/apt/sources.list.d/keydb.list https://download.keydb.dev/keydb-ppa/keydb.list
 $ sudo apt update
 $ sudo apt install keydb
@@ -25,7 +25,7 @@ In order to install keydb professional `$ sudo apt install keydb-pro`
 
 Note that in addition to our Ubuntu18.04 Bionic PPA above we also have an Ubuntu16.04 Xenial PPA for amd64. You can install it by replacing the  first two lines above with the following:
 ```
-$ curl -s --compressed "https://download.keydb.dev/keydb-ppa-xenial/KEY.gpg" | sudo apt-key add -
+$ sudo curl -s --compressed -o /etc/apt/trusted.gpg.d/keydb.gpg https://download.keydb.dev/keydb-ppa-xenial/keydb.gpg
 $ sudo curl -s --compressed -o /etc/apt/sources.list.d/keydb.list https://download.keydb.dev/keydb-ppa-xenial/keydb.list
 ```
 
