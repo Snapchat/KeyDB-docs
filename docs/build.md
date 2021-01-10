@@ -62,7 +62,7 @@ pacman -S --noconfirm base-devel git tcl
 ### Alpine
 
 ```
-apk add --no-cache coreutils gcc linux-headers make musl-dev openssl-dev curl-dev g++ bash perl
+apk add --no-cache coreutils gcc linux-headers make musl-dev util-linux-dev openssl-dev curl-dev g++ bash git perl
 ```
 
 ### CentOS 7
