@@ -5365,6 +5365,73 @@ http://code.google.com/p/google-perftools/
 
 **A note about the word slave used in this man page**: Starting with KeyDB 5, if not for backward compatibility, the KeyDB project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
 
+
+---
+
+
+
+
+## KEYDB.*
+
+All commands prefixed with "KEYDB." are commands specific to KeyDB whereby the prefix ensures a clear differentiation from Redis commands & potential future Redis commands. This will help ensure compatability with all Redis clients and protocol moving forwards.
+
+
+---
+
+
+
+
+## KEYDB.CRON
+
+<b>Related Commands:</b> [DEL](/docs/commands/#del), [EVAL](/docs/commands/#eval)
+
+KeyDB's CRON function schedules LUA scripts to run at specified times and intervals.
+
+#### Returns:
+
+`OK` if the task was accepted successfully scheduled.
+
+#### Usage:
+
+```
+KEYDB.CRON name [single/repeat] [optional: start] delay script numkeys [key N] [arg N]
+```
+where:
+* `name` is the name of the KEY. This will be visible in the keyspace, can be searched, and deleted with `DEL`. Each cron task will have its own name.
+* `[single/repeat]` specifies if the script will run only once, or if it will be repeated at the specified interval
+* `[optional: start]` is an integer specified in milliseconds since Epoch. If specified, the script will not execute until this Unix time has been reached. If the delay is greater than zero, this delay time will need to elapse prior to the script executing (timer begins to elapse at start time). If a start time 
+is specified, the delay will always remain in reference intervals to that start time.
+* `delay` is an integer specified in milliseconds used as the initial delay. If `repeat` is specified, this will also be the length of the repeating timer which will execute the script each time the delay elapses (will continue to execute indefinitely).
+* `script` is the LUA script to execute. This should be the LUA script itself and NOT the SHA1 digest of a loaded script.
+* `numkeys [key N] [arg N]` are the number of keys, keys, and arguments for the script, similar to usage with [EVAL](/docs/commands/#eval)
+
+#### Persistance:
+
+Unlike traditional LUA scripts that may be loaded (cached only), the KEYDB.CRON task will persist accross server boots if saved. It can be seen as a KEY in the keyspace and deleted or modified. 
+
+If the cron function is on repeat and already executing at its intervel, then the keydb-server is rebooted, the interval will continue to be referenced to the start time. For example if you had scheduled the task at the beginning of each hour, 
+once booted the task will continue to execute at the beginning of each hour regardless of when the server boots.
+
+#### Examples:
+
+
+```
+keydb-cli> KEYDB.CRON mytestname REPEAT 1610941618000 60000 "return redis.call('incr',KEYS[1])" 1 mytestcounter
+OK
+DEL mytestname
+```
+
+The example above increments the value of 'mytestcounter" every 60 seconds starting at the Unix Timestamp of 1610941618000 milliseconds. We then delete the timer using DEL and specifying our cron name "mytestname"
+
+```
+
+keydb-cli> KEYDB.CRON mytestname2 SINGLE 1610941618000 1 "return redis.call('set',KEYS[1],'0')" 1 mytestcounter
+OK
+```
+
+The above command sets "mytestcounter" to zero at Unix Timestamp 1610941618000 milliseconds. This will occur only once. Note that we must specify a delay time. Once the task has completed the KEY will be removed. and the name "mytestname2" will no longer exist.
+
+
 ---
 
 
