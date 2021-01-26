@@ -5389,7 +5389,7 @@ KeyDB's CRON function schedules LUA scripts to run at specified times and interv
 
 #### Returns:
 
-`OK` if the task was accepted successfully scheduled.
+`OK` if the task was accepted and successfully scheduled.
 
 #### Usage:
 
@@ -5405,32 +5405,31 @@ is specified, the delay will always remain in reference intervals to that start 
 * `script` is the LUA script to execute. This should be the LUA script itself and NOT the SHA1 digest of a loaded script.
 * `numkeys [key N] [arg N]` are the number of keys, keys, and arguments for the script, similar to usage with [EVAL](/docs/commands/#eval)
 
-#### Persistance:
+#### Persistence:
 
-Unlike traditional LUA scripts that may be loaded (cached only), the KEYDB.CRON task will persist accross server boots if saved. It can be seen as a KEY in the keyspace and deleted or modified. 
+Unlike traditional LUA scripts that may be loaded (cached only), the KEYDB.CRON task will persist across server boots if saved. It can be seen as a KEY in the keyspace and deleted or modified. 
 
-If the cron function is on repeat and already executing at its intervel, then the keydb-server is rebooted, the interval will continue to be referenced to the start time. For example if you had scheduled the task at the beginning of each hour, 
+If the cron function is on repeat and already executing at its interval, then the keydb-server is rebooted, the interval will continue to be referenced to the start time. For example if you had scheduled the task at the beginning of each hour, 
 once booted the task will continue to execute at the beginning of each hour regardless of when the server boots.
 
 #### Examples:
 
 
 ```
-keydb-cli> KEYDB.CRON mytestname REPEAT 1610941618000 60000 "return redis.call('incr',KEYS[1])" 1 mytestcounter
-OK
-DEL mytestname
-```
-
-The example above increments the value of 'mytestcounter" every 60 seconds starting at the Unix Timestamp of 1610941618000 milliseconds. We then delete the timer using DEL and specifying our cron name "mytestname"
-
-```
-
-keydb-cli> KEYDB.CRON mytestname2 SINGLE 1610941618000 1 "return redis.call('set',KEYS[1],'0')" 1 mytestcounter
+keydb-cli> KEYDB.CRON mytestname REPEAT 1610941618000 60000 "redis.call('incr',KEYS[1])" 1 mytestcounter
 OK
 ```
 
-The above command sets "mytestcounter" to zero at Unix Timestamp 1610941618000 milliseconds. This will occur only once. Note that we must specify a delay time. Once the task has completed the KEY will be removed. and the name "mytestname2" will no longer exist.
+The example above increments the value of 'mytestcounter" every 60 seconds starting at the Unix Timestamp of 1610941618000 milliseconds.
 
+```
+keydb-cli> KEYDB.CRON mytestname2 SINGLE 1610941618000 1 "redis.call('set',KEYS[1],'0')" 1 mytestcounter
+OK
+```
+
+The above command sets "mytestcounter" to zero at Unix Timestamp 1610941618000 milliseconds. This will occur only once. Note that we must specify a delay time. Once the task has completed the KEY will be removed and the name "mytestname2" will no longer exist.
+
+For more information and examples on KEYDB.CRON, take a look at this blog post: https://docs.keydb.dev/blog/2021/01/26/blog-post/
 
 ---
 
