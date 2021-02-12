@@ -107,7 +107,7 @@ sudo yum install rpm-build
 
 ## Generate Latest Binaries (Ubuntu 18.04) with Docker
 
-If you want the latest open source binaries but do not want to run the build yourself, you can generate within a docker container. Please note this is building in Ubuntu 18.04 and is pulling from the unstable branch of KeyBD. Dockerfiles are posted in the Docker section if you want to build on a different image.
+If you want the latest open source binaries but do not want to run the build yourself, you can generate within a docker container. Please note this is building in Ubuntu 18.04 and is pulling from the unstable branch of KeyDB. Dockerfiles are posted in the Docker section if you want to build on a different image.
 
 make a folder you would like to have the latest binaries dumped in, then run the following commmand with your updated path:
 ```
