@@ -31,6 +31,8 @@ An example config file:
 
 ## Config File
 
+**Note: When setting up multi-master in a config file, make sure to enable `multi-master` and `active-replica` BEFORE setting your `replicaof` commands, as shown in the examples below, otherwise multi-master replication may not work correctly.** 
+
 Instance-A config file:
 
 ```
