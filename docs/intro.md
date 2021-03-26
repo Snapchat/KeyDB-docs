@@ -2,22 +2,12 @@
 id: intro
 title: Welcome to KeyDB's Documentation
 sidebar_label: About Docs
+slug: /
 ---
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-.fa {
-  padding: 20px;
-  font-size: 50px;
-  width: 75px;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 50%;
-}
-</style>
-<div id="blog_body">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 
-<b>KeyDB Doc's</b> is your technical hub where you can find documentation, examples, tutorials, and theory behind KeyDB. Docs is [open source](https://github.com/benschermel/KeyDB-docs) and we welcome requests, as well as PR's. 
+**KeyDB Doc's** is your technical hub where you can find documentation, examples, tutorials, and theory behind KeyDB. Docs is [open source](https://github.com/EQ-Alpha/KeyDB-docs) and we welcome requests, as well as PR's. 
 
 ## Make sure to follow KeyDB
 
@@ -25,7 +15,13 @@ sidebar_label: About Docs
 
 Please select one of the links below to subscribe or follow us! We look forward to having you as part of our community!
 
-<a href="https://twitter.com/realkeydb" class="fa fa-twitter"></a><a href="https://eqalpha.us20.list-manage.com/subscribe/post?u=978f486c2f95589b24591a9cc&id=4ab9220500" class="fa fa-envelope"></a><a href="https://www.linkedin.com/company/eqalphatechnology/" class="fa fa-linkedin"></a><a href="https://github.com/johnsully/keydb" class="fa fa-github"></a><a href="https://www.facebook.com/realkeydb/" class="fa fa-facebook"></a><a href="https://www.instagram.com/_keydb_/" class="fa fa-instagram"></a>
+<a style={{'font-size': '40px'}} href="https://twitter.com/realkeydb" class="fa fa-twitter"></a><a style={{'font-size': '40px'}} href="https://eqalpha.us20.list-manage.com/subscribe/post?u=978f486c2f95589b24591a9cc&id=4ab9220500" class="fa fa-envelope"></a><a style={{'font-size': '40px'}} href="https://www.linkedin.com/company/eqalphatechnology/" class="fa fa-linkedin"></a><a style={{'font-size': '40px'}} href="https://github.com/EQ-Alpha/KeyDB" class="fa fa-github"></a><a style={{'font-size': '40px'}} href="https://www.facebook.com/realkeydb/" class="fa fa-facebook"></a><a style={{'font-size': '40px'}} href="https://www.instagram.com/_keydb_/" class="fa fa-instagram"></a>
+
+## Site Layout
+
+There are 3 offering levels of KeyDB: <strong>KeyDB Cloud, KeyDB Open Source,</strong> and <strong>KeyDB Enterprise</strong>. Because KeyDB Cloud and Enterprise can be considered a superset of Open Source, all documentation is applicable to all offerings unless its specified as a subcategory under Cloud/Enterprise/Open Source.
+
+KeyDB Cloud and Enterprise use the same binary packages, so the feature set and some of the documentation is the same, however the cloud offering is fully managed with a GUI for simplified, automated operations.
 
 ## What is KeyDB
 
@@ -35,23 +31,14 @@ KeyDB leverages its power and architecture to provide features that might not ot
 
 ## Requests
 
-If you have a request for spcecific documentation it is likely youre not the only one. Please create an issue in the [KeyDB-docs repository](https://github.com/benschermel/KeyDB-docs) and we will put it in the queue.
+If you have a request for specific documentation it is likely you're not the only one. Please create an issue in the [KeyDB-docs repository](https://github.com/EQ-Alpha/KeyDB-docs) and we will put it in the queue.
 
 ## Contributions
 
-We want to hear from you! As our users you likely have insights to the application of the product we do not. If you have a markdown tutorial/demonstration/instruction you would like us to post please create a pull request on the [KeyDB-docs Github repository](https://github.com/benschermel/KeyDB-docs). We will merge after reviewing the content. 
+We want to hear from you! As our users you likely have insights to the application of the product we do not. If you have a markdown tutorial/demonstration/instruction you would like us to post please create a pull request on the [KeyDB-docs Github repository](https://github.com/EQ-Alpha/KeyDB-docs). We will merge after reviewing the content. 
 
 ## Community
 
 Please [join our community forum](https://community.keydb.dev/) where you can reach out directly with other KeyDB users.
 
 
-## KeyDB Pro
-
-[KeyDB Pro](https://keydb.dev/keydb-pro.html) is intended to finance and support the development of KeyDB which will remain open source. All pro features will be kept in a separate binary to differentiate it from our open source distribution
-
-[KeyDB Pro](https://keydb.dev/keydb-pro.html) can be downloaded [here](https://keydb.dev/downloads.html). KeyDB Pro offers powerful features that can help reduce TCO. Major architectural changes have enabled features such as MVCC, persistent FLASH, non-blocking queries, forkless background saving, and others.
-
-There is a specific section of Docs dedicated to Pro specific features. Because KeyDB Pro is a superset of open source KeyDB, all other docs will be applicable to both the open source and Pro editions.
-
-</div>

@@ -184,7 +184,7 @@ to use a command like the following:
 
 Mass insert using `keydb-cli` is covered in a separated page since it's a
 worthwhile topic itself. Please refer to our
-[mass insertion guide](/topics/mass-insert).
+[mass insertion guide](https://docs.keydb.dev/docs/mass-insert).
 
 ## CSV output
 
@@ -204,7 +204,7 @@ single commands with CSV output.
 
 The `keydb-cli` has extensive support for using the new Lua debugging facility
 of Lua scripting, available starting with keydb 3.2. For this feature, please
-refer to the [keydb Lua debugger documentation](/topics/ldb).
+refer to the [keydb Lua debugger documentation](https://docs.keydb.dev/docs/ldb).
 
 However, even without using the debugger, you can use `keydb-cli` to
 run scripts from a file in a way more comfortable compared to typing
@@ -345,7 +345,7 @@ name by a number:
 
 ## Showing help about keydb commands
 
-keydb has a number of [commands](/commands) and sometimes, as you test things,
+keydb has a number of [commands](https://docs.keydb.dev/docs/commands) and sometimes, as you test things,
 you may not remember the exact order of arguments. `keydb-cli` provides online
 help for most keydb commands, using the `help` command. The command can be used
 in two forms:
@@ -384,13 +384,13 @@ are explained in the next sections:
 * Monitoring tool to show continuous stats about a keydb server.
 * Scanning a keydb database for very large keys.
 * Key space scanner with pattern matching.
-* Acting as a [Pub/Sub](/topics/pubsub) client to subscribe to channels.
+* Acting as a [Pub/Sub](https://docs.keydb.dev/docs/pubsub) client to subscribe to channels.
 * Monitoring the commands executed into a keydb instance.
-* Checking the [latency](/topics/latency) of a keydb server in different ways.
+* Checking the [latency](https://docs.keydb.dev/docs/latency) of a keydb server in different ways.
 * Checking the scheduler latency of the local computer.
 * Transferring RDB backups from a remote keydb server locally.
 * Acting as a keydb slave for showing what a slave receives.
-* Simulating [LRU](/topics/lru-cache) workloads for showing stats about keys hits.
+* Simulating [LRU](https://docs.keydb.dev/docs/lru-cache) workloads for showing stats about keys hits.
 * A client for the Lua debugger.
 
 ## Continuous stats mode
@@ -695,7 +695,7 @@ in order to improve the bug report.
 
 ## Performing an LRU simulation
 
-keydb is often used as a cache with [LRU eviction](/topics/lru-cache).
+keydb is often used as a cache with [LRU eviction](https://docs.keydb.dev/docs/lru-cache).
 Depending on the number of keys and the amount of memory allocated for the
 cache (specified via the `maxmemory` directive), the amount of cache hits
 and misses will change. Sometimes, simulating the rate of hits is very

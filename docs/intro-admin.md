@@ -4,7 +4,7 @@ title: Introduction to KeyDB
 sidebar_label: Admin Intro
 ---
 
-<div id="blog_body">
+
 
 KeyDB is an open source, in-memory **data structure store**, used as a database, cache and message broker. It supports data structures such as strings, hashes, lists, sets, sorted sets with range queries, bitmaps), hyperloglogs, geospatial indexes with radius queries and streams. KeyDB has built-in replication, Lua scripting, LRU eviction, transactions and different levels of on-disk persistence, and provides high availability via Active-Replication or Sentinel and automatic partitioning with KeyDB Cluster.
 
@@ -94,9 +94,9 @@ The following steps provide a very commonly used way in order to avoid any downt
 * Setup your new KeyDB instance as a slave for your current KeyDB instance. In order to do so you need a different server, or a server that has enough RAM to keep two instances of KeyDB running at the same time.
 * If you use a single server, make sure that the slave is started in a different port than the master instance, otherwise the slave will not be able to start at all.
 * Wait for the replication initial synchronization to complete (check the slave log file).
-* Make sure using INFO that there are the same number of keys in the master and in the slave. Check with KeyDB-cli that the slave is working as you wish and is replying to your commands.
+* Make sure using INFO that there are the same number of keys in the master and in the slave. Check with keydb-cli that the slave is working as you wish and is replying to your commands.
 * Allow writes to the slave using **CONFIG SET slave-read-only no**
 * Configure all your clients in order to use the new instance (that is, the slave). Note that you may want to use the `CLIENT PAUSE` command in order to make sure that no client can write to the old master during the switch.
-* Once you are sure that the master is no longer receiving any query (you can check this with the [MONITOR command](/commands/monitor)), elect the slave to master using the **SLAVEOF NO ONE** command, and shut down your master.
+* Once you are sure that the master is no longer receiving any query (you can check this with the [MONITOR command](https://docs.keydb.dev/docs/commands#monitor)), elect the slave to master using the **SLAVEOF NO ONE** command, and shut down your master.
 
-</div>
+

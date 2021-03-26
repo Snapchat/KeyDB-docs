@@ -10,10 +10,10 @@ HAproxy can be used here as a reverse proxy load balancer for high availability.
 
 See the haproxy.cfg example for a traditional setup which will write to the master instance. With active-replica option where we have 2 masters the setup is similar however you may want to consider choosing balance as 'first' or defining one of the servers as 'backup'.
 
-HAproxy performs health checks to decide where to direct traffic and maintains high availablilty. If you are looking to keep your load balancers highly available (redundant), consider using keepalived. You could also write your own heartbeat server to reassociate an aws elastic IP address when a server goes down. Keepalived seems very common though for HAproxy load balancer redundancy.
+HAproxy performs health checks to decide where to direct traffic and maintains high availability. If you are looking to keep your load balancers highly available (redundant), consider using keepalived. You could also write your own heartbeat server to reassociate an aws elastic IP address when a server goes down. Keepalived seems very common though for HAproxy load balancer redundancy.
 
 Performance
-If you are having performance issues consider increasing maxconn for the servers (backend) as well as in defaults and global sections. Believe the default is 2000. If you are still having perfomance issues check your cpu useage during high loads to find the bottleneck. HAproxy can run multiple threads and this may need to be configured.
+If you are having performance issues consider increasing maxconn for the servers (backend) as well as in defaults and global sections. Believe the default is 2000. If you are still having performance issues check your cpu useage during high loads to find the bottleneck. HAproxy can run multiple threads and this may need to be configured.
 
 
 ```
@@ -74,7 +74,7 @@ defaults
 # Choosing "balance first" will use the first connected instance and only start using the second if maxconn is exceeded.
 # If you have a password you will have to include it here and set the same for both nodes.
 
-# Note that in a common master-replica setup you will "expect string role:master" to vaildate you are only sending traffic to the healthy master
+# Note that in a common master-replica setup you will "expect string role:master" to validate you are only sending traffic to the healthy master
 # With Active-rep, you will "expect string role: active-replica" as that is the role when in active-rep mode. Understanding this concept of getting data and
 # health checking you can probe for other info if needed.
 
@@ -98,7 +98,7 @@ listen mykeydb
     server keydb2 172.19.0.2:6379 maxconn 20000 check inter 1s
 
 # Sending PING is one health check to make sure server is active. Retrieving the replication info is to find if the node is
-# a master. If not master then dont write to it. This prevents trying to write to a replica instance.
+# a master. If not master then don't write to it. This prevents trying to write to a replica instance.
 # The QUIT command prevents unwanted logging info every time this is run
 
 # A common master-slave HAproxy setup does not need to include a "balance" option or "backup" as only the master

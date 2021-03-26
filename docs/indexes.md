@@ -131,7 +131,7 @@ is not always true. If you can efficiently represent something
 multi-dimensional in a linear way, they it is often possible to use a simple
 sorted set for indexing.
 
-For example the [KeyDB geo indexing API](/commands/geoadd) uses a sorted
+For example the [KeyDB geo indexing API](https://docs.keydb.dev/docs/commands#geoadd) uses a sorted
 set to index places by latitude and longitude using a technique called
 [Geo hash](https://en.wikipedia.org/wiki/Geohash). The sorted set score
 represents alternating bits of longitude and latitude, so that we map the
@@ -277,7 +277,7 @@ commands:
     ZADD myindex 0 banana:2
 
 Note that because it is possible that there are concurrent updates, the
-above three commands should be send via a [Lua script](/commands/eval)
+above three commands should be send via a [Lua script](https://docs.keydb.dev/docs/commands#eval)
 instead, so that the Lua script will atomically get the old count and
 re-add the item with incremented score.
 
@@ -551,7 +551,7 @@ our coordinates. Both variables max value is 400.
 The blue box in the picture represents our query. We want all the points
 where `x` is between 50 and 100, and where `y` is between 100 and 300.
 
-![Points in the space](http://KeyDB.io/images/KeyDBdoc/2idx_0.png)
+![Points in the space](/img/doc/2idx_0.png)
 
 In order to represent data that makes these kinds of queries fast to perform,
 we start by padding our numbers with 0. So for example imagine we want to
@@ -590,7 +590,7 @@ variable is between 70 and 79, and the `y` variable is between 200 and 209.
 We can write random points in this interval, in order to identify this
 specific area:
 
-![Small area](http://KeyDB.io/images/KeyDBdoc/2idx_1.png)
+![Small area](/img/doc/2idx_1.png)
 
 So the above lexicographic query allows us to easily query for points in
 a specific square in the picture. However the square may be too small for
@@ -605,7 +605,7 @@ This time the range represents all the points where `x` is between 0 and 99
 and `y` is between 200 and 299. Drawing random points in this interval
 shows us this larger area:
 
-![Large area](http://KeyDB.io/images/KeyDBdoc/2idx_2.png)
+![Large area](/img/doc/2idx_2.png)
 
 Oops now our area is ways too big for our query, and still our search box is
 not completely included. We need more granularity, but we can easily obtain

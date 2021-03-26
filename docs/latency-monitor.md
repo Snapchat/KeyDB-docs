@@ -27,7 +27,7 @@ parts:
 
 The remaining part of this document covers the latency monitoring subsystem
 details, however for more information about the general topic of KeyDB
-and latency, please read the [KeyDB latency problems troubleshooting](/topics/latency) page in this documentation.
+and latency, please read the [KeyDB latency problems troubleshooting](https://docs.keydb.dev/docs/latency) page in this documentation.
 
 Events and time series
 ---
@@ -198,7 +198,7 @@ Example output:
       use 'CONFIG SET slowlog-log-slower-than 1000'.
     - Check your Slow Log to understand what are the commands you are
       running which are too slow to execute. Please check
-      http://KeyDB.io/commands/slowlog for more information.
+      https://docs.keydb.dev/docs/commands#slowlog for more information.
     - Deleting, expiring or evicting (because of maxmemory policy)
       large objects is a blocking operation. If you have very large
       objects that are often deleted, expired, or evicted, try to

@@ -12,13 +12,13 @@ Redis did not plan to support it. The fork started as a way to accelerate
 development in the areas of interest to us and other users. After multithreading 
 Redis and seeing the benefits and performance gains, we felt there was value 
 in having open source implementations of features currently only supported in some proprietary modules.
-Some aspects of using Redis introduce a lot of uneccessary complexity such as sharding and high availability setup. 
+Some aspects of using Redis introduce a lot of unnecessary complexity such as sharding and high availability setup. 
 As a result KeyDB introduced features such as active-replication and multi-master configuration options. 
 Other features such as flash support, aws s3 backup, were also important features we believe should be part of the base code 
 and standard to each instance.
 
 KeyDB is also written largely in c++ allowing this project to accelerate to a different level. Plans to add other highly
-sought afer features continue and KeyDB will announce these features as they are released. KeyDB is a leader when it comes
+sought after features continue and KeyDB will announce these features as they are released. KeyDB is a leader when it comes
 to performance and you can expect that the KeyDB product will adapt and take advantage of the latest hardware and software as it becomes available. 
 
 ## Why is KeyDB different compared to most other key-value stores?
@@ -76,7 +76,7 @@ and not refreshed on cache misses.
 If you can, use KeyDB 32 bit instances. Also make good use of small hashes,
 lists, sorted sets, and sets of integers, since KeyDB is able to represent
 those data types in the special case of a few elements in a much more compact
-way. There is more info in the [Memory Optimization page](/topics/memory-optimization).
+way. There is more info in the [Memory Optimization page](https://docs.keydb.dev/docs/memory-optimization).
 
 ## What happens if KeyDB runs out of memory?
 
@@ -94,7 +94,7 @@ with an error to write commands (but will continue to accept read-only
 commands), or you can configure it to evict keys when the max memory limit
 is reached in the case you are using KeyDB for caching.
 
-We have detailed documentation in case you plan to use [KeyDB as an LRU cache](/topics/lru-cache).
+We have detailed documentation in case you plan to use [KeyDB as an LRU cache](https://docs.keydb.dev/docs/lru-cache).
 
 The INFO command will report the amount of memory KeyDB is using so you can
 write scripts that monitor your KeyDB servers checking for critical conditions

@@ -177,7 +177,7 @@ unsubscribing from all the channels and patterns.
 ## Programming example
 
 Pieter Noordhuis provided a great example using EventMachine
-and KeyDB to create [a multi user high performance web
+and Redis to create [a multi user high performance web
 chat](https://gist.github.com/pietern/348262).
 
 ## Client library implementation hints

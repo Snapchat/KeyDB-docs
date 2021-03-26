@@ -772,7 +772,7 @@ is no longer able to transfer its writes to the specified number of slaves.
     min-slaves-to-write 1
     min-slaves-max-lag 10
 
-With the above configuration (please see the self-commented `redis.conf` example in the KeyDB distribution for more information) a KeyDB instance, when acting as a master, will stop accepting writes if it can't write to at least 1 slave. Since replication is asynchronous *not being able to write* actually means that the slave is either disconnected, or is not sending us asynchronous acknowledges for more than the specified `max-lag` number of seconds.
+With the above configuration (please see the self-commented `keydb.conf` example in the KeyDB distribution for more information) a KeyDB instance, when acting as a master, will stop accepting writes if it can't write to at least 1 slave. Since replication is asynchronous *not being able to write* actually means that the slave is either disconnected, or is not sending us asynchronous acknowledges for more than the specified `max-lag` number of seconds.
 
 Using this configuration the old KeyDB master M1 in the above example, will become unavailable after 10 seconds. When the partition heals, the Sentinel configuration will converge to the new one, the client C1 will be able to fetch a valid configuration and will continue with the new master.
 
@@ -1285,7 +1285,7 @@ Before using this configuration make sure your client library is able to send th
 Sentinel clients implementation
 ---
 
-Sentinel requires explicit client support, unless the system is configured to execute a script that performs a transparent redirection of all the requests to the new master instance (virtual IP or other similar systems). The topic of client libraries implementation is covered in the document [Sentinel clients guidelines](/topics/sentinel-clients).
+Sentinel requires explicit client support, unless the system is configured to execute a script that performs a transparent redirection of all the requests to the new master instance (virtual IP or other similar systems). The topic of client libraries implementation is covered in the document [Sentinel clients guidelines](https://docs.keydb.dev/docs/sentinel-clients).
 
 More advanced concepts
 ===
@@ -1417,7 +1417,7 @@ Is considered to be unreliable and is disregarded entirely.
 The slave selection only considers the slaves that passed the above test,
 and sorts it based on the above criteria, in the following order.
 
-1. The slaves are sorted by `slave-priority` as configured in the `redis.conf` file of the KeyDB instance. A lower priority will be preferred.
+1. The slaves are sorted by `slave-priority` as configured in the `keydb.conf` file of the KeyDB instance. A lower priority will be preferred.
 2. If the priority is the same, the replication offset processed by the slave is checked, and the slave that received more data from the master is selected.
 3. If multiple slaves have the same priority and processed the same data from the master, a further check is performed, selecting the slave with the lexicographically smaller run ID. Having a lower run ID is not a real advantage for a slave, but is useful in order to make the process of slave selection more deterministic, instead of resorting to select a random slave.
 
@@ -1566,7 +1566,7 @@ using the following KeyDB configuration option:
     min-slaves-to-write 1
     min-slaves-max-lag 10
 
-With the above configuration (please see the self-commented `redis.conf` example in the KeyDB distribution for more information) a KeyDB instance, when acting as a master, will stop accepting writes if it can't write to at least 1 slave. Since replication is asynchronous *not being able to write* actually means that the slave is either disconnected, or is not sending us asynchronous acknowledges for more than the specified `max-lag` number of seconds.
+With the above configuration (please see the self-commented `keydb.conf` example in the KeyDB distribution for more information) a KeyDB instance, when acting as a master, will stop accepting writes if it can't write to at least 1 slave. Since replication is asynchronous *not being able to write* actually means that the slave is either disconnected, or is not sending us asynchronous acknowledges for more than the specified `max-lag` number of seconds.
 
 Using this configuration the KeyDB 3 in the above example will become unavailable after 10 seconds. When the partition heals, the Sentinel 3 configuration will converge to
 the new one, and Client B will be able to fetch a valid configuration and continue.
@@ -1640,7 +1640,7 @@ This document is targeted at KeyDB clients developers that want to support Senti
 * Automatic configuration of clients via Sentinel.
 * Improved safety of KeyDB Sentinel automatic failover.
 
-For details about how KeyDB Sentinel works, please check the [KeyDB Documentation](/topics/sentinel), as this document only contains information needed for KeyDB client developers, and it is expected that readers are familiar with the way KeyDB Sentinel works.
+For details about how KeyDB Sentinel works, please check the [KeyDB Documentation](https://docs.keydb.dev/docs/sentinel), as this document only contains information needed for KeyDB client developers, and it is expected that readers are familiar with the way KeyDB Sentinel works.
 
 KeyDB service discovery via Sentinel
 ===
@@ -1764,7 +1764,7 @@ It is not needed for a client to be able to make the list persistent updating it
 Subscribe to Sentinel events to improve responsiveness
 ===
 
-The [Sentinel documentation](/topics/sentinel) shows how clients can connect to
+The [Sentinel documentation](https://docs.keydb.dev/docs/sentinel) shows how clients can connect to
 Sentinel instances using Pub/Sub in order to subscribe to changes in the
 KeyDB instances configurations.
 

@@ -30,10 +30,10 @@ by KeyDB, which will be covered separately in this tutorial:
   it seems... See later in the HyperLogLog section of this tutorial.
 * Streams: append-only collections of map-like entries that provide an abstract
   log data type. They are covered in depth in the
-  [Introduction to KeyDB Streams](/topics/streams-intro).
+  [Introduction to KeyDB Streams](https://docs.keydb.dev/docs/streams-intro).
 
 It's not always trivial to grasp how these data types work and what to use in
-order to solve a given problem from the [command reference](/commands), so this
+order to solve a given problem from the [command reference](https://docs.keydb.dev/docs/commands), so this
 document is a crash course to KeyDB data types and their most common patterns.
 
 For all the examples we'll use the `keydb-cli` utility, a simple but
@@ -113,10 +113,10 @@ you can perform with them. For instance, one is atomic increment:
     > incrby counter 50
     (integer) 152
 
-The [INCR](/commands/incr) command parses the string value as an integer,
+The [INCR](https://docs.keydb.dev/docs/commands#incr) command parses the string value as an integer,
 increments it by one, and finally sets the obtained value as the new value.
-There are other similar commands like [INCRBY](/commands/incrby),
-[DECR](/commands/decr) and [DECRBY](/commands/decrby). Internally it's
+There are other similar commands like [INCRBY](https://docs.keydb.dev/docs/commands#incrby),
+[DECR](https://docs.keydb.dev/docs/commands#decr) and [DECRBY](https://docs.keydb.dev/docs/commands#decrby). Internally it's
 always the same command, acting in a slightly different way.
 
 What does it mean that INCR is atomic?
@@ -288,7 +288,7 @@ element into a list ,on the right (at the tail). Finally the
     2) "A"
     3) "B"
 
-Note that [LRANGE](/commands/lrange) takes two indexes, the first and the last
+Note that [LRANGE](https://docs.keydb.dev/docs/commands#lrange) takes two indexes, the first and the last
 element of the range to return. Both the indexes can be negative, telling KeyDB
 to start counting from the end: so -1 is the last element, -2 is the
 penultimate element of the list, and so forth.
@@ -552,7 +552,6 @@ as well, like `HINCRBY`:
     > hincrby user:1000 birthyear 10
     (integer) 1997
 
-You can find the [full list of hash commands in the documentation](http://KeyDB.io/commands#hash).
 
 It is worth noting that small hashes (i.e., a few elements with small values) are
 encoded in special way in memory that make them very memory efficient.
@@ -763,7 +762,7 @@ Note: 0 and -1 means from element index 0 to the last element (-1 works
 here just as it does in the case of the `LRANGE` command).
 
 What if I want to order them the opposite way, youngest to oldest?
-Use [ZREVRANGE](/commands/zrevrange) instead of [ZRANGE](/commands/zrange):
+Use [ZREVRANGE](https://docs.keydb.dev/docs/commands#zrevrange) instead of [ZRANGE](https://docs.keydb.dev/docs/commands#zrange):
 
     > zrevrange hackers 0 -1
     1) "Linus Torvalds"
@@ -887,8 +886,6 @@ endian, when ordered lexicographically (in raw bytes order) are actually
 ordered numerically as well, you can ask for ranges in the 128 bit space,
 and get the element's value discarding the prefix.
 
-If you want to see the feature in the context of a more serious demo,
-check the [KeyDB autocomplete demo](http://autocomplete.KeyDB.io).
 
 Updating the score: leader boards
 ---

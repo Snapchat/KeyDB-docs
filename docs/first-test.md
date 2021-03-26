@@ -6,7 +6,7 @@ sidebar_label: Your First Command
 
 If you have never used Redis or KeyDB before but want to play around with some commands, install KeyDB then run the server.
 
-Below line asks to run the server with the default config file loaded. the '--' modifies the configuration parameters. Here for testing we disable protected mode (not recommended especially if port is exposed -- ideally you secure this instance). Since we will run client on same node using loopback for our test we will keep simple. We also damonize so it will run in the background if you dont have multipke command prompt windows open.
+Below line asks to run the server with the default config file loaded. the '--' modifies the configuration parameters. Here for testing we disable protected mode (not recommended especially if port is exposed -- ideally you secure this instance). Since we will run client on same node using loopback for our test we will keep simple. We also daemonize so it will run in the background if you don't have multiple command prompt windows open.
 ```
 keydb-server --protected-mode no --daemonize yes
 ```
@@ -55,7 +55,7 @@ Starting KeyDB
 The simplest way to start the KeyDB server is just executing the **keydb-server** binary without any argument.
 
     $ keydb-server
-    [28550] 01 Aug 19:29:28 # Warning: no config file specified, using the default config. In order to specify a config file use 'keydb-server /path/to/redis.conf'
+    [28550] 01 Aug 19:29:28 # Warning: no config file specified, using the default config. In order to specify a config file use 'keydb-server /path/to/keydb.conf'
     [28550] 01 Aug 19:29:28 * Server started, KeyDB version 2.2.12
     [28550] 01 Aug 19:29:28 * The server is now ready to accept connections on port 6379
     ... more logs ...
@@ -63,7 +63,7 @@ The simplest way to start the KeyDB server is just executing the **keydb-server*
 In the above example KeyDB was started without any explicit configuration file, so all the parameters will use the internal default.
 This is perfectly fine if you are starting KeyDB just to play a bit with it or for development, but for production environments you should use a configuration file.
 
-In order to start KeyDB with a configuration file use the full path of the configuration file as first argument, like in the following example: **keydb-server /etc/redis.conf**. You should use the `redis.conf` file included in the root directory of the KeyDB source code distribution as a template to write your configuration file.
+In order to start KeyDB with a configuration file use the full path of the configuration file as first argument, like in the following example: **keydb-server /etc/keydb.conf**. You should use the `keydb.conf` file included in the root directory of the KeyDB source code distribution as a template to write your configuration file.
 
 Check if KeyDB is working
 =========================
@@ -100,10 +100,10 @@ concern. If you are not 100% sure your environment is secured properly, please
 check the following steps in order to make KeyDB more secure, which are
 enlisted in order of increased security.
 
-1. Make sure the port KeyDB uses to listen for connections (by default 6379 and additionally 16379 if you run KeyDB in cluster mode, plus 26379 for Sentinel) is firewalled, so that it is not possible to contact KeyDB from the outside world.
+1. Make sure the port KeyDB uses to listen for connections (by default 6379 and additionally 16379 if you run KeyDB in cluster mode, plus 26379 for Sentinel) is fire-walled, so that it is not possible to contact KeyDB from the outside world.
 2. Use a configuration file where the `bind` directive is set in order to guarantee that KeyDB listens just in as little network interfaces you are using. For example only the loopback interface (127.0.0.1) if you are accessing KeyDB just locally from the same computer, and so forth.
 3. Use the `requirepass` option in order to add an additional layer of security so that clients will require to authenticate using the `AUTH` command.
-4. Use [spiped](http://www.tarsnap.com/spiped.html) or another SSL tunnelling software in order to encrypt traffic between KeyDB servers and KeyDB clients if your environment requires encryption.
+4. Use [spiped](http://www.tarsnap.com/spiped.html) or another SSL tunneling software in order to encrypt traffic between KeyDB servers and KeyDB clients if your environment requires encryption.
 
 Using KeyDB from your application
 ===
@@ -113,7 +113,7 @@ the goal is to use it from your application. In order to do so you need to
 download and install a KeyDB client library for your programming language.
 You'll find a [full list of redis clients that will also work for KeyDB for different languages in this page](http://redis.io/clients).
 
-KeyDB persistence
+KeyDB Persistence
 =================
 
 You can learn more in the Commands/Persistence document, however what is important to understand for a quick start is that by default, if you start KeyDB with the default configuration, KeyDB will spontaneously save the dataset only from time to time (for instance after at least five minutes if you have at least 100 changes in your data), so if you want your database to persist and be reloaded after a restart make sure to call the **SAVE** command manually every time you want to force a data set snapshot. Otherwise make sure to shutdown the database using the **SHUTDOWN** command:
@@ -155,7 +155,7 @@ Both the pid file path and the configuration file name depend on the port number
 
 * Copy the template configuration file you'll find in the root directory of the KeyDB distribution into /etc/KeyDB/ using the port number as name, for instance:
 
-        sudo cp redis.conf /etc/KeyDB/6379.conf
+        sudo cp keydb.conf /etc/KeyDB/6379.conf
 
 * Create a directory inside /var/KeyDB that will work as data and working directory for this KeyDB instance:
 
@@ -184,5 +184,5 @@ Make sure that everything is working as expected:
 * If it's a new machine where you can try it without problems make sure that after a reboot everything is still working.
 
 Note: In the above instructions we skipped many KeyDB configuration parameters that you would like to change, for instance in order to use AOF persistence instead of RDB persistence, or to setup replication, and so forth.
-Make sure to read the example `redis.conf` file (that is heavily commented) and the other documentation you can find in this web site for more information.
+Make sure to read the example `keydb.conf` file (that is heavily commented) and the other documentation you can find in this web site for more information.
 

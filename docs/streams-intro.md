@@ -479,7 +479,7 @@ Messaging systems that lack observability are very hard to work with. Not knowin
 
 However we may want to do more than that, and the **XINFO** command is an observability interface that can be used with sub-commands in order to get information about streams or consumer groups.
 
-This command uses subcommands in order to show different informations about the status of the stream and its consumer groups. For instance using **XINFO STREAM <key>** reports information about the stream itself.
+This command uses subcommands in order to show different informations about the status of the stream and its consumer groups. For instance using **XINFO STREAM [key]** reports information about the stream itself.
 
 ```
 > XINFO STREAM mystream

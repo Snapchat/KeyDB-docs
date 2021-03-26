@@ -47,7 +47,7 @@ firewalled to prevent access from the outside. Clients will still be able to
 access KeyDB using the loopback interface.
 
 Note that it is possible to bind KeyDB to a single interface by adding a line
-like the following to the **redis.conf** file:
+like the following to the **keydb.conf** file:
 
     bind 127.0.0.1
 
@@ -77,18 +77,18 @@ Authentication feature
 
 While KeyDB does not try to implement Access Control, it provides
 a tiny layer of authentication that is optionally turned on editing the
-**redis.conf** file.
+**keydb.conf** file.
 
 When the authorization layer is enabled, KeyDB will refuse any query by
 unauthenticated clients. A client can authenticate itself by sending the
 **AUTH** command followed by the password.
 
 The password is set by the system administrator in clear text inside the
-redis.conf file. It should be long enough to prevent brute force attacks 
+keydb.conf file. It should be long enough to prevent brute force attacks 
 for two reasons:
 
 * KeyDB is very fast at serving queries. Many passwords per second can be tested by an external client.
-* The KeyDB password is stored inside the **redis.conf** file and inside the client configuration, so it does not need to be remembered by the system administrator, and thus it can be very long.
+* The KeyDB password is stored inside the **keydb.conf** file and inside the client configuration, so it does not need to be remembered by the system administrator, and thus it can be very long.
 
 The goal of the authentication layer is to optionally provide a layer of
 redundancy. If firewalling or any other system implemented to protect KeyDB
@@ -120,7 +120,7 @@ but the systems that provide and remove instances should be able to do so.
 
 In this case, it is possible to either rename or completely shadow commands from 
 the command table. This feature is available as a statement that can be used 
-inside the redis.conf configuration file. For example:
+inside the keydb.conf configuration file. For example:
 
     rename-command CONFIG b840fc02d524045429941cc15f59e41cb7be6c52
 

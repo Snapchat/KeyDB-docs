@@ -14,12 +14,12 @@ A String value can be at max 512 Megabytes in length.
 
 You can do a number of interesting things using strings in KeyDB, for instance you can:
 
-* Use Strings as atomic counters using commands in the INCR family: [INCR](/commands/incr), [DECR](/commands/decr), [INCRBY](/commands/incrby).
-* Append to strings with the [APPEND](/commands/append) command.
-* Use Strings as a random access vectors with [GETRANGE](/commands/getrange) and [SETRANGE](/commands/setrange).
-* Encode a lot of data in little space, or create a KeyDB backed Bloom Filter using [GETBIT](/commands/getbit) and [SETBIT](/commands/setbit).
+* Use Strings as atomic counters using commands in the INCR family: [INCR](https://docs.keydb.dev/docs/commands#incr), [DECR](https://docs.keydb.dev/docs/commands#decr), [INCRBY](https://docs.keydb.dev/docs/commands#incrby).
+* Append to strings with the [APPEND](https://docs.keydb.dev/docs/commands#append) command.
+* Use Strings as a random access vectors with [GETRANGE](https://docs.keydb.dev/docs/commands#getrange) and [SETRANGE](https://docs.keydb.dev/docs/commands#setrange).
+* Encode a lot of data in little space, or create a KeyDB backed Bloom Filter using [GETBIT](https://docs.keydb.dev/docs/commands#getbit) and [SETBIT](https://docs.keydb.dev/docs/commands#setbit).
 
-Check all the [available string commands](/commands/#string) for more information, or read the [introduction to KeyDB data types](/topics/data-types-intro).
+For more information read the [introduction to KeyDB data types](https://docs.keydb.dev/docs/data-types-intro).
 
 
 Lists
@@ -28,8 +28,8 @@ Lists
 KeyDB Lists are simply lists of strings, sorted by insertion order.
 It is possible to add elements to a KeyDB List pushing new elements on the head  (on the left) or on the tail (on the right) of the list.
 
-The [LPUSH](/commands/lpush) command inserts a new element on the head, while
-[RPUSH](/commands/rpush) inserts a new element on the tail. A new list is created
+The [LPUSH](https://docs.keydb.dev/docs/commands#lpush) command inserts a new element on the head, while
+[RPUSH](https://docs.keydb.dev/docs/commands#rpush) inserts a new element on the tail. A new list is created
 when one of this operations is performed against an empty key.
 Similarly the key is removed from the key space if a list operation will
 empty the list. These are very handy semantics since all the list commands will
@@ -53,12 +53,12 @@ an O(N) operation.
 
 You can do many interesting things with KeyDB Lists, for instance you can:
 
-* Model a timeline in a social network, using [LPUSH](/commands/lpush) in order to add new elements in the user time line, and using [LRANGE](/commands/lrange) in order to retrieve a few of recently inserted items.
-* You can use [LPUSH](/commands/lpush) together with [LTRIM](/commands/ltrim) to create a list that never exceeds a given number of elements, but just remembers the latest N elements.
+* Model a timeline in a social network, using [LPUSH](https://docs.keydb.dev/docs/commands#lpush) in order to add new elements in the user time line, and using [LRANGE](https://docs.keydb.dev/docs/commands#lrange) in order to retrieve a few of recently inserted items.
+* You can use [LPUSH](https://docs.keydb.dev/docs/commands#lpush) together with [LTRIM](https://docs.keydb.dev/docs/commands#ltrim) to create a list that never exceeds a given number of elements, but just remembers the latest N elements.
 * Lists can be used as a message passing primitive, See for instance the well known [Resque](https://github.com/defunkt/resque) Ruby library for creating background jobs.
-* You can do a lot more with lists, this data type supports a number of commands, including blocking commands like [BLPOP](/commands/blpop).
+* You can do a lot more with lists, this data type supports a number of commands, including blocking commands like [BLPOP](https://docs.keydb.dev/docs/commands#blpop).
 
-Please check all the [available commands operating on lists](/commands#list) for more information, or read the [introduction to KeyDB data types](/topics/data-types-intro).
+For more information read the [introduction to KeyDB data types](https://docs.keydb.dev/docs/data-types-intro).
 
 
 Sets
@@ -78,12 +78,12 @@ The max number of members in a set is 2^32 - 1 (4294967295, more than 4 billion 
 
 You can do many interesting things using KeyDB Sets, for instance you can:
 
-* You can track unique things using KeyDB Sets. Want to know all the unique IP addresses visiting a given blog post? Simply use [SADD](/commands/sadd) every time you process a page view. You are sure repeated IPs will not be inserted.
-* KeyDB Sets are good to represent relations. You can create a tagging system with KeyDB using a Set to represent every tag. Then you can add all the IDs of all the objects having a given tag into a Set representing this particular tag, using the [SADD](/commands/sadd) command. Do you want all the IDs of all the Objects having three different tags at the same time? Just use [SINTER](/commands/sinter).
-* You can use Sets to extract elements at random using the [SPOP](/commands/spop) or [SRANDMEMBER](/commands/srandmember) commands.
+* You can track unique things using KeyDB Sets. Want to know all the unique IP addresses visiting a given blog post? Simply use [SADD](https://docs.keydb.dev/docs/commands#sadd) every time you process a page view. You are sure repeated IPs will not be inserted.
+* KeyDB Sets are good to represent relations. You can create a tagging system with KeyDB using a Set to represent every tag. Then you can add all the IDs of all the objects having a given tag into a Set representing this particular tag, using the [SADD](https://docs.keydb.dev/docs/commands#sadd) command. Do you want all the IDs of all the Objects having three different tags at the same time? Just use [SINTER](https://docs.keydb.dev/docs/commands#sinter).
+* You can use Sets to extract elements at random using the [SPOP](https://docs.keydb.dev/docs/commands#spop) or [SRANDMEMBER](https://docs.keydb.dev/docs/commands#srandmember) commands.
 
 
-As usual, check the [full list of Set commands](/commands#set) for more information, or read the [introduction to KeyDB data types](/topics/data-types-intro).
+As usual, for more information read the [introduction to KeyDB data types](https://docs.keydb.dev/docs/data-types-intro).
 
 
 Hashes
@@ -105,7 +105,7 @@ While Hashes are used mainly to represent objects, they are capable of storing m
 
 Every hash can store up to 2^32 - 1 field-value pairs (more than 4 billion).
 
-Check the [full list of Hash commands](/commands#hash) for more information, or read the [introduction to KeyDB data types](/topics/data-types-intro).
+For more information read the [introduction to KeyDB data types](https://docs.keydb.dev/docs/data-types-intro).
 
 
 Sorted sets
@@ -132,16 +132,16 @@ that are really hard to model in other kind of databases.
 With Sorted Sets you can:
 
 * Take a leader board in a massive online game, where every time a new score
-is submitted you update it using [ZADD](/commands/zadd). You can easily
-take the top users using [ZRANGE](/commands/zrange), you can also, given an
-user name, return its rank in the listing using [ZRANK](/commands/zrank).
+is submitted you update it using [ZADD](https://docs.keydb.dev/docs/commands#zadd). You can easily
+take the top users using [ZRANGE](https://docs.keydb.dev/docs/commands#zrange), you can also, given an
+user name, return its rank in the listing using [ZRANK](https://docs.keydb.dev/docs/commands#zrank).
 Using ZRANK and ZRANGE together you can show users with a score similar to
 a given user. All very *quickly*.
 * Sorted Sets are often used in order to index data that is stored inside KeyDB.
-For instance if you have many hashes representing users, you can use a sorted set with elements having the age of the user as the score and the ID of the user as the value. So using [ZRANGEBYSCORE](/commands/zrangebyscore) it will be trivial and fast to retrieve all the users with a given interval of ages.
+For instance if you have many hashes representing users, you can use a sorted set with elements having the age of the user as the score and the ID of the user as the value. So using [ZRANGEBYSCORE](https://docs.keydb.dev/docs/commands#zrangebyscore) it will be trivial and fast to retrieve all the users with a given interval of ages.
 
 
-Sorted Sets are probably the most advanced KeyDB data types, so take some time to check the [full list of Sorted Set commands](/commands#sorted_set) to discover what you can do with KeyDB! Also you may want to read the [introduction to KeyDB data types](/topics/data-types-intro).
+Sorted Sets are probably the most advanced KeyDB data types, so take some time to check the full list of Sorted Set commands to discover what you can do with KeyDB! Also you may want to read the [introduction to KeyDB data types](https://docs.keydb.dev/docs/data-types-intro).
 
 Bitmaps and HyperLogLogs
 ---

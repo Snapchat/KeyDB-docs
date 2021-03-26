@@ -60,7 +60,7 @@ instead just encode them in an O(N) data structure, like a linear
 array with length-prefixed key value pairs. Since we do this only when N
 is small, the amortized time for HGET and HSET commands is still O(1): the
 hash will be converted into a real hash table as soon as the number of elements
-it contains will grow too much (you can configure the limit in KeyDB.conf).
+it contains will grow too much (you can configure the limit in keydb.conf).
 
 This does not work well just from the point of view of time complexity, but
 also from the point of view of constant times, since a linear array of key
@@ -119,7 +119,7 @@ To store user keys, KeyDB allocates at most as much memory as the `maxmemory`
 setting enables (however there are small extra allocations possible).
 
 The exact value can be set in the configuration file or set later via
-`CONFIG SET` (see [Using memory as an LRU cache for more info](http://KeyDB.io/topics/lru-cache)). There are a few things that should be noted about how
+`CONFIG SET` (see [Using memory as an LRU cache for more info](https://docs.keydb.dev/docs/lru-cache)). There are a few things that should be noted about how
 KeyDB manages memory:
 
 * KeyDB will not always free up (return) memory to the OS when keys are removed.

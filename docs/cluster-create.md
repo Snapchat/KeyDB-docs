@@ -8,7 +8,7 @@ sidebar_label: Create-Cluster Tool
 
 Once you clone the github folder you can navigate to utils/create-cluster. This expects you have compiled the program already and binaries have been built in the src folder. 
 
-You can see the [readme file for this script](https://github.com/JohnSully/KeyDB/tree/unstable/utils/create-cluster), however we will go over a quick setup using this utility
+You can see the [readme file for this script](https://github.com/EQ-Alpha/KeyDB/tree/unstable/utils/create-cluster), however we will go over a quick setup using this utility
 
 You can create a config.sh script in this folder if you do not want to edit create-cluster.sh. If present it will use this rather than the defaults.
 

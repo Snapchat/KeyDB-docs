@@ -4,11 +4,11 @@ title: Building KeyDB
 sidebar_label:  Building KeyDB
 ---
 
-<div id="blog_body">
+
 
 This document reviews how to build open source KeyDB yourself.
 
-If you are looking for a prebuilt DEB or RPM package, take a look through our DOCS or check out https://keydb.dev/downloads.html
+If you are looking for a prebuilt DEB or RPM package, take a look through our DOCS or check out https://keydb.dev/downloads
 
 ## Build Example
 
@@ -17,7 +17,7 @@ The following builds from the unstable (latest) branch of Github. This will cont
 ```
 sudo apt-get update
 sudo apt-get install build-essential nasm autotools-dev autoconf libjemalloc-dev tcl tcl-dev uuid-dev libcurl4-openssl-dev
-git clone https://github.com/JohnSully/KeyDB.git
+git clone https://github.com/EQ-Alpha/KeyDB.git
 cd KeyDB
 make
 sudo make install
@@ -79,18 +79,17 @@ sudo yum install -y tcltls libzstd
 yum install -y scl-utils epel-release
 dnf group install -y "Development Tools"
 yum install -y 'dnf-command(config-manager)'
-yum config-manager --set-enabled PowerTools
+yum install -y dnf-plugins-core
+dnf config-manager --set-enabled powertools
 yum install -y libuuid-devel which libatomic
 yum install -y openssl openssl-devel curl-devel git
-yum install -y tcl-devel
+yum install -y tcl-devel tcltls
 ```
-
-If you are running tests with TLS enabled, you will need to source an download a version of libzstd and tcltls
 
 
 ## Additional dependencies for packaging:
 
-Source code for creating deb/rpm packages can be found in https://github.com/JohnSully/KeyDB/tree/unstable/pkg
+Source code for creating deb/rpm packages can be found in https://github.com/EQ-Alpha/KeyDB/tree/unstable/pkg
 
 ### For Deb Packages:
 ```
@@ -107,13 +106,12 @@ sudo yum install rpm-build
 
 ## Generate Latest Binaries (Ubuntu 18.04) with Docker
 
-If you want the latest open source binaries but do not want to run the build yourself, you can generate within a docker container. Please note this is building in Ubuntu 18.04 and is pulling from the unstable branch of KeyDB. Dockerfiles are posted in the Docker section if you want to build on a different image.
+If you want the latest open source binaries but do not want to run the build yourself, you can generate within a docker container. Please note this is building in Ubuntu 18.04 and is pulling from the unstable branch of KeyBD. Dockerfiles are posted in the Docker section if you want to build on a different image.
 
-make a folder you would like to have the latest binaries dumped in, then run the following commmand with your updated path:
+make a folder you would like to have the latest binaries dumped in, then run the following command with your updated path:
 ```
 $ docker run -it --rm -v /path-to-dump-binaries:/keydb_bin eqalpha/keydb-build-bin
 ```
 You should receive the following files: keydb-benchmark,  keydb-check-aof,  keydb-check-rdb,  keydb-cli,  keydb-sentinel,  keydb-server
 
 
-</div>

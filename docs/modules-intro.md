@@ -1,6 +1,6 @@
 ---
 id: modules-intro
-title: Modules: Introduction to API
+title: "Modules: Introduction to API"
 sidebar_label: Introduction
 ---
 

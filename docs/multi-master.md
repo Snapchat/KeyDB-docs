@@ -31,7 +31,7 @@ An example config file:
 
 ## Config File
 
-**Note: When setting up multi-master in a config file, make sure to enable `multi-master` and `active-replica` BEFORE setting your `replicaof` commands, as shown in the examples below, otherwise multi-master replication may not work correctly.** 
+**Note: When setting up multi-master in a config file, make sure to enable `multi-master` and `active-replica` BEFORE setting your `replicaof` commands, as shown in the examples below, otherwise multi-master replication may not work correctly.**
 
 Instance-A config file:
 
@@ -75,4 +75,4 @@ replicaof 10.0.0.2 6379
 replicaof 10.0.0.3 6379
 ```
 
-You can also append to config file `keydb-server --multi-master yes --active-replica yes --replicaof <ipaddress> <port>` --replicaof <ipaddress> <port>
+You can also append to config file `keydb-server --multi-master yes --active-replica yes --replicaof [ipaddress] [port]` --replicaof [ipaddress] [port]

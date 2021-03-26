@@ -1,10 +1,9 @@
 ---
 id: ami
 title: Using the KeyDB Pro AMI
-sidebar_label: Using AWS AMI
+sidebar_label: KeyDB AWS AMI
 ---
 
-<div id="blog_body">
 
 ## About the KeyDB Pro AMI
 
@@ -72,7 +71,7 @@ $ sudo keydb-setup.sh
 ## Some FAQ’s
 
 <b>What happens if I don’t specify a user data script when I launch?</b>
-The instance will launch with protected mode enabled, so will not be accessible outside of the loopback adaptor. This assumes you will SSH into the machine to test or set up further. Running `$sudo keydb-setup.sh` will walk you through setup.
+The instance will launch with protected mode enabled, so will not be accessible outside of the loopback adapter. This assumes you will SSH into the machine to test or set up further. Running `$sudo keydb-setup.sh` will walk you through setup.
 
 <b>Can I set up FLASH after I launch?</b>
 Yes. You can run `$ sudo keydb-flash-setup.sh [option1] [option2]` script as root once you are SSH’d to the instance. You can also run the keydb-setup.sh script which will walk through the steps
@@ -121,8 +120,8 @@ In the “user data” field you can use the sample script below. Start by enter
 
 If you wish to set up flash use one of the following options:
 1.	'keydb-flash-setup.sh nvme' will set up ephemeral attached volumes in a raid array. RDB saving will save to your root drive which should be sized accordingly
-2.	'keydb-flash-setup.sh ebs' will set up any unused EBS volumes in a raid array. RDB saving will be saved (redundant) to root drive which should be sized accordinlgy
-3.	'keydb-flash-setup.sh nvme nordb' will set ephemeral attached volumes in a raid array with no rdb saving. Keep in mind if the instance is stopped, the volume will be diconnected and your data will be lost.
+2.	'keydb-flash-setup.sh ebs' will set up any unused EBS volumes in a raid array. RDB saving will be saved (redundant) to root drive which should be sized accordingly
+3.	'keydb-flash-setup.sh nvme nordb' will set ephemeral attached volumes in a raid array with no rdb saving. Keep in mind if the instance is stopped, the volume will be disconnected and your data will be lost.
 4.	'keydb-flash-setup.sh ebs nordb' will set up unused EBS volumes in a raid array. RDB save is disabled but data remains persisted on EBS flash volumes.
 
 #### User Data Script Example:
@@ -238,4 +237,3 @@ If you need to revert to a previous AMI version you can run the update script an
 $ sudo keydb-update.sh 6.0.3
 ```
 
-</div>

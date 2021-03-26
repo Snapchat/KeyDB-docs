@@ -14,12 +14,12 @@ perform the following actions 6 times, one for each node. You can either create 
 
 ## Make config files and locations
 
-Either do maually or via script below. Manually perform the following for ports 30000-30005 (substitiute <port> with the port#):
+Either do manually or via script below. Manually perform the following for ports 30000-30005 (substitute [port] with the port#):
 ```
-mkdir <port>
-cd <port> 
+mkdir [port]
+cd [port] 
 nano keydb.conf
-	port <port>
+	port [port]
 	cluster-enabled yes
 	cluster-config-file nodes.conf
 	cluster-node-timeout 5000
@@ -27,7 +27,7 @@ nano keydb.conf
 	
 	dir ./
 	loglevel notice
-	logfile <port>.log
+	logfile [port].log
 
 	save 900 1
 	save 300 10
@@ -117,6 +117,6 @@ cluster replicate 3c3a0c74aae0b56170ccb03a76b60cfe7dc1912e
 ```
 reshard:
 ```
-keydb-cli reshard <host>:<port> --cluster-from <node-id> --cluster-to <node-id> --cluster-slots <number of slots> --cluster-yes
+keydb-cli reshard <host>:[port] --cluster-from <node-id> --cluster-to <node-id> --cluster-slots <number of slots> --cluster-yes
 ```
 

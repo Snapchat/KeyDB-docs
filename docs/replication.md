@@ -37,9 +37,9 @@ The following are some very important facts about KeyDB replication:
 * A master can have multiple slaves.
 * Slaves are able to accept connections from other slaves. Aside from connecting a number of slaves to the same master, slaves can also be connected to other slaves in a cascading-like structure. Since KeyDB 4.0, all the sub-slaves will receive exactly the same replication stream from the master.
 * KeyDB replication is non-blocking on the master side. This means that the master will continue to handle queries when one or more slaves perform the initial synchronization or a partial resynchronization.
-* Replication is also largely non-blocking on the slave side. While the slave is performing the initial synchronization, it can handle queries using the old version of the dataset, assuming you configured KeyDB to do so in redis.conf.  Otherwise, you can configure KeyDB slaves to return an error to clients if the replication stream is down. However, after the initial sync, the old dataset must be deleted and the new one must be loaded. The slave will block incoming connections during this brief window (that can be as long as many seconds for very large datasets). Since KeyDB 4.0 it is possible to configure KeyDB so that the deletion of the old data set happens in a different thread, however loading the new initial dataset will still happen in the main thread and block the slave.
+* Replication is also largely non-blocking on the slave side. While the slave is performing the initial synchronization, it can handle queries using the old version of the dataset, assuming you configured KeyDB to do so in keydb.conf.  Otherwise, you can configure KeyDB slaves to return an error to clients if the replication stream is down. However, after the initial sync, the old dataset must be deleted and the new one must be loaded. The slave will block incoming connections during this brief window (that can be as long as many seconds for very large datasets). Since KeyDB 4.0 it is possible to configure KeyDB so that the deletion of the old data set happens in a different thread, however loading the new initial dataset will still happen in the main thread and block the slave.
 * Replication can be used both for scalability, in order to have multiple slaves for read-only queries (for example, slow O(N) operations can be offloaded to slaves), or simply for improving data safety and high availability.
-* It is possible to use replication to avoid the cost of having the master writing the full dataset to disk: a typical technique involves configuring your master `redis.conf` to avoid persisting to disk at all, then connect a slave configured to save from time to time, or with AOF enabled. However this setup must be handled with care, since a restarting master will start with an empty dataset: if the slave tries to synchronized with it, the slave will be emptied as well.
+* It is possible to use replication to avoid the cost of having the master writing the full dataset to disk: a typical technique involves configuring your master `keydb.conf` to avoid persisting to disk at all, then connect a slave configured to save from time to time, or with AOF enabled. However this setup must be handled with care, since a restarting master will start with an empty dataset: if the slave tries to synchronized with it, the slave will be emptied as well.
 
 Safety of replication when master has persistence turned off
 ---
@@ -101,7 +101,7 @@ Replication ID explained
 
 In the previous section we said that if two instances have the same replication
 ID and replication offset, they have exactly the same data. However it is useful
-to understand what exctly is the replication ID, and why instances have actually
+to understand what exactly is the replication ID, and why instances have actually
 two replication IDs the main ID and the secondary ID.
 
 A replication ID basically marks a given *history* of the data set. Every time
@@ -125,7 +125,7 @@ was the one of the former master. In this way, when other slaves will synchroniz
 with the new master, they will try to perform a partial resynchronization using the
 old master replication ID. This will work as expected, because when the slave
 is promoted to master it sets its secondary ID to its main ID, remembering what
-was the offset when this ID switch happend. Later it will select a new random
+was the offset when this ID switch happened. Later it will select a new random
 replication ID, because a new history begins. When handling the new slaves
 connecting, the master will match their IDs and offsets both with the current
 ID and the secondary ID (up to a given offset, for safety). In short this means
@@ -162,21 +162,21 @@ master host will start a sync with the slave.
 
 There are also a few parameters for tuning the replication backlog taken
 in memory by the master to perform the partial resynchronization. See the example
-`redis.conf` shipped with the KeyDB distribution for more information.
+`keydb.conf` shipped with the KeyDB distribution for more information.
 
 Diskless replication can be enabled using the `repl-diskless-sync` configuration
 parameter. The delay to start the transfer in order to wait more slaves to
 arrive after the first one, is controlled by the `repl-diskless-sync-delay`
-parameter. Please refer to the example `redis.conf` file in the KeyDB distribution
+parameter. Please refer to the example `keydb.conf` file in the KeyDB distribution
 for more details.
 
 Read-only slave
 ---
 
 Since KeyDB 2.6, slaves support a read-only mode that is enabled by default.
-This behavior is controlled by the `slave-read-only` option in the redis.conf file, and can be enabled and disabled at runtime using `CONFIG SET`.
+This behavior is controlled by the `slave-read-only` option in the keydb.conf file, and can be enabled and disabled at runtime using `CONFIG SET`.
 
-Read-only slaves will reject all write commands, so that it is not possible to write to a slave because of a mistake. This does not mean that the feature is intended to expose a slave instance to the internet or more generally to a network where untrusted clients exist, because administrative commands like `DEBUG` or `CONFIG` are still enabled. However, security of read-only instances can be improved by disabling commands in redis.conf using the `rename-command` directive.
+Read-only slaves will reject all write commands, so that it is not possible to write to a slave because of a mistake. This does not mean that the feature is intended to expose a slave instance to the internet or more generally to a network where untrusted clients exist, because administrative commands like `DEBUG` or `CONFIG` are still enabled. However, security of read-only instances can be improved by disabling commands in keydb.conf using the `rename-command` directive.
 
 You may wonder why it is possible to revert the read-only setting
 and have slave instances that can be targeted by write operations.
@@ -241,7 +241,7 @@ There are two configuration parameters for this feature:
 * min-slaves-to-write `<number of slaves>`
 * min-slaves-max-lag `<number of seconds>`
 
-For more information, please check the example `redis.conf` file shipped with the
+For more information, please check the example `keydb.conf` file shipped with the
 KeyDB source distribution.
 
 How KeyDB replication deals with expires on keys
@@ -276,7 +276,7 @@ environments using NAT may be different compared to the logical address of the
 slave instance (the one that clients should use to connect to slaves).
 
 Similarly the slaves will be listed with the listening port configured
-into `redis.conf`, that may be different than the forwarded port in case
+into `keydb.conf`, that may be different than the forwarded port in case
 the port is remapped.
 
 In order to fix both issues, it is possible, since KeyDB 3.2.2, to force
@@ -286,7 +286,7 @@ The two configurations directives to use are:
     slave-announce-ip 5.5.5.5
     slave-announce-port 1234
 
-And are documented in the example `redis.conf` of recent KeyDB distributions.
+And are documented in the example `keydb.conf` of recent KeyDB distributions.
 
 The INFO and ROLE command
 ---

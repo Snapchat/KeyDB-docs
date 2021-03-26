@@ -22,7 +22,7 @@ if a client loses the connection to the server in the context of a
 transaction before calling the `MULTI` command none of the operations
 are performed, instead if the `EXEC` command is called, all the
 operations are performed. When using the
-[append-only file](/topics/persistence#append-only-file) KeyDB makes sure
+[append-only file](https://docs.keydb.dev/docs/persistence#append-only-file) KeyDB makes sure
 to use a single write(2) syscall to write the transaction on disk.
 However if the KeyDB server crashes or is killed by the system administrator
 in some hard way it is possible that only a partial number of operations
@@ -240,7 +240,7 @@ If `EXEC` fails (i.e. returns a @nil-reply) we just repeat the operation.
 
 ## KeyDB scripting and transactions
 
-A [KeyDB script](/commands/eval) is transactional by definition, so everything
+A [KeyDB script](https://docs.keydb.dev/docs/commands#eval) is transactional by definition, so everything
 you can do with a KeyDB transaction, you can also do with a script, and
 usually the script will be both simpler and faster.
 

@@ -156,11 +156,11 @@ In the above example session two clients are connected to the KeyDB server. The 
 * **name**: The client name as set by `CLIENT SETNAME`.
 * **age**: The number of seconds the connection existed for.
 * **idle**: The number of seconds the connection is idle.
-* **flags**: The kind of client (N means normal client, check the [full list of flags](http://KeyDB.io/commands/client-list)).
+* **flags**: The kind of client (N means normal client, check the [full list of flags](https://docs.keydb.dev/docs/commands#client-list)).
 * **omem**: The amount of memory used by the client for the output buffer.
 * **cmd**: The last executed command.
 
-See the [CLIENT LIST](http://KeyDB.io/commands/client-list) documentation for the full list of fields and their meaning.
+See the [CLIENT LIST](https://docs.keydb.dev/docs/commands#client-list) documentation for the full list of fields and their meaning.
 
 Once you have the list of clients, you can easily close the connection with a client using the `CLIENT KILL` command specifying the client address as argument.
 

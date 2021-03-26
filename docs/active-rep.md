@@ -37,12 +37,12 @@ On boot each KeyDB instance will compute a dynamic UUID.  This UUID is not saved
 
 A new configuration option is added to enable this mode, and when enabled also makes KeyDB writable even if it is a replica (by default this is disabled).  Except for extra logic to prevent infinitely bouncing queries between clients in a loop the replication code executes as it normally would.
 
-The majority of Active Replica was implemented in [this change](https://github.com/JohnSully/KeyDB/commit/a7aa2b074049a130761bc0a98d47130b6a0ff817)
+The majority of Active Replica was implemented in [this change](https://github.com/EQ-Alpha/KeyDB/commit/a7aa2b074049a130761bc0a98d47130b6a0ff817)
 
 ## Setting upActive-Replication
 
 Active Replica nodes allow you to read and write to both instances which can increase reads under high load, and have your backup/replica node ready to go in a failure scenario. Setup is as simple as setting up your proxy server to point to the healthy instance. Take a look at the HAProxy section for example configurations that can enable health checks, and different routing configurations (round-robin, first, etc)
-Setting up you proxy server is simple, and the keydb configuration is even simpler as decribed earlier. An example config file:
+Setting up you proxy server is simple, and the keydb configuration is even simpler as described earlier. An example config file:
 
 ## Config File
 
@@ -74,4 +74,4 @@ You can also append to config file `keydb-server --active-replica yes --replicao
 
 ## Testing Active-Replica
 
-Any commands you write to one node will be seen on the other node. If a server goes down, the timestamping will ensure your replica will not overwrite newer writes when it is brought back online. This enables you to set up scripts, cron, etc to automatically reboot failed instances if desired without the risk of overwriting new data. Under extremely high loading there may be mild latentcy but still very low in data syncing (almost negligible). 
+Any commands you write to one node will be seen on the other node. If a server goes down, the timestamping will ensure your replica will not overwrite newer writes when it is brought back online. This enables you to set up scripts, cron, etc to automatically reboot failed instances if desired without the risk of overwriting new data. Under extremely high loading there may be mild latency but still very low in data syncing (almost negligible). 

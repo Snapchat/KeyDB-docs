@@ -1,10 +1,9 @@
 ---
-id: pro-flash-sizing
-title: KeyDB on FLASH: Sizing and Hardware Configuration
+id: enterprise-flash-sizing
+title: "KeyDB on FLASH: Sizing and Hardware Configuration"
 sidebar_label: FLASH Sizing & Config
 ---
 
-<div id="blog_body">
 
 ## When to use KeyDB on FLASH
 
@@ -34,7 +33,7 @@ Consider the following when selecting the amount of RAM for your machine:
 * We recommend not setting the maxmemory policy too low. Ideally this is at least a few GB. With cluster mode enabled this should be set at least 2G. In scenarios where you are running a smaller instance size it is not recommended to go less than 1G. There is overhead required for rocksdb as well as background saving and replica output buffers which makes it necessary to have a reasonable amount of flash.
 
 Consider the following when selecting FLASH:
-* IOPS. This is likely the most important factor as it relates to performance. Looking at the disk manufaturers settings. can give you a relative expectation of performance which can be validated under load tests. Often these numbers look at inital and disk cache performance. As the disk fills and under heavy sustained use, the values will often be much less than what is published.
+* IOPS. This is likely the most important factor as it relates to performance. Looking at the disk manufacturers settings. can give you a relative expectation of performance which can be validated under load tests. Often these numbers look at initial and disk cache performance. As the disk fills and under heavy sustained use, the values will often be much less than what is published.
 * It is important to have an idea of your write loads and ensure you will not be exceeding the SSD IOPS available per machine. If the disk writes become overloaded this will drastically increase latency. Hence the time to horizontally scale your cluster will be more dependent on writes than anything else.
 * Different machines provision different IOPS, and different disks do as well. It is important to take a look at what to expect.
 * The total volume you expect to store. If your writes are acceptable for the machine you select, the total SSD volume will be whatever you expect your total volume requirement to be (up to Terabytes).
@@ -43,7 +42,7 @@ Consider your Backup Volumes:
 * With AWS NMVe SSDs they can be detached if the machine is stopped thus are not considered a reliable persistent storage medium even though the data is persisted there upon a KeyDB failure. As such if you are using RDB saves you should ensure the root SSD volume or S3 bucket is at least 2.5x the size of your FLASH volume. This is because the old RDB is kept until the new one has finished which can use up to 2x the rdb size.
 
 Consider the following when selecting machine size/type:
-* Having more cores with KeyDB-Pro FLASH  helps to assist with handling concurrent reads/writes.
+* Having more cores with KeyDB-Enterprise FLASH  helps to assist with handling concurrent reads/writes.
 * Different machines have different provisioned IOPS. Check details and test to validate
 
 ## Determining Number of Cluster Nodes
@@ -73,7 +72,7 @@ defaults,noiversion,auto_da_alloc,noatime,errors=remount-ro,delalloc,barrier=0,n
 ```
 If there are more than one SSD being used consider setting them up in a RAID array.
 
-If you are using AWS you will have to remount to your NVME volume on boot via fstab typicaly using UUIDs. If you want an AWS image with FLASH automatically set up, use the [KeyDB Pro AMI](https://aws.amazon.com/marketplace/pp/B086WNHBGJ). Follow the instructions [here](https://docs.keydb.dev/docs/ami/) to have flash automatically configured.
+If you are using AWS you will have to remount to your NVME volume on boot via fstab typicaly using UUIDs. If you want an AWS image with FLASH automatically set up, use the [KeyDB AMI](https://aws.amazon.com/marketplace/pp/B086WNHBGJ). Follow the instructions [here](https://docs.keydb.dev/docs/ami/) to have flash automatically configured.
 
 ## Monitoring
 
@@ -104,7 +103,7 @@ Memtier parameters of note for this test: (see `memtier_benchmark --help` for al
 
 If you are sized correctly for write IOPS and not exceeding what KeyDB can do, when reading mostly from the hot tier, performance should remain quite fast while allowing for a large DB size as can be seen in [this blog post](https://docs.keydb.dev/blog/2020/01/05/blog-post/)
 
-Currently KeyDB consolodates client connections at 50 for the first thread and so on to help reduce latency for most use cases. If you would like to ensure more threads are used with keydb during your workload with 50 or less client connections, you can specify the KeyDB config file option `--min-clients-per-thread 0`
+Currently KeyDB consolidates client connections at 50 for the first thread and so on to help reduce latency for most use cases. If you would like to ensure more threads are used with keydb during your workload with 50 or less client connections, you can specify the KeyDB config file option `--min-clients-per-thread 0`
 
 An example Memtier command to fill your database with 20 million keys of size 1024 might be
 ```
@@ -133,5 +132,5 @@ memtier_benchmark -s 127.0.0.1 -p 6379 \
 The __key__ and __data__ values are generated by memtier. Different combinations can be experimented with if needed to test your workload. Keep in mind this will likely need to be performed with specific key prefixes to ensure you are not using incorrect commands on existing data types.
 
 
-</div>
+
 

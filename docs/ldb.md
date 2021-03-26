@@ -214,7 +214,7 @@ lua debugger> e keydb.sha1hex('foo')
 Debugging clients
 ---
 
-LDB uses the client-server model where the KeyDB servers acts as a debugging server that communicates using [RESP](/topics/protocol). While `keydb-cli` is the default debug client, any [client](/clients) can be used for debugging as long as it meets one of the following conditions:
+LDB uses the client-server model where the KeyDB servers acts as a debugging server that communicates using [RESP](https://docs.keydb.dev/docs/protocol). While `keydb-cli` is the default debug client, any [client](https://docs.keydb.dev/docs/clients) can be used for debugging as long as it meets one of the following conditions:
 
 1. The client provides a native interface for setting the debug mode and controlling the debug session.
 2. The client provides an interface for sending arbitrary commands over RESP.

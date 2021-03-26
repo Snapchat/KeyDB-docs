@@ -24,11 +24,11 @@ Maxmemory configuration directive
 
 The `maxmemory` configuration directive is used in order to configure KeyDB
 to use a specified amount of memory for the data set. It is possible to
-set the configuration directive using the `redis.conf` file, or later using
+set the configuration directive using the `keydb.conf` file, or later using
 the `CONFIG SET` command at runtime.
 
 For example in order to configure a memory limit of 100 megabytes, the
-following directive can be used inside the `redis.conf` file.
+following directive can be used inside the `keydb.conf` file.
 
     maxmemory 100mb
 
@@ -109,7 +109,7 @@ costs more memory. However the approximation is virtually equivalent for the
 application using KeyDB. The following is a graphical comparison of how
 the LRU approximation used by KeyDB compares with true LRU.
 
-![LRU comparison](http://KeyDB.io/images/KeyDBdoc/lru_comparison.png)
+![LRU comparison](/img/doc/lru_comparison.png)
 
 The test to generate the above graphs filled a KeyDB server with a given number of keys. The keys were accessed from the first to the last, so that the first keys are the best candidates for eviction using an LRU algorithm. Later more 50% of keys are added, in order to force half of the old keys to be evicted.
 
@@ -165,7 +165,7 @@ By default KeyDB 4.0 is configured to:
 
 Those should be reasonable values and were tested experimental, but the user may want to play with these configuration settings in order to pick optimal values.
 
-Instructions about how to tune these parameters can be found inside the example `redis.conf` file in the source distribution, but briefly, they are:
+Instructions about how to tune these parameters can be found inside the example `keydb.conf` file in the source distribution, but briefly, they are:
 
 ```
 lfu-log-factor 10
@@ -190,6 +190,6 @@ The counter *logarithm factor* changes how many hits are needed in order to satu
 +--------+------------+------------+------------+------------+------------+
 ```
 
-So basically the factor is a trade off between better distinguishing items with low accesses VS distinguishing items with high accesses. More informations are available in the example `redis.conf` file self documenting comments.
+So basically the factor is a trade off between better distinguishing items with low accesses VS distinguishing items with high accesses. More informations are available in the example `keydb.conf` file self documenting comments.
 
 Since LFU is a new feature, we'll appreciate any feedback about how it performs in your use case compared to LRU.

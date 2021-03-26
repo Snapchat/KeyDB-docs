@@ -66,7 +66,7 @@ Generating KeyDB Protocol
 -------------------------
 
 The KeyDB protocol is extremely simple to generate and parse, and is
-[Documented here](/topics/protocol). However in order to generate protocol for
+[Documented here](https://docs.keydb.dev/docs/protocol). However in order to generate protocol for
 the goal of mass insertion you don't need to understand every detail of the
 protocol, but just that every command is represented in the following way:
 

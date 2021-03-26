@@ -1,7 +1,7 @@
 ---
 id: docker-active-rep
 title: Getting Started with Active Replication
-sidebar_label: Active-Replciation Example
+sidebar_label: Active-Replication Example
 ---
 
 ## Set up a network, run active replica servers, connect clients and test 
@@ -23,7 +23,7 @@ $ docker run -v /path-to-config-file/redis.conf:/etc/keydb/redis.conf --net myne
 ```
 $ docker run --net mynetwork --name mynode1 -d eqalpha/keydb keydb-server /etc/keydb/redis.conf --active-replica yes
 ```
-### The following may assist when updating redis.config obtained from our [github page](https://github.com/johnsully/keydb) or use the updated one contained in this example:
+### The following may assist when updating redis.config obtained from our [github page](https://github.com/EQ-Alpha/KeyDB) or use the updated one contained in this example:
 Comment out “bind 127.0.0.1”, change "protected-mode" from yes to no. If you want to enable Active Replica Support then uncomment "active-replica yes".
 ### To get the ipaddress of the node you just made: 
 ```

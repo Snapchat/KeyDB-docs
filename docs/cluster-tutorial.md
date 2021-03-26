@@ -8,7 +8,7 @@ This document is a gentle introduction to KeyDB Cluster, that does not use
 complex to understand distributed systems concepts. It provides instructions
 about how to setup a cluster, test, and operate it, without
 going into the details that are covered in
-the [KeyDB Cluster specification](/topics/cluster-spec) but just describing
+the [KeyDB Cluster specification](https://docs.keydb.dev/docs/cluster-spec) but just describing
 how the system behaves from the point of view of the user.
 
 However this tutorial tries to provide information about the availability
@@ -410,10 +410,10 @@ world conditions. It is not very helpful to see what happens while nobody
 is writing to the cluster.
 
 This section explains some basic usage of
-[keydb-rb-cluster](https://github.com/JohnSully/keydb-rb-cluster) showing two
+[redis-rb-cluster](https://github.com/antirez/redis-rb-cluster) showing two
 examples. The first is the following, and is the
-[`example.rb`](https://github.com/JohnSully/keydb-rb-cluster/blob/master/example.rb)
-file inside the keydb-rb-cluster distribution:
+[`example.rb`](https://github.com/antirez/redis-rb-cluster/blob/master/example.rb)
+file inside the redis-rb-cluster distribution:
 
 ```
    1  require './cluster'
@@ -473,7 +473,7 @@ number of connections this object is allowed to take against different nodes,
 and finally the timeout after a given operation is considered to be failed.
 
 The startup nodes don't need to be all the nodes of the cluster. The important
-thing is that at least one node is reachable. Also note that keydb-rb-cluster
+thing is that at least one node is reachable. Also note that redis-rb-cluster
 updates this list of startup nodes as soon as it is able to connect with the
 first node. You should expect such a behavior with any other serious client.
 
@@ -610,7 +610,7 @@ From our point of view the cluster receiving the writes could just always
 write the key `foo` to `42` to every operation, and we would not notice at
 all.
 
-So in the `keydb-rb-cluster` repository, there is a more interesting application
+So in the `redis-rb-cluster` repository, there is a more interesting application
 that is called `consistency-test.rb`. It uses a set of counters, by default 1000, and sends `INCR` commands in order to increment the counters.
 
 However instead of just writing, the application does two additional things:
@@ -920,7 +920,7 @@ master to another one automatically, without the help of the system administrato
 The automatic reconfiguration of replicas is called *replicas migration* and is
 able to improve the reliability of a KeyDB Cluster.
 
-Note: you can read the details of replicas migration in the [KeyDB Cluster Specification](/topics/cluster-spec), here we'll only provide some information about the
+Note: you can read the details of replicas migration in the [KeyDB Cluster Specification](https://docs.keydb.dev/docs/cluster-spec), here we'll only provide some information about the
 general idea and what you should do in order to benefit from it.
 
 The reason why you may want to let your cluster replicas to move from one master

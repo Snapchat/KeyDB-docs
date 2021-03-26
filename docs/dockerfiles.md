@@ -8,9 +8,9 @@ This page contains the dockerfiles used to generate different images and tags us
 
 If you find some major improvements you think are beneficial we are open to feedback. 
 
-The images are all built from the offical release branch. The tag will be versioned at the end, ie. `v5.0.3`. You will also see the version number when you launch the server.
+The images are all built from the official release branch. The tag will be versioned at the end, ie. `v5.0.3`. You will also see the version number when you launch the server.
 
-There is an image generated every morning at 4am Eastern time for the unstable branch for those who like to kep up with the development of this project.
+There is an image generated every morning at 4am Eastern time for the unstable branch for those who like to keep up with the development of this project.
 
 Note that both KeyDB Community and KeyDB Professional binaries are included in this image.
 
@@ -20,7 +20,7 @@ The main docker image, "latest", when pulling eqalpha/keydb is a manifest. This 
 
 ## Building Images
 
-You will note from the Dockerfiles that you should have an "app" directory located where your Dockerfile is. Dockerfile should be named "Dockerfile". In the "app" folder you should place the binaries you want copied over (keydb-server at a minimum). The redis.conf file should also be located here. You can customize to your liking which can be beneficial. Our Dockerfile modifies our base config file within the Dockerfile instead of using a custom Dockerfile. So you might consider removing the part of the script that modifies it.
+You will note from the Dockerfiles that you should have an "app" directory located where your Dockerfile is. Dockerfile should be named "Dockerfile". In the "app" folder you should place the binaries you want copied over (keydb-server at a minimum). The keydb.conf file should also be located here. You can customize to your liking which can be beneficial. Our Dockerfile modifies our base config file within the Dockerfile instead of using a custom Dockerfile. So you might consider removing the part of the script that modifies it.
 
 See the Dockerfiles for the 5 main images/tags we generate below as well as for the builder:
 

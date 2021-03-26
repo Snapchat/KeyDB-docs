@@ -1,6 +1,6 @@
 ---
 id: partitioning
-title: Partitioning: How to Split Data Among Multiple Instances
+title: "Partitioning: How to Split Data Among Multiple Instances"
 sidebar_label: Partitioning
 ---
 
@@ -95,8 +95,7 @@ KeyDB Cluster
 ---
 
 KeyDB Cluster is the preferred way to get automatic sharding and high availability.
-It is generally available and production-ready as of [April 1st, 2015](https://groups.google.com/d/msg/KeyDB-db/dO0bFyD_THQ/Uoo2GjIx6qgJ).
-You can get more information about KeyDB Cluster in the [Cluster tutorial](/topics/cluster-tutorial).
+You can get more information about KeyDB Cluster in the [Cluster tutorial](https://docs.keydb.dev/docs/cluster-tutorial).
 
 Once KeyDB Cluster will be available, and if a KeyDB Cluster compliant client is available for your language, KeyDB Cluster will be the de facto standard for KeyDB partitioning.
 

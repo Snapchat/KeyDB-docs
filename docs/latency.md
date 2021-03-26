@@ -21,11 +21,11 @@ a low latency fashion. However I understand that we are busy people, so
 let's start with a quick checklist. If you fail following these steps, please
 return here to read the full documentation.
 
-1. Make sure you are not running slow commands that are blocking the server. Use the KeyDB [Slow Log feature](/commands/slowlog) to check this.
+1. Make sure you are not running slow commands that are blocking the server. Use the KeyDB [Slow Log feature](https://docs.keydb.dev/docs/commands#slowlog) to check this.
 2. For EC2 users, make sure you use HVM based modern EC2 instances, like m3.medium. Otherwise fork() is too slow.
 3. Transparent huge pages must be disabled from your kernel. Use `echo never > /sys/kernel/mm/transparent_hugepage/enabled` to disable them, and restart your KeyDB process.
 4. If you are using a virtual machine, it is possible that you have an intrinsic latency that has nothing to do with KeyDB. Check the minimum latency you can expect from your runtime environment using `./keydb-cli --intrinsic-latency 100`. Note: you need to run this command in *the server* not in the client.
-5. Enable and use the [Latency monitor](/topics/latency-monitor) feature of KeyDB in order to get a human readable description of the latency events and causes in your KeyDB instance.
+5. Enable and use the [Latency monitor](https://docs.keydb.dev/docs/latency-monitor) feature of KeyDB in order to get a human readable description of the latency events and causes in your KeyDB instance.
 
 In general, use the following table for durability VS latency/performance tradeoffs, ordered from stronger safety to better latency.
 
@@ -54,7 +54,7 @@ Since KeyDB 2.8.13, KeyDB provides latency monitoring capabilities that
 are able to sample different execution paths to understand where the
 server is blocking. This makes debugging of the problems illustrated in
 this documentation much simpler, so we suggest to enable latency monitoring
-ASAP. Please refer to the [Latency monitor documentation](/topics/latency-monitor).
+ASAP. Please refer to the [Latency monitor documentation](https://docs.keydb.dev/docs/latency-monitor).
 
 While the latency monitoring sampling and reporting capabilities will make
 simpler to understand the source of latency in your KeyDB system, it is still
@@ -180,7 +180,7 @@ replication where to run all your slow queries. Consider running an active-repli
 instance to take advantage of your resources.
 
 It is possible to monitor slow commands using the KeyDB
-[Slow Log feature](/commands/slowlog).
+[Slow Log feature](https://docs.keydb.dev/docs/commands#slowlog).
 
 Additionally, you can use your favorite per-process monitoring program
 (top, htop, prstat, etc ...) to quickly check the CPU consumption of the

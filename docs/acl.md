@@ -239,7 +239,7 @@ Will result into myuser to be able to call both `GET` and `SET`:
     1) "user default on nopass ~* +@all"
     2) "user myuser off -@all +set +get"
 
-## Playings with command categories
+## Playing with command categories
 
 Setting users ACLs by specifying all the commands one after the other is
 really annoying, so instead we do things like that:
@@ -316,7 +316,7 @@ dangerous and non dangerous operations. Many deployments may not be happy to
 provide the ability to execute `CLIENT KILL` to non admin-level users, but may
 still want them to be able to run `CLIENT SETNAME`.
 
-_Note: probably the new RESP3 `HELLO` command will provide a SETNAME option soon, but this is still a good exmaple anyway._
+_Note: probably the new RESP3 `HELLO` command will provide a SETNAME option soon, but this is still a good example anyway._
 
 In such case I could alter the ACL of a user in the following way:
 

@@ -4,10 +4,10 @@ title: Using and Setting up the Config File
 sidebar_label:  Configuration Options
 ---
 
-<div id="blog_body">
+
 KeyDB loads the default config file as shown below. If you specify the config file, you can customize for a quick and repetitive load. `keydb-server /path-to-custom-conf/keydb.conf`
 
-When running multiple servers, replicas, etc its a good idea to customize your config file and at the minumum specify the following commands to keep separate:
+When running multiple servers, replicas, etc its a good idea to customize your config file and at the minimum specify the following commands to keep separate:
 * dir
 * logfile
 * port (unless IP differen)
@@ -95,8 +95,11 @@ as we hit the 2 megabyte memory limit.
 Basically in this configuration KeyDB acts in a similar way to memcached.
 We have more extensive documentation about using Redis as an LRU cache in the "commands" section.
 
-</div>
-See below the default keydb configuration file (currently labeled keydb.conf). It explains configuraiton parameters.
+## Default Configuration File
+
+See below the default keydb configuration file (currently labeled keydb.conf). It explains configuration parameters.
+
+You can find the latest configuration file in the open source project [here](https://github.com/EQ-Alpha/KeyDB/blob/unstable/keydb.conf)
 
 ```
 # KeyDB configuration file example.
@@ -1667,11 +1670,11 @@ server-threads 2
 # bringing up replicas can result in data loss (the first master will win).
 # active-replica yes
 
-# Enable Pro?  KeyDB pro provides support for pro only features
-#   note: you may omit the license key to demo pro features for a limited time
-# enable-pro [License Key]
+# Enable Enterprise?  KeyDB Enterprise provides support for Enterprise only features
+#   note: you may omit the license key to demo Enterprise features for a limited time
+# enable-enterprise [License Key]
 
-# Enable FLASH support? (Pro Only)
+# Enable FLASH support? (Enterprise Only)
 # storage-provider flash /path/to/flash/db
 
 ```

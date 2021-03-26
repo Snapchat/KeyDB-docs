@@ -1,14 +1,12 @@
 ---
-id: pro-flash          
-title: KeyDB Pro on FLASH - Enhanced FLASH
+id: enterprise-flash          
+title: KeyDB Enterprise on FLASH - Enhanced FLASH
 sidebar_label: Enhanced FLASH
 ---
 
-<div id="blog_body">
-
 ## Enhanced FLASH
 
-Enhanced FLASH offered with KeyDB Pro is architected much differently than our open source legacy FLASH. It does not require any special file system and is built on RocksDB. Enhanced FLASH is much faster than legacy FLASH and is also persistent to the storage medium it is written to.
+Enhanced FLASH offered with KeyDB Enterprise is architected much differently than our open source legacy FLASH. It does not require any special file system and is built on RocksDB. Enhanced FLASH is much faster than legacy FLASH and is also persistent to the storage medium it is written to.
 
 Enhanced FLASH enables you to expand memory capacity greatly without a huge compromise on performance. Best of all your data persists to the FLASH memory as it is written eliminating the need for AOF/RDB files. KeyDB on FLASH is great for applications where memory is limited or too costly for the application. It is also a great option for databases that often near or exceed their maxmemory limit. 
 
@@ -31,36 +29,36 @@ This really depends on your setup, traffic demands/patterns, and latency require
 
 For those wanting additional capacity, cheaper capacity, or backup overflow from DRAM, FLASH is a great solution.
 
-It is best using a FLASH storage medium when closest to the CPU. If you are using AWS instances I3 instances are great for FLASH options because it is attached storage vs something like an EBS volume. Instances with ‘d’ specifier typically include FLASH with the instance (ie. m5d.xlarge). If you are adding FLASH to your instance it is always good to benchmark ensuring an ideal setup. We will be publishing an article shortly comparing different FLASH setups and their relative perf stats.
+It is best using a FLASH storage medium closest to the CPU such as NVMe. If you are using AWS instances I3 instances are great for FLASH options because it is attached storage vs something like an EBS volume. Instances with ‘d’ specifier typically include FLASH with the instance (ie. m5d.xlarge). If you are adding FLASH to your instance it is always good to benchmark ensuring an ideal setup. We will be publishing an article shortly comparing different FLASH setups and their relative perf stats.
 
 ## Using KeyDB on FLASH - Quick setup: 
 
-Enable keydb professional, specify storage medium, and configure maxmemory and eviction policy. For example:
+Enable license, specify storage medium, and configure maxmemory and eviction policy. For example:
 ``` 
-keydb-server --enable-pro [license-key] --storage-provider  flash  [path-to-flash-storage] --maxmemory [max-memory-for-DRAM… ie. 500mb or 1G] --maxmemory-policy allkeys-lru
+keydb-server --enable-enterprise [license-key] --storage-provider  flash  [path-to-flash-storage] --maxmemory [max-memory-for-DRAM… ie. 500mb or 1G] --maxmemory-policy allkeys-lru
 ```
 
 ## Docker Quick Setup
 
 ```
-sudo docker run -d -it -p 6379:6379 --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb-pro keydb-pro-server --enable-pro [license-key] --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --maxmemory-policy [eviction-policy ie. allkeys-lfu]
+sudo docker run -d -it -p 6379:6379 --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb-enterprise keydb-server /etc/keydb/keydb.conf --enable-enterprise [license-key] --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --maxmemory-policy [eviction-policy ie. allkeys-lfu]
 ```
 
 ## Using KeyDB on FLASH - Detailed Setup:
 
 ### Mount FLASH Volume
 
-If you are unsure of how to set up your volume, take a look at <a href="https://www.digitalocean.com/community/tutorials/how-to-partition-and-format-storage-devices-in-linux"><span style="color:red"> this article </span></a>this article by digitalocean on how to do it. Once complete, you will point to the directory you want KeyDB Pro to write to for FLASH
+If you are unsure of how to set up your volume, take a look at [ this article ](https://www.digitalocean.com/community/tutorials/how-to-partition-and-format-storage-devices-in-linux) by digitalocean on how to do it. Once complete, you will point to the directory you want KeyDB Enterprise to write to for FLASH
 
 ### Specify in Configuration
 
 Once your volume is set up, you can specify the location of the directory you would like KeyDB to write to with the parameter: `--storage-provider flash [location]`. 
-•	‘flash’ specifies the storage medium to be used (there will be multiple types available in the future)
-•	[location] is the directory mentioned above where KeyDB FLASH will write to
+* ‘flash’ specifies the storage medium to be used (there will be multiple types available in the future)
+* [location] is the directory mentioned above where KeyDB FLASH will write to
 
 ### Configure maxmemory
 
-This determines the memory amount allocated to KeyDB for DRAM usage. This prevents using up all the memory and once exceeded will either return errors to the client or if an eviction policy is set will start removing data in a specified fashion. As such maxmemory is often set conservatively and depending on how you values your data.
+This determines the memory amount allocated to KeyDB for DRAM usage. This prevents using up all the memory and once exceeded will either return errors to the client or if an eviction policy is set will start moving data to FLASH in a specified fashion. As such maxmemory is often set conservatively and depending on how you value your data.
 
 With KeyDB on FLASH you can set maxmemory to the amount of DRAM you want allocated without the fear of losing data when exceeded. Instead the data is removed from DRAM but remains in FLASH where it is not lost and can still be served.
 
@@ -70,7 +68,7 @@ Set maxmemory with the directive `--maxmemory [max-memory-amount]`. The default 
 
 ### Set Eviction Policy
 
-For more on setting the maxmemory and eviction policies check out <a href="https://docs.keydb.dev/docs/lru-cache/"><span style="color:red"> this document </span></a>. However keep in mind, the data is not removed with KeyDB Pro on FLASH, it is just removed from DRAM but still available in FLASH.
+For more on setting the maxmemory and eviction policies check out [ this document ](https://docs.keydb.dev/docs/lru-cache/). However keep in mind, the data is not removed with KeyDB Enterprise on FLASH, it is just removed from DRAM but still available in FLASH.
 
 To excerpt the document:
 
@@ -90,4 +88,3 @@ It is recommended to use a policy such as ‘allkeys-lru’ or ‘allkeys-lfu’
 
 Specify with `--maxmemory-policy allkeys-lfu`
 
-</div>
