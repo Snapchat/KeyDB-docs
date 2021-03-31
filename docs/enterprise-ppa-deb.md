@@ -10,9 +10,7 @@ Debian packages make installation of KeyDB easy. No need to worry about building
 
 We are now using a single freight repository to serve all Ubuntu and Debian packages. We currently support the following distributions/architectures:
 * Debian: stretch (amd64 & arm64), buster (amd64 & arm64)
-* Ubuntu: bionic (amd64 & arm64), xenial (amd64)
-
-We plan to support additional distributions, including focal builds in the near future. 
+* Ubuntu: focal (amd64 & arm64), bionic (amd64 & arm64), xenial (amd64)
 
 
 ## KeyDB PPA Installation
