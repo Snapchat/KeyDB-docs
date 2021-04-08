@@ -75,4 +75,4 @@ replicaof 10.0.0.2 6379
 replicaof 10.0.0.3 6379
 ```
 
-You can also append to config file `keydb-server --multi-master yes --active-replica yes --replicaof [ipaddress] [port]` --replicaof [ipaddress] [port]
+You can also append to config file `keydb-server --multi-master yes --active-replica yes --replicaof [ipaddress] [port] --replicaof [ipaddress] [port]`
