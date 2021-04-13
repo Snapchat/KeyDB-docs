@@ -11,7 +11,7 @@ slug: /
 
 ## Make sure to follow KeyDB
 
-<b>We move fast!</b> Please subscribe/follow us to keep up to date with new features, releases, docs, and product developments. We have a lot of great things in the works and will be keeping our channels up to date to keep you informed.
+**We move fast!** Please subscribe/follow us to keep up to date with new features, releases, docs, and product developments. We have a lot of great things in the works and will be keeping our channels up to date to keep you informed.
 
 Please select one of the links below to subscribe or follow us! We look forward to having you as part of our community!
 
@@ -40,5 +40,3 @@ We want to hear from you! As our users you likely have insights to the applicati
 ## Community
 
 Please [join our community forum](https://community.keydb.dev/) where you can reach out directly with other KeyDB users.
-
-
