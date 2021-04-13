@@ -70,25 +70,20 @@ $ sudo keydb-setup.sh
 
 ## Some FAQ’s
 
-<b>What happens if I don’t specify a user data script when I launch?</b>
-
+**What happens if I don’t specify a user data script when I launch?**
 The instance will launch with protected mode enabled, so will not be accessible outside of the loopback adapter. This assumes you will SSH into the machine to test or set up further. Running `$sudo keydb-setup.sh` will walk you through setup.
 
-<b>Can I set up FLASH after I launch?</b>
-
+**Can I set up FLASH after I launch?**
 Yes. You can run `$ sudo keydb-flash-setup.sh [option1] [option2]` script as root once you are SSH’d to the instance. You can also run the keydb-setup.sh script which will walk through the steps
 
-<b>What if I want to update to a newer release of KeyDB?</b>
-
+**What if I want to update to a newer release of KeyDB?**
 Simple, just run `$ sudo keydb-update-bin.sh`. This script will stop keydb, grab latest binaries, install them and restart keydb. The database will be stopped for a brief time during the update. 
 You can also spin up a new AMI with the newer KeyDB Pro AMI as we update the AMIs with new point releases.
 
-<b>What is the underlying distribution this image is build on?</b>
-
+**What is the underlying distribution this image is build on?**
 This is built on an Ubuntu18.04 64-bit x86 image. It uses a KeyDB Pro DEB package similar to our PPA repository Pro downloads. The services can be used the same.
 
-<b>What if my NVMe SSD volume is unmounted?</b>
-
+**What if my NVMe SSD volume is unmounted?**
 This will only happen if your aws machine is stopped. If this happens, SSH in and run the `keydb-flash-setup.sh nvme` script again to set up the new volumes.
 
 ## A Detailed Step by Step Walkthrough
