@@ -6,7 +6,10 @@ sidebar_label:  Multiple Master
 
 KeyDB now has support with multiple masters when replicating.  This mode is enabled with the following configuration line:
 
-    multi-master yes
+```
+active-replica yes
+multi-master yes
+```
 
 When KeyDB connects with multiple masters it behaves differently than with traditional replication:
  - Multiple invocations of the replicaof command will result in adding additional masters, not replacing the current one
@@ -15,11 +18,6 @@ When KeyDB connects with multiple masters it behaves differently than with tradi
  - KeyDB will default to last operation wins
 
 This means that a replica with multiple masters will contain a superset of the data of all its masters.  If two masters have a value with the same key it is undefined which key will be taken.  If a master deletes a key that exists on another master the replica will no longer contain a copy of that key.
-
-**This feature is still experimental, if you try it out please let us know how it works for you. Keep an eye on your perf as this feature can occasionally experience traffic storms.**
-
-**If you are only setting up 2 instances to be masters please use active-replication as it is more stable than multi-master and tested to handle high loads**
-
 
 ## Setting up Multi-Master
 
