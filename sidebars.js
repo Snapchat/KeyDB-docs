@@ -21,7 +21,7 @@ module.exports = {
 				{type: 'link', label: 'More...', href: 'enterprise-intro'}
 				]},
 			// additional docs for getting started
-			"ami", "first-test", "migration", "config-file", "intro-admin"
+			"first-test", "migration", "config-file", "intro-admin"
 			]
 		},
 		// KeyDB Enterprise
