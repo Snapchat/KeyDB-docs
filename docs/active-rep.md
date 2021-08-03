@@ -39,7 +39,7 @@ A new configuration option is added to enable this mode, and when enabled also m
 
 The majority of Active Replica was implemented in [this change](https://github.com/EQ-Alpha/KeyDB/commit/a7aa2b074049a130761bc0a98d47130b6a0ff817)
 
-## Setting upActive-Replication
+## Setting up Active-Replication
 
 Active Replica nodes allow you to read and write to both instances which can increase reads under high load, and have your backup/replica node ready to go in a failure scenario. Setup is as simple as setting up your proxy server to point to the healthy instance. Take a look at the HAProxy section for example configurations that can enable health checks, and different routing configurations (round-robin, first, etc)
 Setting up you proxy server is simple, and the keydb configuration is even simpler as described earlier. An example config file:
