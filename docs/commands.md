@@ -6691,7 +6691,7 @@ PFCOUNT hll3
 
 ## PING
 
-**Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
+**Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [QUIT](/docs/commands/#quit), [REPLPING](/docs/commands/#replping), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
 
 Returns `PONG` if no argument is provided, otherwise return a copy of the
 argument as a bulk.
@@ -7035,6 +7035,29 @@ The form `REPLICAOF` NO ONE will stop replication, turning the server into a MAS
 #### Return:
 
 Simple String Reply
+
+---
+
+
+
+
+## REPLPING
+
+**Related Commands:** [PING](/docs/commands/#ping)
+
+Identical to [PING](/docs/commands/#ping), except that a blocked server will
+respond to it. Used internally to keep replication connections alive.
+
+#### Return:
+
+Simple String Reply
+
+#### Examples:
+
+```cli
+KeyDB> REPLPING
+PONG
+```
 
 ---
 
