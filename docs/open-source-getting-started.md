@@ -58,7 +58,7 @@ You can customize your KeyDB configuration in `/etc/keydb/keydb.conf`
 
 ### Installed Binaries
 
-One the binary packages are installed, so you can run an instance by calling the binary directly and passing parameters. For example:
+Once the binary packages are installed, you can also run an instance by calling the binary directly and passing parameters. For example:
 ```
 $ keydb-server --port 6379 --requirepass mypassword --server-threads 7
 ```
