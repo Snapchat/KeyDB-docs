@@ -23,7 +23,7 @@ keydb-cli> EXISTS mykey
 (integer) 0
 keydb-cli> APPEND mykey "Hello"
 (integer) 5
-keydb-cli> APPEND mykey " World"
+keydb-cli> APPEND mykey "World"
 (integer) 10
 keydb-cli> GET mykey
 "helloworld"
