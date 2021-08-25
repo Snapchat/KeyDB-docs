@@ -10,7 +10,7 @@ A single KeyDB replica instance can only be read from and cannot be written to. 
 
 ![Introduction-0](/img/doc/Introduction-0.png)
 
-KeyDB active replica instances can be both read from and written to. Active replicas (also known as "Active-Active") is when exactly two master server instances are exact replicas of each other, containing the same dataset. Writes received by one master from clients will automatically be propagated to the other master. 
+KeyDB active replica instances can be both read from and written to. Active replicas (also known as "Active-Active") are when exactly two master server instances are exact replicas of each other, containing the same dataset. Writes received by one master from clients will automatically be propagated to the other master. 
 
 ![Introduction-4](/img/doc/Introduction-1.png)
 
@@ -18,21 +18,21 @@ Multiple masters are an upgraded version of active replication. Multi-master req
 
 ![Introduction-2](/img/doc/Introduction-2.png)
 
-Active Replica / Multimaster are designed to have a proxy server that point to the healthy instances. A load balancer is used to direct writes to one specific masters (the one with the least traffic). Once one of the masters receive the write, the master will propagate the write to its connected other masters, and then so on, until all the masters in the topology receives the write. 
+Active Replica:/Multi-Master are designed to have a proxy server that point to the instances. A load balancer is used to direct traffic to one specific master (the one with the least traffic). When one of the masters receive a write, the master will propagate the write to its other masters, and then so on, until all the masters in the topology receives the write. 
 
 ![Introduction-3](/img/doc/Introduction-3.png)
 
-Finally, it is also possible to attach read-only replicas to the masters. This setup allows all writes to be load balanced while reads can be distributed by retrieving from the master directly or from read-only replicas.
+Finally, it is also possible to attach read-only replicas to the masters. This setup allows all writes to be load balanced while reads are distributed by retrieving from a master or from read-only replicas.
 
 ![Introduction-4](/img/doc/Introduction-4.png)
 
 ## Benefits
 
 This architecture offers the following benefits:
-- Simplifies fail-over scenarios as replicas no longer need to be promoted to active masters. In case one master fails, another master nodes can easily act as a backup.
+- Simplifies fail-over scenarios as replicas are no longer need to be promoted to active masters. In case one master fails, another master nodes can easily act as a backup.
 - Distribute load in high write scenarios.
 - Increase number of reads and maximize read latency under a heavy load of operations
-- Optimize latency as client can be physically connected to the closest master 
+- Optimize latency as clients can be physically connected to the closest master 
 
 ## Potential Use Cases
 
