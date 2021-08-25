@@ -6,7 +6,7 @@ sidebar_label: How It Works
 
 ## Introduction
 
-In terms of technical implementation, compared to traditional replication, Active Replication/Multi-Master have some key differences. These differences actually change how a server instance may be normally behave and could explain any potential unintended behaviour that the instance exhibits.
+In terms of technical implementation, compared to traditional replication, Active Replication/Multi-Master have some key differences. These differences actually change how a server instance may normally behave and could explain any potential unintended behaviour that the instance exhibits.
 
 ## Automatic Write Enable
 

@@ -131,12 +131,16 @@ A single master may need to be removed for reasons as follows:
 
 To remove a single master M from a network topology:  
 
-1. For every other master that is a `replicaof` M: Remove their list of masters via `replicaof no one`.
-2. For each of the every other master: Readd (via `replicaof <ip> <port>`) their original list of masters, except for the master to be removed M.
+1. For master M, execute `replicaof no one` 
+2. For every other master that is a `replicaof` M, execute `replicaof remove <ip> <port>`
+
+Where `<ip>` and `<port>` is the IP/port of M.
+
+**ATTENTION** : Issuing `replicaof remove` will also trigger the master to generate a secondary replication ID.
 
 ### Example : Remove a single master D from 4 node mesh topology 
 
-4 node mesh topology before the removal : 
+Before the removal : 4 node mesh topology
 
 ![MM-5](/img/doc/MM5.png)
 
@@ -151,24 +155,20 @@ To remove a single master M from a network topology:
 Execute the following client commands at the 4 different master nodes to perform the removal: 
 
 ```
-#1: Remove A,B,C,D’s connection with each other
-keydb-cli -p 1000 replicaof no one
-keydb-cli -p 2000 replicaof no one
-keydb-cli -p 3000 replicaof no one
+#1: Remove D’s connection with A, B, C
 keydb-cli -p 4000 replicaof no one
 
-#2: Readd A's connection to B/C 
-keydb-cli -p 1000 replicaof 127.0.0.1 2000
-keydb-cli -p 1000 replicaof 127.0.0.1 3000
+#2: Remove A's connection to D 
+keydb-cli -p 1000 replicaof remove 127.0.0.1 4000
 
-#2: Readd B's connection to A/C
-keydb-cli -p 2000 replicaof 127.0.0.1 1000
-keydb-cli -p 2000 replicaof 127.0.0.1 3000
+#2: Remove B's connection to D 
+keydb-cli -p 2000 replicaof remove 127.0.0.1 4000
 
-#2: Readd C's connection to A/B
-keydb-cli -p 3000 replicaof 127.0.0.1 1000
-keydb-cli -p 3000 replicaof 127.0.0.1 2000
+#2: Remove C's connection to D 
+keydb-cli -p 3000 replicaof remove 127.0.0.1 4000
 ```
+
+
 After the removal: 3 node mesh or bidirectional ring topology
 
 ![MM-6](/img/doc/MM6.png)
