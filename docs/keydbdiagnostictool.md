@@ -56,6 +56,6 @@ Time to wait between starting new client threads, in milliseconds. Default is `5
 
 Select the database number to select from. Default is `0`.
 
-### --user <username> --password <password>
+### --user &lt;username&gt; --password &lt;password&gt;
 
 Provide credentials for KeyDB auth. Default blank.
