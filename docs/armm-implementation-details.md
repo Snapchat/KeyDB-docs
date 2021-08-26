@@ -26,19 +26,20 @@ Whenever an active replica AR receives a new command, the UUID and timestamp wil
 When a master node M `replicaof` an additional master, M behaves differently compared to traditional replication:
 
 - After a `replicaof` invocation, M’s existing database will not be dropped as `replicaof` normally does
-- Each additional `replicaof` invocation will result in M append (and not replace) a new masters to the list of masters M have
+- Each additional `replicaof` invocation will result in M appending (and not replace) a new master to the list of masters M have
 
 ## Multi-Master-Only: Data State Immediately After Full Synchronization 
 
 After a master M has finished sync’ing up with every master, the following will be the M’s state:
 
-- M will initially contain a superset of the data of all of M’s masters. 
+- M will initially contain a superset of the data from all of M’s masters 
 - If two or more masters of M share the same key with different values, M’s value for the same key will be undefined
-- M will merge all incoming read/writes from any one of its masters with its own internal database
+- M will merge all incoming read/writes from any one of its masters with its own internal database ***FROM BOB : need to ask Ben/John what does this means***
 
 ## Multi-Master-Only: Write Conflict Resolution 
 
-After a master M completes synchronization with every master, two or more masters may then propagate conflicting writes to M. The following resolution will occur on M:
+After a master M completes all the synchronizations with every master, two or more masters may then propagate conflicting writes to M. The following resolution will occur on M:
 
 - M will default to last operation wins when it comes to multiple masters
-- If one of the M’s masters deletes a key that also exists on another master, M will no longer contain a copy of that key. Hence M will no longer contain a superset of all of M’s master’s data.
+- When one of M’s master deletes a key that also exists on another one of M's master, M will still delete the same key even if the key exists on another master. Hence M will no longer contain a superset of all of M’s master’s data
+
