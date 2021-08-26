@@ -60,7 +60,9 @@ Normally when a new master node is added to a network topology, it must first re
 
 If it’s needed to halt a master from executing writes, as to transform it to a read-only replica or to reduce its traffic, it is possible to temporarily (or even permanently) disable write privileges for a master. Although `active-replica yes` automatically sets `replica-read-only no`, `replica-read-only no` is not a requirement for a functioning active replication/multi-master server instance.  Hence `replica-read-only yes` can be set to stop all write traffic.
 
-### Split Brain Mitigation
+### Restricting Data READ/WRITES and Split Brain Mitigation
+
+For any master in a multi-master network topology, `replica-serve-stale-data no` should be used with `replica-quorum`. When enabling `replica-serve-stale-data no` (without `replica-quorum`) for any master M, if M loses its connection with even a single master, M will be restricted from serving read/writes. This can become a problem if all masters in a network topology are configured the same way. When even one master fails, then the whole network topology will become unavailable. 
 
 For a certain master node M, the configuration parameter `replica-quorum` (with `replica-serve-stale-data no`) refers to the least number of other reachable masters required for M to continue to serve reads and writes. In a split-brain scenario, where master M is only able to replicate a subset of all other masters, M can be configured to halt all incoming read and writes. The default value of -1 means that a master node will always serve all incoming read/writes regardless of the number of other masters it is replicating from.  
 
