@@ -131,10 +131,8 @@ A single master may need to be removed for reasons as follows:
 
 To remove a single master M from a network topology:  
 
-1. For master M, execute `replicaof no one` 
-2. For every other master that is a `replicaof` M, execute `replicaof remove <ip> <port>`
-
-Where `<ip>` and `<port>` is the IP/port of M.
+1. For master **M**, execute `replicaof no one` 
+2. For every other master that is a `replicaof` M, execute `replicaof remove <ip of M> <port of M>`
 
 **ATTENTION** : Issuing `replicaof remove` will also trigger the master to generate a secondary replication ID.
 
