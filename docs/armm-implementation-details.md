@@ -41,5 +41,5 @@ After a master M has finished sync’ing up with every master, the following wil
 After a master M completes all the synchronizations with every master, two or more masters may then propagate conflicting writes to M. The following resolution will occur on M:
 
 - M will default to last operation wins when it comes to multiple masters
-- When one of M’s master deletes a key that also exists on another one of M's master, M will still delete the same key even if the key exists on another master. Hence M will no longer contain a superset of all of M’s master’s data
+- When one of M’s master deletes a key that also exists on another one of M's master, M will still delete the same key even if the key exists on another master.  Hence M will no longer contain a superset of all of M’s master’s data
 
