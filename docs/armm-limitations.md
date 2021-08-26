@@ -8,6 +8,11 @@ sidebar_label: Limitations
 
 Although an Active-Replica / Multi-Master is great for handling a lot of read/write traffic, it is not the best when it comes to data consistency. Quite a few drawbacks of this system architecture come mainly from the implicit shortcomings of Last Write Wins and Split Brains. These two situations could prevent data to be out of sync or for data to behave unexpectedly for certain nodes. 
 
+
+## Inter-master communciation traffic
+
+A single master node does not know the overall network topology that it is a part of. Hence without this knowledge, the master node must constantly relay messages to other masters/replica connected to it. This will increase the amount of traffic between masters per connection in the network topology. 
+
 ## Last Write Wins Implications
 
 When a write is performed on a key, the key is associated with a timestamp to resolve conflicting writes. However, a write operation that deletes a key will also delete the timestamp, creating the following possible inconsistency scenarios: 
