@@ -11,7 +11,7 @@ Although an Active-Replica / Multi-Master is great for handling a lot of read/wr
 
 ## Inter-master communciation traffic
 
-A single master node does not know the overall network topology that it is a part of. Hence without this knowledge, the master node must constantly relay messages to other masters/replica connected to it. This will increase the amount of traffic between masters per connection in the network topology. 
+A single master node only knows about its own immediate connections. It does not know the overall network topology that it is a part of and hence  must constantly relay messages to other masters/replica connected to it. This will increase the amount of traffic between masters per connection in the network topology. 
 
 ## Last Write Wins Implications
 
