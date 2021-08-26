@@ -8,7 +8,7 @@ sidebar_label: Recommended Network Topology
 
 Multi-master enables each master to replicate from any number of other master nodes. This configuration flexibility leads to many acceptable network topologies. 
 
-We recommend using ring or mesh topology for most cases. These topologies are optimal for the intended design of active replication / multimaster.  In general, if minimal cost and resource efficiency is preferred, ring topology would be better. However, if availability and consistency is an absolute priority, then mesh topology would be better. See the following comparison chart for the two types of network topology:
+We recommend using ring or mesh topology for most cases. These topologies are optimal for the intended design of active replication / multimaster.  In general, if minimal cost and resource efficiency is preferred, use ring topology. However, if availability and consistency are an absolute priority, then mesh topology. See the following comparison chart for the two types of network topology:
 
 
 <table>
@@ -20,7 +20,7 @@ We recommend using ring or mesh topology for most cases. These topologies are op
     <td>
 		<ul>
 		<li>Less bandwidth due to lower intra-network traffic</li>
-		<li>Lower Cost</li>
+		<li>Lower cost</li>
 		<li>Maintenance can be easier</li>
 		<li>Usually used in Local Area Networks</li>
 		<li>Easier to install, configure, manage</li>
@@ -65,9 +65,9 @@ Mesh topology is where given N masters, each master will be replicating from N-1
 
 ## Mixed Ring Topology and Partial Mesh Topology 
 
-If there are specific masters with strong hardware or have a strong connection between them, it is possible to setup a mixed ring topology or a partial mesh topology.
+If there are specific masters with strong hardware or they have a strong connection between them, it is possible to setup a mixed ring topology or a partial mesh topology.
 
-A mixed ring topology is a topology between unidirectional and bidirectional ring topology. While a partial mesh topology is a midway between bidirectional and mesh topology. In either case, these additional connections can balance tradeoffs between ring vs mesh topology.
+A mixed ring topology is a setup between unidirectional and bidirectional ring topology. While a partial mesh topology is a midway between bidirectional and mesh topology. In either case, these additional connections can balance tradeoffs between ring vs mesh topology.
 
 ## Hybrid and Other Topology
 
