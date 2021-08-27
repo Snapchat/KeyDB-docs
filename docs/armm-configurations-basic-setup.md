@@ -8,11 +8,13 @@ sidebar_label: Configurations-Basic Setup
 
 Setting up Active Replication is like traditional replication, with the additional requirement that both nodes will be configured to `replicaof` each other. 
 
-Multimaster shares the setup as Active Replication but with additional steps. In Multiple Masters setup, each master node will be configured to be a replica of at least one multiple (rather than a single) other master nodes. Different set up offers its own unique advantage/disadvantages, refer to the Recommended Network Topology for more information.
+Multi-master shares the setup as Active Replication but with a few additional steps. In a multi-master setup, each master node will be configured to be a replica of at least one (rather than only a single) other master. Different setup offers its own unique advantage/disadvantages, refer to the [Recommended Network Topology](/docs/armm-recommended-network-topology) for more information.
 
-As normally Active Replica/MultiMaster is used with a load balancer, visit the HAProxy section for example configurations that can enable health checks, and different routing configurations (round-robin, first, etc).     
+As normally Active Replica / Multi-Master is used with a load balancer, visit [HAProxy configurations](/docs/haproxy) for health checks, and different routing configurations (round-robin, first).     
 
-## Active Replication Setup Version #1: Setting Active Replication and Connecting Them Later	
+## Active Replication Setup
+
+### Version #1: First Independent Later Join
 
 If for any reason that two server instances could function as active replicas, but not synchronize immediately upon boot, then this setup version is ideal. They would be both independent server instances at first. Then later, when they’re ready to be synchronized, one of them would become a copy [hence lose all its data since boot] of the other. 
 
@@ -24,11 +26,11 @@ Assume two server instances M1 and M2, perform the following:
 
 **REMINDER** : Executing `replicaof` will drop and delete the current server’s entire data. Backup the current server’s data in case the data is needed. 
 
-2. Initialize a client via `keydb-cli -p <port of M1>` that connects to M1. Execute the command `replicaof <address of M2> <port of M2>`.  M1 will drop all of its current database and load M2’s dataset. M1 is now a copy of M2.
+2. Initialize a client via that connects to **M**1. Execute the command `replicaof <address of M2> <port of M2>`.  M1 will drop all of its current database and load M2’s dataset. M1 is now a copy of M2.
 
 ![ActiveReplica2](/img/doc/ActiveReplica2.png)
 
-3. Initialize a second client via `keydb-cli -p <port of M2>` that connects to M1. Execute the command `replicaof <address of M1> <port of M1>`.  M2 will drop all of its current database and load M1’s dataset (the same data that M2 sent to M1). 
+3. Initialize a second client that now instead connects to **M2**. Execute the command `replicaof <address of M1> <port of M1>`.  M2 will drop all of its current database and load M1’s dataset (the same data that M2 sent to M1). 
 
 ![ActiveReplica3](/img/doc/ActiveReplica3.png)
 
@@ -36,7 +38,7 @@ See YouTube demo:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2QOICUsBEls?start=12" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Active Replication Version #2 : Configuration File Only
+### Version #2 : Configuration File Only
 
 Two server instances can be configured to be active replicas to immediately synchronize with each other upon boot. This achieved by setting up the configuration files as follows: 
 
@@ -46,36 +48,36 @@ Two server instances can be configured to be active replicas to immediately sync
 
 ![ActiveReplica4](/img/doc/ActiveReplica4.png)
 
-## Active Replication Version #3 : Command Line Arguments
+### Version #3 : Command Line Arguments
 
 Append to config file via the following command:
 
-`keydb-server keydb.conf --active-replica yes --replicaof <ipaddress> <port>`
+`keydb-server keydb.conf --active-replica yes --replicaof <ipaddress of other master> <port of other master>`
 
 ## Multi-Master : Differences To Active/Traditional Replication
 
 When a master (let’s call it M) `replicaof` two other masters, the replication is different than Active Replication.
 
 - After a `replicaof` invocation, M’s existing database will not be dropped as `replicaof` normally does
-- Each additional `replicaof` invocation will result in M append (and not replace) a new masters to the list of masters M has
-- After M fully synchronizes with all its masters, M will merge all incoming writes from the database of M’s masters  
+- Each additional `replicaof` invocation will instead result in M append (and not replace) a new master to the list of masters M has
+- After M fully synchronizes with all its masters, M will merge all incoming writes from each of the database of M’s masters 
 
 ## Multi-Master Setup
 
 For every server’s `keydb.conf` configuration file, apply the following changes: 
 
-1. Enable both `active-replica` and `multi-master` mode.  `Multi-master yes` will not function without `active-replica yes` enabled. 
+1. Enable both `active-replica` and `multi-master` mode.  `multi-master yes` will not function without `active-replica yes` enabled. 
 
 ```
 active-replica yes
 multi-master yes
 ```
 
-2. Register each keydb-server master node as a replica of the other desired master nodes via `replicaof <IP address> <PORT>`
+2. Register each keydb-server master node as a replica of the other desired master nodes via `replicaof <IP address of desired master> <PORT of desired master>`
 
 **REQUIRED** :  When setting up multi-master in a config file, `active-replica yes` and `multi-master yes` must be enabled BEFORE `replicaof <IP address> <PORT>`, as shown in the examples below.
 
-## Multi-Master Example #1: Configuration files of 3 master nodes within a unidirectional ring topology  
+### Example #1: unidirectional ring topology of 3 master nodes
 
 ![MM-1](/img/doc/MM1.png)
 
@@ -83,9 +85,9 @@ multi-master yes
 | ------------- | ------------- | ------------- |
 | ```port 6379```<br/>```active-replica yes```<br/>```multi-master yes```<br/>```replicaof 10.0.0.3 6379``` | ```port 6379```<br/>```active-replica yes```<br/>```multi-master yes```<br/>```replicaof 10.0.0.4 6379```  | ```port 6379```<br/>```active-replica yes```<br/>```multi-master yes```<br/>```replicaof 10.0.0.2 6379```  |
 
-**ATTENTION** : The `replicaof` command configures its caller master’s incoming data traffic, and not the callee’s outgoing traffic. Observe that write data traffic from the diagram arrow and the `replicaof` command are in reverse direction.  For example, In the above diagram, `10.0.03:6379` sends writes to `10.0.02:6379`. While the configuration file says that `10.0.02:6379` is `replicaof`  `10.0.03:6379`.
+**ATTENTION** : The `replicaof` command configures its caller master’s incoming data traffic, and not the callee’s outgoing traffic. Observe that write data traffic from the diagram arrow and the `replicaof` command are in reverse direction.  For example, In the above diagram, `10.0.0.3:6379` sends writes to `10.0.0.2:6379`. While the configuration file for A states that `10.0.0.2:6379` is `replicaof`  `10.0.0.3:6379`.
 
-## Multi-Master Example #2: Configuration files of 3 master nodes within a bidirectional ring topology [also mesh in this setup] 
+### Example #2: mesh / bidirectional ring topology of 3 master nodes
 
 ![MM-2](/img/doc/MM2.png)
 
@@ -93,7 +95,7 @@ multi-master yes
 | ------------- | ------------- | ------------- |
 | ```port 6379```<br/>```active-replica yes```<br/>```multi-master yes```<br/>```replicaof 10.0.0.3 6379```<br/>```replicaof 10.0.0.4 6379```  | ```port 6379```<br/>```active-replica yes```<br/>```multi-master yes```<br/>```replicaof 10.0.0.2 6379```<br/>```replicaof 10.0.0.4 6379```  | ```port 6379```<br/>```active-replica yes```<br/>```multi-master yes```<br/>```replicaof 10.0.0.2 6379```<br/>```replicaof 10.0.0.3 6379```  |
 
-## Multi-Master Example #3: Configuration files of 4 master nodes within a bidirectional ring topology
+### Example #3: bidirectional ring topology of 4 master nodes
 
 ![MM-3](/img/doc/MM3.png)
 
@@ -105,7 +107,7 @@ multi-master yes
 | ------------- | ------------- | 
 | ```port 6000```<br/>```active-replica yes```<br/>```multi-master yes```<br/>```replicaof 127.0.0.1 5000```<br/>```replicaof 127.0.0.1 6001```  | ```port 6001```<br/>```active-replica yes```<br/>```multi-master yes```<br/>```replicaof 127.0.0.1 5001```<br/>```replicaof 127.0.0.1 6000```  |
 
-## Multi-Master Example #4: Configuration files of 4 master nodes within a mesh topology
+### Example #4: mesh topology of 4 master nodes
 
 ![MM-4](/img/doc/MM4.png)
 
@@ -118,9 +120,9 @@ multi-master yes
 | ```port 6000```<br/>```active-replica yes```<br/>```multi-master yes```<br/>```replicaof 127.0.0.1 5000```<br/>```replicaof 127.0.0.1 5001```<br/>```replicaof 127.0.0.1 6001```  | ```port 6001```<br/>```active-replica yes```<br/>```multi-master yes```<br/>```replicaof 127.0.0.1 5000```<br/>```replicaof 127.0.0.1 5001```<br/>```replicaof 127.0.0.1 6000```  |
 
 
-## Multi-Master Example #5: Append to configuration file through command line
+### Example #5: Append to configuration file through command line
 
-`keydb-server keydb.conf --active-replica yes --multi-master yes --replicaof <ipaddress> <port> --replicaof <ipaddress> <port>`
+`keydb-server keydb.conf --active-replica yes --multi-master yes --replicaof <ipaddress of master1> <port of master1> --replicaof <ipaddress of master2> <port of master2>`
 
 ## Removing a single master from a network topology
 
