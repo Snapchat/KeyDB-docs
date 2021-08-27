@@ -69,6 +69,8 @@ If there are specific masters with strong hardware or they have a strong connect
 
 A mixed ring topology is a setup between unidirectional and bidirectional ring topology. While a partial mesh topology is a midway between bidirectional and mesh topology. In either case, these additional connections can balance tradeoffs between ring vs mesh topology.
 
+![MixedRingPartialMesh](/img/doc/MixedRingPartialMesh.png)
+
 ## Hybrid and Other Topology
 
 Although it is possible to configure additional topologies such as linear, tree, star topology, we recommend refrain from them. These topologies have a “central” point of failure that could create more problems (especially split-brain scenarios or latency decreases) than they’re worth. Other topologies are also possible but create an unneeded complexity as compared to ring/mesh topology. 
