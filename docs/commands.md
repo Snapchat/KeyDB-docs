@@ -4517,7 +4517,7 @@ empty list when `key` does not exist.
 
 #### Examples:
 
-```cli
+```
 HSET myhash field1 "Hello"
 HSET myhash field2 "World"
 HGETALL myhash
@@ -6766,6 +6766,24 @@ Supported glob-style patterns:
 * `h[ae]llo` subscribes to `hello` and `hallo,` but not `hillo`
 
 Use `\` to escape special characters if you want to match them verbatim.
+
+---
+
+
+## PSYNC
+
+Initiates a replication stream from the master.
+
+The PSYNC command is called by KeyDB replicas for initiating a replication stream from the master.
+
+For more information about replication in KeyDB, please check the [replication page](/docs/replication).
+
+#### Return value:
+
+Non standard return value, a bulk transfer of the data followed by PING and write requests from the master.
+
+
+
 
 ---
 
