@@ -4435,10 +4435,13 @@ including specified but non existing fields.
 
 #### Examples:
 
-```cli
-HSET myhash field1 "foo"
-HDEL myhash field1
-HDEL myhash field2
+```
+keydb-cli> HSET myhash field1 "foo"
+(integer) 1
+keydb-cli> HDEL myhash field1
+(integer) 1
+keydb-cli> HDEL myhash field2
+(integer) 0
 ```
 ---
 
@@ -4460,10 +4463,13 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-HSET myhash field1 "foo"
-HEXISTS myhash field1
-HEXISTS myhash field2
+```
+keydb-cli> HSET myhash field1 "foo"
+(integer) 1
+keydb-cli> HEXISTS myhash field1
+(integer) 1
+keydb-cli> HEXISTS myhash field2
+(integer) 0
 ```
 ---
 
@@ -4483,10 +4489,13 @@ present in the hash or `key` does not exist.
 
 #### Examples:
 
-```cli
-HSET myhash field1 "foo"
-HGET myhash field1
-HGET myhash field2
+```
+keydb-cli> HSET myhash field1 "foo"
+(integer) 1
+keydb-cli> HGET myhash field1
+"foo"
+keydb-cli> HGET myhash field2
+(nil)
 ```
 ---
 
@@ -4631,6 +4640,7 @@ Integer Reply: number of fields in the hash, or `0` when `key` does not exist.
 #### Examples:
 
 ```cli
+key
 HSET myhash field1 "Hello"
 HSET myhash field2 "World"
 HLEN myhash
