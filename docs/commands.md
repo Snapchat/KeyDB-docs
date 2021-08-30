@@ -6722,10 +6722,11 @@ Simple String Reply
 
 #### Examples:
 
-```cli
-PING
-
-PING "hello world"
+```
+keydb-cli> PING
+PONG
+keydb-cli> PING "hello world"
+"hello world"
 ```
 
 ---
