@@ -4693,10 +4693,15 @@ a non-existing `key` will return a list of `nil` values.
 Array Reply: list of values associated with the given fields, in the same
 order as they are requested.
 
-```cli
-HSET myhash field1 "Hello"
-HSET myhash field2 "World"
-HMGET myhash field1 field2 nofield
+```
+keydb-cli> HSET myhash field1 "Hello"
+(integer) 1
+keydb-cli> HSET myhash field2 "World"
+(integer) 1
+keydb-cli> HMGET myhash field1 field2 nofield
+1) "Hello"
+2) "World"
+3) (nil)
 ```
 ---
 
