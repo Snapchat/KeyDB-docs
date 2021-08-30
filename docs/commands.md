@@ -73,7 +73,7 @@ keydb-cli> GETRANGE ts 4 7
 ```
 ---
 
-#ii# AUTH
+## AUTH
 
 **Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
 
@@ -3583,12 +3583,17 @@ Since KeyDB 3.0.3 the command accepts a variable number of keys and the return v
 
 #### Examples:
 
-```cli
-SET key1 "Hello"
-EXISTS key1
-EXISTS nosuchkey
-SET key2 "World"
-EXISTS key1 key2 nosuchkey
+```
+keydb-cli> SET key1 "Hello"
+OK
+keydb-cli> EXISTS key1
+(integer) 1
+keydb-cli> EXISTS nosuchkey
+(integer) 0
+keydb-cli> SET key2 "World"
+OK
+keydb-cli> EXISTS key1 key2 nosuchkey
+(integer) 2
 ```
 ---
 
