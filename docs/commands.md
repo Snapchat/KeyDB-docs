@@ -4665,11 +4665,11 @@ Integer Reply: number of fields in the hash, or `0` when `key` does not exist.
 #### Examples:
 
 ```
-keydb-cli> hset myhash field1 "Hello"
+keydb-cli> HSET myhash field1 "Hello"
 (integer) 1
-keydb-cli> hset myhash field2 "World"
+keydb-cli> HSET myhash field2 "World"
 (integer) 1
-keydb-cli> hlen myhash
+keydb-cli> HLEN myhash
 (integer) 2
 ```
 ---
