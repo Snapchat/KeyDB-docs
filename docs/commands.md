@@ -4723,10 +4723,13 @@ Simple String Reply
 
 #### Examples:
 
-```cli
-HMSET myhash field1 "Hello" field2 "World"
-HGET myhash field1
-HGET myhash field2
+```
+keydb-cli> HMSET myhash field1 "Hello" field2 "World"
+OK
+keydb-cli> HGET myhash field1
+"Hello"
+keydb-cli> HGET myhash field2
+"World"
 ```
 ---
 
