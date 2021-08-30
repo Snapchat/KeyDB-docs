@@ -4638,10 +4638,14 @@ not exist.
 
 #### Examples:
 
-```cli
-HSET myhash field1 "Hello"
-HSET myhash field2 "World"
-HKEYS myhash
+```
+keydb-cli> HSET myhash field1 "Hello"
+(integer) 1
+keydb-cli> HSET myhash field2 "World"
+(integer) 1
+keydb-cli> HKEYS myhash
+1) "field1"
+2) "field2"
 ```
 ---
 
