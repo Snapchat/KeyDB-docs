@@ -23,7 +23,7 @@ keydb-cli> EXISTS mykey
 (integer) 0
 keydb-cli> APPEND mykey "Hello"
 (integer) 5
-keydb-cli> APPEND mykey "World"
+keydb-cli> APPEND mykey " World"
 (integer) 10
 keydb-cli> GET mykey
 "helloworld"
@@ -61,15 +61,19 @@ more friendly to be distributed across many KeyDB instances.
 An example sampling the temperature of a sensor using fixed-size strings (using
 a binary format is better in real implementations).
 
-```cli
-APPEND ts "0043"
-APPEND ts "0035"
-GETRANGE ts 0 3
-GETRANGE ts 4 7
+```
+keydb-cli> APPEND ts "0043"
+(integer) 4
+keydb-cli> APPEND ts "0035"
+(integer) 8
+keydb-cli> GETRANGE ts 0 3
+"0043"
+keydb-cli> GETRANGE ts 4 7
+"0035"
 ```
 ---
 
-## AUTH
+#ii# AUTH
 
 **Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
 
@@ -82,7 +86,7 @@ If `password` matches the password in the configuration file, the server replies
 with the `OK` status code and starts accepting commands.
 Otherwise, an error is returned and the clients needs to try a new password.
 
-**Note**: because of the high performance nature of KeyDB, it is possible to try
+**TIP**: because of the high performance nature of KeyDB, it is possible to try
 a lot of passwords in parallel in very short time, so make sure to generate a
 strong and very long password so that this attack is infeasible.
 
@@ -103,7 +107,7 @@ on disk then exits.
 A client may be able to check if the operation succeeded using the `LASTSAVE`
 command.
 
-Please refer to the [persistence documentation][https://docs.keydb.dev/docs/persistence/] for detailed information.
+Please refer to the [persistence documentation](/docs/persistence/) for detailed information.
 
 ---
 
@@ -111,7 +115,7 @@ Please refer to the [persistence documentation][https://docs.keydb.dev/docs/pers
 
 **Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
-Instruct KeyB to start an [Append Only File](https://docs.keydb.dev/docs/persistence/) rewrite process.
+Instruct KeyB to start an [Append Only File](docs/persistence/) rewrite process.
 The rewrite will create a small optimized version of the current Append Only
 File.
 
@@ -133,7 +137,7 @@ Specifically:
 Since KeyDB 2.4 the AOF rewrite is automatically triggered by KeyDB, however the
 `BGREWRITEAOF` command can be used to trigger a rewrite at any time.
 
-Please refer to the [persistence documentation](https://docs.keydb.dev/docs/persistence/) for detailed information.
+Please refer to the [persistence documentation](docs/persistence/) for detailed information.
 
 #### Return:
 
@@ -416,9 +420,7 @@ the population counting operation is performed.
 `BITOP` is a potentially slow command as it runs in O(N) time.
 Care should be taken when running it against long input strings.
 
-For real-time metrics and statistics involving large inputs a good approach is
-to use a replica (with read-only option disabled) where the bit-wise
-operations are performed to avoid blocking the master instance.
+For real-time metrics and statistics involving large inputs a good approach is to use a replica (with read-only option disabled) where the bit-wise operations are performed to avoid blocking the master instance.
 
 ---
 
@@ -426,7 +428,9 @@ operations are performed to avoid blocking the master instance.
 
 ## BITPOS
 
-**Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) Return the position of the first bit set to 1 or 0 in a string.
+**Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen)
+
+Return the position of the first bit set to 1 or 0 in a string.
 
 The position is returned, thinking of the string as an array of bits from left to
 right, where the first byte's most significant bit is at position 0, the second
@@ -933,10 +937,8 @@ w: the client socket is writable (event loop)
 
 #### Notes
 
-New fields are regularly added for debugging purpose. Some could be removed
-in the future. A version safe KeyDB client using this command should parse
-the output accordingly (i.e. handling gracefully missing fields, skipping
-unknown fields).
+New fields are regularly added for debugging purpose. Some could be removed in the future. A version safe KeyDB client using this command should parse the output accordingly (i.e. handling gracefully missing fields, skipping unknown fields).
+
 ---
 
 
@@ -4433,10 +4435,13 @@ including specified but non existing fields.
 
 #### Examples:
 
-```cli
-HSET myhash field1 "foo"
-HDEL myhash field1
-HDEL myhash field2
+```
+keydb-cli> HSET myhash field1 "foo"
+(integer) 1
+keydb-cli> HDEL myhash field1
+(integer) 1
+keydb-cli> HDEL myhash field2
+(integer) 0
 ```
 ---
 
@@ -4458,10 +4463,13 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-HSET myhash field1 "foo"
-HEXISTS myhash field1
-HEXISTS myhash field2
+```
+keydb-cli> HSET myhash field1 "foo"
+(integer) 1
+keydb-cli> HEXISTS myhash field1
+(integer) 1
+keydb-cli> HEXISTS myhash field2
+(integer) 0
 ```
 ---
 
@@ -4481,10 +4489,13 @@ present in the hash or `key` does not exist.
 
 #### Examples:
 
-```cli
-HSET myhash field1 "foo"
-HGET myhash field1
-HGET myhash field2
+```
+keydb-cli> HSET myhash field1 "foo"
+(integer) 1
+keydb-cli> HGET myhash field1
+"foo"
+keydb-cli> HGET myhash field2
+(nil)
 ```
 ---
 
@@ -4506,7 +4517,7 @@ empty list when `key` does not exist.
 
 #### Examples:
 
-```cli
+```
 HSET myhash field1 "Hello"
 HSET myhash field2 "World"
 HGETALL myhash
@@ -4629,6 +4640,7 @@ Integer Reply: number of fields in the hash, or `0` when `key` does not exist.
 #### Examples:
 
 ```cli
+key
 HSET myhash field1 "Hello"
 HSET myhash field2 "World"
 HLEN myhash
@@ -6692,7 +6704,7 @@ PFCOUNT hll3
 
 ## PING
 
-**Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [QUIT](/docs/commands/#quit), [REPLPING](/docs/commands/#replping), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
+**Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
 
 Returns `PONG` if no argument is provided, otherwise return a copy of the
 argument as a bulk.
@@ -6710,10 +6722,11 @@ Simple String Reply
 
 #### Examples:
 
-```cli
-PING
-
-PING "hello world"
+```
+keydb-cli> PING
+PONG
+keydb-cli> PING "hello world"
+"hello world"
 ```
 
 ---
@@ -6754,6 +6767,24 @@ Supported glob-style patterns:
 * `h[ae]llo` subscribes to `hello` and `hallo,` but not `hillo`
 
 Use `\` to escape special characters if you want to match them verbatim.
+
+---
+
+
+## PSYNC
+
+Initiates a replication stream from the master.
+
+The PSYNC command is called by KeyDB replicas for initiating a replication stream from the master.
+
+For more information about replication in KeyDB, please check the [replication page](/docs/replication).
+
+#### Return value:
+
+Non standard return value, a bulk transfer of the data followed by PING and write requests from the master.
+
+
+
 
 ---
 
@@ -7036,29 +7067,6 @@ The form `REPLICAOF` NO ONE will stop replication, turning the server into a MAS
 #### Return:
 
 Simple String Reply
-
----
-
-
-
-
-## REPLPING
-
-**Related Commands:** [PING](/docs/commands/#ping)
-
-Identical to [PING](/docs/commands/#ping), except that a blocked server will
-respond to it. Used internally to keep replication connections alive.
-
-#### Return:
-
-Simple String Reply
-
-#### Examples:
-
-```cli
-KeyDB> REPLPING
-PONG
-```
 
 ---
 
@@ -8992,9 +9000,15 @@ SWAPDB 0 1
 
 **Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
-#### Examples:
+Initiates a replication stream from the master.
 
-#### Return:
+The SYNC command is called by Redis replicas for initiating a replication stream from the master. It has been replaced in newer versions of KeyDB by [PSYNC](/docs/commands/#psync).
+
+For more information about replication in Redis please check the replication page.
+
+#### Return value:
+Non standard return value, a bulk transfer of the data followed by [PING](/docs/commands/#ping) and write requests from the master.
+
 
 ---
 
