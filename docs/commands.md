@@ -4523,10 +4523,17 @@ empty list when `key` does not exist.
 #### Examples:
 
 ```
-HSET myhash field1 "Hello"
-HSET myhash field2 "World"
-HGETALL myhash
+keydb-cli> HSET myhash field1 "Hello"
+(integer) 1
+keydb-cli> HSET myhash field2 "World"
+(integer) 1
+keydb-cli> HGETALL myhash
+1) "field1"
+2) "Hello"
+3) "field2"
+4) "World" 
 ```
+
 ---
 
 
