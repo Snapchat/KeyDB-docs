@@ -73,7 +73,7 @@ keydb-cli> GETRANGE ts 4 7
 ```
 ---
 
-## AUTH
+#ii# AUTH
 
 **Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
 
@@ -86,7 +86,7 @@ If `password` matches the password in the configuration file, the server replies
 with the `OK` status code and starts accepting commands.
 Otherwise, an error is returned and the clients needs to try a new password.
 
-**Note**: because of the high performance nature of KeyDB, it is possible to try
+**TIP**: because of the high performance nature of KeyDB, it is possible to try
 a lot of passwords in parallel in very short time, so make sure to generate a
 strong and very long password so that this attack is infeasible.
 
