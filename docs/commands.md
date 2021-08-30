@@ -7152,16 +7152,16 @@ Simple String Reply: The command returns OK on success.
 
 #### Examples:
 
-```cli
-KeyDB> DEL mykey
+```
+keydb-cli> DEL mykey
 0
-KeyDB> RESTORE mykey 0 "\n\x17\x17\x00\x00\x00\x12\x00\x00\x00\x03\x00\
+keydb-cli> RESTORE mykey 0 "\n\x17\x17\x00\x00\x00\x12\x00\x00\x00\x03\x00\
                         x00\xc0\x01\x00\x04\xc0\x02\x00\x04\xc0\x03\x00\
                         xff\x04\x00u#<\xc0;.\xe9\xdd"
 OK
-KeyDB> TYPE mykey
+keydb-cli> TYPE mykey
 list
-KeyDB> LRANGE mykey 0 -1
+keydb-cli> LRANGE mykey 0 -1
 1) "1"
 2) "2"
 3) "3"
