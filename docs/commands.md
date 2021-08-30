@@ -932,10 +932,8 @@ w: the client socket is writable (event loop)
 
 #### Notes
 
-New fields are regularly added for debugging purpose. Some could be removed
-in the future. A version safe KeyDB client using this command should parse
-the output accordingly (i.e. handling gracefully missing fields, skipping
-unknown fields).
+New fields are regularly added for debugging purpose. Some could be removed in the future. A version safe KeyDB client using this command should parse the output accordingly (i.e. handling gracefully missing fields, skipping unknown fields).
+
 ---
 
 
