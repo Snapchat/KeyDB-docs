@@ -4560,11 +4560,15 @@ Integer Reply: the value at `field` after the increment operation.
 Since the `increment` argument is signed, both increment and decrement
 operations can be performed:
 
-```cli
-HSET myhash field 5
-HINCRBY myhash field 1
-HINCRBY myhash field -1
-HINCRBY myhash field -10
+```
+keydb-cli> HSET myhash field 5
+(integer) 1
+keydb-cli> HINCRBY myhash field 1
+(integer) 6
+keydb-cli> HINCRBY myhash field -1
+(integer) 5
+keydb-cli> HINCRBY myhash field -10
+(integer) -5
 ```
 
 ---
