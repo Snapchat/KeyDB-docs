@@ -61,11 +61,15 @@ more friendly to be distributed across many KeyDB instances.
 An example sampling the temperature of a sensor using fixed-size strings (using
 a binary format is better in real implementations).
 
-```cli
-APPEND ts "0043"
-APPEND ts "0035"
-GETRANGE ts 0 3
-GETRANGE ts 4 7
+```
+keydb-cli> APPEND ts "0043"
+(integer) 4
+keydb-cli> APPEND ts "0035"
+(integer) 8
+keydb-cli> GETRANGE ts 0 3
+"0043"
+keydb-cli> GETRANGE ts 4 7
+"0035"
 ```
 ---
 
