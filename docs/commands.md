@@ -7102,8 +7102,25 @@ Simple String Reply
 
 ---
 
+## REPLPING
 
+**Related Commands:** [PING](/docs/commands/#ping)
 
+Identical to [PING](/docs/commands/#ping), except that a blocked server will
+respond to it. Used internally to keep replication connections alive.
+
+#### Return:
+
+Simple String Reply
+
+#### Examples:
+
+```cli
+keydb-cli> REPLPING
+PONG
+```
+
+---
 
 ## RESTORE
 
@@ -7135,7 +7152,7 @@ Simple String Reply: The command returns OK on success.
 
 #### Examples:
 
-```
+```cli
 KeyDB> DEL mykey
 0
 KeyDB> RESTORE mykey 0 "\n\x17\x17\x00\x00\x00\x12\x00\x00\x00\x03\x00\
