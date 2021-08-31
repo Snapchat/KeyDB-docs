@@ -10945,6 +10945,12 @@ number), represented as string.
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
 
+## Usage
+
+```ZINTERSTORE <destination> <numkeys> <key-of-zset1> ... [key-of-zsetn]```
+
+```ZINTERSTORE <destination> <numkeys> <key-of-zset1> ... [key-of-zsetn] WEIGHTS<weight-1> ... <weight-numkeys> ```
+
 Computes the intersection of `numkeys` sorted sets given by the specified keys,
 and stores the result in `destination`.
 It is mandatory to provide the number of input keys (`numkeys`) before passing
@@ -10958,6 +10964,8 @@ be equal to the number of input sorted sets.
 
 For a description of the `WEIGHTS` and `AGGREGATE` options, see `ZUNIONSTORE`.
 
+
+
 If `destination` already exists, it is overwritten.
 
 #### Return:
@@ -10967,15 +10975,28 @@ Integer Reply: the number of elements in the resulting sorted set at
 
 #### Examples:
 
-```cli
-ZADD zset1 1 "one"
-ZADD zset1 2 "two"
-ZADD zset2 1 "one"
-ZADD zset2 2 "two"
-ZADD zset2 3 "three"
-ZINTERSTORE out 2 zset1 zset2 WEIGHTS 2 3
-ZRANGE out 0 -1 WITHSCORES
 ```
+keydb-cli> ZADD zset1 1 "one"
+(integer) 1
+keydb-cli> ZADD zset1 2 "two"
+(integer) 1
+keydb-cli> ZADD zset2 1 "one"
+(integer) 1
+keydb-cli> ZADD zset2 2 "two"
+(integer) 1
+keydb-cli> ZADD zset2 3 "three"
+(integer) 1
+keydb-cli> ZINTERSTORE out 2 zset1 zset2 WEIGHTS 2 3
+(integer) 2
+keydb-cli> ZRANGE out 0 -1 WITHSCORES
+1) "one"
+2) "5"
+3) "two"
+4) "10"
+```
+
+"one" : 5 = 1*2 + 1*3 (sorted set score * weight)
+"two" : 10 = 2*2 + 2*3 (sorted set score * weight)
 
 ---
 
