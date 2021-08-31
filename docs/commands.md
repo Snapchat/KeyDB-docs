@@ -7475,11 +7475,16 @@ all the elements already present into the set.
 
 #### Examples:
 
-```cli
-SADD myset "Hello"
-SADD myset "World"
-SADD myset "World"
-SMEMBERS myset
+```
+keydb-cli> SADD myset "Hello"
+(integer) 1
+keydb-cli> SADD myset "World"
+(integer) 1
+keydb-cli> SADD myset "World"
+(integer) 0
+keydb-cli> SMEMBERS myset
+1) "Hello"
+2) "World"
 ```
 
 ---
