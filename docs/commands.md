@@ -9083,14 +9083,25 @@ Array Reply: list with members of the resulting set.
 
 #### Examples:
 
-```cli
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SUNION key1 key2
+```
+keydb-cli> SADD key1 "a"
+(integer) 1
+keydb-cli> SADD key1 "b"
+(integer) 1
+keydb-cli> SADD key1 "c"
+(integer) 1
+keydb-cli> SADD key2 "c"
+(integer) 1
+keydb-cli> SADD key2 "d"
+(integer) 1
+keydb-cli> SADD key2 "e"
+(integer) 1
+keydb-cli> SUNION key1 key2
+1) "b"
+2) "c"
+3) "a"
+4) "e"
+5) "d"
 ```
 
 ---
