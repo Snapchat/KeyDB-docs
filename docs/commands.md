@@ -8485,10 +8485,13 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-SADD myset "one"
-SISMEMBER myset "one"
-SISMEMBER myset "two"
+```
+keydb-cli> SADD myset "one"
+(integer) 1
+keydb-cli> SISMEMBER myset "one"
+(integer) 1
+keydb-cli> SISMEMBER myset "two"
+(integer) 0
 ```
 
 ---
