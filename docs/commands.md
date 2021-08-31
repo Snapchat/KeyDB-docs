@@ -10921,11 +10921,18 @@ number), represented as string.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZINCRBY myzset 2 "one"
-ZRANGE myzset 0 -1 WITHSCORES
+```
+127.0.0.1:6379> ZADD myzset 1 "one"
+(integer) 1
+127.0.0.1:6379> ZADD myzset 2 "two"
+(integer) 1
+127.0.0.1:6379> ZINCRBY myzset 2 "one"
+"3"
+127.0.0.1:6379> ZRANGE myzset 0 -1 WITHSCORES
+1) "two"
+2) "2"
+3) "one"
+4) "3"
 ```
 
 ---
