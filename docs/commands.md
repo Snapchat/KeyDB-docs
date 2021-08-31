@@ -4762,10 +4762,13 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-HSET myhash field1 "Hello"
-HGET myhash field1
 ```
+keydb-cli> HSET myhash field1 "Hello"
+(integer) 1
+keydb-cli> HGET myhash field1
+"Hello"
+```
+
 ---
 
 
