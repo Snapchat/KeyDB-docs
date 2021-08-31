@@ -10879,12 +10879,17 @@ Integer Reply: the number of elements in the specified score range.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZCOUNT myzset -inf +inf
-ZCOUNT myzset (1 3
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZCOUNT myzset -inf +inf
+(integer) 3
+keydb-cli> ZCOUNT myzset (1 3
+(integer) 2
 ```
 
 ---
