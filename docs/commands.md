@@ -4792,10 +4792,13 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-HSETNX myhash field "Hello"
-HSETNX myhash field "World"
-HGET myhash field
+```
+keydb-cli> HSETNX myhash field "Hello"
+(integer) 1
+keydb-cli> HSETNX myhash field "World"
+(integer) 0
+keydb-cli> HGET myhash field
+"Hello"
 ```
 ---
 
