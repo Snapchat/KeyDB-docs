@@ -8645,10 +8645,14 @@ Array Reply: all elements of the set.
 
 #### Examples:
 
-```cli
-SADD myset "Hello"
-SADD myset "World"
-SMEMBERS myset
+```
+keydb-cli> SADD myset "Hello"
+(integer) 1
+keydb-cli> SADD myset "World"
+(integer) 1
+keydb-cli> SMEMBERS myset
+1) "Hello"
+2) "World"
 ```
 
 ---
