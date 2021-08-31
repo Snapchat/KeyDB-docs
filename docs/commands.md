@@ -8990,13 +8990,20 @@ including non existing members.
 
 #### Examples:
 
-```cli
-SADD myset "one"
-SADD myset "two"
-SADD myset "three"
-SREM myset "one"
-SREM myset "four"
-SMEMBERS myset
+```
+keydb-cli> SADD myset "one"
+(integer) 1
+keydb-cli> SADD myset "two"
+(integer) 1
+keydb-cli> SADD myset "three"
+(integer) 1
+keydb-cli> SREM myset "one"
+(integer) 1
+keydb-cli> SREM myset "four"
+(integer) 0
+keydb-cli> SMEMBERS myset
+1) "three"
+2) "two"
 ```
 ---
 
