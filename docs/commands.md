@@ -8929,11 +8929,20 @@ Array Reply: when the additional `count` argument is passed the command returns 
 
 #### Examples:
 
-```cli
-SADD myset one two three
-SRANDMEMBER myset
-SRANDMEMBER myset 2
-SRANDMEMBER myset -5
+```
+keydb-cli> SADD myset one two three
+(integer) 3
+keydb-cli> SRANDMEMBER myset
+"two"
+keydb-cli> SRANDMEMBER myset 2
+1) "one"
+2) "three"
+keydb-cli> SRANDMEMBER myset -5
+1) "three"
+2) "two"
+3) "two"
+4) "three"
+5) "three"
 ```
 
 #### Specification of the behavior when count is passed
