@@ -10811,10 +10811,21 @@ If the `INCR` option is specified, the return value will be Bulk String Reply:
 #### Examples:
 
 ```cli
-ZADD myzset 1 "one"
-ZADD myzset 1 "uno"
-ZADD myzset 2 "two" 3 "three"
-ZRANGE myzset 0 -1 WITHSCORES
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 1 "uno"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two" 3 "three"
+(integer) 2
+keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
+1) "one"
+2) "1"
+3) "uno"
+4) "1"
+5) "two"
+6) "2"
+7) "three"
+8) "3"
 ```
 
 ---
