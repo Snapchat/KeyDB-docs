@@ -10945,11 +10945,11 @@ number), represented as string.
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
 
-## Usage
+#### Usage
 
 ```ZINTERSTORE <destination> <numkeys> <key-of-zset1> ... [key-of-zsetn]```
 
-```ZINTERSTORE <destination> <numkeys> <key-of-zset1> ... [key-of-zsetn] WEIGHTS<weight-1> ... <weight-numkeys> ```
+```ZINTERSTORE <destination> <numkeys> <key-of-zset1> ... [key-of-zsetn] WEIGHTS <weight-1> ... <weight-numkeys> ```
 
 Computes the intersection of `numkeys` sorted sets given by the specified keys,
 and stores the result in `destination`.
@@ -10995,8 +10995,9 @@ keydb-cli> ZRANGE out 0 -1 WITHSCORES
 4) "10"
 ```
 
-"one" : 5 = 1*2 + 1*3 (sorted set score * weight)
-"two" : 10 = 2*2 + 2*3 (sorted set score * weight)
+"one" : 5 = 1 X 2 + 1 X 3 (sorted set score X weight)
+
+"two" : 10 = 2 X 2 + 2 X 3 (sorted set score X weight)
 
 ---
 
@@ -11007,6 +11008,11 @@ keydb-cli> ZRANGE out 0 -1 WITHSCORES
 ## ZLEXCOUNT
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Usage
+
+```ZLEXCOUNT <key> <min> <max>```
+
 
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns the number of elements in the sorted set at `key` with a value between `min` and `max`.
 
@@ -11021,11 +11027,15 @@ Integer Reply: the number of elements in the specified score range.
 
 #### Examples:
 
-```cli
-ZADD myzset 0 a 0 b 0 c 0 d 0 e
-ZADD myzset 0 f 0 g
-ZLEXCOUNT myzset - +
-ZLEXCOUNT myzset [b [f
+```
+keydb-cli> ZADD myzset 0 a 0 b 0 c 0 d 0 e
+(integer) 5
+keydb-cli> ZADD myzset 0 f 0 g
+(integer) 2
+keydb-cli> ZLEXCOUNT myzset - +
+(integer) 7
+keydb-cli> ZLEXCOUNT myzset [b [f
+(integer) 5
 ```
 
 ---
