@@ -4817,11 +4817,15 @@ Integer Reply: the string length of the value associated with `field`, or zero w
 
 #### Examples:
 
-```cli
-HMSET myhash f1 HelloWorld f2 99 f3 -256
-HSTRLEN myhash f1
-HSTRLEN myhash f2
-HSTRLEN myhash f3
+```
+keydb-cli> HMSET myhash f1 HelloWorld f2 99 f3 -256
+OK
+keydb-cli> HSTRLEN myhash f1
+(integer) 10
+keydb-cli> HSTRLEN myhash f2
+(integer) 2
+keydb-cli> HSTRLEN myhash f3
+(integer) 4
 ```
 ---
 
