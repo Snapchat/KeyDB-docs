@@ -8871,16 +8871,28 @@ Bulk String Reply: the removed element, or `nil` when `key` does not exist.
 
 #### Examples:
 
-```cli
-SADD myset "one"
-SADD myset "two"
-SADD myset "three"
-SPOP myset
-SMEMBERS myset
-SADD myset "four"
-SADD myset "five"
-SPOP myset 3
-SMEMBERS myset
+```
+keydb-cli> SADD myset "one"
+(integer) 1
+keydb-cli> SADD myset "two"
+(integer) 1
+keydb-cli> SADD myset "three"
+(integer) 1
+keydb-cli> SPOP myset
+"two"
+keydb-cli> SMEMBERS myset
+1) "one"
+2) "three"
+keydb-cli> SADD myset "four"
+(integer) 1
+keydb-cli> SADD myset "five"
+(integer) 1
+keydb-cli> SPOP myset 3
+1) "four"
+2) "three"
+3) "five"
+keydb-cli> SMEMBERS myset
+1) "one"
 ```
 
 #### Specification of the behavior when count is passed
