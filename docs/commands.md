@@ -8429,6 +8429,12 @@ keydb-cli> SINTER key1 key2
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
 
+#### Usage:
+
+```
+SINTERSTORE <destination> <set 1> ... <set n>
+```
+
 This command is equal to `SINTER`, but instead of returning the resulting set,
 it is stored in `destination`.
 
@@ -8440,15 +8446,23 @@ Integer Reply: the number of elements in the resulting set.
 
 #### Examples:
 
-```cli
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SINTERSTORE key key1 key2
-SMEMBERS key
+```
+keydb-cli> SADD key1 "a"
+(integer) 1
+keydb-cli> SADD key1 "b"
+(integer) 1
+keydb-cli> SADD key1 "c"
+(integer) 1
+keydb-cli> SADD key2 "c"
+(integer) 1
+keydb-cli> SADD key2 "d"
+(integer) 1
+keydb-cli> SADD key2 "e"
+(integer) 1
+keydb-cli> SINTERSTORE key key1 key2
+(integer) 1
+keydb-cli> SMEMBERS key
+1) "c"
 ```
 
 ---
