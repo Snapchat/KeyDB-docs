@@ -10810,7 +10810,7 @@ If the `INCR` option is specified, the return value will be Bulk String Reply:
 
 #### Examples:
 
-```cli
+```
 keydb-cli> ZADD myzset 1 "one"
 (integer) 1
 keydb-cli> ZADD myzset 1 "uno"
@@ -10847,10 +10847,13 @@ if `key` does not exist.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZCARD myzset
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZCARD myzset
+(integer) 2
 ```
 ---
 
