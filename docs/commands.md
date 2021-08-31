@@ -7738,10 +7738,13 @@ does not exist.
 
 #### Examples:
 
-```cli
-SADD myset "Hello"
-SADD myset "World"
-SCARD myset
+```
+keydb-cli> SADD myset "Hello"
+(integer) 1
+keydb-cli> SADD myset "World"
+(integer) 1
+keydb-cli> SCARD myset
+(integer) 2
 ```
 
 ---
