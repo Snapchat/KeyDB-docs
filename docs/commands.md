@@ -8688,13 +8688,20 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-SADD myset "one"
-SADD myset "two"
-SADD myotherset "three"
-SMOVE myset myotherset "two"
-SMEMBERS myset
-SMEMBERS myotherset
+```
+keydb-cli> SADD myset "one"
+(integer) 1
+keydb-cli> SADD myset "two"
+(integer) 1
+keydb-cli> SADD myotherset "three"
+(integer) 1
+keydb-cli> SMOVE myset myotherset "two"
+(integer) 1
+keydb-cli> SMEMBERS myset
+1) "one"
+keydb-cli> SMEMBERS myotherset
+1) "three"
+2) "two"
 ```
 
 ---
