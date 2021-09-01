@@ -11248,11 +11248,22 @@ Array Reply: list of elements in the specified score range.
 
 #### Examples:
 
-```cli
-ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
-ZRANGEBYLEX myzset - [c
-ZRANGEBYLEX myzset - (c
-ZRANGEBYLEX myzset [aaa (g
+```
+keydb-cli> ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
+(integer) 7
+keydb-cli> ZRANGEBYLEX myzset - [c
+1) "a"
+2) "b"
+3) "c"
+keydb-cli> ZRANGEBYLEX myzset - (c
+1) "a"
+2) "b"
+keydb-cli> ZRANGEBYLEX myzset [aaa (g
+1) "b"
+2) "c"
+3) "d"
+4) "e"
+5) "f"
 ```
 
 ---
