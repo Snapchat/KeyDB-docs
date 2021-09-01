@@ -11154,19 +11154,32 @@ their scores, in case the `WITHSCORES` option is given).
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZRANGE myzset 0 -1
-ZRANGE myzset 2 3
-ZRANGE myzset -2 -1
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZRANGE myzset 0 -1
+1) "one"
+2) "two"
+3) "three"
+keydb-cli> ZRANGE myzset 2 3
+1) "three"
+keydb-cli> ZRANGE myzset -2 -1
+1) "two"
+2) "three"
 ```
 
 The following example using `WITHSCORES` shows how the command returns always an array, but this time, populated with *element_1*, *score_1*, *element_2*, *score_2*, ..., *element_N*, *score_N*.
 
-```cli
-ZRANGE myzset 0 1 WITHSCORES
+```
+keydb-cli> ZRANGE myzset 0 1 withscores
+1) "one"
+2) "1"
+3) "two"
+4) "2"
 ```
 
 ---
