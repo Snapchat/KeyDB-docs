@@ -137,6 +137,12 @@ Please refer to the [persistence documentation](https://docs.keydb.dev/docs/pers
 
 **Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
+#### Syntax: 
+
+```BGREWRITEAOF```
+
+#### Description:
+
 Instruct KeyB to start an [Append Only File](https://docs.keydb.dev/docs/persistence/) rewrite process.
 The rewrite will create a small optimized version of the current Append Only
 File.
@@ -172,6 +178,14 @@ Simple String Reply: always `OK`.
 ## BITCOUNT
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```BITCOUNT <key> ```
+
+```BITCOUNT <key> <start> <end>```
+
+#### Description:
 
 Count the number of set bits (population counting) in a string.
 
@@ -452,6 +466,16 @@ For real-time metrics and statistics involving large inputs a good approach is t
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen)
 
+#### Syntax:
+
+```BITPOS <key>```
+
+```BITPOS <key> <start>```
+
+```BITPOS <key> <start> <end>```
+
+#### Description:
+
 Return the position of the first bit set to 1 or 0 in a string.
 
 The position is returned, thinking of the string as an array of bits from left to
@@ -487,14 +511,21 @@ However, this behavior changes if you are looking for clear bits and specify a r
 
 #### Examples:
 
-```cli
-SET mykey "\xff\xf0\x00"
-BITPOS mykey 0
-SET mykey "\x00\xff\xf0"
-BITPOS mykey 1 0
-BITPOS mykey 1 2
-set mykey "\x00\x00\x00"
-BITPOS mykey 1
+```
+keydb-cli> SET mykey "\xff\xf0\x00"
+OK
+keydb-cli> BITPOS mykey 0
+(integer) 12
+keydb-cli> SET mykey "\x00\xff\xf0"
+OK
+keydb-cli> BITPOS mykey 1 0
+(integer) 8
+keydb-cli> BITPOS mykey 1 2
+(integer) 16
+keydb-cli> SET mykey "\x00\x00\x00"
+OK
+keydb-cli> BITPOS mykey 1
+(integer) -1
 ```
 ---
 
@@ -503,6 +534,15 @@ BITPOS mykey 1
 ## BLPOP
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax: 
+
+```BLPOP <key> <timeout>```
+
+```BLPOP <key> <key-2> ... <key-n> <timeout>```
+
+#### Description:
+
 
 `BLPOP` is a blocking list pop primitive.
 It is the blocking version of `LPOP` because it blocks the connection when there
@@ -586,11 +626,11 @@ Array Reply: specifically:
 #### Examples:
 
 ```
-KeyDB> DEL list1 list2
+keydb-cli> DEL list1 list2
 (integer) 0
-KeyDB> RPUSH list1 a b c
+keydb-cli> RPUSH list1 a b c
 (integer) 3
-KeyDB> BLPOP list1 list2 0
+keydb-cli> BLPOP list1 list2 0
 1) "list1"
 2) "a"
 ```
@@ -625,10 +665,15 @@ END
 While in the producer side we'll use simply:
 
 ```
-MULTI
-SADD key element
-LPUSH helper_key x
-EXEC
+keydb-cli> MULTI
+OK
+keydb-cli> SADD key element
+QUEUED
+keydb-cli> LPUSH helper_key x
+QUEUED
+keydb-cli> EXEC
+1) (integer) 1
+2) (integer) 1
 ```
 ---
 
