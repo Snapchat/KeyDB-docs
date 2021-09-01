@@ -11450,12 +11450,20 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZREM myzset "two"
-ZRANGE myzset 0 -1 WITHSCORES
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZREM myzset "two"
+(integer) 1
+keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
+1) "one"
+2) "1"
+3) "three"
+4) "3"
 ```
 
 ---
