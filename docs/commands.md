@@ -684,6 +684,14 @@ keydb-cli> EXEC
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
+#### Syntax:
+
+```BRPOP <key> <timeout>```
+
+```BRPOP <key> <key-2> ... <key-n> <timeout>```
+
+#### Description:
+
 `BRPOP` is a blocking list pop primitive.
 It is the blocking version of `RPOP` because it blocks the connection when there
 are no elements to pop from any of the given lists.
@@ -693,8 +701,6 @@ given keys being checked in the order that they are given.
 See the [BLPOP documentation](/docs/commands/#BLPOP) for the exact semantics, since `BRPOP` is
 identical to `BLPOP` with the only difference being that it pops elements from
 the tail of a list instead of popping from the head.
-
-
 
 #### Return:
 
@@ -708,11 +714,11 @@ Array Reply: specifically:
 #### Examples:
 
 ```
-KeyDB> DEL list1 list2
+keydb-cli> DEL list1 list2
 (integer) 0
-KeyDB> RPUSH list1 a b c
+keydb-cli> RPUSH list1 a b c
 (integer) 3
-KeyDB> BRPOP list1 list2 0
+keydb-cli> BRPOP list1 list2 0
 1) "list1"
 2) "c"
 ```
