@@ -730,6 +730,12 @@ keydb-cli> BRPOP list1 list2 0
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
+#### Syntax:
+
+```BRPOPLPUSH <source> <destination> <timeout>```
+
+#### Description: 
+
 `BRPOPLPUSH` is the blocking variant of `RPOPLPUSH`.
 When `source` contains elements, this command behaves exactly like `RPOPLPUSH`.
 When used inside a `MULTI`/`EXEC` block, this command behaves exactly like `RPOPLPUSH`.
