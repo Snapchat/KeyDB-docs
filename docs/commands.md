@@ -11324,14 +11324,24 @@ with their scores).
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZRANGEBYSCORE myzset -inf +inf
-ZRANGEBYSCORE myzset 1 2
-ZRANGEBYSCORE myzset (1 2
-ZRANGEBYSCORE myzset (1 (2
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZRANGEBYSCORE myzset -inf +inf
+1) "one"
+2) "two"
+3) "three"
+keydb-cli> ZRANGEBYSCORE myzset 1 2
+1) "one"
+2) "two"
+keydb-cli> ZRANGEBYSCORE myzset (1 2
+1) "two"
+keydb-cli> ZRANGEBYSCORE myzset (1 (2
+(empty array)
 ```
 
 #### Pattern: weighted random selection of an element
@@ -11403,12 +11413,17 @@ to low.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZRANK myzset "three"
-ZRANK myzset "four"
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZRANK myzset "three"
+(integer) 2
+keydb-cli> ZRANK myzset "four"
+(nil)
 ```
 ---
 
