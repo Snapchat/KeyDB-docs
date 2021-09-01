@@ -11834,9 +11834,9 @@ keydb-cli> ZSCORE myzset "one"
 
 #### Syntax: 
 
-```ZUNIONSTORE <destination> <numkeys> <key-of-zset1> ... [key-of-zsetn]```
+```ZUNIONSTORE <destination> <numkeys> <key-of-zset1> ... <key-of-zsetn>```
 
-```ZUNIONSTORE <destination> <numkeys> <key-of-zset1> ... [key-of-zsetn] WEIGHTS <weight-1> ... <weight-numkeys>```
+```ZUNIONSTORE <destination> <numkeys> <key-of-zset1> ... <key-of-zsetn> WEIGHTS <weight-1> ... <weight-numkeys>```
 
 #### Description: 
 
@@ -11894,7 +11894,7 @@ keydb-cli> ZRANGE out 0 -1 WITHSCORES
 
 "one" : 5 = 1 X 2 + 1 X 3 (sorted set score X weight)
 
-"three" : 9 = 3 X 3 [sorted set score X weight]
+"three" : 9 = 3 X 3 (sorted set score X weight)
 
 "two" : 10 = 2 X 2 + 2 X 3 (sorted set score X weight)
 
