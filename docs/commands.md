@@ -877,6 +877,8 @@ The `CLIENT GETNAME` returns the name of the current connection as set by `CLIEN
 Bulk String Reply: The connection name, or a null bulk reply if no name is set.
 
 #### Examples:
+127.0.0.1:6379> CLIENT LIST
+id=7 addr=127.0.0.1:39518 fd=10 name= age=0 idle=0 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=26 qbuf-free=32742 argv-mem=10 obl=0 oll=0 omem=0 tot-mem=61466 events=r cmd=client user=default
 
 ```
 keydb-cli> CLIENT GETNAME
@@ -1085,6 +1087,21 @@ to be static not just from the point of view of clients not being able to write,
 #### Return:
 
 Simple String Reply: The command returns OK or an error if the timeout is invalid.
+
+#### Examples:
+
+```
+keydb-cli> CLIENT PAUSE -1
+(error) ERR timeout is negative
+keydb-cli> CLIENT PAUSE 10000000000000000000
+(error) ERR timeout is not an integer or out of range
+keydb-cli> CLIENT PAUSE 1000000000000000000
+OK
+keydb-cli> GET key 
+ 
+```
+
+The `GET` will not be executed until the timeout expires.
 
 ---
 
