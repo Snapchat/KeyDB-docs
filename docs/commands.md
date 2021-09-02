@@ -2638,7 +2638,7 @@ keydb-cli> CONFIG REWRITE
 
 #### Syntax:
 
-
+```CONFIG SET <server-configuration-parameter> <server-configruation-parameter-value-1> .. <server-configuration-parameter-value-n>```
 
 #### Descripition:
 
@@ -2678,7 +2678,11 @@ save 300 10
 
 that means, save after 900 seconds if there is at least 1 change to the dataset,
 and after 300 seconds if there are at least 10 changes to the dataset, should
-be set using `CONFIG SET SAVE "900 1 300 10"`.
+be set using  : 
+
+```
+CONFIG SET SAVE "900 1 300 10"
+```
 
 It is possible to switch persistence from RDB snapshotting to append-only file
 (and the other way around) using the `CONFIG SET` command.
