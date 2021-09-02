@@ -876,10 +876,10 @@ The `CLIENT GETNAME` returns the name of the current connection as set by `CLIEN
 
 Bulk String Reply: The connection name, or a null bulk reply if no name is set.
 
-#### Examples
+#### Examples:
 
 ```
-keydb-cli>CLIENT GETNAME
+keydb-cli> CLIENT GETNAME
 (nil)
 keydb-cli> CLIENT SETNAME foo
 OK
@@ -1044,6 +1044,13 @@ w: the client socket is writable (event loop)
 #### Notes
 
 New fields are regularly added for debugging purpose. Some could be removed in the future. A version safe KeyDB client using this command should parse the output accordingly (i.e. handling gracefully missing fields, skipping unknown fields).
+
+#### Examples:
+
+```
+127.0.0.1:6379> CLIENT LIST
+id=7 addr=127.0.0.1:39518 fd=10 name= age=0 idle=0 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=26 qbuf-free=32742 argv-mem=10 obl=0 oll=0 omem=0 tot-mem=61466 events=r cmd=client user=default
+```
 
 ---
 
