@@ -2392,10 +2392,18 @@ Array Reply: list of keys from your command.
 
 #### Examples:
 
-```cli
-COMMAND GETKEYS MSET a b c d e f
-COMMAND GETKEYS EVAL "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
-COMMAND GETKEYS SORT mylist ALPHA STORE outlist
+```
+keydb-cli> COMMAND GETKEYS MSET a b c d e f
+1) "a"
+2) "c"
+3) "e"
+keydb-cli> COMMAND GETKEYS EVAl "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
+1) "key1"
+2) "key2"
+3) "key3"
+keydb-cli> COMMAND GETKEYS SORT mylist ALPHA STORE outlist
+1) "mylist"
+2) "outlist"
 ```
 ---
 
