@@ -2834,9 +2834,11 @@ Integer Reply: the value of `key` after the decrement
 
 #### Examples:
 
-```cli
-SET mykey "10"
-DECRBY mykey 3
+```
+127.0.0.1:6379> SET mykey "10"
+OK
+127.0.0.1:6379> DECRBY mykey 3
+(integer) 7
 ```
 
 ---
