@@ -876,6 +876,16 @@ The `CLIENT GETNAME` returns the name of the current connection as set by `CLIEN
 
 Bulk String Reply: The connection name, or a null bulk reply if no name is set.
 
+#### Examples
+
+```
+keydb-cli>CLIENT GETNAME
+(nil)
+keydb-cli> CLIENT SETNAME foo
+OK
+keydb-cli> CLIENT GETNAME
+"foo"
+```
 
 ---
 
