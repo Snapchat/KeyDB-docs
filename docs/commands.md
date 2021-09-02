@@ -2718,6 +2718,17 @@ Return the number of keys in the currently-selected database.
 
 Integer Reply
 
+#### Example:
+
+```
+keydb-cli> DBSIZE
+(integer) 0
+keydb-cli> set key 1
+OK
+keydb-cli> DBSIZE
+(integer) 1
+```
+
 ---
 
 
@@ -2744,6 +2755,14 @@ Simple String Reply
 
 `DEBUG SEGFAULT` performs an invalid memory access that crashes KeyDB.
 It is used to simulate bugs during the development.
+
+#### Example: 
+
+```
+keydb-cli>DEBUG SEGFAULT
+Could not connect to Redis at 127.0.0.1:6379: Connection refused
+not connected>
+```
 
 #### Return:
 
