@@ -905,8 +905,9 @@ introduced also in KeyDB 5 together with `CLIENT ID`. Check the `CLIENT UNBLOCK`
 
 #### Examples:
 
-```cli
-CLIENT ID
+```
+keydb-cli> CLIENT ID
+(integer) 5
 ```
 
 ---
