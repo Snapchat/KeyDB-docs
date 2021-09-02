@@ -2898,7 +2898,7 @@ keydb-cli> MULTI
 OK
 keydb-cli> DISCARD
 OK
-keydb-cli> EXEC
+127.0.0.1:6379> EXEC
 (error) ERR EXEC without MULTI
 ```
 
@@ -2940,9 +2940,11 @@ Bulk String Reply: the serialized value.
 
 #### Examples:
 
-```cli
-SET mykey 10
-DUMP mykey
+```
+keydb-cli> SET mykey 10
+OK
+keydb-cli> DUMP mykey
+"\x00\xc0\n\t\x00\xbem\x06\x89Z(\x00\n"
 ```
 ---
 
