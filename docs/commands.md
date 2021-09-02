@@ -2838,6 +2838,9 @@ Integer Reply: the value of `key` after the decrement
 127.0.0.1:6379> SET mykey "10"
 OK
 127.0.0.1:6379> DECRBY mykey 3
+(integer) 7127.0.0.1:6379> SET mykey "10"
+OK
+127.0.0.1:6379> DECRBY mykey 3
 (integer) 7
 ```
 
@@ -2851,16 +2854,23 @@ OK
 Removes the specified keys.
 A key is ignored if it does not exist.
 
+#### Syntax:
+
+```DEL <key-1> ... <key-n>```
+
 #### Return:
 
 Integer Reply: The number of keys that were removed.
 
 #### Examples:
 
-```cli
-SET key1 "Hello"
-SET key2 "World"
-DEL key1 key2 key3
+```
+keydb-cli> SET key1 "Hello"
+OK
+keydb-cli> SET key2 "World"
+OK
+keydb-cli> DEL key1 key2 key3
+(integer) 2
 ```
 ---
 
@@ -2870,6 +2880,8 @@ DEL key1 key2 key3
 
 **Related Commands:** [DISCARD](/docs/commands/#discard), [EXEC](/docs/commands/#exec), [MULTI](/docs/commands/#multi), [UNWATCH](/docs/commands/#unwatch), [WATCH](/docs/commands/#watch)
 
+#### Description: 
+
 Flushes all previously queued commands in a [transaction](https://docs.keydb.dev/docs/transactions/) and restores the
 connection state to normal.
 
@@ -2878,6 +2890,17 @@ If `WATCH` was used, `DISCARD` unwatches all keys watched by the connection.
 #### Return:
 
 Simple String Reply: always `OK`.
+
+#### Examples:
+
+```
+keydb-cli> MULTI
+OK
+keydb-cli> DISCARD
+OK
+keydb-cli> EXEC
+(error) ERR EXEC without MULTI
+```
 
 ---
 
