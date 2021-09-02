@@ -2225,30 +2225,9 @@ Command name is the command returned as a lowercase string.
 
 ### Command Arity
 
-<table style={{'width':'50%'}}>
-<tr><td>
-<pre>
-<code>1) 1) "get"
-   2) (integer) 2
-   3) 1) readonly
-   4) (integer) 1
-   5) (integer) 1
-   6) (integer) 1
-</code>
-</pre>
-</td>
-<td>
-<pre>
-<code>1) 1) "mget"
-   2) (integer) -2
-   3) 1) readonly
-   4) (integer) 1
-   5) (integer) -1
-   6) (integer) 1
-</code>
-</pre>
-</td></tr>
-</table>
+| `GET` | `MGET` |
+| ------------- | ------------- |
+| ```1) 1) "get"```<br/>```2) (integer) 2```<br/>```3) 1) readonly```<br/>```4) (integer) 1```<br/>```5) (integer) 1```<br/>```6) (integer) 1``` | ```1) 1) "mget"```<br/>```2) (integer) -2```<br/>```3) 1) readonly```<br/>```4) (integer) 1```<br/>```5) (integer) -1```<br/>```6) (integer) 1```|
 
 Command arity follows a simple pattern:
 
@@ -2334,38 +2313,15 @@ If a command accepts an unlimited number of keys, the last key position is -1.
 
 ### Step Count
 
-<table style={{'width':'50%'}}>
-<tr><td>
-<pre>
-<code>1) 1) "mset"
-   2) (integer) -3
-   3) 1) write
-      2) denyoom
-   4) (integer) 1
-   5) (integer) -1
-   6) (integer) 2
-</code>
-</pre>
-</td>
-<td>
-<pre>
-<code>1) 1) "mget"
-   2) (integer) -2
-   3) 1) readonly
-   4) (integer) 1
-   5) (integer) -1
-   6) (integer) 1
-</code>
-</pre>
-</td></tr>
-</table>
+| `MSET` | `MGET` |
+| ------------- | ------------- |
+| ```1) 1) "mset"```<br/>```2) (integer) -3```<br/>```3) 1) write```<br/>&nbsp&nbsp&nbsp&nbsp&nbsp```2) denyoom```<br/>```4) (integer) 1```<br/>```5) (integer) -1```<br/>```6) (integer) 2``` | ```1) 1) "mget"```<br/>```2) (integer) -2```<br/>```3) 1) readonly```<br/>```4) (integer) 1```<br/>```5) (integer) -1```<br/>```6) (integer) 1``` |
 
 Key step count allows us to find key positions in commands
 like `MSET` where the format is `MSET _key1_ _val1_ [key2] [val2] [key3] [val3]...`.
 
 In the case of `MSET`, keys are every other position so the step value is 2.  Compare
 with `MGET` above where the step value is just 1.
-
 
 
 #### Return:
@@ -2375,8 +2331,21 @@ in random order.
 
 #### Examples:
 
-```cli
-COMMAND
+```
+keydb-cli> COMMAND
+
+{output for all commands...}
+
+215) 1) "bitcount"
+     2) (integer) -2
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+     7) 1) @read
+        2) @bitmap
+        3) @slow
+
 ```
 ---
 
