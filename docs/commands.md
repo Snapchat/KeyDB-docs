@@ -2363,8 +2363,9 @@ Integer Reply: number of commands returned by `COMMAND`
 
 #### Examples:
 
-```cli
-COMMAND COUNT
+```
+keydb-cli> COMMAND COUNT
+(integer) 215
 ```
 ---
 
