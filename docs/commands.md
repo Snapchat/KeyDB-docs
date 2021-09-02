@@ -2375,6 +2375,12 @@ keydb-cli> COMMAND COUNT
 
 **Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
+#### Syntax:
+
+```COMMAND GETKEYS <commandX> <argument-1-of-commandX> ... <argument-n-of-commandX>```
+
+#### Descripition: 
+
 Returns Array Reply of keys from a full KeyDB command.
 
 `COMMAND GETKEYS` is a helper command to let you find the keys
@@ -2413,6 +2419,12 @@ keydb-cli> COMMAND GETKEYS SORT mylist ALPHA STORE outlist
 
 **Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
+#### Syntax:
+
+```COMMAND INFO <command-1> ... <command-n>```
+
+#### Description: 
+
 Returns Array Reply of details about multiple KeyDB commands.
 
 Same result format as `COMMAND` except you can specify which commands
@@ -2428,9 +2440,60 @@ Array Reply: nested list of command details.
 
 #### Examples:
 
-```cli
-COMMAND INFO get set eval
-COMMAND INFO foo evalsha config bar
+```
+keydb-cli> COMMAND INFO get set eval
+1) 1) "get"
+   2) (integer) 2
+   3) 1) readonly
+      2) fast
+   4) (integer) 1
+   5) (integer) 1
+   6) (integer) 1
+   7) 1) @read
+      2) @string
+      3) @fast
+2) 1) "set"
+   2) (integer) -3
+   3) 1) write
+      2) denyoom
+   4) (integer) 1
+   5) (integer) 1
+   6) (integer) 1
+   7) 1) @write
+      2) @string
+      3) @slow
+3) 1) "eval"
+   2) (integer) -3
+   3) 1) noscript
+      2) movablekeys
+   4) (integer) 0
+   5) (integer) 0
+   6) (integer) 0
+   7) 1) @slow
+      2) @scripting
+keydb-cli> COMMAND INFO foo evalsha config bar
+1) (nil)
+2) 1) "evalsha"
+   2) (integer) -3
+   3) 1) noscript
+      2) movablekeys
+   4) (integer) 0
+   5) (integer) 0
+   6) (integer) 0
+   7) 1) @slow
+      2) @scripting
+3) 1) "config"
+   2) (integer) -2
+   3) 1) admin
+      2) noscript
+      3) loading
+      4) stale
+   4) (integer) 0
+   5) (integer) 0
+   6) (integer) 0
+   7) 1) @admin
+      2) @slow
+      3) @dangerous
 ```
 ---
 
