@@ -1098,9 +1098,7 @@ keydb-cli> CLIENT PAUSE 10000000000000000000
 keydb-cli> CLIENT PAUSE 1000000000000000000
 OK
 keydb-cli> GET key 
-
-(client is waiting for timeout to conclude)
- 
+{client is waiting for timeout to expire}
 ```
 
 The `GET` will not be executed until the timeout expires.
@@ -1208,25 +1206,24 @@ the pattern is a general one and can be applied to other cases.
 
 ```
 Connection A (blocking connection):
+
 keydb-cli> CLIENT ID
 (integer) 2934
 keydb-cli> BRPOP key1 key2 key3 0
-(client is blocked)
+{client is blocked}
 
 ... Now we want to add a new key ...
 
-
-Connection B (control connection):
+Connection B {control connection}:
 keydb-cli> CLIENT UNBLOCK 2934
-1
+(integer) 1
 
-
-Connection A (blocking connection):
+Connection A {blocking connection}:
 ... BRPOP reply with timeout ...
 (nil)
 (##.##s)
 keydb-cli> BRPOP key1 key2 key3 key4 0
-(client is blocked again)
+{client is blocked again}
 ```
 ---
 
