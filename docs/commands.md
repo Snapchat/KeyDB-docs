@@ -3833,6 +3833,19 @@ atomic transaction.
 
 When using `WATCH`, `EXEC` can return a nil-reply if the execution was aborted.
 
+#### Examples:
+
+keydb-cli> MULTI
+OK
+keydb-cli> SET KEY 1
+QUEUED
+keydb-cli> GET KEY
+QUEUED
+keydb-cli> EXEC
+1) OK
+2) "1"
+
+
 ---
 
 
