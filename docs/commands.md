@@ -5226,6 +5226,12 @@ keydb-cli> HMGET myhash field1 field2 nofield
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
 
+#### Syntax:
+
+```HMSET <key> <field-1> <value-1> ... <field-n> <value-n>```
+
+#### Description:
+
 Sets the specified fields to their respective values in the hash stored at
 `key`.
 This command overwrites any specified fields already existing in the hash.
