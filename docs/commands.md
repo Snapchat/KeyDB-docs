@@ -4715,6 +4715,12 @@ keydb-cli> GEORADIUSBYMEMBER Sicily Agrigento 100 km
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```GET <key>```
+
+#### Description:
+
 Get the value of `key`.
 If the key does not exist the special value `nil` is returned.
 An error is returned if the value stored at `key` is not a string, because `GET`
@@ -4726,10 +4732,13 @@ Bulk String Reply: the value of `key`, or `nil` when `key` does not exist.
 
 #### Examples:
 
-```cli
+```
 GET nonexisting
+(nil)
 SET mykey "Hello"
+OK
 GET mykey
+"Hello"
 ```
 
 ---
