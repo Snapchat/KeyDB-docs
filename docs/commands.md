@@ -4885,6 +4885,12 @@ keydb-cli> GET mykey
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
 
+#### Syntax:
+
+```HDEL <key> <field-1> ..  <field-n>```
+
+#### Description:
+
 Removes the specified fields from the hash stored at `key`.
 Specified fields that do not exist within this hash are ignored.
 If `key` does not exist, it is treated as an empty hash and this command returns
