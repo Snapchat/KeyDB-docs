@@ -4335,6 +4335,12 @@ keydb-cli> GEORADIUS Sicily 15 37 200 km
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
 
+#### Syntax: 
+
+```GEOCODE <52-bit-integer>```
+
+#### Description:
+
 Geospatial KeyDB commands encode positions of objects in a single 52 bit integer, using a technique called geohash. Those 52 bit integers are:
 
 1. Returned by `GEOAENCODE` as return value.
@@ -4358,10 +4364,12 @@ The command returns an array of three elements. Each element of the main array i
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-ZSCORE Sicily "Palermo"
-GEODECODE 3479099956230698
+```
+keydb-cli>GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli>ZSCORE Sicily "Palermo"
+"3479099956230698"
+keydb-cli>GEODECODE 3479099956230698
 ```
 ---
 
