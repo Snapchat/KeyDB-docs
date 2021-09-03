@@ -4073,6 +4073,12 @@ fully acting as a master.
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax :
+
+```EXPIREAT <key> <expiration-timestamp>```
+
+#### Descripition:
+
 `EXPIREAT` has the same effect and semantic as `EXPIRE`, but instead of
 specifying the number of seconds representing the TTL (time to live), it takes
 an absolute [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time) (seconds since January 1, 1970). A
