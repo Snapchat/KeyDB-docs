@@ -4680,6 +4680,12 @@ keydb-cli> GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
 
+#### Syntax:
+
+```GEORADIUSBYMEMBER <key> <member> <radius> <distance-unit:m|km|ft|mi> <OPTIONAL:WITHDIST> <OPTIONAL:WITHCOORD> <OPTIONAL:WITHHASH>```
+
+#### Description:
+
 This command is exactly like `GEORADIUS` with the sole difference that instead
 of taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.
 
@@ -4691,10 +4697,14 @@ Note that `GEORADIUSBYMEMBER_RO` is also available since KeyDB 3.2.10 and KeyDB 
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.583333 37.316667 "Agrigento"
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEORADIUSBYMEMBER Sicily Agrigento 100 km
+```
+keydb-cli> GEOADD Sicily 13.583333 37.316667 "Agrigento"
+(integer) 1
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli> GEORADIUSBYMEMBER Sicily Agrigento 100 km
+1) "Agrigento"
+2) "Palermo"
 ```
 ---
 
