@@ -4486,6 +4486,13 @@ keydb-cli> GEOENCODE 13.361389 38.115556 100 km
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
 
+
+#### Syntax:
+
+```GEOHASH <key> <member-1> ... <member-n>```
+
+#### Description:
+
 Return valid [Geohash](https://en.wikipedia.org/wiki/Geohash) strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using `GEOADD`).
 
 Normally KeyDB represents positions of elements using a variation of the Geohash
@@ -4515,9 +4522,12 @@ each member name passed as argument to the command.
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEOHASH Sicily Palermo Catania
+```
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli> GEOHASH Sicily Palermo Catania
+1) "sqc8b49rny0"
+2) "sqdtr74hyu0"
 ```
 
 ---
