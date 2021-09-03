@@ -4119,7 +4119,7 @@ keydb-cli> EXISTS mykey
 
 #### Syntax:
 
-```EXPIRE <key> <subkey> <timeout-in-seconds>```
+```EXPIRE <key> <subkey> <timeout-in-seconds> <OPTIONAL: unit-time-format>```
 
 #### Description:
 
