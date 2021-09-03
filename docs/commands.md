@@ -4117,6 +4117,12 @@ keydb-cli> EXISTS mykey
 
 ## EXPIREMEMBER
 
+#### Syntax:
+
+```EXPIRE <key> <subkey> <timeout-in-seconds>```
+
+#### Description:
+
 Sets a timeout on a subkey (individual member of a set).
 
 After the timeout has expired, the subkey will automatically be deleted. This 
