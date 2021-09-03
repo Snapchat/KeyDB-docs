@@ -4733,11 +4733,11 @@ Bulk String Reply: the value of `key`, or `nil` when `key` does not exist.
 #### Examples:
 
 ```
-GET nonexisting
+keydb-cli> GET nonexisting
 (nil)
-SET mykey "Hello"
+keydb-cli> SET mykey "Hello"
 OK
-GET mykey
+keydb-cli> GET mykey
 "Hello"
 ```
 
@@ -4749,6 +4749,12 @@ GET mykey
 ## GETBIT
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```GETBIT <key> <offset>```
+
+#### Description:
 
 Returns the bit value at _offset_ in the string value stored at _key_.
 
@@ -4764,11 +4770,15 @@ Integer Reply: the bit value stored at _offset_.
 
 #### Examples:
 
-```cli
-SETBIT mykey 7 1
-GETBIT mykey 0
-GETBIT mykey 7
-GETBIT mykey 100
+```
+keydb-cli> SETBIT mykey 7 1
+(integer) 0
+keydb-cli> GETBIT mykey 0
+(integer) 0
+keydb-cli> GETBIT mykey 7
+(integer) 1
+keydb-cli> GETBIT mykey 100
+(integer) 0
 ```
 ---
 
@@ -4778,6 +4788,12 @@ GETBIT mykey 100
 ## GETRANGE
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```GETRANGE <key> <start> <end>```
+
+#### Description:
 
 **Warning**: this command was renamed to `GETRANGE`, it is called `SUBSTR` in
 KeyDB versions `<= 2.0`.
@@ -4797,12 +4813,17 @@ Bulk String Reply
 
 #### Examples:
 
-```cli
-SET mykey "This is a string"
-GETRANGE mykey 0 3
-GETRANGE mykey -3 -1
-GETRANGE mykey 0 -1
-GETRANGE mykey 10 100
+```
+keydb-cli> SET mykey "This is a string"
+OK
+keydb-cli> GETRANGE mykey 0 3
+"This"
+keydb-cli> GETRANGE mykey -3 -1
+"ing"
+keydb-cli> GETRANGE mykey 0 -1
+"This is a string"
+keydb-cli> GETRANGE mykey 10 100
+"string"
 ```
 ---
 
@@ -4813,6 +4834,12 @@ GETRANGE mykey 10 100
 ## GETSET
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```GETSET <key> <value>```
+
+#### Description:
 
 Atomically sets `key` to `value` and returns the old value stored at `key`.
 Returns an error when `key` exists but does not hold a string value.
@@ -4825,10 +4852,13 @@ some event occurs, but from time to time we need to get the value of the counter
 and reset it to zero atomically.
 This can be done using `GETSET mycounter "0"`:
 
-```cli
-INCR mycounter
-GETSET mycounter "0"
-GET mycounter
+```
+keydb-cli> INCR mycounter
+(integer) 1
+keydb-cli> GETSET mycounter "0"
+"1"
+keydb-cli> GET mycounter
+"0"
 ```
 
 #### Return:
@@ -4837,10 +4867,13 @@ Bulk String Reply: the old value stored at `key`, or `nil` when `key` did not ex
 
 #### Examples:
 
-```cli
-SET mykey "Hello"
-GETSET mykey "World"
-GET mykey
+```
+keydb-cli> SET mykey "Hello"
+OK
+keydb-cli> GETSET mykey "World"
+"Hello"
+keydb-cli> GET mykey
+"World"
 ```
 
 ---
