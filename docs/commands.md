@@ -4365,11 +4365,11 @@ The command returns an array of three elements. Each element of the main array i
 #### Examples:
 
 ```
-keydb-cli>GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
 (integer) 2
-keydb-cli>ZSCORE Sicily "Palermo"
+keydb-cli> ZSCORE Sicily "Palermo"
 "3479099956230698"
-keydb-cli>GEODECODE 3479099956230698
+keydb-cli> GEODECODE 3479099956230698
 ```
 ---
 
@@ -4432,6 +4432,12 @@ keydb-cli> GEODIST Sicily Foo Bar
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
 
+#### Syntax:
+
+```GEOENCODE <longitude> <latitude> <OPTIONAL:radius> <OPTIONAL:distance-unit>```
+
+#### Descripition:
+
 Geospatial KeyDB commands encode positions of objects in a single 52 bit integer, using a technique called geohash. The encoding is further explained in the `GEODECODE` and `GEOADD` documentation. The `GEOENCODE` command, documented in this page, is able to convert a longitude and latitude pair into such 52 bit integer, which is used as the *score* for the sorted set members representing geopositional information.
 
 Normally you don't need to use this command, unless you plan to implement low level code in the client side interacting with the KeyDB geo commands. This command may also be useful for debugging purposes.
@@ -4464,10 +4470,12 @@ The command returns an array of give elements in the following order:
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-ZSCORE Sicily "Palermo"
-GEOENCODE 13.361389 38.115556 100 km
+```
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli> ZSCORE Sicily "Palermo"
+"3479099956230698"
+keydb-cli> GEOENCODE 13.361389 38.115556 100 km
 ```
 ---
 
