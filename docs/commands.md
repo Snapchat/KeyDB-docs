@@ -4957,6 +4957,10 @@ keydb-cli> HEXISTS myhash field2
 
 Returns the value associated with `field` in the hash stored at `key`.
 
+#### Syntax:
+
+```HGET <key> <field>```
+
 #### Return:
 
 Bulk String Reply: the value associated with `field`, or `nil` when `field` is not
