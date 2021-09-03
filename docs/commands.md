@@ -4263,6 +4263,12 @@ Simple String Reply
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
 
+#### Syntax:
+
+```GEOADD <key> <longitude-1> <latitude-1> <name-1> ... <longitude-n> <latitude-n> <name-n>```
+
+#### Descripition:
+
 Adds the specified geospatial items (latitude, longitude, name) to the specified
 key. Data is stored into the key as a sorted set, in a way that makes it possible to later retrieve items using a query by radius with the `GEORADIUS` or `GEORADIUSBYMEMBER` commands.
 
@@ -4276,7 +4282,7 @@ limits, as specified by EPSG:900913 / EPSG:3785 / OSGEO:41001 are the following:
 
 The command will report an error when the user attempts to index coordinates outside the specified ranges.
 
-**Note:** there is no **GEODEL** command because you can use `ZREM` in order to remove elements. The Geo index structure is just a sorted set.
+**LIMITATION:** there is no **GEODEL** command because you can use `ZREM` in order to remove elements. The Geo index structure is just a sorted set.
 
 #### How does it work?
 
@@ -4308,11 +4314,16 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEODIST Sicily Palermo Catania
-GEORADIUS Sicily 15 37 100 km
-GEORADIUS Sicily 15 37 200 km
+```
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli> GEODIST Sicily Palermo Catania
+"166274.1516"
+keydb-cli> GEORADIUS Sicily 15 37 100 km
+1) "Catania"
+keydb-cli> GEORADIUS Sicily 15 37 200 km
+1) "Palermo"
+2) "Catania"
 ```
 
 ---
