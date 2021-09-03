@@ -4540,6 +4540,13 @@ keydb-cli> GEOHASH Sicily Palermo Catania
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
 
+
+#### Syntax
+
+```GEOPOS <key> <member-1> ... <member-n>```
+
+#### Description:
+
 Return the positions (longitude,latitude) of all the specified members of the geospatial index represented by the sorted set at *key*.
 
 Given a sorted set representing a geospatial index, populated using the `GEOADD` command, it is often useful to obtain back the coordinates of specified members. When the geospatial index is populated via `GEOADD` the coordinates are converted into a 52 bit geohash, so the coordinates returned may not be exactly the ones used in order to add the elements, but small errors may be introduced.
@@ -4578,6 +4585,12 @@ keydb-cli> GEOPOS Sicily Palermo Catania NonExisting
 ## GEORADIUS
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
+
+#### Syntax:
+
+```GEORADIUS <key> <longitude> <latitude> <radius> <distance-unit:m|km|ft|mi> <OPTIONAL:WITHDIST> <OPTIONAL:WITHCOORD> <OPTIONAL:WITHHASH>```
+
+#### Description:
 
 Return the members of a sorted set populated with geospatial information using `GEOADD`, which are within the borders of the area specified with the center location and the maximum distance from the center (the radius).
 
@@ -4632,11 +4645,30 @@ Both commands were introduced in KeyDB 3.2.10 and KeyDB 4.0.0 respectively.
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEORADIUS Sicily 15 37 200 km WITHDIST
-GEORADIUS Sicily 15 37 200 km WITHCOORD
-GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
+```
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli> GEORADIUS Sicily 15 37 200 km WITHDIST
+1) 1) "Palermo"
+   2) "190.4424"
+2) 1) "Catania"
+   2) "56.4413"
+keydb-cli> GEORADIUS Sicily 15 37 200 km WITHCOORD
+1) 1) "Palermo"
+   2) 1) "13.36138933897018433"
+      2) "38.11555639549629859"
+2) 1) "Catania"
+   2) 1) "15.08726745843887329"
+      2) "37.50266842333162032"
+keydb-cli> GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
+1) 1) "Palermo"
+   2) "190.4424"
+   3) 1) "13.36138933897018433"
+      2) "38.11555639549629859"
+2) 1) "Catania"
+   2) "56.4413"
+   3) 1) "15.08726745843887329"
+      2) "37.50266842333162032
 ```
 
 ---
