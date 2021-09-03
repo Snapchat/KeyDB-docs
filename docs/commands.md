@@ -4380,6 +4380,12 @@ keydb-cli>GEODECODE 3479099956230698
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
 
+#### Syntax:
+
+```GEODIST <key> <member-1> <member-2> <OPTIONAL:distance-unit>```
+
+#### Description:
+
 Return the distance between two members in the geospatial index represented by the sorted set.
 
 Given a sorted set representing a geospatial index, populated using the `GEOADD` command, the command returns the distance between the two specified members in the specified unit.
@@ -4404,12 +4410,17 @@ in the specified unit, or NULL if one or both the elements are missing.
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEODIST Sicily Palermo Catania
-GEODIST Sicily Palermo Catania km
-GEODIST Sicily Palermo Catania mi
-GEODIST Sicily Foo Bar
+```
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli> GEODIST Sicily Palermo Catania
+"166274.1516"
+keydb-cli> GEODIST Sicily Palermo Catania km
+"166.2742"
+keydb-cli> GEODIST Sicily Palermo Catania mi
+"103.3182"
+keydb-cli> GEODIST Sicily Foo Bar
+(nil)
 ```
 
 ---
