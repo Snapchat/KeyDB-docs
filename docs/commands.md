@@ -3984,10 +3984,10 @@ You can easily model this pattern in KeyDB using the following strategy: every
 time the user does a page view you call the following commands:
 
 ```
-MULTI
-RPUSH pagewviews.user:<userid> http://.....
-EXPIRE pagewviews.user:<userid> 60
-EXEC
+keydb-cli> MULTI
+keydb-cli> RPUSH pagewviews.user:<userid> http://.....
+keydb-cli> EXPIRE pagewviews.user:<userid> 60
+keydb-cli> EXEC
 ```
 
 If the user will be idle more than 60 seconds, the key will be deleted and only
