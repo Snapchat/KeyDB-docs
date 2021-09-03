@@ -5123,6 +5123,12 @@ math implementation will not be sources of inconsistency.
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
 
+#### Syntax:
+
+```HKEYS <key>```
+
+#### Description:
+
 Returns all field names in the hash stored at `key`.
 
 #### Return:
