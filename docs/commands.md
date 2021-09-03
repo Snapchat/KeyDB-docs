@@ -5067,6 +5067,13 @@ keydb-cli> HINCRBY myhash field -10
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
 
+
+#### Syntax:
+
+```HINCRBYFLOAT <key> <field> <increment>```
+
+#### Description:
+
 Increment the specified `field` of a hash stored at `key`, and representing a
 floating point number, by the specified `increment`. If the increment value
 is negative, the result is to have the hash field value **decremented** instead of incremented.
