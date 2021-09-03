@@ -5302,6 +5302,12 @@ keydb-cli> HGET myhash field1
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
 
+#### Syntax:
+
+```HSETNX <key> <field> <value>```
+
+#### Description:
+
 Sets `field` in the hash stored at `key` to `value`, only if `field` does not
 yet exist.
 If `key` does not exist, a new key holding a hash is created.
