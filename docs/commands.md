@@ -7164,6 +7164,21 @@ Subsequent commands will be queued for atomic execution using `EXEC`.
 
 Simple String Reply: always `OK`.
 
+#### Examples:
+
+```
+keydb-cli> MULTI
+OK
+keydb-cli> SET k 1
+QUEUED
+keydb-cli> GET k
+QUEUED
+keydb-cli> EXEC
+1) OK
+2) "1"
+```
+
+
 ---
 
 
