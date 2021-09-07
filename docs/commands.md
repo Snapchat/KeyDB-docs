@@ -6566,6 +6566,12 @@ keydb-cli> LRANGE mylist 0 -1
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
+#### Syntax:
+
+```LTRIM <key> <start> <stop>```
+
+#### Description:
+
 Trim an existing list so that it will contain only the specified range of
 elements specified.
 Both `start` and `stop` are zero-based indexes, where `0` is the first element
@@ -6588,8 +6594,10 @@ A common use of `LTRIM` is together with `LPUSH` / `RPUSH`.
 For example:
 
 ```
-LPUSH mylist someelement
-LTRIM mylist 0 99
+keydb-cli> LPUSH mylist someelement
+(integer) 1
+keydb-cli> LTRIM mylist 0 99
+OK
 ```
 
 This pair of commands will push a new element on the list, while making sure
@@ -6605,12 +6613,18 @@ Simple String Reply
 
 #### Examples:
 
-```cli
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-LTRIM mylist 1 -1
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "one"
+(integer) 1
+keydb-cli> RPUSH mylist "two"
+(integer) 2
+keydb-cli> RPUSH mylist "three"
+(integer) 3
+keydb-cli> LTRIM mylist 1 -1
+OK
+keydb-cli> LRANGE mylist 0 -1
+1) "two"
+2) "three"
 ```
 
 ---
