@@ -6069,6 +6069,12 @@ For more information and examples on KEYDB.CRON, take a look at this blog post: 
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```KEYS <pattern>```
+
+#### Description:
+
 Returns all keys matching `pattern`.
 
 While the time complexity for this operation is O(N), the constant times are
@@ -6106,17 +6112,17 @@ Array Reply: list of keys matching `pattern`.
 #### Examples:
 
 ```
-keydb-cli> MSET firstname Jack lastname Stuntman age 35
+127.0.0.1:6379> MSET firstname Jack lastname Stuntman age 35
 OK
-keydb-cli> KEYS *name*
+127.0.0.1:6379> KEYS *name*
 1) "lastname"
 2) "firstname"
-keydb-cli> KEYS a??
+127.0.0.1:6379> KEYS a??
 1) "age"
-keydb-cli> KEYS *
-1) "lastname"
-2) "firstname"
-3) "age"
+127.0.0.1:6379> KEYS *
+1) "age"
+2) "lastname"
+3) "firstname"
 ```
 
 ---
