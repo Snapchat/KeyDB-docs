@@ -7545,6 +7545,12 @@ The source code of the implementation in the `hyperloglog.c` file is also easy t
 
 **Related Commands:** [PFADD](/docs/commands/#pfadd), [PFCOUNT](/docs/commands/#pfcount), [PFMERGE](/docs/commands/#pfmerge)
 
+#### Syntax:
+
+```PFMERGE <destination-key> <source-key-1> ... <source-key-n>```
+
+#### Description:
+
 Merge multiple HyperLogLog values into an unique value that will approximate
 the cardinality of the union of the observed Sets of the source HyperLogLog
 structures.
@@ -7558,11 +7564,15 @@ Simple String Reply: The command just returns `OK`.
 
 #### Examples:
 
-```cli
-PFADD hll1 foo bar zap a
-PFADD hll2 a b c foo
-PFMERGE hll3 hll1 hll2
-PFCOUNT hll3
+```
+keydb-cli> PFADD hll1 foo bar zap a
+(integer) 1
+keydb-cli> PFADD hll2 a b c foo
+(integer) 1
+keydb-cli> PFMERGE hll3 hll1 hll2
+OK
+keydb-cli> PFCOUNT hll3
+(integer) 6
 ```
 
 ---
