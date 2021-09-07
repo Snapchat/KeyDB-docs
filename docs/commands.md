@@ -7221,7 +7221,7 @@ Objects can be encoded in different ways:
 * Strings can be encoded as `raw` (normal string encoding) or `int` (strings
   representing integers in a 64 bit signed interval are encoded in this way in
   order to save space).
-* Lists can be encoded as `ziplist` or `linkedlist`.
+* Lists can be encoded as `ziplist`, `quicklist`, or `linkedlist`.
   The `ziplist` is the special representation that is used to save space for
   small lists.
 * Sets can be encoded as `intset` or `hashtable`.
@@ -7250,29 +7250,29 @@ If the object you try to inspect is missing, a null bulk reply is returned.
 #### Examples:
 
 ```
-KeyDB> lpush mylist "Hello World"
-(integer) 4
-KeyDB> object refcount mylist
+keydb-cli> LPUSH mylist "Hello World"
 (integer) 1
-KeyDB> object encoding mylist
-"ziplist"
-KeyDB> object idletime mylist
-(integer) 10
+keydb-cli> OBJECT REFCOUNT mylist
+(integer) 1
+keydb-cli> OBJECT ENCODING mylist
+"quicklist"
+keydb-cli> OBJECT IDLETIME mylist
+(integer) 17
 ```
 
 In the following example you can see how the encoding changes once KeyDB is no
 longer able to use the space saving encoding.
 
 ```
-KeyDB> set foo 1000
+keydb-cli> SET foo 1000
 OK
-KeyDB> object encoding foo
+keydb-cli> OBJECT ENCODING foo
 "int"
-KeyDB> append foo bar
+keydb-cli> APPEND foo bar
 (integer) 7
-KeyDB> get foo
+keydb-cli> GET foo
 "1000bar"
-KeyDB> object encoding foo
+keydb-cli> OBJECT ENCODING foo
 "raw"
 ```
 
