@@ -6858,6 +6858,12 @@ keydb-cli> MGET key1 key2 nonexisting
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```MIGRATE <host> <port> <KEY|""> <destination-db> <timeout> <OPTIONAL:COPY> <OPTIONAL:REPLACE> <KEYS> <key-1> ... <key-n>
+
+#### Description:
+
 Atomically transfer a key from a source KeyDB instance to a destination KeyDB
 instance.
 On success the key is deleted from the original instance and is guaranteed to
@@ -6912,7 +6918,7 @@ In order to enable this form, the `KEYS` option is used, and the normal *key*
 argument is set to an empty string. The actual key names will be provided
 after the `KEYS` argument itself, like in the following example:
 
-    MIGRATE 192.168.1.34 6379 "" 0 5000 KEYS key1 key2 key3
+`keydb-cli> MIGRATE 192.168.1.34 6379 "" 0 5000 KEYS key1 key2 key3`
 
 When this form is used the `NOKEY` status code is only returned when none
 of the keys is present in the instance, otherwise the command is executed, even if
