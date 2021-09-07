@@ -7289,6 +7289,8 @@ keydb-cli> OBJECT ENCODING foo
 
 ```PERSIST <key>```
 
+```PERSIST <key> <subkey>```
+
 #### Description:
 
 Remove the existing timeout on `key`, turning the key from _volatile_ (a key
@@ -7309,24 +7311,27 @@ Integer Reply, specifically:
 ```
 keydb-cli> SET mykey "Hello"
 OK
-keydb-cli> EXPIRE mykey 10
-(integer)1
+keydb-cli> EXPIRE mykey 100
+(integer) 1
 keydb-cli> TTL mykey
-(integer)10
+(integer) 97
 keydb-cli> PERSIST mykey
-OK
+(integer) 1
 keydb-cli> TTL mykey
-(integer)-1
-keydb-cli> sadd myset member1 member2
-(integer)2
-keydb-cli> EXPIREMEMBER myset member2 10
-OK
+(integer) -1
+```
+
+```
+keydb-cli> SADD myset member1 member2
+(integer) 2
+keydb-cli> EXPIREMEMBER myset member2 100
+(integer) 1
 keydb-cli> TTL myset member2
-(integer)10
+(integer) 95
 keydb-cli> PERSIST myset member2
-(integer)1
+(integer) 1
 keydb-cli> TTL myset member2
-(integer)-1
+(integer) -1
 ```
 
 ---
@@ -7337,6 +7342,12 @@ keydb-cli> TTL myset member2
 ## PEXPIRE
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+#### Syntax:
+
+```PEXPIRE <key> <time-to-live>```
+
+#### Description:
 
 This command works exactly like `EXPIRE` but the time to live of the key is
 specified in milliseconds instead of seconds.
@@ -7350,11 +7361,15 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-SET mykey "Hello"
-PEXPIRE mykey 1500
-TTL mykey
-PTTL mykey
+```
+keydb-cli> SET mykey "Hello"
+OK
+keydb-cli> PEXPIRE mykey 15000
+(integer) 1
+keydb-cli> TTL mykey
+(integer) 11
+keydb-cli> PTTL mykey
+(integer) 4569
 ```
 
 ---
@@ -7365,6 +7380,12 @@ PTTL mykey
 ## PEXPIREAT
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+#### Syntax:
+
+```PEXPIREAT <key> <milliseconds-unit-timestamp>```
+
+#### Description:
 
 `PEXPIREAT` has the same effect and semantic as `EXPIREAT`, but the Unix time at
 which the key will expire is specified in milliseconds instead of seconds.
@@ -7378,11 +7399,15 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-SET mykey "Hello"
-PEXPIREAT mykey 1555555555005
-TTL mykey
-PTTL mykey
+```
+keydb-cli> SET mykey "Hello"
+OK
+keydb-cli> PEXPIREAT mykey 2000000000000
+(integer) 1
+keydb-cli> TTL mykey
+(integer) 368952269
+keydb-cli> PTTL mykey
+(integer) 368952265316
 ```
 
 ---
