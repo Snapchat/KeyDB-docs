@@ -6023,7 +6023,7 @@ KeyDB's CRON function schedules LUA scripts to run at specified times and interv
 #### Syntax:
 
 ```
-KEYDB.CRON <name> <single/repeat> <optional:start> <delay> <script> <numkeys> <key-N> <arg-N>
+KEYDB.CRON <name> <single|repeat> <OPTIONAL:start> <delay> <script> <numkeys> <key-N> <arg-N>
 ```
 where:
 * `name` is the name of the KEY. This will be visible in the keyspace, can be searched, and deleted with `DEL`. Each cron task will have its own name.
@@ -6197,6 +6197,12 @@ keydb-cli> LINDEX mylist 3
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
+#### Syntax:
+
+```LINSERT <key> <BEFORE|AFTER> <pivot> <element>```
+
+#### Description:
+
 Inserts `value` in the list stored at `key` either before or after the reference
 value `pivot`.
 
@@ -6212,11 +6218,17 @@ the value `pivot` was not found.
 
 #### Examples:
 
-```cli
-RPUSH mylist "Hello"
-RPUSH mylist "World"
-LINSERT mylist BEFORE "World" "There"
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "Hello"
+(integer) 1
+keydb-cli> RPUSH mylist "World"
+(integer) 2
+keydb-cli> LINSERT mylist BEFORE "World" "There"
+(integer) 3
+keydb-cli> LRANGE mylist 0 -1
+1) "Hello"
+2) "There"
+3) "World"
 ```
 
 ---
