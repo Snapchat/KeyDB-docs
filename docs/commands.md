@@ -6359,6 +6359,13 @@ keydb-cli> LRANGE mylist 0 -1
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
+
+#### Syntax:
+
+```LPUSHX <key> <value>```
+
+#### Description:
+
 Inserts `value` at the head of the list stored at `key`, only if `key` already
 exists and holds a list.
 In contrary to `LPUSH`, no operation will be performed when `key` does not yet
@@ -6370,12 +6377,18 @@ Integer Reply: the length of the list after the push operation.
 
 #### Examples:
 
-```cli
-LPUSH mylist "World"
-LPUSHX mylist "Hello"
-LPUSHX myotherlist "Hello"
-LRANGE mylist 0 -1
-LRANGE myotherlist 0 -1
+```
+keydb-cli> LPUSH mylist "World"
+(integer) 1
+keydb-cli> LPUSHX mylist "Hello"
+(integer) 2
+keydb-cli> LPUSHX myotherlist "Hello"
+(integer) 0
+keydb-cli> LRANGE mylist 0 -1
+1) "Hello"
+2) "World"
+keydb-cli> LRANGE myotherlist 0 -1
+(empty array)
 ```
 
 ---
