@@ -7460,6 +7460,14 @@ keydb-cli> PFCOUNT hll
 
 **Related Commands:** [PFADD](/docs/commands/#pfadd), [PFCOUNT](/docs/commands/#pfcount), [PFMERGE](/docs/commands/#pfmerge)
 
+#### Syntax:
+
+```PFCOUNT <key>```
+
+```PFCOUNT <key-1> ... <key-n>```
+
+#### Description:
+
 When called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.
 
 When called with multiple keys, returns the approximated cardinality of the union of the HyperLogLogs passed, by internally merging the HyperLogLogs stored at the provided keys into a temporary HyperLogLog.
@@ -7481,13 +7489,19 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-PFADD hll foo bar zap
-PFADD hll zap zap zap
-PFADD hll foo bar
-PFCOUNT hll
-PFADD some-other-hll 1 2 3
-PFCOUNT hll some-other-hll
+```
+keydb-cli> PFADD hll foo bar zap
+(integer) 1
+keydb-cli> PFADD hll zap zap zap
+(integer) 0
+keydb-cli> PFADD hll foo bar
+(integer) 0
+keydb-cli> PFCOUNT hll
+(integer) 3
+keydb-cli> PFADD some-other-hll 1 2 3
+(integer) 1
+keydb-cli> PFCOUNT hll some-other-hll
+(integer) 6
 ```
 
 #### Performances
