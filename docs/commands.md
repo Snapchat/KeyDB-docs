@@ -6469,6 +6469,12 @@ keydb-cli> LRANGE mylist 5 10
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
+#### Syntax:
+
+```LREM <key> <count> <element>```
+
+#### Description:
+
 Removes the first `count` occurrences of elements equal to `value` from the list
 stored at `key`.
 The `count` argument influences the operation in the following ways:
@@ -6489,13 +6495,20 @@ Integer Reply: the number of removed elements.
 
 #### Examples:
 
-```cli
-RPUSH mylist "hello"
-RPUSH mylist "hello"
-RPUSH mylist "foo"
-RPUSH mylist "hello"
-LREM mylist -2 "hello"
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "hello"
+(integer) 1
+keydb-cli> RPUSH mylist "hello"
+(integer) 2
+keydb-cli> RPUSH mylist "foo"
+(integer) 3
+keydb-cli> RPUSH mylist "hello"
+(integer) 4
+keydb-cli> LREM mylist -2 "hello"
+(integer) 2
+keydb-cli> LRANGE mylist 0 -1
+1) "hello"
+2) "foo"
 ```
 
 ---
