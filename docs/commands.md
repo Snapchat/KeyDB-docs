@@ -6779,10 +6779,10 @@ to `5`. To sample the all of the nested values, use `SAMPLES 0`.
 With KeyDB v4.0.1 64-bit and **jemalloc**, the empty string measures as follows:
 
 ```
-> SET "" ""
+keydb-cli> SET "" ""
 OK
-> MEMORY USAGE ""
-(integer) 51
+kedyb-cli> MEMORY USAGE ""
+(integer) 50
 ```
 
 These bytes are pure overhead at the moment as no actual data is stored, and are
@@ -6790,15 +6790,15 @@ used for maintaining the internal data structures of the server. Longer keys and
 values show asymptotically linear usage.
 
 ```
-> SET foo bar
+keydb-cli> SET foo bar
 OK
-> MEMORY USAGE foo
-(integer) 54
-> SET cento 01234567890123456789012345678901234567890123
+keydb-cli> MEMORY USAGE foo
+(integer) 53
+keydb-cli> SET cento 01234567890123456789012345678901234567890123
 45678901234567890123456789012345678901234567890123456789
 OK
-127.0.0.1:6379> MEMORY USAGE cento
-(integer) 153
+keydb-cli> MEMORY USAGE cento
+(integer) 160
 ```
 
 #### Return:
