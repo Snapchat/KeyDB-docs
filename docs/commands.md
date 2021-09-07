@@ -6860,7 +6860,7 @@ keydb-cli> MGET key1 key2 nonexisting
 
 #### Syntax:
 
-```MIGRATE <host> <port> <KEY|""> <destination-db> <timeout> <OPTIONAL:COPY> <OPTIONAL:REPLACE> <KEYS> <key-1> ... <key-n>
+```MIGRATE <host> <port> <KEY|""> <destination-db> <timeout> <OPTIONAL:COPY> <OPTIONAL:REPLACE> <KEYS> <key-1> ... <key-n>```
 
 #### Description:
 
@@ -7108,6 +7108,13 @@ keydb-cli> GET key2
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+
+#### Syntax:
+
+```MSETNX <key-1> <value-1> ... <key-n> <value-n>```
+
+#### Description:
+
 Sets the given keys to their respective values.
 `MSETNX` will not perform any operation at all even if just a single key already
 exists.
@@ -7129,10 +7136,15 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-MSETNX key1 "Hello" key2 "there"
-MSETNX key2 "there" key3 "world"
-MGET key1 key2 key3
+```
+keydb-cli> MSETNX key1 "Hello" key2 "there"
+(integer) 1
+keydb-cli> MSETNX key2 "there" key3 "world"
+(integer) 0
+keydb-cli> MGET key1 key2 key3
+1) "Hello"
+2) "there"
+3) (nil)
 ```
 
 ---
