@@ -6522,6 +6522,12 @@ keydb-cli> LRANGE mylist 0 -1
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
+#### Syntax:
+
+```LSET <key> <index> <element>```
+
+#### Description:
+
 Sets the list element at `index` to `value`.
 For more information on the `index` argument, see `LINDEX`.
 
@@ -6533,13 +6539,21 @@ Simple String Reply
 
 #### Examples:
 
-```cli
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-LSET mylist 0 "four"
-LSET mylist -2 "five"
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "one"
+(integer) 1
+keydb-cli> RPUSH mylist "two"
+(integer) 2
+keydb-cli> RPUSH mylist "three"
+(integer) 3
+keydb-cli> LSET mylist 0 "four"
+OK
+keydb-cli> LSET mylist -2 "five"
+OK
+keydb-cli> LRANGE mylist 0 -1
+1) "four"
+2) "five"
+3) "three"
 ```
 
 ---
