@@ -5624,6 +5624,12 @@ keydb-cli> INCRBY mykey 5
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```INCRBYFLOAT <key> <increment>```
+
+#### Description:
+
 Increment the string representing a floating point number stored at `key` by the
 specified `increment`. By using a negative `increment` value, the result is
 that the value stored at the key is decremented (by the obvious properties
@@ -5655,12 +5661,17 @@ Bulk String Reply: the value of `key` after the increment.
 
 #### Examples:
 
-```cli
-SET mykey 10.50
-INCRBYFLOAT mykey 0.1
-INCRBYFLOAT mykey -5
-SET mykey 5.0e3
-INCRBYFLOAT mykey 2.0e2
+```
+keydb-cli> SET mykey 10.50
+OK
+keydb-cli> INCRBYFLOAT mykey 0.1
+"10.6"
+keydb-cli> INCRBYFLOAT mykey -5
+"5.6"
+keydb-cli> SET mykey 5.0e3
+OK
+keydb-cli> INCRBYFLOAT mykey 2.0e2
+"5200"
 ```
 
 #### Implementation details
