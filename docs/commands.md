@@ -5720,7 +5720,7 @@ Bulk String Reply: as a collection of text lines.
 Lines can contain a section name (starting with a # character) or a property.
 All the properties are in the form of `field:value` terminated by `\r\n`.
 
-```cli
+```
 INFO
 ```
 
@@ -6020,19 +6020,19 @@ KeyDB's CRON function schedules LUA scripts to run at specified times and interv
 
 `OK` if the task was accepted and successfully scheduled.
 
-#### Usage:
+#### Syntax:
 
 ```
-KEYDB.CRON name [single/repeat] [optional: start] delay script numkeys [key N] [arg N]
+KEYDB.CRON <name> <single/repeat> <optional:start> <delay> <script> <numkeys> <key-N> <arg-N>
 ```
 where:
 * `name` is the name of the KEY. This will be visible in the keyspace, can be searched, and deleted with `DEL`. Each cron task will have its own name.
-* `[single/repeat]` specifies if the script will run only once, or if it will be repeated at the specified interval
-* `[optional: start]` is an integer specified in milliseconds since Epoch. If specified, the script will not execute until this Unix time has been reached. If the delay is greater than zero, this delay time will need to elapse prior to the script executing (timer begins to elapse at start time). If a start time 
+* `single/repeat` specifies if the script will run only once, or if it will be repeated at the specified interval
+* `start` is an integer specified in milliseconds since Epoch. If specified, the script will not execute until this Unix time has been reached. If the delay is greater than zero, this delay time will need to elapse prior to the script executing (timer begins to elapse at start time). If a start time 
 is specified, the delay will always remain in reference intervals to that start time.
 * `delay` is an integer specified in milliseconds used as the initial delay. If `repeat` is specified, this will also be the length of the repeating timer which will execute the script each time the delay elapses (will continue to execute indefinitely).
 * `script` is the LUA script to execute. This should be the LUA script itself and NOT the SHA1 digest of a loaded script.
-* `numkeys [key N] [arg N]` are the number of keys, keys, and arguments for the script, similar to usage with [EVAL](/docs/commands/#eval)
+* `numkeys <key-N> <arg-N>` are the number of keys, keys, and arguments for the script, similar to usage with [EVAL](/docs/commands/#eval)
 
 #### Persistence:
 
@@ -6056,7 +6056,7 @@ keydb-cli> KEYDB.CRON mytestname2 SINGLE 1610941618000 1 "redis.call('set',KEYS[
 OK
 ```
 
-The above command sets "mytestcounter" to zero at Unix Timestamp 1610941618000 milliseconds. This will occur only once. Note that we must specify a delay time. Once the task has completed the KEY will be removed and the name "mytestname2" will no longer exist.
+The above command sets `mytestcounter` to zero at Unix Timestamp 1610941618000 milliseconds. This will occur only once. Note that we must specify a delay time. Once the task has completed the KEY will be removed and the name `mytestname2` will no longer exist.
 
 For more information and examples on KEYDB.CRON, take a look at this blog post: https://docs.keydb.dev/blog/2021/01/26/blog-post/
 
