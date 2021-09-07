@@ -7042,6 +7042,12 @@ flow.
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```MOVE <key> <db>```
+
+#### Description:
+
 Move `key` from the currently selected database (see `SELECT`) to the specified
 destination database.
 When `key` already exists in the destination database, or it does not exist in
@@ -7064,6 +7070,12 @@ Integer Reply, specifically:
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```MSET <key-1> <value-1> ... <key-n> <value-n>```
+
+#### Description:
+
 Sets the given keys to their respective values.
 `MSET` replaces existing values with new values, just as regular `SET`.
 See `MSETNX` if you don't want to overwrite existing values.
@@ -7078,10 +7090,13 @@ Simple String Reply: always `OK` since `MSET` can't fail.
 
 #### Examples:
 
-```cli
-MSET key1 "Hello" key2 "World"
-GET key1
-GET key2
+```
+keydb-cli> MSET key1 "Hello" key2 "World"
+OK
+keydb-cli> GET key1
+"Hello"
+keydb-cli> GET key2
+"World"
 ```
 
 ---
