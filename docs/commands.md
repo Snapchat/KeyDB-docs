@@ -7420,6 +7420,12 @@ keydb-cli> PTTL mykey
 
 **Related Commands:** [PFADD](/docs/commands/#pfadd), [PFCOUNT](/docs/commands/#pfcount), [PFMERGE](/docs/commands/#pfmerge)
 
+#### Syntax:
+
+```PFADD <key> <element-1> ... <element-n>```
+
+#### Description:
+
 Adds all the element arguments to the HyperLogLog data structure stored at the variable name specified as first argument.
 
 As a side effect of this command the HyperLogLog internals may be updated to reflect a different estimation of the number of unique items added so far (the cardinality of the set).
@@ -7438,9 +7444,11 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-PFADD hll a b c d e f g
-PFCOUNT hll
+```
+keydb-cli> PFADD hll a b c d e f g
+(integer) 1
+keydb-cli> PFCOUNT hll
+(integer) 7
 ```
 
 ---
