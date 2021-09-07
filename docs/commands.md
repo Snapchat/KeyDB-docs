@@ -6241,6 +6241,12 @@ keydb-cli> LRANGE mylist 0 -1
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
+#### Syntax:
+
+```LLEN <key>```
+
+#### Description:
+
 Returns the length of the list stored at `key`.
 If `key` does not exist, it is interpreted as an empty list and `0` is returned.
 An error is returned when the value stored at `key` is not a list.
@@ -6251,10 +6257,13 @@ Integer Reply: the length of the list at `key`.
 
 #### Examples:
 
-```cli
-LPUSH mylist "World"
-LPUSH mylist "Hello"
-LLEN mylist
+```
+keydb-cli> LPUSH mylist "World"
+(integer) 1
+keydb-cli> LPUSH mylist "Hello"
+(integer) 2
+keydb-cli> LLEN mylist
+(integer) 2
 ```
 
 ---
