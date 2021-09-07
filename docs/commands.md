@@ -6154,6 +6154,12 @@ Integer Reply: an UNIX time stamp.
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
+#### Syntax:
+
+```LINDEX <key> <index>```
+
+#### Description:
+
 Returns the element at index `index` in the list stored at `key`.
 The index is zero-based, so `0` means the first element, `1` the second element
 and so on.
@@ -6169,12 +6175,17 @@ Bulk String Reply: the requested element, or `nil` when `index` is out of range.
 
 #### Examples:
 
-```cli
-LPUSH mylist "World"
-LPUSH mylist "Hello"
-LINDEX mylist 0
-LINDEX mylist -1
-LINDEX mylist 3
+```
+keydb-cli> LPUSH mylist "World"
+(integer) 1
+keydb-cli> LPUSH mylist "Hello"
+(integer) 2
+keydb-cli> LINDEX mylist 0
+"Hello"
+keydb-cli> LINDEX mylist -1
+"World"
+keydb-cli> LINDEX mylist 3
+(nil)
 ```
 
 ---
