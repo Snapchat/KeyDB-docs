@@ -7584,6 +7584,12 @@ keydb-cli> PFCOUNT hll3
 
 **Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
 
+#### Syntax:
+
+```PING <message>```
+
+#### Description:
+
 Returns `PONG` if no argument is provided, otherwise return a copy of the
 argument as a bulk.
 This command is often used to test if a connection is still alive, or to measure
@@ -7616,15 +7622,24 @@ keydb-cli> PING "hello world"
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```PSETEX <key> <milliseconds-to-expire> <value>```
+
+#### Description:
+
 `PSETEX` works exactly like `SETEX` with the sole difference that the expire
 time is specified in milliseconds instead of seconds.
 
 #### Examples:
 
-```cli
-PSETEX mykey 1000 "Hello"
-PTTL mykey
-GET mykey
+```
+keydb-cli> PSETEX mykey 1000 "Hello"
+OK
+keydb-cli> PTTL mykey
+(integer) -2
+keydb-cli> GET mykey
+(nil)
 ```
 
 ---
