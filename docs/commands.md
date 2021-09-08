@@ -9373,7 +9373,7 @@ without the lost of any data.
 This is not guaranteed if the client uses simply `SAVE` and then `QUIT` because
 other clients may alter the DB data between the two commands.
 
-Note: A KeyDB instance that is configured for not persisting on disk (no AOF
+**REMINDER**: A KeyDB instance that is configured for not persisting on disk (no AOF
 configured, nor "save" directive) will not dump the RDB file on `SHUTDOWN`, as
 usually you don't want KeyDB instances used only for caching to block on when
 shutting down.
@@ -9384,9 +9384,9 @@ It is possible to specify an optional modifier to alter the behavior of the
 command.
 Specifically:
 
-* `SHUTDOWN SAVE` will force a DB saving operation even if no save points are
+* **SHUTDOWN SAVE** will force a DB saving operation even if no save points are
   configured.
-* `SHUTDOWN NOSAVE` will prevent a DB saving operation even if one or more
+* **SHUTDOWN NOSAVE** will prevent a DB saving operation even if one or more
   save points are configured.
   (You can think of this variant as an hypothetical **ABORT** command that just
   stops the server).
@@ -9421,6 +9421,12 @@ closed.
 ## SINTER
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
+
+#### Syntax
+
+```SADD <key-1> ... <key-n>```
+
+#### Description:
 
 Returns the members of the set resulting from the intersection of all the given
 sets.
