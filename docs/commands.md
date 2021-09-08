@@ -9128,6 +9128,12 @@ keydb-cli> GET mykey
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```SETEX <key> <timeout> <value>```
+
+#### Description:
+
 Set `key` to hold the string `value` and set `key` to timeout after a given
 number of seconds.
 This command is equivalent to executing the following commands:
@@ -9150,10 +9156,13 @@ Simple String Reply
 
 #### Examples:
 
-```cli
-SETEX mykey 10 "Hello"
-TTL mykey
-GET mykey
+```
+keydb-cli> SETEX mykey 10 "Hello"
+OK
+keydb-cli> TTL mykey
+(integer) 8
+keydb-cli> GET mykey
+"Hello"
 ```
 ---
 
