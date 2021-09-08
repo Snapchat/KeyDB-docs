@@ -8744,6 +8744,13 @@ is active and retains all changes to the data set once it ends.
 
 Simple String Reply: `OK`.
 
+#### Examples:
+
+```
+keydb-cli> SCRIPT DEBUG NO
+OK
+```
+
 
 ---
 
