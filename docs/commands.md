@@ -9077,6 +9077,12 @@ The script should be called with `EVAL ...script... 1 resource-name token-value`
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```SETBIT <key> <offset> <value>```
+
+#### Description:
+
 Sets or clears the bit at _offset_ in the string value stored at _key_.
 
 The bit is either set or cleared depending on _value_, which can be either 0 or
@@ -9104,10 +9110,13 @@ Integer Reply: the original bit value stored at _offset_.
 
 #### Examples:
 
-```cli
-SETBIT mykey 7 1
-SETBIT mykey 7 0
-GET mykey
+```
+keydb-cli> SETBIT mykey 7 1
+(integer) 0
+keydb-cli> SETBIT mykey 7 0
+(integer) 1
+keydb-cli> GET mykey
+"\x00"
 ```
 
 ---
