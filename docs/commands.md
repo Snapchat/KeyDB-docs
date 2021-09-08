@@ -9938,7 +9938,7 @@ Integer Reply: when the `store` option is specified the command returns the numb
 
 #### Syntax:
 
-```SPOP <key>```
+```SPOP <key> <OPTIONAL:count>```
 
 #### Description:
 
