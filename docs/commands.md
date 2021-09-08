@@ -9559,16 +9559,16 @@ keydb-cli> SISMEMBER myset "two"
 **A note about the word slave used in this man page and command name**: Starting with KeyDB 5 this command: starting with KeyDB version 5, if not for backward compatibility, the KeyDB project no longer uses the word slave. Please use the new command `REPLICAOF`. The command `SLAVEOF` will continue to work for backward compatibility.
 
 The `SLAVEOF` command can change the replication settings of a replica on the fly.
-If a KeyDB server is already acting as replica, the command `SLAVEOF` NO ONE will
+If a KeyDB server is already acting as replica, the command `SLAVEOF NO ONE` will
 turn off the replication, turning the KeyDB server into a MASTER.
 In the proper form `SLAVEOF` hostname port will make the server a replica of
 another server listening at the specified hostname and port.
 
-If a server is already a replica of some master, `SLAVEOF` hostname port will stop
+If a server is already a replica of some master, `SLAVEOF <hostname> <port>` will stop
 the replication against the old server and start the synchronization against the
 new one, discarding the old dataset.
 
-The form `SLAVEOF` NO ONE will stop replication, turning the server into a
+The form `SLAVEOF NO ONE` will stop replication, turning the server into a
 MASTER, but will not discard the replication.
 So, if the old master stops working, it is possible to turn the replica into a
 master and set the application to use this new master in read/write.
@@ -9588,6 +9588,16 @@ Simple String Reply
 ## SLOWLOG
 
 **Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```SLOWLOG GET <N-entries>```
+
+```SLOWLOG LEN```
+
+```SLOWLOG RESET```
+
+#### Description:
 
 This command is used in order to read and reset the KeyDB slow queries log.
 
@@ -9634,7 +9644,7 @@ implemented in keydb-cli (deeply nested multi bulk replies).
 #### Output format
 
 ```
-KeyDB 127.0.0.1:6379> slowlog get 2
+keydb-cli> slowlog get 2
 1) 1) (integer) 14
    2) (integer) 1309448221
    3) (integer) 15
