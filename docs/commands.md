@@ -8406,6 +8406,12 @@ keydb-cli> LRANGE myotherlist 0 -1
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
 
+#### Syntax:
+
+```SADD <key> <member-1> ... <member-n>```
+
+#### Description:
+
 Add the specified members to the set stored at `key`.
 Specified members that are already a member of this set are ignored.
 If `key` does not exist, a new set is created before adding the specified
