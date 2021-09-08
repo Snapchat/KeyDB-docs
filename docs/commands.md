@@ -8186,6 +8186,12 @@ keydb-cli> ROLE
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
+#### Syntax:
+
+```RPOP <key>```
+
+#### Description:
+
 Removes and returns the last element of the list stored at `key`.
 
 #### Return:
@@ -8194,12 +8200,18 @@ Bulk String Reply: the value of the last element, or `nil` when `key` does not e
 
 #### Examples:
 
-```cli
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-RPOP mylist
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "one"
+(integer) 1
+keydb-cli> RPUSH mylist "two"
+(integer) 2
+keydb-cli> RPUSH mylist "three"
+(integer) 3
+keydb-cli> RPOP mylist
+"three"
+keydb-cli> LRANGE mylist 0 -1
+1) "one"
+2) "two"
 ```
 
 ---
