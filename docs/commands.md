@@ -9172,6 +9172,12 @@ keydb-cli> GET mykey
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```SETNX <key> <value>```
+
+#### Description:
+
 Set `key` to hold string `value` if `key` does not exist.
 In that case, it is equal to `SET`.
 When `key` already holds a value, no operation is performed.
@@ -9186,10 +9192,13 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-SETNX mykey "Hello"
-SETNX mykey "World"
-GET mykey
+```
+keydb-cli> SETNX mykey "Hello"
+(integer) 1
+keydb-cli> SETNX mykey "World"
+(integer) 0
+keydb-cli> GET mykey
+"Hello"
 ```
 
 #### Design pattern: Locking with `!SETNX`
