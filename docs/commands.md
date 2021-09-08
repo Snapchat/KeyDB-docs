@@ -10395,6 +10395,13 @@ keydb-cli> TOUCH key1 key2
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```TTL <key>```
+
+```TTL <key> <subkey>```
+#### Description:
+
 Returns the remaining time to live of a key or subkey that has a timeout.
 This introspection capability allows a KeyDB client to check how many seconds a
 given key or subkey will continue to be part of the dataset.
@@ -10414,12 +10421,15 @@ keydb-cli> EXPIRE mykey 10
 (integer) 1
 keydb-cli> TTL mykey
 (integer) 10
+```
+
+```
 keydb-cli> SADD myset member1 member2
-OK
+(integer) 2
 keydb-cli> EXPIREMEMBER myset member2 10
 (integer) 1
 keydb-cli> TTL myset member2
-(integer)10
+(integer) 6
 ```
 ---
 
