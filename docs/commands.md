@@ -4119,7 +4119,7 @@ keydb-cli> EXISTS mykey
 
 #### Syntax:
 
-```EXPIRE <key> <subkey> <timeout-in-seconds> <OPTIONAL: unit-time-format>```
+```EXPIRE <key> <subkey> <timeout-in-seconds> <OPTIONAL:unit-time-format>```
 
 #### Description:
 
@@ -8035,7 +8035,7 @@ PONG
 
 #### Syntax:
 
-```RESTORE <key> <ttl> <serialized-value> <OPTIONAL:REPLACE> <OPTIONAL:ABSTTL> <OPTIONAL:IDLETIME> <OPTIONAL:seconds> <OPTIONAL:FREQ> <OPTIONAL:frequency> ```
+```RESTORE <key> <ttl> <serialized-value> <OPTIONAL:REPLACE> <OPTIONAL:ABSTTL> <OPTIONAL:IDLETIME> <IDLETIME-argument:seconds> <OPTIONAL:FREQ> <FREQ-argument:frequency> ```
 
 #### Description:
 
@@ -8475,6 +8475,12 @@ Simple String Reply: The commands returns OK on success.
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```SCAN <cursor> <OPTIONAL:MATCH> <MATCH-argument:pattern> <OPTIONAL:COUNT> <COUNT-argument:count> <OPTIONAL:TYPE> <TYPE-argument:type>```
+
+#### Description:
+
 The `SCAN` command and the closely related commands `SSCAN`, `HSCAN` and `ZSCAN` are used in order to incrementally iterate over a collection of elements.
 
 * `SCAN` iterates the set of keys in the currently selected KeyDB database.
@@ -8495,7 +8501,7 @@ SCAN is a cursor based iterator. This means that at every call of the command, t
 An iteration starts when the cursor is set to 0, and terminates when the cursor returned by the server is 0. The following is an example of SCAN iteration:
 
 ```
-KeyDB 127.0.0.1:6379> scan 0
+keydb-cli> scan 0
 1) "17"
 2)  1) "key:12"
     2) "key:8"
@@ -8508,7 +8514,7 @@ KeyDB 127.0.0.1:6379> scan 0
     9) "key:3"
    10) "key:7"
    11) "key:1"
-KeyDB 127.0.0.1:6379> scan 17
+keydb-cli> scan 17
 1) "0"
 2) 1) "key:5"
    2) "key:18"
@@ -8566,32 +8572,31 @@ To do so, just append the `MATCH <pattern>` arguments at the end of the `SCAN` c
 This is an example of iteration using **MATCH**:
 
 ```
-KeyDB 127.0.0.1:6379> sadd myset 1 2 3 foo foobar feelsgood
+keydb-cli> sadd myset 1 2 3 foo foobar feelsgood
 (integer) 6
-KeyDB 127.0.0.1:6379> sscan myset 0 match f*
+keydb-cli> sscan myset 0 match f*
 1) "0"
 2) 1) "foo"
    2) "feelsgood"
    3) "foobar"
-KeyDB 127.0.0.1:6379>
 ```
 
 It is important to note that the **MATCH** filter is applied after elements are retrieved from the collection, just before returning data to the client. This means that if the pattern matches very little elements inside the collection, `SCAN` will likely return no elements in most iterations. An example is shown below:
 
 ```
-KeyDB 127.0.0.1:6379> scan 0 MATCH *11*
+keydb-cli> scan 0 MATCH *11*
 1) "288"
 2) 1) "key:911"
-KeyDB 127.0.0.1:6379> scan 288 MATCH *11*
+keydb-cli> scan 288 MATCH *11*
 1) "224"
 2) (empty list or set)
-KeyDB 127.0.0.1:6379> scan 224 MATCH *11*
+keydb-cli> scan 224 MATCH *11*
 1) "80"
 2) (empty list or set)
-KeyDB 127.0.0.1:6379> scan 80 MATCH *11*
+keydb-cli> scan 80 MATCH *11*
 1) "176"
 2) (empty list or set)
-KeyDB 127.0.0.1:6379> scan 176 MATCH *11* COUNT 1000
+keydb-cli> scan 176 MATCH *11* COUNT 1000
 1) "0"
 2)  1) "key:611"
     2) "key:711"
@@ -8611,7 +8616,6 @@ KeyDB 127.0.0.1:6379> scan 176 MATCH *11* COUNT 1000
    16) "key:811"
    17) "key:511"
    18) "key:11"
-KeyDB 127.0.0.1:6379>
 ```
 
 As you can see most of the calls returned zero elements, but the last call where a COUNT of 1000 was used in order to force the command to do more scanning for that iteration.
@@ -8661,9 +8665,9 @@ Also note that this behavior is specific of `SSCAN`, `HSCAN` and `ZSCAN`. `SCAN`
 Iteration of a Hash value.
 
 ```
-KeyDB 127.0.0.1:6379> hmset hash name Jack age 33
+keydb-cli> hmset hash name Jack age 33
 OK
-KeyDB 127.0.0.1:6379> hscan hash 0
+keydb-cli> hscan hash 0
 1) "0"
 2) 1) "name"
    2) "Jack"
