@@ -10064,6 +10064,12 @@ This means that if you have two non-empty buckets in the entire hash table, and 
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
 
+#### Syntax:
+
+```SREM <key> <member-1> ... <member-n>```
+
+#### Description:
+
 Remove the specified members from the set stored at `key`.
 Specified members that are not a member of this set are ignored.
 If `key` does not exist, it is treated as an empty set and this command returns
