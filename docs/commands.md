@@ -10343,9 +10343,13 @@ A multi bulk reply containing two elements:
 
 #### Examples:
 
-```cli
-TIME
-TIME
+```
+keydb-cli> TIME
+1) "1631131723"
+2) "621317"
+keydb-cli> TIME
+1) "1631131724"
+2) "525306"
 ```
 
 ---
@@ -10358,6 +10362,12 @@ TIME
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```TOUCH <key-1> ... <key-n>```
+
+#### Description:
+
 Alters the last access time of a key(s).
 A key is ignored if it does not exist.
 
@@ -10367,10 +10377,13 @@ Integer Reply: The number of keys that were touched.
 
 #### Examples:
 
-```cli
-SET key1 "Hello"
-SET key2 "World"
-TOUCH key1 key2
+```
+keydb-cli> SET key1 "Hello"
+OK
+keydb-cli> SET key2 "World"
+OK
+keydb-cli> TOUCH key1 key2
+(integer) 2
 ```
 ---
 
