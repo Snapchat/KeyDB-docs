@@ -10441,6 +10441,12 @@ keydb-cli> TTL myset member2
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```TYPE <key>```
+
+#### Description:
+
 Returns the string representation of the type of the value stored at `key`.
 The different types that can be returned are: `string`, `list`, `set`, `zset`,
 `hash` and `stream`.
@@ -10451,13 +10457,19 @@ Simple String Reply: type of `key`, or `none` when `key` does not exist.
 
 #### Examples:
 
-```cli
-SET key1 "value"
-LPUSH key2 "value"
-SADD key3 "value"
-TYPE key1
-TYPE key2
-TYPE key3
+```
+keydb-cli> SET key1 "value"
+OK
+keydb-cli> LPUSH key2 "value"
+(integer) 1
+keydb-cli> SADD key3 "value"
+(integer) 1
+keydb-cli> TYPE key1
+string
+keydb-cli> TYPE key2
+list
+keydb-cli> TYPE key3
+set
 ```
 ---
 
