@@ -8917,11 +8917,13 @@ Array Reply: list with members of the resulting set.
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
 
-#### Usage:
+#### Syntax:
 
 ```
-SDIFFSTORE <destination> <set 1> ... <set n>
+SDIFFSTORE <destination> <key-1> ... <key-n>
 ```
+
+#### Description:
 
 This command is equal to `SDIFF`, but instead of returning the resulting set, it
 is stored in `destination`.
@@ -8962,6 +8964,12 @@ keydb-cli> SMEMBERS key
 
 **Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
 
+#### Syntax:
+
+```SELECT <index>```
+
+#### Description:
+
 Select the KeyDB logical database having the specified zero-based numeric index.
 New connections always use the database 0.
 
@@ -8976,6 +8984,16 @@ Since the currently selected database is a property of the connection, clients s
 #### Return:
 
 Simple String Reply
+
+#### Examples:
+
+```
+127.0.0.1:6379> SELECT 1
+OK
+127.0.0.1:6379[1]> SELECT 0
+OK
+```
+
 
 ---
 
