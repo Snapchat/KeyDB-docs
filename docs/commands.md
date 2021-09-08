@@ -9004,6 +9004,12 @@ OK
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```SET <key> <value>```
+
+#### Description:
+
 Set `key` to hold the string `value`.
 If `key` already holds a value, it is overwritten, regardless of its type.
 Any previous time to live associated with the key is discarded on successful `SET` operation.
@@ -9027,9 +9033,11 @@ nil-reply: a Null Bulk Reply is returned if the `SET` operation was not performe
 
 #### Examples:
 
-```cli
-SET mykey "Hello"
-GET mykey
+```
+keydb-cli> SET mykey "Hello"
+OK
+keydb-cli> GET mykey
+"Hello"
 ```
 
 #### Patterns
