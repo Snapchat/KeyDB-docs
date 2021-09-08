@@ -9384,9 +9384,9 @@ It is possible to specify an optional modifier to alter the behavior of the
 command.
 Specifically:
 
-* **SHUTDOWN SAVE** will force a DB saving operation even if no save points are
+* `SHUTDOWN SAVE` will force a DB saving operation even if no save points are
   configured.
-* **SHUTDOWN NOSAVE** will prevent a DB saving operation even if one or more
+* `SHUTDOWN NOSAVE` will prevent a DB saving operation even if one or more
   save points are configured.
   (You can think of this variant as an hypothetical **ABORT** command that just
   stops the server).
