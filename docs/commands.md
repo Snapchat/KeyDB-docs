@@ -10480,6 +10480,12 @@ set
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```UNLINK <key-1> ... <key-n>```
+
+#### Description:
+
 This command is very similar to `DEL`: it removes the specified keys.
 Just like `DEL` a key is ignored if it does not exist. However the command
 performs the actual memory reclaiming in a different thread, so it is not
@@ -10493,10 +10499,13 @@ Integer Reply: The number of keys that were unlinked.
 
 #### Examples:
 
-```cli
-SET key1 "Hello"
-SET key2 "World"
-UNLINK key1 key2 key3
+```
+keydb-cli> SET key1 "Hello"
+OK
+keydb-cli> SET key2 "World"
+OK
+keydb-cli> UNLINK key1 key2 key3
+(integer) 2
 ```
 
 ---
