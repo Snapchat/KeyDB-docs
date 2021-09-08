@@ -7928,7 +7928,7 @@ Renames `key` to `newkey`.
 It returns an error when `key` does not exist.
 If `newkey` already exists it is overwritten, when this happens `RENAME` executes an implicit `DEL` operation, so if the deleted key contains a very big value it may cause high latency even if `RENAME` itself is usually a constant-time operation.
 
-**Note:** Before KeyDB 3.2.0, an error is returned if source and destination names are the same.
+**REMINDER:** Before KeyDB 3.2.0, an error is returned if source and destination names are the same.
 
 #### Return:
 
@@ -7954,10 +7954,16 @@ keydb-cli> GET myotherkey
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```RENAMENX <key> <newkey>```
+
+#### Description:
+
 Renames `key` to `newkey` if `newkey` does not yet exist.
 It returns an error when `key` does not exist.
 
-**Note:** Before KeyDB 3.2.0, an error is returned if source and destination names are the same.
+**REMINDER:** Before KeyDB 3.2.0, an error is returned if source and destination names are the same.
 
 #### Return:
 
@@ -7968,11 +7974,15 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-SET mykey "Hello"
-SET myotherkey "World"
-RENAMENX mykey myotherkey
-GET myotherkey
+```
+keydb-cli> SET mykey "Hello"
+OK
+keydb-cli> SET myotherkey "World"
+OK
+keydb-cli> RENAMENX mykey myotherkey
+(integer) 0
+keydb-cli> GET myotherkey
+"World"
 ```
 
 ---
