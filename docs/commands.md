@@ -9291,6 +9291,12 @@ client).
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```SETRANGE <key> <offset> <value>```
+
+#### Description:
+
 Overwrites part of the string stored at _key_, starting at the specified offset,
 for the entire length of _value_.
 If the offset is larger than the current length of the string at _key_, the
@@ -9327,17 +9333,22 @@ Integer Reply: the length of the string after it was modified by the command.
 
 Basic usage:
 
-```cli
-SET key1 "Hello World"
-SETRANGE key1 6 "KeyDB"
-GET key1
+```
+keydb-cli> SET key1 "Hello World"
+OK
+keydb-cli> SETRANGE key1 6 "KeyDB"
+(integer) 11
+keydb-cli> GET key1
+"Hello KeyDB"
 ```
 
 Example of zero padding:
 
-```cli
-SETRANGE key2 6 "KeyDB"
-GET key2
+```
+keydb-cli> SETRANGE key2 6 "KeyDB"
+(integer) 11
+keydb-cli> GET key2
+"\x00\x00\x00\x00\x00\x00KeyDB"
 ```
 
 ---
