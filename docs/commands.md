@@ -10223,11 +10223,13 @@ keydb-cli> SUNION key1 key2
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
 
-#### Usage
+#### Syntax:
 
 ```
-SUNIONSTORE <destination> <set 1> ... <set n>
+SUNIONSTORE <destination> <set-1> ... <set-n>
 ```
+
+#### Description:
 
 This command is equal to `SUNION`, but instead of returning the resulting set,
 it is stored in `destination`.
@@ -10272,6 +10274,12 @@ keydb-cli> SMEMBERS key
 
 **Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
 
+#### Syntax:
+
+```SWAPDB <index-1> <index-2>```
+
+#### Description:
+
 This command swaps two KeyDB databases, so that immediately all the
 clients connected to a given database will see the data of the other database, and
 the other way around. Example:
@@ -10287,7 +10295,8 @@ Simple String Reply: `OK` if `SWAPDB` was executed correctly.
 #### Examples:
 
 ```
-SWAPDB 0 1
+keydb-cli> SWAPDB 0 1
+OK
 ```
 
 ---
