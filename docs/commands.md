@@ -8322,6 +8322,12 @@ processed at the next iteration.
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
+#### Syntax:
+
+```RPUSH <key> <element-1> ... <element-n>``` 
+
+#### Description:
+
 Insert all the specified values at the tail of the list stored at `key`.
 If `key` does not exist, it is created as empty list before performing the push
 operation.
@@ -8341,10 +8347,14 @@ Integer Reply: the length of the list after the push operation.
 
 #### Examples:
 
-```cli
-RPUSH mylist "hello"
-RPUSH mylist "world"
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "hello"
+(integer) 1
+keydb-cli> RPUSH mylist "world"
+(integer) 2
+keydb-cli> LRANGE mylist 0 -1
+1) "hello"
+2) "world"
 ```
 
 ---
@@ -8355,6 +8365,12 @@ LRANGE mylist 0 -1
 ## RPUSHX
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```RPUSHX <key> <value>```
+
+#### Description:
 
 Inserts `value` at the tail of the list stored at `key`, only if `key` already
 exists and holds a list.
@@ -8367,12 +8383,18 @@ Integer Reply: the length of the list after the push operation.
 
 #### Examples:
 
-```cli
-RPUSH mylist "Hello"
-RPUSHX mylist "World"
-RPUSHX myotherlist "World"
-LRANGE mylist 0 -1
-LRANGE myotherlist 0 -1
+```
+keydb-cli> RPUSH mylist "Hello"
+(integer) 1
+keydb-cli> RPUSHX mylist "World"
+(integer) 2
+keydb-cli> RPUSHX myotherlist "World"
+(integer) 0
+keydb-cli> LRANGE mylist 0 -1
+1) "Hello"
+2) "World"
+keydb-cli> LRANGE myotherlist 0 -1
+(empty array)
 ```
 
 ---
