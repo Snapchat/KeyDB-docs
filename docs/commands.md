@@ -10551,6 +10551,12 @@ Simple String Reply: always `OK`.
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```WAIT <numreplicas> <timeout>```
+
+#### Description:
+
 This command blocks the current client until all the previous write commands
 are successfully transferred and acknowledged by at least the specified number
 of replicas. If the timeout, specified in milliseconds, is reached, the command
@@ -10596,11 +10602,11 @@ Integer Reply: The command returns the number of replicas reached by all the wri
 #### Examples:
 
 ```
-> SET foo bar
+keydb-cli> SET foo bar
 OK
-> WAIT 1 0
+keydb-cli> WAIT 1 0
 (integer) 1
-> WAIT 2 1000
+keydb-cli> WAIT 2 1000
 (integer) 1
 ```
 
@@ -10615,6 +10621,11 @@ In the following example the first call to `WAIT` does not use a timeout and ask
 ## WATCH
 
 **Related Commands:** [DISCARD](/docs/commands/#discard), [EXEC](/docs/commands/#exec), [MULTI](/docs/commands/#multi), [UNWATCH](/docs/commands/#unwatch), [WATCH](/docs/commands/#watch)
+
+#### Syntax:
+
+```SYNTAX <key-1> ... <key-n>```
+#### Description:
 
 Marks the given keys to be watched for conditional execution of a
 transaction
