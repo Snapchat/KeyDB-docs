@@ -8224,6 +8224,12 @@ keydb-cli> LRANGE mylist 0 -1
 
 **Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
+#### Syntax:
+
+```RPOPLPUSH <source> <destination>```
+
+#### Description:
+
 Atomically returns and removes the last element (tail) of the list stored at
 `source`, and pushes the element at the first element (head) of the list stored
 at `destination`.
@@ -8245,13 +8251,20 @@ Bulk String Reply: the element being popped and pushed.
 
 #### Examples:
 
-```cli
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-RPOPLPUSH mylist myotherlist
-LRANGE mylist 0 -1
-LRANGE myotherlist 0 -1
+```
+keydb-cli> RPUSH mylist "one"
+(integer) 1
+keydb-cli> RPUSH mylist "two"
+(integer) 2
+keydb-cli> RPUSH mylist "three"
+(integer) 3
+keydb-cli> RPOPLPUSH mylist myotherlist
+"three"
+keydb-cli> LRANGE mylist 0 -1
+1) "one"
+2) "two"
+keydb-cli> LRANGE myotherlist 0 -1
+1) "three"
 ```
 
 #### Pattern: Reliable queue
