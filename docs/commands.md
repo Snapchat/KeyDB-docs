@@ -12392,6 +12392,13 @@ keydb-cli> ZLEXCOUNT myzset [b [f
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
 
+
+#### Syntax:
+
+```ZPOPMAX <key> <OPTIONAL:count>```
+
+#### Description:
+
 Removes and returns up to `count` members with the highest scores in the sorted
 set stored at `key`.
 
