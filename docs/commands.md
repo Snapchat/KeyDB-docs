@@ -11997,6 +11997,12 @@ keydb-cli> XREVRANGE writers + - COUNT 1
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
 
+#### Syntax:
+
+```XTRIM <key> MAXLEN|MINID <OPTIONAL:=|~> <threshold> <OPTIONAL:LIMIT> <LIMIT-argument:count>```
+
+#### Description:
+
 `XTRIM` trims the stream to a given number of items, evicting older items
 (items with lower IDs) if needed. The command is conceived to accept multiple
 trimming strategies, however currently only a single one is implemented,
@@ -12029,10 +12035,21 @@ Integer Reply, specifically:
 
 The command returns the number of entries deleted from the stream.
 
-```cli
-XADD mystream * field1 A field2 B field3 C field4 D
-XTRIM mystream MAXLEN 2
-XRANGE mystream - +
+```
+keydb-cli> XADD mystream * field1 A field2 B field3 C field4 D
+"1631208144388-0"
+keydb-cli> XTRIM mystream MAXLEN 2
+(integer) 0
+keydb-cli> XRANGE mystream - +
+1) 1) "1631208144388-0"
+   2) 1) "field1"
+      2) "A"
+      3) "field2"
+      4) "B"
+      5) "field3"
+      6) "C"
+      7) "field4"
+      8) "D"
 ```
 
 ---
