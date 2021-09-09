@@ -1304,6 +1304,12 @@ Simple String Reply: `OK` if the command was successful. Otherwise an error is r
 
 **Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
+#### Syntax:
+
+```CLUSTER COUNT-FAILURE-REPORTS <node-id>```
+
+#### Description:
+
 The command returns the number of *failure reports* for the specified node.
 Failure reports are the way KeyDB Cluster uses in order to promote a
 `PFAIL` state, that means a node is not reachable, to a `FAIL` state,
@@ -1326,6 +1332,20 @@ KeyDB Cluster is not operating as we believe it should.
 #### Return:
 
 Integer Reply: the number of active failure reports for the node.
+
+#### Examples:
+
+```
+keydb-cli> CLUSTER NODES
+61cb160099c2a84ad949bcf9cbb059fd9c275811 127.0.0.1:7000@17000 myself,master - 0 1631219482000 1 connected 0-5460
+7c6a14f5ea89625aa85b5cafc388f0b34fafa1d9 127.0.0.1:7002@17002 master - 0 1631219484728 3 connected 10923-16383
+9352fd75f2c2403e41b601d7ce27bf44b48ec070 127.0.0.1:7004@17004 slave 61cb160099c2a84ad949bcf9cbb059fd9c275811 0 1631219484227 1 connected
+3f182f3f6b4e7f50991740bfcbe80d4544dd4f6a 127.0.0.1:7005@17005 slave 4a797e3195ef3a0b1fad7dc42d00a5fc2778aabe 0 1631219484000 2 connected
+d04c6dcd72d92a385fc8c3b3e782f04f6a11a6e4 127.0.0.1:7003@17003 slave 7c6a14f5ea89625aa85b5cafc388f0b34fafa1d9 0 1631219483726 3 connected
+4a797e3195ef3a0b1fad7dc42d00a5fc2778aabe 127.0.0.1:7001@17001 master - 0 1631219485230 2 connected 5461-10922
+keydb-cli> CLUSTER COUNT-FAILURE-REPORTS 61cb160099c2a84ad949bcf9cbb059fd9c275811
+(integer) 0
+```
 
 ---
 
