@@ -12646,6 +12646,12 @@ keydb-cli> ZRANGEBYLEX myzset [aaa (g
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
 
+#### Syntax:
+
+```ZRANGEBYSCORE <key> <min> <max> <OPTIONAL:WITHSCORES> <OPTIONAL:LIMIT> <LIMIT-argument:offset> <LIMIT-argument:count>```
+
+#### Description:
+
 Returns all the elements in the sorted set at `key` with a score between `min`
 and `max` (including elements with score equal to `min` or `max`).
 The elements are considered to be ordered from low to high scores.
