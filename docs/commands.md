@@ -10879,6 +10879,12 @@ In the above example we claim the message with ID `1526569498055-0`, only if the
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
 
+#### Syntax:
+
+```XDEL <key> <id-1> ... <id-n>```
+
+#### Description:
+
 Removes the specified entries from a stream, and returns the number of entries
 deleted, that may be different from the number of IDs passed to the command in
 case certain IDs do not exist.
@@ -10914,19 +10920,19 @@ Integer Reply: the number of entries actually deleted.
 #### Examples:
 
 ```
-> XADD mystream * a 1
-1538561698944-0
-> XADD mystream * b 2
-1538561700640-0
-> XADD mystream * c 3
-1538561701744-0
-> XDEL mystream 1538561700640-0
+keydb-cli> XADD mystream * a 1
+"1631200981785-0"
+keydb-cli> XADD mystream * b 2
+"1631200987382-0"
+keydb-cli> XADD mystream * c 3
+"1631200996636-0"
+keydb-cli> XDEL mystream 1631200987382-0
 (integer) 1
-127.0.0.1:6379> XRANGE mystream - +
-1) 1) 1538561698944-0
+keydb-cli> XRANGE mystream - +
+1) 1) "1631200981785-0"
    2) 1) "a"
       2) "1"
-2) 1) 1538561701744-0
+2) 1) "1631200996636-0"
    2) 1) "c"
       2) "3"
 ```
@@ -10940,6 +10946,18 @@ Integer Reply: the number of entries actually deleted.
 ## XGROUP
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+```XGROUP CREATE <key> <groupname> <id|$> <OPTIONAL:MKSTREAM>```
+
+```XGROUP SETID <key> <groupname> <id|$>```
+
+```XGROUP DESTROY <key> <groupname>```
+
+```XGROUP DELCONSUMER <key> <groupname> <consumername>```
+
+#### Description:
 
 This command is used in order to manage the consumer groups associated
 with a stream data structure. Using `XGROUP` you can:
