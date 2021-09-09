@@ -11533,6 +11533,12 @@ keydb-cli> XRANGE writers - + COUNT 2
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
 
+#### Syntax:
+
+```XREAD <OPTIONAL:COUNT> <COUNT-argument> <OPTIONAL:BLOCK> <BLOCK-argument:milliseconds> <STREAMS> <key-1> ... <key-n> <id-1> ... <id-n>```
+
+#### Description:
+
 Read data from one or multiple streams, only returning entries with an
 ID greater than the last received ID reported by the caller.
 This command has an option to block if items are not available, in a similar
@@ -11565,7 +11571,7 @@ Note: we use the **COUNT** option in the example, so that for each stream
 the call will return at maximum two elements per stream.
 
 ```
-> XREAD COUNT 2 STREAMS mystream writers 0-0 0-0
+keydb-cli> XREAD COUNT 2 STREAMS mystream writers 0-0 0-0
 1) 1) "mystream"
    2) 1) 1) 1526984818136-0
          2) 1) "duration"
@@ -11610,7 +11616,7 @@ stream `writers` has the ID `1526985685298-0`.
 To continue iterating the two streams I'll call:
 
 ```
-> XREAD COUNT 2 STREAMS mystream writers 1526999352406-0 1526985685298-0
+keydb-cli> XREAD COUNT 2 STREAMS mystream writers 1526999352406-0 1526985685298-0
 1) 1) "mystream"
    2) 1) 1) 1526999626221-0
          2) 1) "duration"
@@ -11644,13 +11650,13 @@ here the sequence part of the ID, if missing, is always interpreted as
 zero, so the command:
 
 ```
-> XREAD COUNT 2 STREAMS mystream writers 0 0
+keydb-cli> XREAD COUNT 2 STREAMS mystream writers 0 0
 ```
 
 is exactly equivalent to
 
 ```
-> XREAD COUNT 2 STREAMS mystream writers 0-0 0-0
+keydb-cli> XREAD COUNT 2 STREAMS mystream writers 0-0 0-0
 ```
 
 #### Blocking for data
@@ -11684,7 +11690,7 @@ This is an example of blocking invocation, where the command later returns
 a null reply because the timeout has elapsed without new data arriving:
 
 ```
-> XREAD BLOCK 1000 STREAMS mystream 1526999626221-0
+keydb-cli> XREAD BLOCK 1000 STREAMS mystream 1526999626221-0
 (nil)
 ```
 
@@ -11707,13 +11713,13 @@ This is how a typical `XREAD` call looks like in the first iteration
 of a consumer willing to consume only new entries:
 
 ```
-> XREAD BLOCK 5000 COUNT 100 STREAMS mystream $
+keydb-cli> XREAD BLOCK 5000 COUNT 100 STREAMS mystream $
 ```
 
 Once we get some replies, the next call will be something like:
 
 ```
-> XREAD BLOCK 5000 COUNT 100 STREAMS mystream 1526999644174-3
+keydb-cli> XREAD BLOCK 5000 COUNT 100 STREAMS mystream 1526999644174-3
 ```
 
 And so forth.
@@ -11758,6 +11764,12 @@ and semantics.
 ## XREADGROUP
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+```XREADGROUP GROUP <group> <consumer> <OPTIONAL:COUNT> <COUNT-argument:count> <OPTIONAL:BLOCK> <BLOCK-argument:millseconds> <OPTIONAL:NOACK> STREAMS <key-1> ... <key-n> <id-1> ... <id-n>```
+
+#### Description:
 
 The `XREADGROUP` command is a special version of the `XREAD` command
 with support for consumer groups. Probably you will have to understand the
@@ -11873,6 +11885,12 @@ To see how the command actually replies, please check the `XREAD` command page.
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
 
+#### Syntax:
+
+```XREVRANGE <key> <end> <start> <OPTIONAL:COUNT> <COUNT-argument:count>```
+
+#### Description:
+
 This command is exactly like `XRANGE`, but with the notable difference of
 returning the entries in reverse order, and also taking the start-end
 range in reverse order: in `XREVRANGE` you need to state the *end* ID
@@ -11903,7 +11921,7 @@ be such a number (see `XRANGE` for more info about incomplete IDs).
 Example:
 
 ```
-> XREVRANGE writers + - COUNT 2
+keydb-cli> XREVRANGE writers + - COUNT 2
 1) 1) 1526985723355-0
    2) 1) "name"
       2) "Ngozi"
@@ -11921,7 +11939,7 @@ already zero, the next ID I'll use instead of the `+` special ID will
 be `1526985712946-18446744073709551615`, or just `18446744073709551615`:
 
 ```
-> XREVRANGE writers 1526985712946-18446744073709551615 - COUNT 2
+keydb-cli> XREVRANGE writers 1526985712946-18446744073709551615 - COUNT 2
 1) 1) 1526985691746-0
    2) 1) "name"
       2) "Toni"
@@ -11949,14 +11967,25 @@ their fields and values in the exact same order as `XADD` added them.
 
 #### Examples:
 
-```cli
-XADD writers * name Virginia surname Woolf
-XADD writers * name Jane surname Austen
-XADD writers * name Toni surname Morris
-XADD writers * name Agatha surname Christie
-XADD writers * name Ngozi surname Adichie
-XLEN writers
-XREVRANGE writers + - COUNT 1
+```
+keydb-cli> XADD writers * name Virginia surname Woolf
+"1631207871329-0"
+keydb-cli> XADD writers * name Jane surname Austen
+"1631207875380-0"
+keydb-cli> XADD writers * name Toni surname Morris
+"1631207879126-0"
+keydb-cli> XADD writers * name Agatha surname Christie
+"1631207882612-0"
+keydb-cli> XADD writers * name Ngozi surname Adichie
+"1631207887623-0"
+keydb-cli> XLEN writers
+(integer) 5
+keydb-cli> XREVRANGE writers + - COUNT 1
+1) 1) "1631207887623-0"
+   2) 1) "name"
+      2) "Ngozi"
+      3) "surname"
+      4) "Adichie"
 ```
 
 ---
