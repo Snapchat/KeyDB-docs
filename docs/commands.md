@@ -1451,6 +1451,12 @@ an error is returned.
 
 **Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
+#### Syntax:
+
+```CLUSTER FAILOVER <FORCE|TAKEOVER>```
+
+#### Description:
+
 This command, that can only be sent to a KeyDB Cluster replica node, forces
 the replica to start a manual failover of its master instance.
 
@@ -1515,6 +1521,40 @@ that the state of the cluster changes after some time the command was sent.
 #### Return:
 
 Simple String Reply: `OK` if the command was accepted and a manual failover is going to be attempted. An error if the operation cannot be executed, for example if we are talking with a node which is already a master.
+
+#### Examples:
+
+```
+keydb-cli:7000> CLUSTER NODES
+97980631a6ae3dbc6c21667cf43376688de212d2 127.0.0.1:7003@17003 slave 3abd673a0304a699fa438eed362e73cad05b6c55 0 1631223238939 3 connected
+3f7ca4ea096d892c4f69647814fa5b2f34f46e20 127.0.0.1:7004@17004 slave f7f407020c7b9e25d5da711e0bda67174cac0d74 0 1631223237000 1 connected
+f7f407020c7b9e25d5da711e0bda67174cac0d74 127.0.0.1:7000@17000 myself,master - 0 1631223238000 1 connected 0-5460
+df89fcd5f2939edaebfd35d52f7c7a117946d169 127.0.0.1:7005@17005 slave ccd21518a5eb0d068fd73f02044dc6586c7278ac 0 1631223237936 2 connected
+ccd21518a5eb0d068fd73f02044dc6586c7278ac 127.0.0.1:7001@17001 master - 0 1631223238036 2 connected 5461-10922
+3abd673a0304a699fa438eed362e73cad05b6c55 127.0.0.1:7002@17002 master - 0 1631223238537 3 connected 10923-16383
+keydb-cli:7000> CLUSTER FAILOVER
+(error) ERR You should send CLUSTER FAILOVER to a replica
+```
+
+```
+keydb-cli:7003> CLUSTER NODES
+0965de9f4bf83aebfd59164ec4c8c02038a94b2b 127.0.0.1:7000@17000 master - 0 1631223490167 1 connected 0-5460
+fbc1ad64d1505e7c11172128963239219db86de0 127.0.0.1:7004@17004 slave 27aabea1a0af6379fdb20ad47456de6a04f3a42d 0 1631223491572 3 connected
+0c1aa51848534a3e2bc62eb0305c2b763331cb30 127.0.0.1:7003@17003 myself,slave f3a1cdf36034ca7eab28b13e444d52be89bc2c48 0 1631223491000 2 connected
+f3a1cdf36034ca7eab28b13e444d52be89bc2c48 127.0.0.1:7001@17001 master - 0 1631223490000 2 connected 5461-10922
+27aabea1a0af6379fdb20ad47456de6a04f3a42d 127.0.0.1:7002@17002 master - 0 1631223490000 3 connected 10923-16383
+c566ea1e5a85f677f8647e0fa7d8bed6438c4076 127.0.0.1:7005@17005 slave 0965de9f4bf83aebfd59164ec4c8c02038a94b2b 0 1631223491170 1 connected
+keydb-cli:7003> CLUSTER FAILOVER
+OK
+keydb-cli:7003> CLUSTER NODES
+0965de9f4bf83aebfd59164ec4c8c02038a94b2b 127.0.0.1:7000@17000 master - 0 1631223496585 1 connected 0-5460
+fbc1ad64d1505e7c11172128963239219db86de0 127.0.0.1:7004@17004 slave 27aabea1a0af6379fdb20ad47456de6a04f3a42d 0 1631223495181 3 connected
+0c1aa51848534a3e2bc62eb0305c2b763331cb30 127.0.0.1:7003@17003 myself,master - 0 1631223496000 7 connected 5461-10922
+f3a1cdf36034ca7eab28b13e444d52be89bc2c48 127.0.0.1:7001@17001 master - 0 1631223495000 2 connected
+27aabea1a0af6379fdb20ad47456de6a04f3a42d 127.0.0.1:7002@17002 master - 0 1631223496685 3 connected 10923-16383
+c566ea1e5a85f677f8647e0fa7d8bed6438c4076 127.0.0.1:7005@17005 slave 0965de9f4bf83aebfd59164ec4c8c02038a94b2b 0 1631223496183 1 connected
+```
+
 
 ---
 
