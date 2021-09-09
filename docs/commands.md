@@ -12356,6 +12356,7 @@ keydb-cli> ZRANGE out 0 -1 WITHSCORES
 
 ```ZLEXCOUNT <key> <min> <max>```
 
+#### Description:
 
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns the number of elements in the sorted set at `key` with a value between `min` and `max`.
 
