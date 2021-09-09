@@ -11180,13 +11180,15 @@ keydb-cli> XLEN mystream
 
 
 
-## XSPENDING
+## XPENDING
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
 
 #### Syntax:
 
+```XPENDING <key> <group>```
 
+```XPENDING <key> <group> <OPTIONAL:IDLE> <IDLE-argument:min-idle-time> <OPTIONAL:start> <OPTIONAL:end> <OPTIONAL:count> <OPTIONAL:consumer>```
 
 #### Description:
 
@@ -11219,10 +11221,10 @@ immediatelycreate a pending message by reading from the group with
 `XREADGROUP`.
 
 ```
-> XGROUP CREATE mystream group55 0-0
+keydb-cli> XGROUP CREATE mystream group55 0-0
 OK
 
-> XREADGROUP GROUP group55 consumer-123 COUNT 1 STREAMS mystream >
+keydb-cli> XREADGROUP GROUP group55 consumer-123 COUNT 1 STREAMS mystream >
 1) 1) "mystream"
    2) 1) 1) 1526984818136-0
          2) 1) "duration"
@@ -11239,7 +11241,7 @@ message without acknowledging its processing. The simples `XPENDING`
 form will give us this information:
 
 ```
-> XPENDING mystream group55
+keydb-cli> XPENDING mystream group55
 1) (integer) 1
 2) 1526984818136-0
 3) 1526984818136-0
@@ -11259,7 +11261,7 @@ we need to also pass a range of IDs, in a similar way we do it with
 of messages returned per call:
 
 ```
-> XPENDING mystream group55 - + 10
+keydb-cli> XPENDING mystream group55 - + 10
 1) 1) 1526984818136-0
    2) "consumer-123"
    3) (integer) 196415
@@ -11284,7 +11286,7 @@ Finally it is possible to pass an additional argument to the command, in order
 to see the messages having a specific owner:
 
 ```
-> XPENDING mystream group55 - + 10 consumer-123
+keydb-cli> XPENDING mystream group55 - + 10 consumer-123
 ```
 
 But in the above case the output would be the same, since we have pending
