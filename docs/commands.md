@@ -12238,6 +12238,12 @@ keydb-cli> ZCOUNT myzset (1 3
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
 
+#### Syntax:
+
+```ZINCRBY <key> <increment> <member>```
+
+#### Description:
+
 Increments the score of `member` in the sorted set stored at `key` by
 `increment`.
 If `member` does not exist in the sorted set, it is added with `increment` as
@@ -12259,13 +12265,13 @@ number), represented as string.
 #### Examples:
 
 ```
-127.0.0.1:6379> ZADD myzset 1 "one"
+keydb-cli> ZADD myzset 1 "one"
 (integer) 1
-127.0.0.1:6379> ZADD myzset 2 "two"
+keydb-cli> ZADD myzset 2 "two"
 (integer) 1
-127.0.0.1:6379> ZINCRBY myzset 2 "one"
+keydb-cli> ZINCRBY myzset 2 "one"
 "3"
-127.0.0.1:6379> ZRANGE myzset 0 -1 WITHSCORES
+keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
 1) "two"
 2) "2"
 3) "one"
