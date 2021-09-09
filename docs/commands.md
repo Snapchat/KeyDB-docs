@@ -11314,6 +11314,12 @@ an array of items.
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
 
+#### Syntax:
+
+```XRANGE <key> <start> <end> <OPTIONAL:COUNT> <COUNT-argument:count>``` 
+
+#### Description:
+
 The command returns the stream entries matching a given range of IDs.
 The range is specified by a minimum and maximum ID. All the entires having
 an ID between the two specified or exactly one of the two IDs specified
@@ -11339,7 +11345,7 @@ and the maximum ID possible inside a stream, so the following command
 will just return every entry in the stream:
 
 ```
-> XRANGE somestream - +
+keydb-cli> XRANGE somestream - +
 1) 1) 1526985054069-0
    2) 1) "duration"
       2) "72"
@@ -11369,7 +11375,7 @@ to use `XRANGE` specifying just the first part of the ID, the millisecond time,
 like in the following example:
 
 ```
-> XRANGE somestream 1526985054069 1526985055069
+keydb-cli> XRANGE somestream 1526985054069 1526985055069
 ```
 
 In this case, `XRANGE` will auto-complete the start interval with `-0`
@@ -11391,7 +11397,7 @@ because it allows, for instance, to model operations such as *give me
 the entry greater or equal to the following*:
 
 ```
-> XRANGE somestream 1526985054069-0 + COUNT 1
+keydb-cli> XRANGE somestream 1526985054069-0 + COUNT 1
 1) 1) 1526985054069-0
    2) 1) "duration"
       2) "72"
@@ -11412,7 +11418,7 @@ we want two elements per iteration. We start fetching the first two
 elements, which is trivial:
 
 ```
-> XRANGE writers - + COUNT 2
+keydb-cli> XRANGE writers - + COUNT 2
 1) 1) 1526985676425-0
    2) 1) "name"
       2) "Virginia"
@@ -11433,7 +11439,7 @@ The ID of the last entry is `1526985685298-0`, so we just add 1 to the
 sequence to obtain `1526985685298-1`, and continue our iteration:
 
 ```
-> XRANGE writers 1526985685298-1 + COUNT 2
+keydb-cli> XRANGE writers 1526985685298-1 + COUNT 2
 1) 1) 1526985691746-0
    2) 1) "name"
       2) "Toni"
@@ -11464,7 +11470,7 @@ stream. All you have to do is to specify the ID two times in the arguments
 of XRANGE:
 
 ```
-> XRANGE mystream 1526984818136-0 1526984818136-0
+keydb-cli> XRANGE mystream 1526984818136-0 1526984818136-0
 1) 1) 1526984818136-0
    2) 1) "duration"
       2) "1532"
@@ -11490,14 +11496,30 @@ their fields and values in the exact same order as `XADD` added them.
 
 #### Examples:
 
-```cli
-XADD writers * name Virginia surname Woolf
-XADD writers * name Jane surname Austen
-XADD writers * name Toni surname Morris
-XADD writers * name Agatha surname Christie
-XADD writers * name Ngozi surname Adichie
-XLEN writers
-XRANGE writers - + COUNT 2
+```
+keydb-cli> XADD writers * name Virginia surname Woolf
+"1631206675205-0"
+keydb-cli> XADD writers * name Jane surname Austen
+"1631206680413-0"
+keydb-cli> XADD writers * name Toni surname Morris
+"1631206685031-0"
+keydb-cli> XADD writers * name Agatha surname Christie
+"1631206690003-0"
+keydb-cli> XADD writers * name Ngozi surname Adichie
+"1631206694127-0"
+keydb-cli> XLEN writers
+(integer) 5
+keydb-cli> XRANGE writers - + COUNT 2
+1) 1) "1631206675205-0"
+   2) 1) "name"
+      2) "Virginia"
+      3) "surname"
+      4) "Woolf"
+2) 1) "1631206680413-0"
+   2) 1) "name"
+      2) "Jane"
+      3) "surname"
+      4) "Austen"
 ```
 
 ---
