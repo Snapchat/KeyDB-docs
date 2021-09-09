@@ -2154,6 +2154,12 @@ Simple String Reply: `OK` or an error if the operation fails.
 
 **Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
+#### Syntax:
+
+```CLUSTER SET-CONFIG-EPOCH <config-epoch>```
+
+#### Description:
+
 This command sets a specific *config epoch* in a fresh node. It only works when:
 
 1. The nodes table of the node is empty.
@@ -2180,6 +2186,26 @@ joining the cluster together.
 
 Simple String Reply: `OK` if the command was executed successfully, otherwise an error is returned.
 
+#### Examples:
+
+```
+keydb-cli:7003> CLUSTER NODES
+02c5f7f488836ae81c799066db0ee2d885090bc9 127.0.0.1:7003@17003 myself,slave 135065e1d071b1e3c0386b9acaffe4b8ea907f5c 0 1631230498000 3 connected
+135065e1d071b1e3c0386b9acaffe4b8ea907f5c 127.0.0.1:7002@17002 master - 0 1631230500390 3 connected 10923-16383
+cca9bf177468ceee8078e0723a827a1913fa1415 127.0.0.1:7004@17004 slave 870bab53251d4dc6bd57e65ceff1ac1ada6bcda8 0 1631230499086 1 connected
+46606b6db45bbefca6032f681a818a9225a02609 127.0.0.1:7001@17001 master - 0 1631230499387 2 connected 5461-10922
+870bab53251d4dc6bd57e65ceff1ac1ada6bcda8 127.0.0.1:7000@17000 master - 0 1631230499889 1 connected 0-5460
+c9067eb6af322b12d91813cad19c7c273748e6b5 127.0.0.1:7005@17005 slave 46606b6db45bbefca6032f681a818a9225a02609 0 1631230498384 2 connected
+keydb-cli:7003> CLUSTER SET-CONFIG-EPOCH 1
+(error) ERR The user can assign a config epoch only when the node does not know any other node.
+```
+
+```
+keydb-cli:7000> CLUSTER NODES
+0ed0bb3a8dc07bad2b71ad67ed2b39cdd6714956 :7000@17000 myself,master - 0 0 0 connected
+keydb-cli:7000> CLUSTER SET-CONFIG-EPOCH 1
+OK
+```
 ---
 
 
