@@ -10815,6 +10815,12 @@ keydb-cli> XRANGE mystream - +
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
 
+#### Syntax:
+
+```XCLAIM <key> <group> <consumer> <min-idle-time> <id-1> ... <id-n> <OPTIONAL:IDLE> <IDLE-argument:ms> <OPTIONAL:TIME> <TIME-argument:ms-unix-time> <OPTIONAL:RETRYCOUNT> <RETRYCOUNT-argument:count> <OPTIONAL:FORCE> <OPTIONAL:JUSTID>```
+
+#### Description:
+
 In the context of a stream consumer group, this command changes the ownership
 of a pending message, so that the new owner is the consumer specified as the
 command argument. Normally this is what happens:
@@ -10852,10 +10858,10 @@ The command returns all the messages successfully claimed, in the same format
 as `XRANGE`. However if the `JUSTID` option was specified, only the message
 IDs are reported, without including the actual message.
 
-Example:
+#### Examples:
 
 ```
-> XCLAIM mystream mygroup Alice 3600000 1526569498055-0
+keydb-cli> XCLAIM mystream mygroup Alice 3600000 1526569498055-0
 1) 1) 1526569498055-0
    2) 1) "message"
       2) "orange"
