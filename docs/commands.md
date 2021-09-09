@@ -13147,6 +13147,8 @@ keydb-cli> ZREVRANGEBYSCORE myzset (2 (1
 
 ```ZREVRANK <key> <member>``` 
 
+#### Description:
+
 Returns the rank of `member` in the sorted set stored at `key`, with the scores
 ordered from high to low.
 The rank (or index) is 0-based, which means that the member with the highest
