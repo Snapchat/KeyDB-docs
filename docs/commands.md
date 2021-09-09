@@ -1954,6 +1954,12 @@ Bulk String Reply: The serialized cluster configuration.
 
 **Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
+#### Syntax:
+
+```CLUSTER REPLICAS <node-id>```
+
+#### Description:
+
 The command provides a list of replica nodes replicating from the specified
 master node. The list is provided in the same format used by `CLUSTER NODES` (please refer to its documentation for the specification of the format).
 
@@ -1969,6 +1975,20 @@ will agree about the set of nodes associated with a given master.
 #### Return:
 
 The command returns data in the same format as `CLUSTER NODES`.
+
+#### Examples:
+
+```
+keydb-cli> CLUSTER NODES
+0c1aa51848534a3e2bc62eb0305c2b763331cb30 127.0.0.1:7003@17003 master - 0 1631226881000 7 connected 5461-10922
+27aabea1a0af6379fdb20ad47456de6a04f3a42d 127.0.0.1:7002@17002 master - 0 1631226882107 3 connected 10923-16383
+c566ea1e5a85f677f8647e0fa7d8bed6438c4076 127.0.0.1:7005@17005 slave 0965de9f4bf83aebfd59164ec4c8c02038a94b2b 0 1631226881505 1 connected
+fbc1ad64d1505e7c11172128963239219db86de0 127.0.0.1:7004@17004 slave 27aabea1a0af6379fdb20ad47456de6a04f3a42d 0 1631226882509 3 connected
+f3a1cdf36034ca7eab28b13e444d52be89bc2c48 127.0.0.1:7001@17001 slave 0c1aa51848534a3e2bc62eb0305c2b763331cb30 0 1631226881000 7 connected
+0965de9f4bf83aebfd59164ec4c8c02038a94b2b 127.0.0.1:7000@17000 myself,master - 0 1631226881000 1 connected 0-5460
+keydb-cli> CLUSTER REPLICAS 0965de9f4bf83aebfd59164ec4c8c02038a94b2b
+1) "c566ea1e5a85f677f8647e0fa7d8bed6438c4076 127.0.0.1:7005@17005 slave 0965de9f4bf83aebfd59164ec4c8c02038a94b2b 0 1631226891536 1 connected"
+```
 
 ---
 
