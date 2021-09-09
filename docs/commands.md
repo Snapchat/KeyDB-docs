@@ -13093,6 +13093,8 @@ keydb-cli> ZREVRANGEBYLEX myzset (g [aaa
 
 ```ZREVRANGEBYSCORE <key> <max> <min>```
 
+#### Description:
+
 Returns all the elements in the sorted set at `key` with a score between `max`
 and `min` (including elements with score equal to `max` or `min`).
 In contrary to the default ordering of sorted sets, for this command the
