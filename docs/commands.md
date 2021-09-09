@@ -11036,7 +11036,7 @@ In this form the command returns general information about the stream stored
 at the specified key.
 
 ```
-> XINFO STREAM mystream
+keydb-cli> XINFO STREAM mystream
  1) length
  2) (integer) 2
  3) radix-tree-keys
@@ -11071,7 +11071,7 @@ In this form we just get as output all the consumer groups associated with the
 stream:
 
 ```
-> XINFO GROUPS mystream
+keydb-cli> XINFO GROUPS mystream
 1) 1) name
    2) "mygroup"
    3) consumers
@@ -11096,7 +11096,7 @@ Finally it is possible to get the list of every consumer in a specific consumer
 group:
 
 ```
-> XINFO CONSUMERS mystream mygroup
+keydb-cli> XINFO CONSUMERS mystream mygroup
 1) 1) name
    2) "Alice"
    3) pending
@@ -11126,7 +11126,7 @@ Finally it is possible to get help from the command, in case the user can't
 remember the exact syntax, by using the `HELP` subcommnad:
 
 ```
-> XINFO HELP
+keydb-cli> XINFO HELP
 1) XINFO <subcommand> arg arg ... arg. Subcommands are:
 2) CONSUMERS <key> <groupname>  -- Show consumer groups of group <groupname>.
 3) GROUPS <key>                 -- Show the stream consumer groups.
