@@ -1356,13 +1356,19 @@ keydb-cli> CLUSTER COUNT-FAILURE-REPORTS 61cb160099c2a84ad949bcf9cbb059fd9c27581
 
 **Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
+#### Syntax:
+
+```CLUSTER COUNTKEYSINSLOT <slot>```
+
+#### Description:
+
 Returns the number of keys in the specified KeyDB Cluster hash slot. The
 command only queries the local data set, so contacting a node
 that is not serving the specified hash slot will always result in a count of
 zero being returned.
 
 ```
-> CLUSTER COUNTKEYSINSLOT 7000
+keydb-cli> CLUSTER COUNTKEYSINSLOT 7000
 (integer) 50341
 ```
 
