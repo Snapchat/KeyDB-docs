@@ -13005,6 +13005,8 @@ keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
 
 ```ZREVRANGE <key> <start> <stop>```
 
+#### Description:
+
 Returns the specified range of elements in the sorted set stored at `key`.
 The elements are considered to be ordered from the highest to the lowest score.
 Descending lexicographical order is used for elements with equal score.
@@ -13048,6 +13050,8 @@ keydb-cli> ZREVRANGE myzset -2 -1
 #### Syntax:
 
 ```ZREVRANGEBYLEX <key> <max> <min>```
+
+#### Description:
 
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `max` and `min`.
 
