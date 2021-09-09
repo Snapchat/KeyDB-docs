@@ -11143,6 +11143,12 @@ keydb-cli> XINFO HELP
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
 
+#### Syntax:
+
+```XLEN <key>```
+
+#### Description:
+
 Returns the number of entries inside a stream. If the specified key does not
 exist the command returns zero, as if the stream was empty.
 However note that unlike other KeyDB types, zero-length streams are
@@ -11159,11 +11165,15 @@ Integer Reply: the number of entries of the stream at `key`.
 
 #### Examples:
 
-```cli
-XADD mystream * item 1
-XADD mystream * item 2
-XADD mystream * item 3
-XLEN mystream
+```
+keydb-cli> XADD mystream * item 1
+"1631205538841-0"
+keydb-cli> XADD mystream * item 2
+"1631205541969-0"
+keydb-cli> XADD mystream * item 3
+"1631205543427-0"
+keydb-cli> XLEN mystream
+(integer) 3
 ```
 ---
 
@@ -11173,6 +11183,12 @@ XLEN mystream
 ## XSPENDING
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+
+
+#### Description:
 
 Fetching data from a stream via a consumer group, and not acknowledging
 such data, has the effect of creating *pending entries*. This is
