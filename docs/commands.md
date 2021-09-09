@@ -12290,9 +12290,9 @@ keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
 
 #### Syntax:
 
-```ZINTERSTORE <destination> <numkeys> <key-of-zset1> ... [key-of-zsetn]```
+```ZINTERSTORE <destination> <numkeys> <key-of-zset1> ... <key-of-zsetn>```
 
-```ZINTERSTORE <destination> <numkeys> <key-of-zset1> ... [key-of-zsetn] WEIGHTS <weight-1> ... <weight-numkeys> ```
+```ZINTERSTORE <destination> <numkeys> <key-of-zset1> ... <key-of-zsetn> WEIGHTS <weight-1> ... <weight-numkeys> ```
 
 Computes the intersection of `numkeys` sorted sets given by the specified keys,
 and stores the result in `destination`.
