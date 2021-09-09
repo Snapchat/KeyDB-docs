@@ -10696,6 +10696,12 @@ keydb-cli> XACK mystream mygroup 1526569495631-0
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
 
+#### Syntax:
+
+```XADD <key> <OPTIONAL:NOMKSTREAM> <OPTIONAL:MAXLEN|MINID> <OPTIONAL-MAXLEN|MIN-argument:=|\> <MAXLEN|MINID-argument:threshold> <OPTIONAL-MAXLEN|MINID-argument:LIMIT> <LIMIT-argument:count> <*|ID> <field-1> <value-1> ... <field-n> <value-n>```
+
+#### Description:
+
 Appends the specified stream entry to the stream at the specified key.
 If the key does not exist, as a side effect of running this command the
 key is created with a stream value.
@@ -10778,11 +10784,26 @@ specified by the user during insertion.
 
 #### Examples:
 
-```cli
-XADD mystream * name Sara surname OConnor
-XADD mystream * field1 value1 field2 value2 field3 value3
-XLEN mystream
-XRANGE mystream - +
+```
+keydb-cli> XADD mystream * name Sara surname OConnor
+"1631199397243-0"
+keydb-cli> XADD mystream * field1 value1 field2 value2 field3 value3
+"1631199403874-0"
+keydb-cli> XLEN mystream
+(integer) 2
+keydb-cli> XRANGE mystream - +
+1) 1) "1631199397243-0"
+   2) 1) "name"
+      2) "Sara"
+      3) "surname"
+      4) "OConnor"
+2) 1) "1631199403874-0"
+   2) 1) "field1"
+      2) "value1"
+      3) "field2"
+      4) "value2"
+      5) "field3"
+      6) "value3"
 ```
 
 ---
