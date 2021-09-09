@@ -10624,7 +10624,8 @@ In the following example the first call to `WAIT` does not use a timeout and ask
 
 #### Syntax:
 
-```SYNTAX <key-1> ... <key-n>```
+```WATCH <key-1> ... <key-n>```
+
 #### Description:
 
 Marks the given keys to be watched for conditional execution of a
@@ -10634,6 +10635,12 @@ transaction
 
 Simple String Reply: always `OK`.
 
+#### Example:
+
+```
+keydb-cli> WATCH k
+OK
+```
 ---
 
 
