@@ -1739,6 +1739,12 @@ Bulk String Reply: A map between named fields and values in the form of `<field>
 
 **Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
+#### Syntax:
+
+```CLUSTER KEYSLOT <key>```
+
+#### Description:
+
 Returns an integer identifying the hash slot the specified key hashes to.
 This command is mainly useful for debugging and testing, since it exposes
 via an API the underlying KeyDB implementation of the hashing algorithm.
@@ -1750,11 +1756,11 @@ Example use cases for this command:
 #### Example
 
 ```
-> CLUSTER KEYSLOT somekey
-11058
-> CLUSTER KEYSLOT foo{hash_tag}
+keydb-cli> CLUSTER KEYSLOT somekey
+(integer) 11058
+keydb-cli> CLUSTER KEYSLOT foo{hash_tag}
 (integer) 2515
-> CLUSTER KEYSLOT bar{hash_tag}
+keydb-cli> CLUSTER KEYSLOT bar{hash_tag}
 (integer) 2515
 ```
 
