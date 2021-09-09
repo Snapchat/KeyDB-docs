@@ -1658,6 +1658,12 @@ f3a1cdf36034ca7eab28b13e444d52be89bc2c48 127.0.0.1:7001@17001 slave 0c1aa5184853
 
 **Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
+#### Syntax:
+
+```CLUSTER GETKEYSINSLOT <slot> <count>```
+
+#### Description:
+
 The command returns an array of keys names stored in the contacted node and
 hashing to the specified hash slot. The maximum number of keys to return
 is specified via the `count` argument, so that it is possible for the user
@@ -1669,7 +1675,7 @@ Cluster specification, or in a more simple to digest form, as an appendix
 of the `CLUSTER SETSLOT` command documentation.
 
 ```
-> CLUSTER GETKEYSINSLOT 7000 3
+keydb-cli> CLUSTER GETKEYSINSLOT 7000 3
 "47344|273766|70329104160040|key_39015"
 "47344|273766|70329104160040|key_89793"
 "47344|273766|70329104160040|key_92937"
