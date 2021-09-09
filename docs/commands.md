@@ -10650,6 +10650,12 @@ OK
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
 
+#### Syntax:
+
+```XACK <key> <group> <id-1> ... <id-n>``` 
+
+#### Description:
+
 The `XACK` command removes one or multiple messages from the
 *pending entries list* (PEL) of a stream consumer group. A message is pending,
 and as such stored inside the PEL, when it was delivered to some consumer,
@@ -10675,8 +10681,9 @@ Certain message IDs may no longer be part of the PEL (for example because
 they have been already acknowledge), and XACK will not count them as
 successfully acknowledged.
 
-```cli
-XACK mystream mygroup 1526569495631-0
+```
+keydb-cli> XACK mystream mygroup 1526569495631-0
+(integer) 0
 ```
 
 ---
