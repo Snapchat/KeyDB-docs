@@ -1999,6 +1999,12 @@ keydb-cli> CLUSTER REPLICAS 0965de9f4bf83aebfd59164ec4c8c02038a94b2b
 
 **Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
+#### Syntax:
+
+```CLUSTER REPLICATE <node-id>```
+
+#### Description:
+
 The command reconfigures a node as a replica of the specified master.
 If the node receiving the command is an *empty master*, as a side effect
 of the command, the node role is changed from master to replica.
@@ -2025,6 +2031,53 @@ If the command succeeds the new replica will immediately try to contact its mast
 #### Return:
 
 Simple String Reply: `OK` if the command was executed successfully, otherwise an error is returned.
+
+#### Examples:
+
+```
+keydb-cli:7003> CLUSTER NODES
+9dcd7be7b2f2033e12e4d3513b5b9fbe2629e8e7 127.0.0.1:7004@17004 slave 90172a7a57cfd320a23a9d318e817b9eb6b8cd6a 0 1631227844714 2 connected
+90172a7a57cfd320a23a9d318e817b9eb6b8cd6a 127.0.0.1:7001@17001 master - 0 1631227844011 2 connected 5461-10922
+c74a50c8f71f1b9d5a40ac922e8f55031eab6ef1 127.0.0.1:7002@17002 master - 0 1631227844000 3 connected 10923-16383
+bd9dc2576ad140e47409049e3a6860598e374276 127.0.0.1:7000@17000 master - 0 1631227844513 1 connected 0-5460
+d58eeed1e5a3871cd1f9bc963a5fdbff23e3b68c 127.0.0.1:7003@17003 myself,slave bd9dc2576ad140e47409049e3a6860598e374276 0 1631227844000 1 connected
+833ae65b490082eb2b31afa257f3f9747141366e 127.0.0.1:7005@17005 slave c74a50c8f71f1b9d5a40ac922e8f55031eab6ef1 0 1631227844513 3 connected
+keydb-cli:7003> CLUSTER REPLICATE c74a50c8f71f1b9d5a40ac922e8f55031eab6ef1
+OK
+keydb-cli:7003> CLUSTER NODES
+9dcd7be7b2f2033e12e4d3513b5b9fbe2629e8e7 127.0.0.1:7004@17004 slave 90172a7a57cfd320a23a9d318e817b9eb6b8cd6a 0 1631227869000 2 connected
+90172a7a57cfd320a23a9d318e817b9eb6b8cd6a 127.0.0.1:7001@17001 master - 0 1631227869593 2 connected 5461-10922
+c74a50c8f71f1b9d5a40ac922e8f55031eab6ef1 127.0.0.1:7002@17002 master - 0 1631227869091 3 connected 10923-16383
+bd9dc2576ad140e47409049e3a6860598e374276 127.0.0.1:7000@17000 master - 0 1631227869593 1 connected 0-5460
+d58eeed1e5a3871cd1f9bc963a5fdbff23e3b68c 127.0.0.1:7003@17003 myself,slave c74a50c8f71f1b9d5a40ac922e8f55031eab6ef1 0 1631227868000 3 connected
+833ae65b490082eb2b31afa257f3f9747141366e 127.0.0.1:7005@17005 slave c74a50c8f71f1b9d5a40ac922e8f55031eab6ef1 0 1631227868000 3 connected
+```
+
+```
+keydb-cli:7000> CLUSTER NODES
+46606b6db45bbefca6032f681a818a9225a02609 127.0.0.1:7001@17001 master - 0 1631228327704 2 connected 5461-10922
+cca9bf177468ceee8078e0723a827a1913fa1415 127.0.0.1:7004@17004 slave 870bab53251d4dc6bd57e65ceff1ac1ada6bcda8 0 1631228327604 1 connected
+02c5f7f488836ae81c799066db0ee2d885090bc9 127.0.0.1:7003@17003 slave 135065e1d071b1e3c0386b9acaffe4b8ea907f5c 0 1631228328506 3 connected
+870bab53251d4dc6bd57e65ceff1ac1ada6bcda8 127.0.0.1:7000@17000 myself,master - 0 1631228328000 1 connected 0-5460
+135065e1d071b1e3c0386b9acaffe4b8ea907f5c 127.0.0.1:7002@17002 master - 0 1631228328707 3 connected 10923-16383
+c9067eb6af322b12d91813cad19c7c273748e6b5 127.0.0.1:7005@17005 slave 46606b6db45bbefca6032f681a818a9225a02609 0 1631228327000 2 connected
+keydb-cli:7000> CLUSTER REPLICATE 870bab53251d4dc6bd57e65ceff1ac1ada6bcda8
+(error) ERR Can't replicate myself
+keydb-cli:7000> CLUSTER REPLICATE 46606b6db45bbefca6032f681a818a9225a02609
+(error) ERR To set a master the node must be empty and without assigned slots.
+```
+
+```
+127.0.0.1:7003> CLUSTER NODES
+02c5f7f488836ae81c799066db0ee2d885090bc9 127.0.0.1:7003@17003 myself,slave 135065e1d071b1e3c0386b9acaffe4b8ea907f5c 0 1631228543000 3 connected
+135065e1d071b1e3c0386b9acaffe4b8ea907f5c 127.0.0.1:7002@17002 master - 0 1631228543546 3 connected 10923-16383
+cca9bf177468ceee8078e0723a827a1913fa1415 127.0.0.1:7004@17004 slave 870bab53251d4dc6bd57e65ceff1ac1ada6bcda8 0 1631228541340 1 connected
+46606b6db45bbefca6032f681a818a9225a02609 127.0.0.1:7001@17001 master - 0 1631228543000 2 connected 5461-10922
+870bab53251d4dc6bd57e65ceff1ac1ada6bcda8 127.0.0.1:7000@17000 master - 0 1631228542000 1 connected 0-5460
+c9067eb6af322b12d91813cad19c7c273748e6b5 127.0.0.1:7005@17005 slave 46606b6db45bbefca6032f681a818a9225a02609 0 1631228543346 2 connected
+127.0.0.1:7003> CLUSTER REPLICATE cca9bf177468ceee8078e0723a827a1913fa1415
+(error) ERR I can only replicate a master, not a replica.
+```
 
 ---
 
