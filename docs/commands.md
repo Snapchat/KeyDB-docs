@@ -1234,6 +1234,12 @@ keydb-cli> BRPOP key1 key2 key3 key4 0
 
 **Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
+#### Syntax:
+
+```CLUSTER ADDSLOTS <slot-1> ... <slot-n>``` 
+
+#### Description:
+
 This command is useful in order to modify a node's view of the cluster
 configuration. Specifically it assigns a set of hash slots to the node
 receiving the command. If the command is successful, the node will map
@@ -1251,14 +1257,18 @@ However note that:
 For example the following command assigns slots 1 2 3 to the node receiving
 the command:
 
-    > CLUSTER ADDSLOTS 1 2 3
-    OK
+```
+keydb-cli> CLUSTER ADDSLOTS 1 2 3
+OK
+```
 
 However trying to execute it again results into an error since the slots
 are already assigned:
 
-    > CLUSTER ADDSLOTS 1 2 3
-    ERR Slot 1 is already busy
+```
+keydb-cli> CLUSTER ADDSLOTS 1 2 3
+ERR Slot 1 is already busy
+```
 
 #### Usage in KeyDB Cluster
 
