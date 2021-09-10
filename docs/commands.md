@@ -268,9 +268,11 @@ The command treats a KeyDB string as a array of bits, and is capable of addressi
 
 For example the following command increments an 8 bit signed integer at bit offset 100, and gets the value of the 4 bit unsigned integer at bit offset 0:
 
-    > BITFIELD mykey INCRBY i5 100 1 GET u4 0
-    1) (integer) 1
-    2) (integer) 0
+```
+keydb-cli> BITFIELD mykey INCRBY i5 100 1 GET u4 0
+1) (integer) 1
+2) (integer) 0
+```
 
 Note that:
 
@@ -1979,15 +1981,17 @@ The command returns data in the same format as `CLUSTER NODES`.
 #### Examples:
 
 ```
-keydb-cli> CLUSTER NODES
-0c1aa51848534a3e2bc62eb0305c2b763331cb30 127.0.0.1:7003@17003 master - 0 1631226881000 7 connected 5461-10922
-27aabea1a0af6379fdb20ad47456de6a04f3a42d 127.0.0.1:7002@17002 master - 0 1631226882107 3 connected 10923-16383
-c566ea1e5a85f677f8647e0fa7d8bed6438c4076 127.0.0.1:7005@17005 slave 0965de9f4bf83aebfd59164ec4c8c02038a94b2b 0 1631226881505 1 connected
-fbc1ad64d1505e7c11172128963239219db86de0 127.0.0.1:7004@17004 slave 27aabea1a0af6379fdb20ad47456de6a04f3a42d 0 1631226882509 3 connected
-f3a1cdf36034ca7eab28b13e444d52be89bc2c48 127.0.0.1:7001@17001 slave 0c1aa51848534a3e2bc62eb0305c2b763331cb30 0 1631226881000 7 connected
-0965de9f4bf83aebfd59164ec4c8c02038a94b2b 127.0.0.1:7000@17000 myself,master - 0 1631226881000 1 connected 0-5460
-keydb-cli> CLUSTER REPLICAS 0965de9f4bf83aebfd59164ec4c8c02038a94b2b
-1) "c566ea1e5a85f677f8647e0fa7d8bed6438c4076 127.0.0.1:7005@17005 slave 0965de9f4bf83aebfd59164ec4c8c02038a94b2b 0 1631226891536 1 connected"
+keydb-cli:7000> CLUSTER NODES
+4b216f8a741f76b264e7e3c08a29ba1adaad44fe 127.0.0.1:7005@17005 slave 0ed0bb3a8dc07bad2b71ad67ed2b39cdd6714956 0 1631231982000 1 connected
+17ba11feb265d588e4c123a4164af9900ca63baf 127.0.0.1:7002@17002 master - 0 1631231981367 3 connected 10923-16383
+271af52206b851f2ba8c11403a8798b2f0216aaf 127.0.0.1:7003@17003 slave e5eb7a11a658dcb36c57d87a9a713be873595d0d 0 1631231982871 2 connected
+6fc83eff61ae87f33958908604635fe6d7362391 127.0.0.1:7004@17004 slave 17ba11feb265d588e4c123a4164af9900ca63baf 0 1631231982369 3 connected
+e5eb7a11a658dcb36c57d87a9a713be873595d0d 127.0.0.1:7001@17001 master - 0 1631231982000 2 connected 5461-10922
+0ed0bb3a8dc07bad2b71ad67ed2b39cdd6714956 127.0.0.1:7000@17000 myself,master - 0 1631231981000 1 connected 0-5460
+keydb-cli:7000> CLUSTER REPLICAS 17ba11feb265d588e4c123a4164af9900ca63baf
+1) "6fc83eff61ae87f33958908604635fe6d7362391 127.0.0.1:7004@17004 slave 17ba11feb265d588e4c123a4164af9900ca63baf 0 1631231984877 3 connected"
+keydb-cli:7000> CLUSTER REPLICAS 6fc83eff61ae87f33958908604635fe6d7362391
+(error) ERR The specified node is not a master
 ```
 
 ---
@@ -2337,7 +2341,7 @@ keydb-cli:7000> CLUSTER NODES
 6fc83eff61ae87f33958908604635fe6d7362391 127.0.0.1:7004@17004 slave 17ba11feb265d588e4c123a4164af9900ca63baf 0 1631231581537 3 connected
 e5eb7a11a658dcb36c57d87a9a713be873595d0d 127.0.0.1:7001@17001 master - 0 1631231581135 2 connected 5461-10922
 0ed0bb3a8dc07bad2b71ad67ed2b39cdd6714956 127.0.0.1:7000@17000 myself,master - 0 1631231580000 1 connected 0-5460
-keydb-cli:7000> CLUSTER SLAVES 17ba11feb265d588e4c123a4164af9900ca63baf
+keydb-clii:7000> CLUSTER SLAVES 17ba11feb265d588e4c123a4164af9900ca63baf
 1) "6fc83eff61ae87f33958908604635fe6d7362391 127.0.0.1:7004@17004 slave 17ba11feb265d588e4c123a4164af9900ca63baf 0 1631231590161 3 connected"
 keydb-cli:7000> CLUSTER SLAVES 6fc83eff61ae87f33958908604635fe6d7362391
 (error) ERR The specified node is not a master
