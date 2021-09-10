@@ -7519,6 +7519,9 @@ found in the source instance.
 
 ---
 
+
+
+
 ## MODULE-LIST
 
 Returns information about the modules loaded to the server.
@@ -7531,6 +7534,58 @@ following properties is reported for each loaded module:
 
 *   `name`: Name of the module
 *   `ver`: Version of the module
+
+---
+
+
+
+
+
+## MODULE-LOAD
+
+#### Syntax:
+
+```MODULE LOAD <path> <OPTIONAL:argument-1> ... <OPTIONAL:argument-n>```
+
+#### Description:
+
+Loads a module from a dynamic library at runtime.
+
+This command loads and initializes the KeyDB module from the dynamic library
+specified by the `path` argument. The `path` should be the absolute path of the
+library, including the full filename. Any additional arguments are passed
+unmodified to the module.
+
+**TIP**: modules can also be loaded at server startup with `loadmodule`
+configuration directive in `keydb.conf`.
+
+#### Return:
+
+Simple String Reply: `OK` if module was loaded.
+
+---
+
+## MODULE-UNLOAD
+
+#### Syntax:
+
+```MODULE UNLOAD <name>```
+
+#### Description:
+
+Unloads a module.
+
+This command unloads the module specified by `name`. Note that the module's name
+is reported by the `MODULE LIST` command, and may differ from the dynamic
+library's filename.
+
+Known limitations:
+
+*   Modules that register custom data types can not be unloaded.
+
+#### Return:
+
+Simple String Reply: `OK` if module was unloaded.
 
 ---
 
