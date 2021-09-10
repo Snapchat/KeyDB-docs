@@ -2303,6 +2303,12 @@ Notes:
 
 **Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
+#### Syntax:
+
+```CLUSTER SLAVES <node-id>```
+
+#### Description:
+
 **A note about the word slave used in this man page and command name**: Starting with KeyDB 5 this command: starting with KeyDB version 5, if not for backward compatibility, the KeyDB project no longer uses the word slave. Please use the new command `CLUSTER REPLICAS`. The command `SLAVEOF` will continue to work for backward compatibility.
 
 The command provides a list of replica nodes replicating from the specified
@@ -2320,6 +2326,23 @@ will agree about the set of nodes associated with a given master.
 #### Return:
 
 The command returns data in the same format as `CLUSTER NODES`.
+
+#### Examples:
+
+```
+keydb-cli:7000> CLUSTER NODES
+4b216f8a741f76b264e7e3c08a29ba1adaad44fe 127.0.0.1:7005@17005 slave 0ed0bb3a8dc07bad2b71ad67ed2b39cdd6714956 0 1631231580133 1 connected
+17ba11feb265d588e4c123a4164af9900ca63baf 127.0.0.1:7002@17002 master - 0 1631231581135 3 connected 10923-16383
+271af52206b851f2ba8c11403a8798b2f0216aaf 127.0.0.1:7003@17003 slave e5eb7a11a658dcb36c57d87a9a713be873595d0d 0 1631231581537 2 connected
+6fc83eff61ae87f33958908604635fe6d7362391 127.0.0.1:7004@17004 slave 17ba11feb265d588e4c123a4164af9900ca63baf 0 1631231581537 3 connected
+e5eb7a11a658dcb36c57d87a9a713be873595d0d 127.0.0.1:7001@17001 master - 0 1631231581135 2 connected 5461-10922
+0ed0bb3a8dc07bad2b71ad67ed2b39cdd6714956 127.0.0.1:7000@17000 myself,master - 0 1631231580000 1 connected 0-5460
+keydb-cli:7000> CLUSTER SLAVES 17ba11feb265d588e4c123a4164af9900ca63baf
+1) "6fc83eff61ae87f33958908604635fe6d7362391 127.0.0.1:7004@17004 slave 17ba11feb265d588e4c123a4164af9900ca63baf 0 1631231590161 3 connected"
+keydb-cli:7000> CLUSTER SLAVES 6fc83eff61ae87f33958908604635fe6d7362391
+(error) ERR The specified node is not a master
+
+```
 
 ---
 
