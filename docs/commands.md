@@ -6585,7 +6585,7 @@ Valid values for `event` are:
 #### Examples:
 
 ```
-keydb-cli> latency history command
+keydb-cli> LATENCY HISTORY COMMAND
 1) 1) (integer) 1405067822
    2) (integer) 251
 2) 1) (integer) 1405067941
@@ -6602,6 +6602,93 @@ Array Reply: Specifically:
 
 The command returns an array where each element is a two elements array
 representing the timestamp and the latency of the event.
+
+---
+
+## LATENCY-LATEST
+
+The `LATENCY LATEST` command reports the latest latency events logged.
+
+Each reported event has the following fields:
+
+* Event name.
+* Unix timestamp of the latest latency spike for the event.
+* Latest event latency in millisecond.
+* All-time maximum latency for this event.
+
+"All-time" means the maximum latency since the Redis instance was
+started, or the time that events were reset `LATENCY RESET`.
+
+Example:
+
+```
+keydb-cli> debug sleep 1
+OK
+(1.00s)
+keydb-cli> debug sleep .25
+OK
+keydb-cli> LATENCY LATEST
+1) 1) "command"
+   2) (integer) 1405067976
+   3) (integer) 251
+   4) (integer) 1001
+```
+
+For more information refer to the [Latency Monitoring Framework page][lm].
+
+[lm]: https://redis.io/topics/latency-monitor
+
+#### Return:
+
+Array Reply: specifically:
+
+The command returns an array where each element is a four elements array
+representing the event's name, timestamp, latest and all-time latency measurements.
+
+---
+
+## LATENCY-RESET
+
+The `LATENCY RESET` command resets the latency spikes time series of all, or only some, events.
+
+#### Syntax:
+
+```LATENCY RESET <OPTIONAL:event>```
+
+#### Description:
+
+When the command is called without arguments, it resets all the
+events, discarding the currently logged latency spike events, and resetting
+the maximum event time register.
+
+It is possible to reset only specific events by providing the `event` names
+as arguments.
+
+Valid values for `event` are:
+* `active-defrag-cycle`
+* `aof-fsync-always`
+* `aof-stat`
+* `aof-rewrite-diff-write`
+* `aof-rename`
+* `aof-write`
+* `aof-write-active-child`
+* `aof-write-alone`
+* `aof-write-pending-fsync`
+* `command`
+* `expire-cycle`
+* `eviction-cycle`
+* `eviction-del`
+* `fast-command`
+* `fork`
+* `rdb-unlink-temp-file`
+
+For more information refer to the [Latency Monitoring Framework page][lm].
+
+[lm]: https://redis.io/topics/latency-monitor
+
+#### Return:
+
+Integer Reply: the number of event time series that were reset.
 
 ---
 
