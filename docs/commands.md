@@ -331,18 +331,20 @@ statement.
 
 By default, **WRAP** is used if not otherwise specified.
 
-    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
-    1) (integer) 1
-    2) (integer) 1
-    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
-    1) (integer) 2
-    2) (integer) 2
-    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
-    1) (integer) 3
-    2) (integer) 3
-    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
-    1) (integer) 0
-    2) (integer) 3
+```
+keydb-cli> BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 1
+2) (integer) 1
+keydb-cli> BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 2
+2) (integer) 2
+keydb-cli> BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 3
+2) (integer) 3
+keyb-cli> BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 0
+2) (integer) 3
+```
 
 #### Return value
 
@@ -352,8 +354,10 @@ as generating a reply.
 
 The following is an example of `OVERFLOW FAIL` returning NULL.
 
-    > BITFIELD mykey OVERFLOW FAIL incrby u2 102 1
-    1) (nil)
+```
+keydb-cli> BITFIELD mykey OVERFLOW FAIL incrby u2 102 1
+1) (nil)
+```
 
 #### Motivations
 
