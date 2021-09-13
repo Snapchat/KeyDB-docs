@@ -5572,13 +5572,18 @@ See `SCAN` for `HSCAN` documentation.
 
 ## HSET
 
+**Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
+
+
+#### Syntax: 
+
+```HSET <key> <field> <value>```
+
+#### Description:
+
 Sets `field` in the hash stored at `key` to `value`.
 If `key` does not exist, a new key holding a hash is created.
 If `field` already exists in the hash, it is overwritten.
-
-#### Syntax:
-
-```HSET <key> <field> <value>```
 
 #### Return:
 
