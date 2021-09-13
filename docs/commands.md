@@ -1303,7 +1303,20 @@ Simple String Reply: `OK` if the command was successful. Otherwise an error is r
 
 ---
 
+## CLUSTER-BUMPEPOCH
 
+
+Advances the cluster config epoch.
+
+The `CLUSTER BUMPEPOCH` command triggers an increment to the cluster's config epoch from the connected node. The epoch will be incremented if the node's config epoch is zero, or if it is less than the cluster's greatest epoch.
+
+**Note:** config epoch management is performed internally by the cluster, and relies on obtaining a consensus of nodes. The `CLUSTER BUMPEPOCH` attempts to increment the config epoch **WITHOUT** getting the consensus, so using it may violate the "last failover wins" rule. Use it with caution.
+
+#### Return:
+
+Simple String Reply: `BUMPED` if the epoch was incremented, or `STILL` if the node already has the greatest config epoch in the cluster.
+
+---
 
 ## CLUSTER-COUNT-FAILURE-REPORTS
 
@@ -1563,8 +1576,17 @@ c566ea1e5a85f677f8647e0fa7d8bed6438c4076 127.0.0.1:7005@17005 slave 0965de9f4bf8
 
 ---
 
+## CLUSTER-FLUSHSLOTS
 
+Deletes all slots from a node.
 
+The `CLUSTER FLUSHSLOTS` deletes all information about slots from the connected node. It can only be called when the database is empty.
+
+#### Return:
+
+Simple String Reply: `OK`
+
+---
 
 ## CLUSTER-FORGET
 
@@ -1833,8 +1855,17 @@ Simple String Reply: `OK` if the command was successful. If the address or port 
 
 ---
 
+## CLUSTER-MYID
 
+Returns the node's id.
 
+The `CLUSTER MYID` command returns the unique, auto-generated identifier that is associated with the connected cluster node.
+
+#### Return:
+
+Bulk String Reply: The node id.
+
+---
 
 ## CLUSTER-NODES
 
