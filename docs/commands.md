@@ -9424,7 +9424,7 @@ keydb-cli> SCARD myset
 
 
 
-## SCRIPT-DEBUG
+## SCRIPT DEBUG
 
 **Related Commands:** [EVAL](/docs/commands/#eval), [EVALSHA](/docs/commands/#evalsha), [SCRIPT DEBUG](/docs/commands/#script-debug), [SCRIPT EXISTS](/docs/commands/#script-exists), [SCRIPT FLUSH](/docs/commands/#script-flush), [SCRIPT KILL](/docs/commands/#script-kill), [SCRIPT LOAD](/docs/commands/#script-load)
 
@@ -9465,7 +9465,7 @@ OK
 
 
 
-## SCRIPT-EXISTS
+## SCRIPT EXISTS
 
 **Related Commands:** [EVAL](/docs/commands/#eval), [EVALSHA](/docs/commands/#evalsha), [SCRIPT DEBUG](/docs/commands/#script-debug), [SCRIPT EXISTS](/docs/commands/#script-exists), [SCRIPT FLUSH](/docs/commands/#script-flush), [SCRIPT KILL](/docs/commands/#script-kill), [SCRIPT LOAD](/docs/commands/#script-load)
 
@@ -9494,7 +9494,7 @@ script cache, an 1 is returned, otherwise 0 is returned.
 
 
 
-## SCRIPT-FLUSH
+## SCRIPT FLUSH
 
 **Related Commands:** [EVAL](/docs/commands/#eval), [EVALSHA](/docs/commands/#evalsha), [SCRIPT DEBUG](/docs/commands/#script-debug), [SCRIPT EXISTS](/docs/commands/#script-exists), [SCRIPT FLUSH](/docs/commands/#script-flush), [SCRIPT KILL](/docs/commands/#script-kill), [SCRIPT LOAD](/docs/commands/#script-load)
 
@@ -9511,7 +9511,7 @@ Simple String Reply
 
 
 
-## SCRIPT-KILL
+## SCRIPT KILL
 
 **Related Commands:** [EVAL](/docs/commands/#eval), [EVALSHA](/docs/commands/#evalsha), [SCRIPT DEBUG](/docs/commands/#script-debug), [SCRIPT EXISTS](/docs/commands/#script-exists), [SCRIPT FLUSH](/docs/commands/#script-flush), [SCRIPT KILL](/docs/commands/#script-kill), [SCRIPT LOAD](/docs/commands/#script-load)
 
@@ -9541,7 +9541,7 @@ Simple String Reply
 
 
 
-## SCRIPT-LOAD
+## SCRIPT LOAD
 
 **Related Commands:** [EVAL](/docs/commands/#eval), [EVALSHA](/docs/commands/#evalsha), [SCRIPT DEBUG](/docs/commands/#script-debug), [SCRIPT EXISTS](/docs/commands/#script-exists), [SCRIPT FLUSH](/docs/commands/#script-flush), [SCRIPT KILL](/docs/commands/#script-kill), [SCRIPT LOAD](/docs/commands/#script-load)
 
