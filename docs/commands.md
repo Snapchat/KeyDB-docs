@@ -262,6 +262,22 @@ When the bitmap is big, there are two alternatives:
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax
+
+```BITFIELD <key>```
+
+```BITFIELD <key> <OPTIONAL:GET> <GET-argument:type> <GET-argument:offset>```
+
+```BITFIELD <key> <OPTIONAL:SET> <SET-argument:type> <SET-argument:offset> <SET-argument:value>```
+
+```BITFIELD <key> <OPTIONAL:INCRBY> <INCRBY-argument:type> <INCRBY-argument:offset> <INCRBY-argument:increment>```
+
+```BITFIELD <key> <OPTIONAL:OVERFLOW> <OVERFLOW-argument:WRAP|SAT|FAIL>```
+
+
+
+#### Description:
+
 The command treats a KeyDB string as a array of bits, and is capable of addressing specific integer fields of varying bit widths and arbitrary non (necessary) aligned offset. In practical terms using this command you can set, for example, a signed 5 bits integer at bit offset 1234 to a specific value, retrieve a 31 bit unsigned integer from offset 4567. Similarly the command handles increments and decrements of the specified integers, providing guaranteed and well specified overflow and underflow behavior that the user can configure.
 
 `BITFIELD` is able to operate with multiple bit fields in the same command call. It takes a list of operations to perform, and returns an array of replies, where each array matches the corresponding operation in the list of arguments.
@@ -4489,7 +4505,7 @@ keydb-cli> EXPIREMEMBER key member1 10
 
 ```EXPIREMEMBERAT <key> <subkey> <expiration-timestamp>```
 
-#### Descripition:
+#### Description:
 
 `EXPIREMEMBERAT` has the same effect and semantic as `EXPIREMEMBER`, but instead of
 specifying the number of seconds representing the TTL (time to live), it takes
