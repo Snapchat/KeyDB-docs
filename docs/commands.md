@@ -1168,6 +1168,12 @@ Simple String Reply: `OK`.
 
 **Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
+#### Syntax:
+
+```CLIENT SETNAME <name>```
+
+#### Description:
+
 The `CLIENT SETNAME` command assigns a name to the current connection.
 
 The assigned name is displayed in the output of `CLIENT LIST` so that it is possible to identify the client that performed a given connection.
@@ -1205,6 +1211,13 @@ keydb-cli> CLIENT GETNAME
 ## CLIENT UNBLOCK
 
 **Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```CLIENT UNBLOCK <client-id> <OPTIONAL:TIMEOUT|ERROR>```
+
+
+#### Description:
 
 This command can unblock, from a different connection, a client blocked in a blocking operation, such as for instance `BRPOP` or `XREAD` or `WAIT`.
 
