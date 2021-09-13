@@ -1072,7 +1072,7 @@ New fields are regularly added for debugging purpose. Some could be removed in t
 #### Examples:
 
 ```
-127.0.0.1:6379> CLIENT LIST
+keydb-cli> CLIENT LIST
 id=7 addr=127.0.0.1:39518 fd=10 name= age=0 idle=0 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=26 qbuf-free=32742 argv-mem=10 obl=0 oll=0 omem=0 tot-mem=61466 events=r cmd=client user=default
 ```
 
