@@ -8449,12 +8449,29 @@ Supported glob-style patterns:
 
 Use `\` to escape special characters if you want to match them verbatim.
 
+#### Examples:
+
+```
+keydb-cli> PSUBSCRIBE h?llo
+Reading messages... (press Ctrl-C to quit)
+1) "psubscribe"
+2) "h?llo"
+3) (integer) 1
+
+```
+
 ---
 
 
 ## PSYNC
 
 **Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+#### Syntax:
+
+```PSYNC <replication-id> <offset>```
+
+#### Description:
 
 Initiates a replication stream from the master.
 
@@ -8496,20 +8513,20 @@ Integer Reply: TTL in milliseconds, or a negative value in order to signal an er
 #### Examples:
 
 ```
-127.0.0.1:6379> SET mykey "Hello"
+keydb-cli> SET mykey "Hello"
 OK
-127.0.0.1:6379> EXPIRE mykey 10
+keydb-cli> EXPIRE mykey 10
 (integer) 1
-127.0.0.1:6379> PTTL mykey
+keydb-cli> PTTL mykey
 (integer) 5846
 ```
 
 ```
-127.0.0.1:6379> SADD myset member1 member2
+keydb-cli> SADD myset member1 member2
 (integer) 2
-127.0.0.1:6379> EXPIREMEMBER myset member2 10
+keydb-cli> EXPIREMEMBER myset member2 10
 (integer) 1
-127.0.0.1:6379> PTTL myset member2
+keydb-cli> PTTL myset member2
 (integer) 4159
 ```
 
