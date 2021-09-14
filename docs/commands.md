@@ -9712,19 +9712,19 @@ Array Reply: list with members of the resulting set.
 #### Examples:
 
 ```
-127.0.0.1:6379> SADD key1 "a"
+keydb-cli> SADD key1 "a"
 (integer) 1
-127.0.0.1:6379> SADD key1 "b"
+keydb-cli> SADD key1 "b"
 (integer) 1
-127.0.0.1:6379> SADD key1 "c"
+keydb-cli> SADD key1 "c"
 (integer) 1
-127.0.0.1:6379> SADD key2 "c"
+keydb-cli> SADD key2 "c"
 (integer) 1
-127.0.0.1:6379> SADD key2 "d"
+keydb-cli> SADD key2 "d"
 (integer) 1
-127.0.0.1:6379> SADD key2 "e"
+keydb-cli> SADD key2 "e"
 (integer) 1
-127.0.0.1:6379> SDIFF key1 key2
+keydb-cli> SDIFF key1 key2
 1) "a"
 2) "b"
 ```
