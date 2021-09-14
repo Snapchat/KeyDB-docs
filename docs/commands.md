@@ -2724,7 +2724,7 @@ keydb-cli> COMMAND COUNT
 
 ```COMMAND GETKEYS <commandX> <argument-1-of-commandX> ... <argument-n-of-commandX>```
 
-#### Descripition: 
+#### Description: 
 
 Returns Array Reply of keys from a full KeyDB command.
 
@@ -2916,7 +2916,7 @@ The return type of the command is a Array Reply.
 
 **Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
-#### Descripition : 
+#### Description : 
 
 Resets the statistics reported by KeyDB using the `INFO` command.
 
@@ -2985,7 +2985,7 @@ keydb-cli> CONFIG REWRITE
 
 ```CONFIG SET <server-configuration-parameter> <server-configruation-parameter-value-1> .. <server-configuration-parameter-value-n>```
 
-#### Descripition:
+#### Description:
 
 The `CONFIG SET` command is used in order to reconfigure the server at run time
 without the need to restart KeyDB.
@@ -3310,7 +3310,7 @@ keydb-cli> DUMP mykey
 
 ```ECHO <message>```
 
-#### Descripition:
+#### Description:
 
 Returns `message`.
 
@@ -4428,7 +4428,7 @@ fully acting as a master.
 
 ```EXPIREAT <key> <expiration-timestamp>```
 
-#### Descripition:
+#### Description:
 
 `EXPIREAT` has the same effect and semantic as `EXPIRE`, but instead of
 specifying the number of seconds representing the TTL (time to live), it takes
@@ -4618,7 +4618,7 @@ Simple String Reply
 
 ```GEOADD <key> <longitude-1> <latitude-1> <name-1> ... <longitude-n> <latitude-n> <name-n>```
 
-#### Descripition:
+#### Description:
 
 Adds the specified geospatial items (latitude, longitude, name) to the specified
 key. Data is stored into the key as a sorted set, in a way that makes it possible to later retrieve items using a query by radius with the `GEORADIUS` or `GEORADIUSBYMEMBER` commands.
@@ -4787,7 +4787,7 @@ keydb-cli> GEODIST Sicily Foo Bar
 
 ```GEOENCODE <longitude> <latitude> <OPTIONAL:radius> <OPTIONAL:distance-unit>```
 
-#### Descripition:
+#### Description:
 
 Geospatial KeyDB commands encode positions of objects in a single 52 bit integer, using a technique called geohash. The encoding is further explained in the `GEODECODE` and `GEOADD` documentation. The `GEOENCODE` command, documented in this page, is able to convert a longitude and latitude pair into such 52 bit integer, which is used as the *score* for the sorted set members representing geopositional information.
 
