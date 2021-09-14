@@ -11353,6 +11353,12 @@ keydb-cli> UNLINK key1 key2 key3
 
 **Related Commands:** [PSUBSCRIBE](/docs/commands/#psubscribe), [PUBLISH](/docs/commands/#publish), [PUBSUB](/docs/commands/#pubsub), [PUNSUBSCRIBE](/docs/commands/#punsubscribe), [SUBSCRIBE](/docs/commands/#subscribe), [UNSUBSCRIBE](/docs/commands/#unsubscribe)
 
+#### Syntax:
+
+```UNSUBSCRIBE <channel-1> ... <channel-n>```
+
+#### Description:
+
 Unsubscribes the client from the given channels, or from all of them if none is
 given.
 
