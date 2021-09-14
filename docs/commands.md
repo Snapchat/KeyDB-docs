@@ -6388,7 +6388,7 @@ KeyDB's CRON function schedules LUA scripts to run at specified times and interv
 #### Syntax:
 
 ```
-KEYDB.CRON <name> <single|repeat> <OPTIONAL:start> <delay> <script> <numkeys> <key-N> <arg-N>
+KEYDB.CRON <name> <SINGLE|REPEAT> <OPTIONAL:start> <delay> <script> <numkeys> <key-N> <arg-N>
 ```
 where:
 * `name` is the name of the KEY. This will be visible in the keyspace, can be searched, and deleted with `DEL`. Each cron task will have its own name.
