@@ -6477,14 +6477,14 @@ Array Reply: list of keys matching `pattern`.
 #### Examples:
 
 ```
-127.0.0.1:6379> MSET firstname Jack lastname Stuntman age 35
+keydb-cli> MSET firstname Jack lastname Stuntman age 35
 OK
-127.0.0.1:6379> KEYS *name*
+keydb-cli> KEYS *name*
 1) "lastname"
 2) "firstname"
-127.0.0.1:6379> KEYS a??
+keydb-cli> KEYS a??
 1) "age"
-127.0.0.1:6379> KEYS *
+keydb-cli> KEYS *
 1) "age"
 2) "lastname"
 3) "firstname"
