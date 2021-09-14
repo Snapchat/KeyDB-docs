@@ -12377,7 +12377,7 @@ keydb-cli> XRANGE writers - + COUNT 2
 
 #### Syntax:
 
-```XREAD <OPTIONAL:COUNT> <COUNT-argument> <OPTIONAL:BLOCK> <BLOCK-argument:milliseconds> <STREAMS> <key-1> ... <key-n> <id-1> ... <id-n>```
+```XREAD <OPTIONAL:COUNT> <COUNT-argument:count> <OPTIONAL:BLOCK> <BLOCK-argument:milliseconds> <STREAMS> <key-1> ... <key-n> <id-1> ... <id-n>```
 
 #### Description:
 
