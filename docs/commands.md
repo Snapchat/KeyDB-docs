@@ -10982,6 +10982,13 @@ keydb-cli> STRLEN nonexisting
 
 **Related Commands:** [PSUBSCRIBE](/docs/commands/#psubscribe), [PUBLISH](/docs/commands/#publish), [PUBSUB](/docs/commands/#pubsub), [PUNSUBSCRIBE](/docs/commands/#punsubscribe), [SUBSCRIBE](/docs/commands/#subscribe), [UNSUBSCRIBE](/docs/commands/#unsubscribe)
 
+#### Syntax:
+
+```SUBSCRIBE <channel-1> ... <channel-n>```
+
+
+#### Description:
+
 Subscribes the client to the specified channels.
 
 Once the client enters the subscribed state it is not supposed to issue any
