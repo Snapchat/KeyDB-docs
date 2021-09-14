@@ -2851,7 +2851,7 @@ keydb-cli> COMMAND INFO foo evalsha config bar
 
 #### Syntax :
 
-```CONFIG GET <parameter>```
+```CONFIG GET <parameter|glob-style-pattern>```
 
 #### Description:
 
@@ -3180,12 +3180,9 @@ Integer Reply: the value of `key` after the decrement
 #### Examples:
 
 ```
-127.0.0.1:6379> SET mykey "10"
+keydb-cli> SET mykey "10"
 OK
-127.0.0.1:6379> DECRBY mykey 3
-(integer) 7127.0.0.1:6379> SET mykey "10"
-OK
-127.0.0.1:6379> DECRBY mykey 3
+keydb-cli> DECRBY mykey 3
 (integer) 7
 ```
 
