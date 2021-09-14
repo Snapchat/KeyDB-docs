@@ -11540,7 +11540,7 @@ keydb-cli> XACK mystream mygroup 1526569495631-0
 
 #### Syntax:
 
-```XADD <key> <OPTIONAL:NOMKSTREAM> <OPTIONAL:MAXLEN|MINID> <OPTIONAL-MAXLEN|MIN-argument:=|\> <MAXLEN|MINID-argument:threshold> <OPTIONAL-MAXLEN|MINID-argument:LIMIT> <LIMIT-argument:count> <*|ID> <field-1> <value-1> ... <field-n> <value-n>```
+```XADD <key> <OPTIONAL:NOMKSTREAM> <OPTIONAL:MAXLEN|MINID> <OPTIONAL-MAXLEN|MINID-argument:=|\> <MAXLEN|MINID-argument:threshold> <OPTIONAL-MAXLEN|MINID-argument:LIMIT> <LIMIT-argument:count> <MAXLEN|MINID-argument:*|ID> <MAXLEN|MINID-argument:field-1> <MAXLEN|MINID-argument:value-1> ... <MAXLEN|MINID-argument:field-n> <MAXLEN|MINID-argument:value-n>```
 
 #### Description:
 
