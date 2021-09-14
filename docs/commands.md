@@ -2851,7 +2851,7 @@ keydb-cli> COMMAND INFO foo evalsha config bar
 
 #### Syntax :
 
-```CONFIG GET <glob-pattern>```
+```CONFIG GET <parameter>```
 
 #### Description:
 
