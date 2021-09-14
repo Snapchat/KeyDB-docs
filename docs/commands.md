@@ -9829,6 +9829,14 @@ OK
 
 ```SET <key> <value>```
 
+```SET <key> <value> EX <seconds>```
+
+```SET <key> <value> PX <milliseconds>```
+
+```SET <key> <value> NX```
+
+```SET <key> <value> XX```
+
 #### Description:
 
 Set `key` to hold the string `value`.
