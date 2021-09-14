@@ -12907,6 +12907,8 @@ keydb-cli> XRANGE mystream - +
 
 ```ZADD <key> <score> <member>```
 
+```ZADD <key> <OPTIONAL:NX|XX> <OPTIONAL:CH> <OPTIONAL:INCR> <score> <member>```
+
 #### Description:
 
 Adds all the specified members with the specified scores to the sorted set
@@ -13802,7 +13804,7 @@ keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
 
 #### Syntax:
 
-```ZEMRANGEBYSCORE <key> <min> <max>```
+```ZREMRANGEBYSCORE <key> <min> <max>```
 
 #### Description:
 
