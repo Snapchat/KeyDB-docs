@@ -8567,7 +8567,8 @@ documented separately. The general form is:
     PUBSUB <subcommand> ... args ...
 
 ### PUBSUB CHANNELS
-PUBSUB CHANNELS [pattern]
+
+```PUBSUB CHANNELS [pattern]```
 
 Lists the currently *active channels*. An active channel is a Pub/Sub channel
 with one or more subscribers (not including clients subscribed to patterns).
@@ -8581,7 +8582,8 @@ listed.
 Array Reply: a list of active channels, optionally matching the specified pattern.
 
 ### PUBSUB NUMSUB
-`PUBSUB NUMSUB [channel-1 ... channel-N]`
+
+```PUBSUB NUMSUB [channel-1 ... channel-N]```
 
 Returns the number of subscribers (not counting clients subscribed to patterns)
 for the specified channels.
@@ -8614,6 +8616,12 @@ Integer Reply: the number of patterns all the clients are subscribed to.
 ## PUNSUBSCRIBE
 
 **Related Commands:** [PSUBSCRIBE](/docs/commands/#psubscribe), [PUBLISH](/docs/commands/#publish), [PUBSUB](/docs/commands/#pubsub), [PUNSUBSCRIBE](/docs/commands/#punsubscribe), [SUBSCRIBE](/docs/commands/#subscribe), [UNSUBSCRIBE](/docs/commands/#unsubscribe)
+
+#### Syntax:
+
+```PUNSUBSCRIBE <pattern-1> ... <pattern-n>```
+
+#### Description:
 
 Unsubscribes the client from the given patterns, or from all of them if none is
 given.
