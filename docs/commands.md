@@ -6958,11 +6958,11 @@ LOLWUT version should have the following properties:
 2. LOLWUT output should be completely useless. Displaying some useful Redis internal metrics does not count as a valid LOLWUT.
 3. LOLWUT output should be fast to generate so that the command can be called in production instances without issues. It should remain fast even when the user experiments with odd parameters.
 4. LOLWUT implementations should be safe and carefully checked for security, and resist to untrusted inputs if they take arguments.
-5. LOLWUT must always display the Redis version at the end.
+5. LOLWUT must always display the KeyDB version at the end.
 
 #### Return
 
-Bulk String Reply (or verbatim reply when using the RESP3 protocol): the string containing the generative computer art, and a text with the Redis version.
+Bulk String Reply (or verbatim reply when using the RESP3 protocol): the string containing the generative computer art, and a text with the KeyDB version.
 
 ---
 
@@ -7826,6 +7826,22 @@ Integer Reply, specifically:
 
 * `1` if `key` was moved.
 * `0` if `key` was not moved.
+
+#### Example:
+
+```
+keydb-cli> SET k 1
+OK
+keydb-cli> MOVE k 10
+(integer) 1
+keydb-cli> GET k
+(nil)
+keydb-cli> SELECT 10
+OK
+keydb-cli[10]> GET k
+"1"
+```
+
 
 ---
 
