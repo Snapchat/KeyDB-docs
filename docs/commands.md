@@ -8433,6 +8433,12 @@ keydb-cli> GET mykey
 
 **Related Commands:** [PSUBSCRIBE](/docs/commands/#psubscribe), [PUBLISH](/docs/commands/#publish), [PUBSUB](/docs/commands/#pubsub), [PUNSUBSCRIBE](/docs/commands/#punsubscribe), [SUBSCRIBE](/docs/commands/#subscribe), [UNSUBSCRIBE](/docs/commands/#unsubscribe)
 
+#### Syntax:
+
+```PSUBSCRIBE <pattern-1> ... <pattern-n>```
+
+#### Description:
+
 Subscribes the client to the given patterns.
 
 Supported glob-style patterns:
