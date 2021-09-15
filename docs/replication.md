@@ -35,9 +35,9 @@ The following are some very important facts about KeyDB replication:
 
 * KeyDB uses asynchronous replication, with asynchronous replica-to-master acknowledges of the amount of data processed.
 * A master can have multiple replicas.
-* Replicas are able to accept connections from other replicas. Aside from connecting a number of replicas to the same master, replicas can also be connected to other replicas in a cascading-like structure. Since KeyDB 4.0, all the sub-replicas will receive exactly the same replication stream from the master.
+* Replicas are able to accept connections from other replicas. Aside from connecting a number of replicas to the same master, replicas can also be connected to other replicas in a cascading-like structure. All the sub-replicas will receive exactly the same replication stream from the master.
 * KeyDB replication is non-blocking on the master side. This means that the master will continue to handle queries when one or more replicas perform the initial synchronization or a partial resynchronization.
-* Replication is also largely non-blocking on the replica side. While the replica is performing the initial synchronization, it can handle queries using the old version of the dataset, assuming you configured KeyDB to do so in keydb.conf.  Otherwise, you can configure KeyDB replicas to return an error to clients if the replication stream is down. However, after the initial sync, the old dataset must be deleted and the new one must be loaded. The replica will block incoming connections during this brief window (that can be as long as many seconds for very large datasets). Since KeyDB 4.0 it is possible to configure KeyDB so that the deletion of the old data set happens in a different thread, however loading the new initial dataset will still happen in the main thread and block the replica.
+* Replication is also largely non-blocking on the replica side. While the replica is performing the initial synchronization, it can handle queries using the old version of the dataset, assuming you configured KeyDB to do so in keydb.conf.  Otherwise, you can configure KeyDB replicas to return an error to clients if the replication stream is down. However, after the initial sync, the old dataset must be deleted and the new one must be loaded. The replica will block incoming connections during this brief window (that can be as long as many seconds for very large datasets). It is possible to configure KeyDB so that the deletion of the old data set happens in a different thread, however loading the new initial dataset will still happen in the main thread and block the replica.
 * Replication can be used both for scalability, in order to have multiple replicas for read-only queries (for example, slow O(N) operations can be offloaded to replicas), or simply for improving data safety and high availability.
 * It is possible to use replication to avoid the cost of having the master writing the full dataset to disk: a typical technique involves configuring your master `keydb.conf` to avoid persisting to disk at all, then connect a replica configured to save from time to time, or with AOF enabled. However this setup must be handled with care, since a restarting master will start with an empty dataset: if the replica tries to synchronized with it, the replica will be emptied as well.
 
@@ -144,10 +144,7 @@ Diskless replication
 Normally a full resynchronization requires to create an RDB file on disk,
 then reload the same RDB from disk in order to feed the replicas with the data.
 
-With slow disks this can be a very stressing operation for the master.
-KeyDB version 2.8.18 is the first version to have support for diskless
-replication. In this setup the child process directly sends the
-RDB over the wire to replicas, without using the disk as intermediate storage.
+With slow disks this can be a very stressing operation for the master. In this setup the child process directly sends the RDB over the wire to replicas, without using the disk as intermediate storage.
 
 Configuration
 ---
@@ -173,8 +170,7 @@ for more details.
 Read-only replica
 ---
 
-Since KeyDB 2.6, replicas support a read-only mode that is enabled by default.
-This behavior is controlled by the `replica-read-only` option in the keydb.conf file, and can be enabled and disabled at runtime using `CONFIG SET`.
+Replicas support a read-only mode that is enabled by default. This behavior is controlled by the `replica-read-only` option in the keydb.conf file, and can be enabled and disabled at runtime using `CONFIG SET`.
 
 Read-only replicas will reject all write commands, so that it is not possible to write to a replica because of a mistake. This does not mean that the feature is intended to expose a replica instance to the internet or more generally to a network where untrusted clients exist, because administrative commands like `DEBUG` or `CONFIG` are still enabled. However, security of read-only instances can be improved by disabling commands in keydb.conf using the `rename-command` directive.
 
@@ -186,14 +182,13 @@ use case for storing ephemeral data in writable replicas.
 
 For example computing slow Set or Sorted set operations and storing them into local keys is an use case for writable replicas that was observed multiple times.
 
-However note that **writable replicas before version 4.0 were incapable of expiring keys with a time to live set**. This means that if you use `EXPIRE` or other commands that set a maximum TTL for a key, the key will leak, and while you may no longer see it while accessing it with read commands, you will see it in the count of keys and it will still use memory. So in general mixing writable replicas (previous version 4.0) and keys with TTL is going to create issues.
+However note that **writable replicas were once incapable of expiring keys with a time to live set**. This means that if you use `EXPIRE` or other commands that set a maximum TTL for a key, the key will leak, and while you may no longer see it while accessing it with read commands, you will see it in the count of keys and it will still use memory. So in general mixing writable replicas and keys with TTL is going to create issues.
 
-KeyDB 4.0 RC3 and greater versions totally solve this problem and now writable
-replicas are able to evict keys with TTL as masters do, with the exceptions
+Now, writable replicas are able to evict keys with TTL as masters do, with the exceptions
 of keys written in DB numbers greater than 63 (but by default KeyDB instances
 only have 16 databases).
 
-Also note that since KeyDB 4.0 replica writes are only local, and are not propagated to sub-replicas attached to the instance. Sub replicas instead will always receive the replication stream identical to the one sent by the top-level master to the intermediate replicas. So for example in the following setup:
+Writes are only local, and are not propagated to sub-replicas attached to the instance. Sub replicas instead will always receive the replication stream identical to the one sent by the top-level master to the intermediate replicas. So for example in the following setup:
 
     A ---> B ---> C
 
@@ -216,9 +211,7 @@ To set it permanently, add this to your config file:
 Allow writes only with N attached replicas
 ---
 
-Starting with KeyDB 2.8, it is possible to configure a KeyDB master to
-accept write queries only if at least N replicas are currently connected to the
-master.
+It is possible to configure a KeyDB master to accept write queries only if at least N replicas are currently connected to the master.
 
 However, because KeyDB uses asynchronous replication it is not possible to ensure
 the replica actually received a given write, so there is always a window for data
@@ -279,7 +272,7 @@ Similarly the replicas will be listed with the listening port configured
 into `keydb.conf`, that may be different than the forwarded port in case
 the port is remapped.
 
-In order to fix both issues, it is possible, since KeyDB 3.2.2, to force
+In order to fix both issues, it is possible, to force
 a replica to announce an arbitrary pair of IP and port to the master.
 The two configurations directives to use are:
 
@@ -302,7 +295,7 @@ replicas and so forth.
 Partial resynchronizations after restarts and failovers
 ---
 
-Since KeyDB 4.0, when an instance is promoted to master after a failover,
+When an instance is promoted to master after a failover,
 it will be still able to perform a partial resynchronization with the replicas
 of the old master. To do so, the replica remembers the old replication ID and
 offset of its former master, so can provide part of the backlog to the connecting
