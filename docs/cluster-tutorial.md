@@ -120,7 +120,7 @@ inside the string is hashed, so for example `this{foo}key` and `another{foo}key`
 are guaranteed to be in the same hash slot, and can be used together in a
 command with multiple keys as arguments.
 
-KeyDB Cluster master-slave model
+KeyDB Cluster master-replica model
 ---
 
 In order to remain available when a subset of master nodes are failing or are
