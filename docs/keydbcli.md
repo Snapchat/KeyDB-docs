@@ -19,7 +19,7 @@ a good typing experience.
 
 However `keydb-cli` is not just that. There are options you can use to launch
 the program in order to put it into special modes, so that `keydb-cli` can
-definitely do more complex tasks, like simulate a slave and print the
+definitely do more complex tasks, like simulate a replica and print the
 replication stream it receives from the master, check the latency of a keydb
 server and show statistics or even an ASCII-art spectrogram of latency
 samples and frequencies, and many other things.
@@ -389,7 +389,7 @@ are explained in the next sections:
 * Checking the [latency](https://docs.keydb.dev/docs/latency) of a keydb server in different ways.
 * Checking the scheduler latency of the local computer.
 * Transferring RDB backups from a remote keydb server locally.
-* Acting as a keydb slave for showing what a slave receives.
+* Acting as a keydb replica for showing what a replica receives.
 * Simulating [LRU](https://docs.keydb.dev/docs/lru-cache) workloads for showing stats about keys hits.
 * A client for the Lua debugger.
 
@@ -648,7 +648,7 @@ millisecond from time to time.
 
 ## Remote backups of RDB files
 
-During keydb replication's first synchronization, the master and the slave
+During keydb replication's first synchronization, the master and the replica
 exchange the whole data set in form of an RDB file. This feature is exploited
 by `keydb-cli` in order to provide a remote backup facility, that allows to
 transfer an RDB file from any keydb instance to the local computer running
@@ -673,7 +673,7 @@ If it is non zero, an error occurred like in the following example:
 
 The slave mode of the CLI is an advanced feature useful for
 keydb developers and for debugging operations.
-It allows to inspect what a master sends to its slaves in the replication
+It allows to inspect what a master sends to its replica in the replication
 stream in order to propagate the writes to its replicas. The option
 name is simply `--slave`. This is how it works:
 
@@ -689,7 +689,7 @@ name is simply `--slave`. This is how it works:
 The command begins by discarding the RDB file of the first synchronization
 and then logs each command received as in CSV format.
 
-If you think some of the commands are not replicated correctly in your slaves
+If you think some of the commands are not replicated correctly in your replicas
 this is a good way to check what's happening, and also useful information
 in order to improve the bug report.
 
