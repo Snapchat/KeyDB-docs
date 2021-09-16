@@ -33,7 +33,7 @@ format:
 
 This is an example of configuration directive:
 
-    slaveof 127.0.0.1 6380
+    replicaof 127.0.0.1 6380
 
 It is possible to provide strings containing spaces as arguments using
 quotes, as in the following example:
@@ -46,9 +46,9 @@ Passing arguments via the command line
 It is possible to also pass configuration parameters
 using the command line directly. This is very useful for testing purposes.
 The following is an example that starts a new KeyDB instance using port 6380
-as a slave of the instance running at 127.0.0.1 port 6379.
+as a replica of the instance running at 127.0.0.1 port 6379.
 
-    ./keydb-server --port 6380 --slaveof 127.0.0.1 6379
+    ./keydb-server --port 6380 --replicaof 127.0.0.1 6379
 
 The format of the arguments passed via the command line is exactly the same
 as the one used in the keydb.conf file, with the exception that the keyword
