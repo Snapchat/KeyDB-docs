@@ -15,8 +15,6 @@ However this tutorial tries to provide information about the availability
 and consistency characteristics of KeyDB Cluster from the point of view
 of the final user, stated in a simple to understand way.
 
-Note this tutorial requires KeyDB version 3.0 or higher.
-
 If you plan to run a serious KeyDB Cluster deployment, the
 more formal specification is a suggested reading, even if not
 strictly required. However it is a good idea to start from this document,
@@ -305,25 +303,14 @@ cluster by writing some meaningful configuration to the nodes.
 
 If you are using KeyDB 5, this is very easy to accomplish as we are helped by the KeyDB Cluster command line utility embedded into `keydb-cli`, that can be used to create new clusters, check or reshard an existing cluster, and so forth.
 
-For KeyDB version 3 or 4, there is the older tool called `redis-trib.rb` which is very similar. You can find it in the `src` directory of the KeyDB source code distribution.
-
-The first example, that is, the cluster creation, will be shown using both `keydb-cli` in KeyDB 5 and `redis-trib` in KeyDB 3 and 4. However all the next examples will only use `keydb-cli`, since as you can see the syntax is very similar, and you can trivially change one command line into the other by using `redis-trib.rb help` to get info about the old syntax. **Important:** note that you can use KeyDB 5 `keydb-cli` against KeyDB 4 clusters without issues if you wish.
-
 To create your cluster for KeyDB 5 with `keydb-cli` simply type:
 
     keydb-cli --cluster create 127.0.0.1:7000 127.0.0.1:7001 \
     127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 \
     --cluster-replicas 1
 
-Using `redis-trib.rb` for KeyDB 4 or 3 type:
-
-    ./redis-trib.rb create --replicas 1 127.0.0.1:7000 127.0.0.1:7001 \
-    127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005
-
 The command used here is **create**, since we want to create a new cluster.
-The option `--cluster-replicas 1` means that we want a replica for every master created.
-The other arguments are the list of addresses of the instances I want to use
-to create the new cluster.
+The option `--cluster-replicas 1` means that we want a replica for every master created. The other arguments are the list of addresses of the instances I want to use to create the new cluster.
 
 Obviously the only setup with our requirements is to create a cluster with
 3 masters and 3 replicas.
@@ -1016,9 +1003,5 @@ There is an alternative way to import data from external instances to a KeyDB
 Cluster, which is to use the `keydb-cli --cluster import` command.
 
 The command moves all the keys of a running instance (deleting the keys from
-the source instance) to the specified pre-existing KeyDB Cluster. However
-note that if you use a KeyDB 2.8 instance as source instance the operation
-may be slow since 2.8 does not implement migrate connection caching, so you
-may want to restart your source instance with a KeyDB 3.x version before
-to perform such operation.
+the source instance) to the specified pre-existing KeyDB Cluster.
 
