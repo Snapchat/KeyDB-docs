@@ -52,9 +52,6 @@ is intended to be used by people that don't need KeyDB Cluster, but simply
 a way to perform automatic fail over when a master instance is not functioning
 correctly.
 
-The plan is to provide a usable beta implementation of KeyDB Sentinel in a
-short time, preferably in mid July 2012.
-
 In short this is what KeyDB Sentinel will be able to do:
 
 * Monitor master and slave instances to see if they are available.
@@ -520,13 +517,9 @@ The current version of Sentinel is called **Sentinel 2**. It is a rewrite of
 the initial Sentinel implementation using stronger and simpler to predict
 algorithms (that are explained in this documentation).
 
-A stable release of KeyDB Sentinel is shipped since KeyDB 2.8.
-
 New developments are performed in the *unstable* branch, and new features
 sometimes are back ported into the latest stable branch as soon as they are
 considered to be stable.
-
-KeyDB Sentinel version 1, shipped with KeyDB 2.6, is deprecated and should not be used.
 
 Running Sentinel
 ---
@@ -1079,7 +1072,7 @@ order to modify the Sentinel configuration, which are covered later.
 Reconfiguring Sentinel at Runtime
 ---
 
-Starting with KeyDB version 2.8.4, Sentinel provides an API in order to add, remove, or change the configuration of a given master. Note that if you have multiple sentinels you should apply the changes to all to your instances for KeyDB Sentinel to work properly. This means that changing the configuration of a single Sentinel does not automatically propagates the changes to the other Sentinels in the network.
+Sentinel provides an API in order to add, remove, or change the configuration of a given master. Note that if you have multiple sentinels you should apply the changes to all to your instances for KeyDB Sentinel to work properly. This means that changing the configuration of a single Sentinel does not automatically propagates the changes to the other Sentinels in the network.
 
 The following is a list of `SENTINEL` sub commands used in order to update the configuration of a Sentinel instance.
 
