@@ -23,7 +23,7 @@ every once in a while, or by [appending each command to a
 log](https://docs.keydb.dev/docs/persistence/#append-only-file). Persistence can be optionally
 disabled, if you just need a feature-rich, networked, in-memory cache.
 
-KeyDB also supports trivial-to-setup master-slave asynchronous replication, with very fast non-blocking first synchronization, auto-reconnection with partial resynchronization on net split.
+KeyDB also supports trivial-to-setup master-replica asynchronous replication, with very fast non-blocking first synchronization, auto-reconnection with partial resynchronization on net split.
 
 Other features include:
 
@@ -91,12 +91,12 @@ However from time to time a restart is mandatory, for instance in order to upgra
 
 The following steps provide a very commonly used way in order to avoid any downtime.
 
-* Setup your new KeyDB instance as a slave for your current KeyDB instance. In order to do so you need a different server, or a server that has enough RAM to keep two instances of KeyDB running at the same time.
-* If you use a single server, make sure that the slave is started in a different port than the master instance, otherwise the slave will not be able to start at all.
-* Wait for the replication initial synchronization to complete (check the slave log file).
-* Make sure using INFO that there are the same number of keys in the master and in the slave. Check with keydb-cli that the slave is working as you wish and is replying to your commands.
-* Allow writes to the slave using **CONFIG SET slave-read-only no**
-* Configure all your clients in order to use the new instance (that is, the slave). Note that you may want to use the `CLIENT PAUSE` command in order to make sure that no client can write to the old master during the switch.
-* Once you are sure that the master is no longer receiving any query (you can check this with the [MONITOR command](https://docs.keydb.dev/docs/commands#monitor)), elect the slave to master using the **SLAVEOF NO ONE** command, and shut down your master.
+* Setup your new KeyDB instance as a replica for your current KeyDB instance. In order to do so you need a different server, or a server that has enough RAM to keep two instances of KeyDB running at the same time.
+* If you use a single server, make sure that the replica is started in a different port than the master instance, otherwise the replica will not be able to start at all.
+* Wait for the replication initial synchronization to complete (check the replica log file).
+* Make sure using INFO that there are the same number of keys in the master and in the replica. Check with keydb-cli that the replica is working as you wish and is replying to your commands.
+* Allow writes to the replica using **CONFIG SET replica-read-only no**
+* Configure all your clients in order to use the new instance (that is, the replica). Note that you may want to use the `CLIENT PAUSE` command in order to make sure that no client can write to the old master during the switch.
+* Once you are sure that the master is no longer receiving any query (you can check this with the [MONITOR command](https://docs.keydb.dev/docs/commands#monitor)), elect the replica to master using the **REPLICAOF NO ONE** command, and shut down your master.
 
 
