@@ -102,7 +102,7 @@ deal for some applications, there are use cases for full durability, and
 in these cases KeyDB was not a viable option.
 
 The _append-only file_ is an alternative, fully-durable strategy for
-KeyDB.  It became available in version 1.1.
+KeyDB.
 
 You can turn on the AOF in your configuration file:
 
@@ -122,11 +122,8 @@ to rebuild the current state.
 
 So KeyDB supports an interesting feature: it is able to rebuild the AOF
 in the background without interrupting service to clients. Whenever
-you issue a `BGREWRITEAOF` KeyDB will write the shortest sequence of
-commands needed to rebuild the current dataset in memory.  If you're
-using the AOF with KeyDB 2.2 you'll need to run `BGREWRITEAOF` from time to
-time. KeyDB 2.4 is able to trigger log rewriting automatically (see the
-2.4 example configuration file for more information).
+you issue a `BGREWRITEAOF`, KeyDB will write the shortest sequence of
+commands needed to rebuild the current dataset in memory. KeyDB is able to trigger log rewriting automatically (see the [configuration file](https://github.com/EQ-Alpha/KeyDB/blob/unstable/keydb.conf) for more information).
 
 ### How durable is the append only file?
 
@@ -220,11 +217,6 @@ and starts appending new data into the new file.
 
 ### How I can switch to AOF, if I'm currently using dump.rdb snapshots?
 
-There is a different procedure to do this in KeyDB 2.0 and KeyDB 2.2, as you
-can guess it's simpler in KeyDB 2.2 and does not require a restart at all.
-
-**KeyDB >= 2.2**
-
 * Make a backup of your latest dump.rdb file.
 * Transfer this backup into a safe place.
 * Issue the following two commands:
@@ -241,22 +233,10 @@ The second CONFIG command is used to turn off snapshotting persistence. This is 
 when you restart the server the configuration changes will be lost and the
 server will start again with the old configuration.
 
-**KeyDB 2.0**
-
-* Make a backup of your latest dump.rdb file.
-* Transfer this backup into a safe place.
-* Stop all the writes against the database!
-* Issue a keydb-cli bgrewriteaof. This will create the append only file.
-* Stop the server when KeyDB finished generating the AOF dump.
-* Edit KeyDB.conf end enable append only file persistence.
-* Restart the server.
-* Make sure that your database contains the same number of keys it contained.
-* Make sure that writes are appended to the append only file correctly.
-
 Interactions between AOF and RDB persistence
 ---
 
-KeyDB >= 2.4 makes sure to avoid triggering an AOF rewrite when an RDB
+KeyDB makes sure to avoid triggering an AOF rewrite when an RDB
 snapshotting operation is already in progress, or allowing a BGSAVE while the
 AOF rewrite is in progress. This prevents two KeyDB background processes
 from doing heavy disk I/O at the same time.
