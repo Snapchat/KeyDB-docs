@@ -10,13 +10,13 @@ This page is a work in progress. Currently it is just a list of things you shoul
 Special encoding of small aggregate data types
 ----------------------------------------------
 
-Since KeyDB 2.2 many data types are optimized to use less space up to a certain size. Hashes, Lists, Sets composed of just integers, and Sorted Sets, when smaller than a given number of elements, and up to a maximum element size, are encoded in a very memory efficient way that uses *up to 10 times less memory* (with 5 time less memory used being the average saving).
+Many data types are optimized to use less space up to a certain size. Hashes, Lists, Sets composed of just integers, and Sorted Sets, when smaller than a given number of elements, and up to a maximum element size, are encoded in a very memory efficient way that uses *up to 10 times less memory* (with 5 time less memory used being the average saving).
 
 This is completely transparent from the point of view of the user and API.
 Since this is a CPU / memory trade off it is possible to tune the maximum number of elements and maximum element size for special encoded types using the following KeyDB.conf directives.
 
-    hash-max-zipmap-entries 512 (hash-max-ziplist-entries for KeyDB >= 2.6)
-    hash-max-zipmap-value 64  (hash-max-ziplist-value for KeyDB >= 2.6)
+    hash-max-ziplist-entries 512
+    hash-max-ziplist-value 64
     list-max-ziplist-entries 512
     list-max-ziplist-value 64
     zset-max-ziplist-entries 128
@@ -33,7 +33,7 @@ KeyDB compiled with 32 bit target uses a lot less memory per key, since pointers
 Bit and byte level operations
 -----------------------------
 
-KeyDB 2.2 introduced new bit and byte level operations: `GETRANGE`, `SETRANGE`, `GETBIT` and `SETBIT`. Using these commands you can treat the KeyDB string type as a random access array. For instance if you have an application where users are identified by a unique progressive integer number, you can use a bitmap in order to save information about the sex of users, setting the bit for females and clearing it for males, or the other way around. With 100 million users this data will take just 12 megabytes of RAM in a KeyDB instance. You can do the same using `GETRANGE` and `SETRANGE` in order to store one byte of information for each user. This is just an example but it is actually possible to model a number of problems in very little space with these new primitives.
+Bit and byte level operations: `GETRANGE`, `SETRANGE`, `GETBIT` and `SETBIT`. Using these commands you can treat the KeyDB string type as a random access array. For instance if you have an application where users are identified by a unique progressive integer number, you can use a bitmap in order to save information about the sex of users, setting the bit for females and clearing it for males, or the other way around. With 100 million users this data will take just 12 megabytes of RAM in a KeyDB instance. You can do the same using `GETRANGE` and `SETRANGE` in order to store one byte of information for each user. This is just an example but it is actually possible to model a number of problems in very little space with these new primitives.
 
 Use hashes when possible
 ------------------------
