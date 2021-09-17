@@ -59,7 +59,7 @@ Protected mode
 
 Unfortunately many users fail to protect KeyDB instances from being accessed
 from external networks. Many instances are simply left exposed on the
-internet with public IPs. For this reasons since version 3.2.0, when KeyDB is
+internet with public IPs. When KeyDB is
 executed with the default configuration (binding all the interfaces) and
 without any password in order to access it, it enters a special mode called
 **protected mode**. In this mode KeyDB only replies to queries from the

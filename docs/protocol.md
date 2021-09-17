@@ -41,9 +41,7 @@ Excluding the above two exceptions, the KeyDB protocol is a simple request-respo
 RESP protocol description
 -------------------------
 
-The RESP protocol was introduced in KeyDB 1.2, but it became the
-standard way for talking with the KeyDB server in KeyDB 2.0.
-This is the protocol you should implement in your KeyDB client.
+The RESP protocol became the standard way for talking with the KeyDB server. This is the protocol you should implement in your KeyDB client.
 
 RESP is actually a serialization protocol that supports the following
 data types: Simple Strings, Errors, Integers, Bulk Strings and Arrays.
