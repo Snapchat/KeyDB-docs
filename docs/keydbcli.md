@@ -358,11 +358,11 @@ categories are: `@generic`, `@list`, `@set`, `@sorted_set`, `@hash`,
 
 For example in order to show help for the `PFADD` command, use:
 
-   127.0.0.1:6379> help PFADD
+    127.0.0.1:6379> help PFADD
 
-  PFADD key element [element ...]
-  summary: Adds the specified elements to the specified HyperLogLog.
-  since: 2.8.9
+    PFADD key element [element ...]
+
+Summary: Adds the specified elements to the specified HyperLogLog.
 
 Note that `help` supports TAB completion as well.
 
