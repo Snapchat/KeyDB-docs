@@ -836,8 +836,7 @@ the elements sorted a descending way.
 Lexicographical scores
 ---
 
-With recent versions of KeyDB 2.8, a new feature was introduced that allows
-getting ranges lexicographically, assuming elements in a sorted set are all
+KeyDB allows getting ranges lexicographically, assuming elements in a sorted set are all
 inserted with the same identical score (elements are compared with the C
 `memcmp` function, so it is guaranteed that there is no collation, and every
 KeyDB instance will reply with the same output).
