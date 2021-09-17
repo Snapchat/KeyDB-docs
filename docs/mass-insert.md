@@ -45,15 +45,13 @@ as fast as possible. In the past the way to do this was to use the
 
 However this is not a very reliable way to perform mass import because netcat
 does not really know when all the data was transferred and can't check for
-errors. In 2.6 or later versions of KeyDB the `keydb-cli` utility
+errors. The `keydb-cli` utility
 supports a new mode called **pipe mode** that was designed in order to perform
 mass insertion.
 
 Using the pipe mode the command to run looks like the following:
 
     cat data.txt | keydb-cli --pipe
-
-That will produce an output similar to this:
 
     All data transferred. Waiting for the last reply...
     Last reply received from server.
@@ -65,8 +63,8 @@ from the KeyDB instance to the standard output.
 Generating KeyDB Protocol
 -------------------------
 
-The KeyDB protocol is extremely simple to generate and parse, and is
-[Documented here](https://docs.keydb.dev/docs/protocol). However in order to generate protocol for
+The KeyDB protocol is extremely simple to generate and parse, and is documented
+[here](https://docs.keydb.dev/docs/protocol). However in order to generate protocol for
 the goal of mass insertion you don't need to understand every detail of the
 protocol, but just that every command is represented in the following way:
 
