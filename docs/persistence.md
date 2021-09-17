@@ -132,7 +132,7 @@ You can configure how many times KeyDB will
 three options:
 
 * appendfsync always: `fsync` every time a new command is appended to the AOF. Very very slow, very safe.
-* appendfsync everysec: `fsync` every second. Fast enough (in 2.4 likely to be as fast as snapshotting), and you can lose 1 second of data if there is a disaster.
+* appendfsync everysec: `fsync` every second. Fast enough, and you can lose 1 second of data if there is a disaster.
 * appendfsync no: Never `fsync`, just put your data in the hands of the Operating System. The faster and less safe method. Normally Linux will flush data every 30 seconds with this configuration, but it's up to the kernel exact tuning.
 
 The suggested (and default) policy is to `fsync` every second. It is

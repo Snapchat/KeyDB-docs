@@ -15,10 +15,7 @@ Moreover KeyDB implements a rich set of commands. Certain commands
 are fast and run in constant or logarithmic time, other commands are slower
 O(N) commands, that can cause latency spikes.
 
-For all these reasons, KeyDB 2.8.13 introduced a new feature called
-**Latency Monitoring**, that helps the user to check and troubleshoot possible
-latency problems. Latency monitoring is composed of the following conceptual
-parts:
+For all these reasons, **Latency Monitoring** was created to help the user to check and troubleshoot possible latency problems. Latency monitoring is composed of the following conceptual parts:
 
 * Latency hooks that sample different latency sensitive code paths.
 * Time series recording of latency spikes split by different event.
