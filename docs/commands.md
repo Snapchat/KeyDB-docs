@@ -4467,7 +4467,7 @@ keydb-cli> EXISTS mykey
 
 #### Syntax:
 
-```EXPIRE <key> <subkey> <timeout-in-seconds> <OPTIONAL:unit-time-format>```
+```EXPIREMEMBER <key> <subkey> <timeout-in-seconds> <OPTIONAL:unit-time-format>```
 
 #### Description:
 
@@ -6523,8 +6523,7 @@ period between latency spikes, the median deviation, and a human-readable
 analysis of the event. For certain events, like `fork`, additional information
 is provided, like the rate at which the system forks processes.
 
-This is the output you should post in the Redis mailing list if you are
-looking for help about Latency related issues.
+This output can be useful in diagnosing Latency related issues.
 
 #### Examples:
 
@@ -6555,7 +6554,7 @@ I have a few advices for you:
 
 For more information refer to the [Latency Monitoring Framework page][lm].
 
-[lm]: https://redis.io/topics/latency-monitor
+[lm]: https://docs.keydb.dev/docs/latency-monitor/
 
 #### Return:
 
@@ -6633,7 +6632,7 @@ in the lower row) is the minimum, and a # in the higher row is the maximum.
 
 For more information refer to the [Latency Monitoring Framework page][lm].
 
-[lm]: https://redis.io/topics/latency-monitor
+[lm]: https://docs.keydb.dev/docs/latency-monitor/
 
 #### Return:
 
@@ -6650,7 +6649,7 @@ subcommands.
 
 For more information refer to the [Latency Monitoring Framework page][lm].
 
-[lm]: https://redis.io/topics/latency-monitor
+[lm]: https://docs.keydb.dev/docs/latency-monitor/
 
 #### Return :
 
@@ -6704,7 +6703,7 @@ keydb-cli> LATENCY HISTORY COMMAND
 
 For more information refer to the [Latency Monitoring Framework page][lm].
 
-[lm]: https://redis.io/topics/latency-monitor
+[lm]: https://docs.keydb.dev/docs/latency-monitor/
 
 #### Return:
 
@@ -6748,7 +6747,7 @@ keydb-cli> LATENCY LATEST
 
 For more information refer to the [Latency Monitoring Framework page][lm].
 
-[lm]: https://redis.io/topics/latency-monitor
+[lm]: https://docs.keydb.dev/docs/latency-monitor/
 
 #### Return:
 
@@ -6798,7 +6797,7 @@ Valid values for `event` are:
 
 For more information refer to the [Latency Monitoring Framework page][lm].
 
-[lm]: https://redis.io/topics/latency-monitor
+[lm]: https://docs.keydb.dev/docs/latency-monitor/
 
 #### Return:
 
@@ -6934,13 +6933,12 @@ keydb-cli> LLEN mylist
 
 #### Description
 
-The LOLWUT command displays the Redis version: however as a side effect of
+The LOLWUT command displays the KeyDB version: however as a side effect of
 doing so, it also creates a piece of generative computer art that is different
-with each version of Redis. The command was introduced in Redis 5 and announced
-with this [blog post](http://antirez.com/news/123).
+with each version of KeyDB. 
 
 By default the `LOLWUT` command will display the piece corresponding to the
-current Redis version, however it is possible to display a specific version
+current KeyDB version, however it is possible to display a specific version
 using the following form:
 
 ```LOLWUT VERSION 5 ... other optional arguments ...```
@@ -8749,8 +8747,6 @@ Renames `key` to `newkey`.
 It returns an error when `key` does not exist.
 If `newkey` already exists it is overwritten, when this happens `RENAME` executes an implicit `DEL` operation, so if the deleted key contains a very big value it may cause high latency even if `RENAME` itself is usually a constant-time operation.
 
-**REMINDER:** Before KeyDB 3.2.0, an error is returned if source and destination names are the same.
-
 #### Return:
 
 Simple String Reply
@@ -8783,8 +8779,6 @@ keydb-cli> GET myotherkey
 
 Renames `key` to `newkey` if `newkey` does not yet exist.
 It returns an error when `key` does not exist.
-
-**REMINDER:** Before KeyDB 3.2.0, an error is returned if source and destination names are the same.
 
 #### Return:
 
@@ -11146,9 +11140,9 @@ OK
 
 Initiates a replication stream from the master.
 
-The SYNC command is called by Redis replicas for initiating a replication stream from the master. It has been replaced in newer versions of KeyDB by [PSYNC](/docs/commands/#psync).
+The SYNC command is called by KeyDB replicas for initiating a replication stream from the master. It has been replaced in newer versions of KeyDB by [PSYNC](/docs/commands/#psync).
 
-For more information about replication in Redis please check the replication page.
+For more information about replication in KeyDB please check the replication page.
 
 #### Return value:
 Non standard return value, a bulk transfer of the data followed by [PING](/docs/commands/#ping) and write requests from the master.
