@@ -30,7 +30,7 @@ are registered. KeyDB will detect this condition at restart, and will exit with 
 append only file that will remove the partial transaction so that the
 server can start again.
 
-Starting with version 2.2, KeyDB allows for an extra guarantee to the
+KeyDB allows for an extra guarantee to the
 above two, in the form of optimistic locking in a way very similar to a
 check-and-set (CAS) operation.
 This is documented [later](#cas) on this page.
@@ -75,9 +75,7 @@ During a transaction it is possible to encounter two kind of command errors:
 
 Clients used to sense the first kind of errors, happening before the `EXEC` call, by checking the return value of the queued command: if the command replies with QUEUED it was queued correctly, otherwise KeyDB returns an error. If there is an error while queueing a command, most clients will abort the transaction discarding it.
 
-However starting with KeyDB 2.6.5, the server will remember that there was an error during the accumulation of commands, and will refuse to execute the transaction returning also an error during `EXEC`, and discarding the transaction automatically.
-
-Before KeyDB 2.6.5 the behavior was to execute the transaction with just the subset of commands queued successfully in case the client called `EXEC` regardless of previous errors. The new behavior makes it much more simple to mix transactions with pipelining, so that the whole transaction can be sent at once, reading all the replies later at once.
+The server will remember that there was an error during the accumulation of commands, and will refuse to execute the transaction returning also an error during `EXEC`, and discarding the transaction automatically.
 
 Errors happening *after* `EXEC` instead are not handled in a special way: all the other commands will be executed even if some command fails during the transaction.
 
@@ -244,8 +242,7 @@ A [KeyDB script](https://docs.keydb.dev/docs/commands#eval) is transactional by 
 you can do with a KeyDB transaction, you can also do with a script, and
 usually the script will be both simpler and faster.
 
-This duplication is due to the fact that scripting was introduced in KeyDB 2.6
-while transactions already existed long before. However we are unlikely to
+This duplication is due to the fact that scripting was introduced after transactions already existed long before. However we are unlikely to
 remove the support for transactions in the short time because it seems
 semantically opportune that even without resorting to KeyDB scripting it is
 still possible to avoid race conditions, especially since the implementation
