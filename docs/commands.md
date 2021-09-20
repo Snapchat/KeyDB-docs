@@ -3001,8 +3001,7 @@ https://github.com/JohnSully/KeyDB/blob/unstable/keydb.conf
 * In options where bytes or other quantities are specified, it is not
   possible to use the `keydb.conf` abbreviated form (`10k`, `2gb` ... and so forth),
   everything should be specified as a well-formed 64-bit integer, in the base
-  unit of the configuration directive. However since KeyDB version 3.0 or
-  greater, it is possible to use `CONFIG SET` with memory units for
+  unit of the configuration directive. However it is possible to use `CONFIG SET` with memory units for
   `maxmemory`, client output buffers, and replication backlog size.
 * The save parameter is a single string of space-separated integers.
   Every pair of integers represent a seconds/modifications threshold.
