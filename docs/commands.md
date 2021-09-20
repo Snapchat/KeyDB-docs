@@ -13653,8 +13653,7 @@ keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
 Removes all elements in the sorted set stored at `key` with a score between
 `min` and `max` (inclusive).
 
-Since version 2.1.6, `min` and `max` can be exclusive, following the syntax of
-`ZRANGEBYSCORE`.
+`min` and `max` can be exclusive, following the syntax of `ZRANGEBYSCORE`.
 
 #### Return:
 
