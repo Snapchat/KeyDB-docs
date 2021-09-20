@@ -942,14 +942,7 @@ keydb-cli> CLIENT ID
 
 **Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
-The `CLIENT KILL` command closes a given client connection. Up to KeyDB 2.8.11 it was possible to close a connection only by client address, using the following form:
-
-    CLIENT KILL addr:port
-
-The `ip:port` should match a line returned by the `CLIENT LIST` command (`addr` field).
-
-However starting with KeyDB 2.8.12 or greater, the command accepts the following
-form:
+The `CLIENT KILL` command closes a given client connection. The command accepts the following form:
 
     CLIENT KILL <filter> <value> ... ... <filter> <value>
 
@@ -957,8 +950,8 @@ With the new form it is possible to kill clients by different attributes
 instead of killing just by address. The following filters are available:
 
 * `CLIENT KILL ADDR ip:port`. This is exactly the same as the old three-arguments behavior.
-* `CLIENT KILL ID client-id`. Allows to kill a client by its unique `ID` field, which was introduced in the `CLIENT LIST` command starting from KeyDB 2.8.12.
-* `CLIENT KILL TYPE type`, where *type* is one of `normal`, `master`, `slave` and `pubsub` (the `master` type is available from v3.2). This closes the connections of **all the clients** in the specified class. Note that clients blocked into the `MONITOR` command are considered to belong to the `normal` class.
+* `CLIENT KILL ID client-id`. Allows to kill a client by its unique `ID` field.
+* `CLIENT KILL TYPE type`, where *type* is one of `normal`, `master`, `slave` and `pubsub`. This closes the connections of **all the clients** in the specified class. Note that clients blocked into the `MONITOR` command are considered to belong to the `normal` class.
 * `CLIENT KILL SKIPME yes/no`. By default this option is set to `yes`, that is, the client calling the command will not get killed, however setting this option to `no` will have the effect of also killing the client calling the command.
 
 **Note: starting with KeyDB 5 the project is no longer using the slave word. You can use `TYPE replica` instead, however the old form is still supported for backward compatibility.**
@@ -973,7 +966,7 @@ When the new form is used the command no longer returns `OK` or an error, but in
 
 #### CLIENT KILL and KeyDB Sentinel
 
-Recent versions of KeyDB Sentinel (KeyDB 2.8.12 or greater) use CLIENT KILL
+KeyDB Sentinel use CLIENT KILL
 in order to kill clients when an instance is reconfigured, in order to
 force clients to perform the handshake with one Sentinel again and update
 its configuration.
