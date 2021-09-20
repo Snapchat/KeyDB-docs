@@ -16,8 +16,8 @@ order to limit the memory usage to a fixed amount, and it also covers in
 depth the LRU algorithm used by KeyDB, that is actually an approximation of
 the exact LRU.
 
-Starting with KeyDB version 4.0, a new LFU (Least Frequently Used) eviction
-policy was introduced. This is covered in a separated section of this documentation.
+A new LFU (Least Frequently Used) eviction
+policy is also available and will be covered in a separated section of this documentation.
 
 Maxmemory configuration directive
 ---
@@ -90,13 +90,13 @@ If a command results in a lot of memory being used (like a big set intersection 
 Approximated LRU algorithm
 ---
 
-KeyDB LRU algorithm is not an exact implementation. This means that KeyDB is
+The original LRU algorithm (from Redis <3.0) is not an exact implementation. This means that it once was
 not able to pick the *best candidate* for eviction, that is, the access that
 was accessed the most in the past. Instead it will try to run an approximation
 of the LRU algorithm, by sampling a small number of keys, and evicting the
 one that is the best (with the oldest access time) among the sampled keys.
 
-However since KeyDB 3.0 the algorithm was improved to also take a pool of good
+The algorithm was later improved (in Redis 3.0 and then propagated to KeyDB) to also take a pool of good
 candidates for eviction. This improved the performance of the algorithm, making
 it able to approximate more closely the behavior of a real LRU algorithm.
 
@@ -121,7 +121,7 @@ You can see three kind of dots in the graphs, forming three distinct bands.
 
 In a theoretical LRU implementation we expect that, among the old keys, the first half will be expired. The KeyDB LRU algorithm will instead only *probabilistically* expire the older keys.
 
-As you can see KeyDB 3.0 does a better job with 5 samples compared to KeyDB 2.8, however most objects that are among the latest accessed are still retained by KeyDB 2.8. Using a sample size of 10 in KeyDB 3.0 the approximation is very close to the theoretical performance of KeyDB 3.0.
+As you can see the current KeyDB (originally from Redis 3.0) does a better job with 5 samples compared to Redis 2.8, however most objects that are among the latest accessed are still retained by Redis 2.8. Using a sample size of 10 in KeyDB(Redis 3.0) the approximation is very close to the theoretical performance of KeyDB(Redis 3.0).
 
 Note that LRU is just a model to predict how likely a given key will be accessed in the future. Moreover, if your data access pattern closely
 resembles the power law, most of the accesses will be in the set of keys that
@@ -139,7 +139,7 @@ the `CONFIG SET maxmemory-samples <count>` command, is very simple.
 The new LFU mode
 ---
 
-Starting with KeyDB 4.0, a new Least Frequently Used eviction mode is available. This mode may work better (provide a better
+A new Least Frequently Used eviction mode is available. This mode may work better (provide a better
 hits/misses ratio) in certain cases, since using LFU KeyDB will try to track
 the frequency of access of items, so that the ones used rarely are evicted while
 the one used often have an higher chance of remaining in memory.
@@ -158,7 +158,7 @@ Those informations are sampled similarly to what happens for LRU (as explained i
 However unlike LRU, LFU has certain tunable parameters: for instance, how fast
 should a frequent item lower in rank if it gets no longer accessed? It is also possible to tune the Morris counters range in order to better adapt the algorithm to specific use cases.
 
-By default KeyDB 4.0 is configured to:
+By default, KeyDB is configured to:
 
 * Saturate the counter at, around, one million requests.
 * Decay the counter every one minute.
