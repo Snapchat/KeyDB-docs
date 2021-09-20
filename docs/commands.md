@@ -5044,9 +5044,6 @@ keydb-cli> GETBIT mykey 100
 
 #### Description:
 
-**Warning**: this command was renamed to `GETRANGE`, it is called `SUBSTR` in
-KeyDB versions `<= 2.0`.
-
 Returns the substring of the string value stored at `key`, determined by the
 offsets `start` and `end` (both are inclusive).
 Negative offsets can be used in order to provide an offset starting from the end
