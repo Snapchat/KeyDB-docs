@@ -10617,8 +10617,6 @@ Removes and returns one or more random elements from the set value store at `key
 
 This operation is similar to `SRANDMEMBER`, that returns one or more random elements from a set but does not remove it.
 
-The `count` argument is available since version 3.2.
-
 #### Return:
 
 Bulk String Reply: the removed element, or `nil` when `key` does not exist.
