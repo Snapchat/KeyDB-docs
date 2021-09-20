@@ -66,7 +66,7 @@ defaults
 # Client connects to port 6380 and is redirected to one of the two nodes based on setup and checks.
 #
 # For active-replica support you will have 2 masters that are replicas of eachother with data syncing. 
-# No need for a sentinel node as there is no slave that needs to be promoted to master. 
+# No need for a sentinel node as there is no replica that needs to be promoted to master. 
 # HAproxy will check if one instance goes down and write to the other node. This is done with the health checks 
 # Default config for balance is roundrobin. If you have preference for which server is primary, you can place the
 # word "backup" beside the server ip address. That way HA will send traffic to 'not-backup' instance unless it is unreachable.
@@ -101,7 +101,7 @@ listen mykeydb
 # a master. If not master then don't write to it. This prevents trying to write to a replica instance.
 # The QUIT command prevents unwanted logging info every time this is run
 
-# A common master-slave HAproxy setup does not need to include a "balance" option or "backup" as only the master
-# will see incoming traffic (through checks). If you have sentinel nodes they will automatically promote the slave to master at which
+# A common master-replica HAproxy setup does not need to include a "balance" option or "backup" as only the master
+# will see incoming traffic (through checks). If you have sentinel nodes they will automatically promote the replica to master at which
 # time the checks will redirect traffic there.
 ```
