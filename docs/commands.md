@@ -4010,7 +4010,6 @@ Example:
 #### bitop
 
 The Lua Bit Operations Module adds bitwise operations on numbers.
-It is available for scripting in KeyDB since version 2.8.18.
 
 Example:
 
