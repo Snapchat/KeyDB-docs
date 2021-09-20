@@ -5985,7 +5985,7 @@ added or removed. A robust client application should therefore parse the
 result of this command by skipping unknown properties, and gracefully handle
 missing fields.
 
-Here is the description of fields for KeyDB >= 2.4.
+Here is the description of fields for KeyDB.
 
 
 Here is the meaning of all fields in the **server** section:
