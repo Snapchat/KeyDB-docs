@@ -182,7 +182,7 @@ use case for storing ephemeral data in writable replicas.
 
 For example computing slow Set or Sorted set operations and storing them into local keys is an use case for writable replicas that was observed multiple times.
 
-However note that **writable replicas were once incapable of expiring keys with a time to live set**. This means that if you use `EXPIRE` or other commands that set a maximum TTL for a key, the key will leak, and while you may no longer see it while accessing it with read commands, you will see it in the count of keys and it will still use memory. So in general mixing writable (<4.0.0 Redis and KeyDB) replicas and keys with TTL is going to create issues.
+However note that **writable replicas were once incapable of expiring keys with a time to live set**. This means that if you use `EXPIRE` or other commands that set a maximum TTL for a key, the key will leak, and while you may no longer see it while accessing it with read commands, you will see it in the count of keys and it will still use memory. So in general mixing writable (KeyDB and <4.0.0 Redis) replicas and keys with TTL is going to create issues.
 
 Now, writable replicas are able to evict keys with TTL as masters do, with the exceptions
 of keys written in DB numbers greater than 63 (but by default KeyDB instances
