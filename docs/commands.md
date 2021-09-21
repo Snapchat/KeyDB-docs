@@ -4207,7 +4207,7 @@ Integer Reply, specifically:
 * `1` if the key exists.
 * `0` if the key does not exist.
 
-Since KeyDB 3.0.3 the command accepts a variable number of keys and the return value is generalized:
+The command accepts a variable number of keys and the return value is generalized:
 
 * The number of keys existing among the ones specified as arguments. Keys mentioned multiple times and existing are counted multiple times.
 
