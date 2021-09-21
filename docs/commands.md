@@ -6613,7 +6613,7 @@ Each reported event has the following fields:
 * Latest event latency in millisecond.
 * All-time maximum latency for this event.
 
-"All-time" means the maximum latency since the Redis instance was
+"All-time" means the maximum latency since the KeyDB instance was
 started, or the time that events were reset `LATENCY RESET`.
 
 Example:
