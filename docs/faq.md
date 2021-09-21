@@ -17,7 +17,7 @@ As a result KeyDB introduced features such as active-replication and multi-maste
 Other features such as flash support, aws s3 backup, were also important features we believe should be part of the base code 
 and standard to each instance.
 
-KeyDB is also written largely in c++ allowing this project to accelerate to a different level. Plans to add other highly
+KeyDB is also written largely in C++ allowing this project to accelerate to a different level. Plans to add other highly
 sought after features continue and KeyDB will announce these features as they are released. KeyDB is a leader when it comes
 to performance and you can expect that the KeyDB product will adapt and take advantage of the latest hardware and software as it becomes available. 
 
