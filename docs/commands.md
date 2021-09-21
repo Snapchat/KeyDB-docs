@@ -13344,7 +13344,6 @@ O(N) time complexity.
 
 The optional `WITHSCORES` argument makes the command return both the element and
 its score, instead of the element alone.
-This option is available since KeyDB 2.0.
 
 #### Exclusive intervals and infinity
 
