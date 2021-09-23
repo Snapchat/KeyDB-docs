@@ -1,6 +1,6 @@
 ---
 id: distlock          
-title: Distributed Loks
+title: Distributed Locks
 sidebar_label: Distributed Locks
 ---
 
