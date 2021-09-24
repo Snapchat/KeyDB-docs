@@ -470,7 +470,7 @@ The function always returns `REDISMODULE_OK`.
 
     int RedisModule_Replicate(RedisModuleCtx *ctx, const char *cmdname, const char *fmt, ...);
 
-Replicate the specified command and arguments to slaves and AOF, as effect
+Replicate the specified command and arguments to replicas and AOF, as effect
 of execution of the calling command implementation.
 
 The replicated commands are always wrapped into the MULTI/EXEC that
@@ -500,7 +500,7 @@ a MULTI/EXEC stanza, so it should not be mixed with other replication
 commands.
 
 Basically this form of replication is useful when you want to propagate
-the command to the slaves and AOF file exactly as it was called, since
+the command to the replicas and AOF file exactly as it was called, since
 the command can just be re-executed to deterministically re-create the
 new state starting from the old one.
 
@@ -544,7 +544,7 @@ The available flags are:
 
  * REDISMODULE_CTX_FLAGS_MASTER: The Redis instance is a master
 
- * REDISMODULE_CTX_FLAGS_SLAVE: The Redis instance is a slave
+ * REDISMODULE_CTX_FLAGS_SLAVE: The Redis instance is a replica(slave)
 
  * REDISMODULE_CTX_FLAGS_READONLY: The Redis instance is read-only
 
@@ -1683,7 +1683,7 @@ message bus. Flags that can be set:
 
 With the following effects:
 
- NO_FAILOVER: prevent Redis Cluster slaves to failover a failing master.
+ NO_FAILOVER: prevent Redis Cluster replicas to failover a failing master.
               Also disables the replica migration feature.
 
  NO_REDIRECTION: Every node will accept any key, without trying to perform
