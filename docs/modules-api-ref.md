@@ -137,7 +137,7 @@ example "write deny-oom". The set of flags are:
 * **"pubsub"**:    The command publishes things on Pub/Sub channels.
 * **"random"**:    The command may have different outputs even starting
                    from the same input arguments and key values.
-* **"allow-stale"**: The command is allowed to run on slaves that don't
+* **"allow-stale"**: The command is allowed to run on replicas that don't
                      serve stale data. Don't use if you don't know what
                      this means.
 * **"no-monitor"**: Don't propagate the command on monitor. Use this if
