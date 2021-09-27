@@ -7,34 +7,34 @@ sidebar_label: Introduction
 
 The modules documentation is composed of the following files:
 
-* `INTRO.md` (this file). An overview about Redis Modules system and API. It's a good idea to start your reading here.
-* `API.md` is generated from module.c top comments of RedisMoule functions. It is a good reference in order to understand how each function works.
+* `INTRO.md` (this file). An overview about KeyDB Modules system and API. It's a good idea to start your reading here.
+* `API.md` is generated from module.c top comments of RedisModule functions. It is a good reference in order to understand how each function works.
 * `TYPES.md` covers the implementation of native data types into modules.
-* `BLOCK.md` shows how to write blocking commands that will not reply immediately, but will block the client, without blocking the Redis server, and will provide a reply whenever will be possible.
+* `BLOCK.md` shows how to write blocking commands that will not reply immediately, but will block the client, without blocking the KeyDB server, and will provide a reply whenever will be possible.
 
-Redis modules make possible to extend Redis functionality using external
-modules, implementing new Redis commands at a speed and with features
+KeyDB modules make possible to extend KeyDB functionality using external
+modules, implementing new KeyDB commands at a speed and with features
 similar to what can be done inside the core itself.
 
-Redis modules are dynamic libraries, that can be loaded into Redis at
-startup or using the `MODULE LOAD` command. Redis exports a C API, in the
+KeyDB modules are dynamic libraries, that can be loaded into KeyDB at
+startup or using the `MODULE LOAD` command. KeyDB exports a C API, in the
 form of a single C header file called `redismodule.h`. Modules are meant
 to be written in C, however it will be possible to use C++ or other languages
 that have C binding functionalities.
 
-Modules are designed in order to be loaded into different versions of Redis,
+Modules are designed in order to be loaded into different versions of KeyDB,
 so a given module does not need to be designed, or recompiled, in order to
-run with a specific version of Redis. For this reason, the module will
-register to the Redis core using a specific API version. The current API
+run with a specific version of KeyDB. For this reason, the module will
+register to the KeyDB core using a specific API version. The current API
 version is "1".
 
-This document is about an alpha version of Redis modules. API, functionalities
+This document is about an alpha version of KeyDB modules. API, functionalities
 and other details may change in the future.
 
 # Loading modules
 
 In order to test the module you are developing, you can load the module
-using the following `redis.conf` configuration directive:
+using the following `keydb.conf` configuration directive:
 
     loadmodule /path/to/mymodule.so
 
@@ -52,10 +52,10 @@ following command:
     MODULE UNLOAD mymodule
 
 Note that `mymodule` above is not the filename without the `.so` suffix, but
-instead, the name the module used to register itself into the Redis core.
+instead, the name the module used to register itself into the KeyDB core.
 The name can be obtained using `MODULE LIST`. However it is good practice
 that the filename of the dynamic library is the same as the name the module
-uses to register itself into the Redis core.
+uses to register itself into the KeyDB core.
 
 # The simplest module you can write
 
@@ -84,7 +84,7 @@ simple module that implements a command that outputs a random number.
 The example module has two functions. One implements a command called
 HELLOWORLD.RAND. This function is specific of that module. However the
 other function called `RedisModule_OnLoad()` must be present in each
-Redis module. It is the entry point for the module to be initialized,
+KeyDB module. It is the entry point for the module to be initialized,
 register its commands, and potentially other private data structures
 it uses.
 
@@ -94,7 +94,7 @@ like in the case of `HELLOWORLD.RAND`. This way it is less likely to
 have collisions.
 
 Note that if different modules have colliding commands, they'll not be
-able to work in Redis at the same time, since the function
+able to work in KeyDB at the same time, since the function
 `RedisModule_CreateCommand` will fail in one of the modules, so the module
 loading will abort returning an error condition.
 
@@ -107,7 +107,7 @@ The following is the function prototype:
     int RedisModule_Init(RedisModuleCtx *ctx, const char *modulename,
                          int module_version, int api_version);
 
-The `Init` function announces the Redis core that the module has a given
+The `Init` function announces the KeyDB core that the module has a given
 name, its version (that is reported by `MODULE LIST`), and that is willing
 to use a specific version of the API.
 
@@ -116,15 +116,15 @@ similar errors, the function will return `REDISMODULE_ERR`, and the module
 `OnLoad` function should return ASAP with an error.
 
 Before the `Init` function is called, no other API function can be called,
-otherwise the module will segfault and the Redis instance will crash.
+otherwise the module will segfault and the KeyDB instance will crash.
 
 The second function called, `RedisModule_CreateCommand`, is used in order
-to register commands into the Redis core. The following is the prototype:
+to register commands into the KeyDB core. The following is the prototype:
 
     int RedisModule_CreateCommand(RedisModuleCtx *ctx, const char *cmdname,
                                   RedisModuleCmdFunc cmdfunc);
 
-As you can see, most Redis modules API calls all take as first argument
+As you can see, most KeyDB modules API calls all take as first argument
 the `context` of the module, so that they have a reference to the module
 calling it, to the command and client executing a given command, and so forth.
 
@@ -148,23 +148,23 @@ Zooming into the example command implementation, we can find another call:
     int RedisModule_ReplyWithLongLong(RedisModuleCtx *ctx, long long integer);
 
 This function returns an integer to the client that invoked the command,
-exactly like other Redis commands do, like for example `INCR` or `SCARD`.
+exactly like other KeyDB commands do, like for example `INCR` or `SCARD`.
 
-# Setup and dependencies of a Redis module
+# Setup and dependencies of a KeyDB module
 
-Redis modules don't depend on Redis or some other library, nor they
+KeyDB modules don't depend on KeyDB or some other library, nor they
 need to be compiled with a specific `redismodule.h` file. In order
 to create a new module, just copy a recent version of `redismodule.h`
 in your source tree, link all the libraries you want, and create
 a dynamic library having the `RedisModule_OnLoad()` function symbol
 exported.
 
-The module will be able to load into different versions of Redis.
+The module will be able to load into different versions of KeyDB.
 
-# Passing configuration parameters to Redis modules
+# Passing configuration parameters to KeyDB modules
 
 When the module is loaded with the `MODULE LOAD` command, or using the
-`loadmodule` directive in the `redis.conf` file, the user is able to pass
+`loadmodule` directive in the `keydb.conf` file, the user is able to pass
 configuration parameters to the module by adding arguments after the module
 file name:
 
@@ -229,31 +229,31 @@ Similarly in order to parse a string as a number:
         /* Do something with 'myval' */
     }
 
-## Accessing Redis keys from modules
+## Accessing KeyDB keys from modules
 
-Most Redis modules, in order to be useful, have to interact with the Redis
+Most KeyDB modules, in order to be useful, have to interact with the KeyDB
 data space (this is not always true, for example an ID generator may
-never touch Redis keys). Redis modules have two different APIs in order to
-access the Redis data space, one is a low level API that provides very
-fast access and a set of functions to manipulate Redis data structures.
-The other API is more high level, and allows to call Redis commands and
-fetch the result, similarly to how Lua scripts access Redis.
+never touch KeyDB keys). KeyDB modules have two different APIs in order to
+access the KeyDB data space, one is a low level API that provides very
+fast access and a set of functions to manipulate KeyDB data structures.
+The other API is more high level, and allows to call KeyDB commands and
+fetch the result, similarly to how Lua scripts access KeyDB.
 
-The high level API is also useful in order to access Redis functionalities
+The high level API is also useful in order to access KeyDB functionalities
 that are not available as APIs.
 
 In general modules developers should prefer the low level API, because commands
 implemented using the low level API run at a speed comparable to the speed
-of native Redis commands. However there are definitely use cases for the
+of native KeyDB commands. However there are definitely use cases for the
 higher level API. For example often the bottleneck could be processing the
 data and not accessing it.
 
 Also note that sometimes using the low level API is not harder compared to
 the higher level one.
 
-# Calling Redis commands
+# Calling KeyDB commands
 
-The high level API to access Redis is the sum of the `RedisModule_Call()`
+The high level API to access KeyDB is the sum of the `RedisModule_Call()`
 function, together with the functions needed in order to access the
 reply object returned by `Call()`.
 
@@ -261,7 +261,7 @@ reply object returned by `Call()`.
 that is used to specify what kind of objects you are passing as arguments
 to the function.
 
-Redis commands are invoked just using a command name and a list of arguments.
+KeyDB commands are invoked just using a command name and a list of arguments.
 However when calling commands, the arguments may originate from different
 kind of strings: null-terminated C strings, RedisModuleString objects as
 received from the `argv` parameter in the command implementation, binary
@@ -288,10 +288,10 @@ This is the full list of format specifiers:
 
 * **c** -- Null terminated C string pointer.
 * **b** -- C buffer, two arguments needed: C string pointer and `size_t` length.
-* **s** -- RedisModuleString as received in `argv` or by other Redis module APIs returning a RedisModuleString object.
+* **s** -- RedisModuleString as received in `argv` or by other KeyDB module APIs returning a RedisModuleString object.
 * **l** -- Long long integer.
 * **v** -- Array of RedisModuleString objects.
-* **!** -- This modifier just tells the function to replicate the command to slaves and AOF. It is ignored from the point of view of arguments parsing.
+* **!** -- This modifier just tells the function to replicate the command to replicas and AOF. It is ignored from the point of view of arguments parsing.
 
 The function returns a `RedisModuleCallReply` object on success, on
 error NULL is returned.
@@ -384,11 +384,11 @@ If you use automatic memory management (explained later in this document)
 you don't need to free replies (but you still could if you wish to release
 memory ASAP).
 
-## Returning values from Redis commands
+## Returning values from KeyDB commands
 
-Like normal Redis commands, new commands implemented via modules must be
+Like normal KeyDB commands, new commands implemented via modules must be
 able to return values to the caller. The API exports a set of functions for
-this goal, in order to return the usual types of the Redis protocol, and
+this goal, in order to return the usual types of the KeyDB protocol, and
 arrays of such types as elemented. Also errors can be returned with any
 error string and code (the error code is the initial uppercase letters in
 the error message, like the "BUSY" string in the "BUSY the sever is busy" error
@@ -443,7 +443,7 @@ sub array elements.
 ## Returning arrays with dynamic length
 
 Sometimes it is not possible to know beforehand the number of items of
-an array. As an example, think of a Redis module implementing a FACTOR
+an array. As an example, think of a KeyDB module implementing a FACTOR
 command that given a number outputs the prime factors. Instead of
 factorializing the number, storing the prime factors into an array, and
 later produce the command reply, a better solution is to start an array
@@ -512,7 +512,7 @@ is of the expected type, or if it's empty.
 ## Low level access to keys
 
 Low level access to keys allow to perform operations on value objects associated
-to keys directly, with a speed similar to what Redis uses internally to
+to keys directly, with a speed similar to what KeyDB uses internally to
 implement the built-in commands.
 
 Once a key is opened, a key pointer is returned that will be used with all the
@@ -549,7 +549,7 @@ Once you are done using a key, you can close it with:
     RedisModule_CloseKey(key);
 
 Note that if automatic memory management is enabled, you are not forced to
-close keys. When the module function returns, Redis will take care to close
+close keys. When the module function returns, KeyDB will take care to close
 all the keys which are still open.
 
 ## Getting the key type
@@ -567,7 +567,7 @@ It returns one of the following values:
     REDISMODULE_KEYTYPE_SET
     REDISMODULE_KEYTYPE_ZSET
 
-The above are just the usual Redis key types, with the addition of an empty
+The above are just the usual KeyDB key types, with the addition of an empty
 type, that signals the key pointer is associated with an empty key that
 does not yet exists.
 
@@ -622,7 +622,7 @@ no expire, a new expire is set. If the key already have an expire, it is
 replaced with the new value.
 
 If the key has an expire, and the special value `REDISMODULE_NO_EXPIRE` is
-used as a new expire, the expire is removed, similarly to the Redis
+used as a new expire, the expire is removed, similarly to the KeyDB
 `PERSIST` command. In case the key was already persistent, no operation is
 performed.
 
@@ -639,12 +639,12 @@ If the key does not exist, 0 is returned by the function:
 
 ## String type API
 
-Setting a new string value, like the Redis `SET` command does, is performed
+Setting a new string value, like the KeyDB `SET` command does, is performed
 using:
 
     int RedisModule_StringSet(RedisModuleKey *key, RedisModuleString *str);
 
-The function works exactly like the Redis `SET` command itself, that is, if
+The function works exactly like the KeyDB `SET` command itself, that is, if
 there is a prior value (of any type) it will be deleted.
 
 Accessing existing string values is performed using DMA (direct memory
@@ -732,8 +732,8 @@ Work in progress.
 
 # Replicating commands
 
-If you want to use module commands exactly like normal Redis commands, in the
-context of replicated Redis instances, or using the AOF file for persistence,
+If you want to use module commands exactly like normal KeyDB commands, in the
+context of replicated KeyDB instances, or using the AOF file for persistence,
 it is important for module commands to handle their replication in a consistent
 way.
 
@@ -759,9 +759,9 @@ When you use the above API, you should not use any other replication function
 since they are not guaranteed to mix well.
 
 However this is not the only option. It's also possible to exactly tell
-Redis what commands to replicate as the effect of the command execution, using
+KeyDB what commands to replicate as the effect of the command execution, using
 an API similar to `RedisModule_Call()` but that instead of calling the command
-sends it to the AOF / slaves stream. Example:
+sends it to the AOF / replicas stream. Example:
 
     RedisModule_Replicate(ctx,"INCRBY","cl","foo",my_increment);
 
@@ -779,11 +779,11 @@ the commands emitted with `Replicate()` will follow.
 # Automatic memory management
 
 Normally when writing programs in the C language, programmers need to manage
-memory manually. This is why the Redis modules API has functions to release
+memory manually. This is why the KeyDB modules API has functions to release
 strings, close open keys, free replies, and so forth.
 
 However given that commands are executed in a contained environment and
-with a set of strict APIs, Redis is able to provide automatic memory management
+with a set of strict APIs, KeyDB is able to provide automatic memory management
 to modules, at the cost of some performance (most of the time, a very low
 cost).
 
@@ -809,8 +809,8 @@ benefit.
 # Allocating memory into modules
 
 Normal C programs use `malloc()` and `free()` in order to allocate and
-release memory dynamically. While in Redis modules the use of malloc is
-not technically forbidden, it is a lot better to use the Redis Modules
+release memory dynamically. While in KeyDB modules the use of malloc is
+not technically forbidden, it is a lot better to use the KeyDB Modules
 specific functions, that are exact replacements for `malloc`, `free`,
 `realloc` and `strdup`. These functions are:
 
@@ -821,11 +821,11 @@ specific functions, that are exact replacements for `malloc`, `free`,
     char *RedisModule_Strdup(const char *str);
 
 They work exactly like their `libc` equivalent calls, however they use
-the same allocator Redis uses, and the memory allocated using these
+the same allocator KeyDB uses, and the memory allocated using these
 functions is reported by the `INFO` command in the memory section, is
 accounted when enforcing the `maxmemory` policy, and in general is
-a first citizen of the Redis executable. On the contrar, the method
-allocated inside modules with libc `malloc()` is transparent to Redis.
+a first citizen of the KeyDB executable. On the contrar, the method
+allocated inside modules with libc `malloc()` is transparent to KeyDB.
 
 Another reason to use the modules functions in order to allocate memory
 is that, when creating native data types inside modules, the RDB loading
@@ -840,7 +840,7 @@ Sometimes in commands implementations, it is required to perform many
 small allocations that will be not retained at the end of the command
 execution, but are just functional to execute the command itself.
 
-This work can be more easily accomplished using the Redis pool allocator:
+This work can be more easily accomplished using the KeyDB pool allocator:
 
     void *RedisModule_PoolAlloc(RedisModuleCtx *ctx, size_t bytes);
 
@@ -853,7 +853,7 @@ is automatically released when the command returns.
 So in general short living allocations are a good candidates for the pool
 allocator.
 
-# Writing commands compatible with Redis Cluster
+# Writing commands compatible with KeyDB Cluster
 
 Documentation missing, please check the following functions inside `module.c`:
 
