@@ -669,15 +669,15 @@ If it is non zero, an error occurred like in the following example:
     $ echo $?
     1
 
-## Slave mode
+## Replica mode
 
-The slave mode of the CLI is an advanced feature useful for
+The replica mode of the CLI is an advanced feature useful for
 keydb developers and for debugging operations.
 It allows to inspect what a master sends to its replica in the replication
 stream in order to propagate the writes to its replicas. The option
-name is simply `--slave`. This is how it works:
+name is simply `--replica`. This is how it works:
 
-    $ keydb-cli --slave
+    $ keydb-cli --replica
     SYNC with master, discarding 13256 bytes of bulk transfer...
     SYNC done. Logging commands from master.
     "PING"
