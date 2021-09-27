@@ -12,12 +12,12 @@ The modules documentation is composed of the following files:
 * `TYPES.md` covers the implementation of native data types into modules.
 * `BLOCK.md` shows how to write blocking commands that will not reply immediately, but will block the client, without blocking the KeyDB server, and will provide a reply whenever will be possible.
 
-KeyDB modules make possible to extend KeyDB functionality using external
-modules, implementing new KeyDB commands at a speed and with features
+KeyDB modules make it possible to extend KeyDB functionality using external
+modules, rapidly implementing new KeyDB commands with features
 similar to what can be done inside the core itself.
 
-KeyDB modules are dynamic libraries, that can be loaded into KeyDB at
-startup or using the `MODULE LOAD` command. KeyDB exports a C API, in the
+KeyDB modules are dynamic libraries that can be loaded into KeyDB at
+startup, or using the `MODULE LOAD` command. KeyDB exports a C API, in the
 form of a single C header file called `redismodule.h`. Modules are meant
 to be written in C, however it will be possible to use C++ or other languages
 that have C binding functionalities.
@@ -75,7 +75,8 @@ simple module that implements a command that outputs a random number.
             == REDISMODULE_ERR) return REDISMODULE_ERR;
 
         if (RedisModule_CreateCommand(ctx,"helloworld.rand",
-            HelloworldRand_RedisCommand) == REDISMODULE_ERR)
+             HelloworldRand_RedisCommand, "fast random",
+            0, 0, 0) == REDISMODULE_ERR)
             return REDISMODULE_ERR;
 
         return REDISMODULE_OK;
@@ -121,16 +122,19 @@ otherwise the module will segfault and the KeyDB instance will crash.
 The second function called, `RedisModule_CreateCommand`, is used in order
 to register commands into the KeyDB core. The following is the prototype:
 
-    int RedisModule_CreateCommand(RedisModuleCtx *ctx, const char *cmdname,
-                                  RedisModuleCmdFunc cmdfunc);
+    int RedisModule_CreateCommand(RedisModuleCtx *ctx, const char *name,
+                                  RedisModuleCmdFunc cmdfunc, const char *strflags,
+                                  int firstkey, int lastkey, int keystep);
 
 As you can see, most KeyDB modules API calls all take as first argument
 the `context` of the module, so that they have a reference to the module
 calling it, to the command and client executing a given command, and so forth.
 
-To create a new command, the above function needs the context, the command
-name, and the function pointer of the function implementing the command,
-which must have the following prototype:
+To create a new command, the above function needs the context, the command's
+name, a pointer to the function implementing the command, the command's flags
+and the positions of key names in the command's arguments.
+
+The function that implements the command must have the following prototype:
 
 
     int mycommand(RedisModuleCtx *ctx, RedisModuleString **argv, int argc);
@@ -149,6 +153,24 @@ Zooming into the example command implementation, we can find another call:
 
 This function returns an integer to the client that invoked the command,
 exactly like other KeyDB commands do, like for example `INCR` or `SCARD`.
+
+# Module cleanup
+
+In most cases, there is no need for special cleanup.
+When a module is unloaded, Redis will automatically unregister commands and
+unsubscribe from notifications.
+However in the case where a module contains some persistent memory or
+configuration, a module may include an optional `RedisModule_OnUnload`
+function.
+If a module provides this function, it will be invoked during the module unload
+process.
+The following is the function prototype:
+
+    int RedisModule_OnUnload(RedisModuleCtx *ctx);
+
+The `OnUnload` function may prevent module unloading by returning
+`REDISMODULE_ERR`.
+Otherwise, `REDISMODULE_OK` should be returned.
 
 # Setup and dependencies of a KeyDB module
 
