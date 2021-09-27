@@ -10,8 +10,8 @@ sidebar_label: API Reference
     void *RedisModule_Alloc(size_t bytes);
 
 Use like malloc(). Memory allocated with this function is reported in
-Redis INFO memory, used for keys eviction according to maxmemory settings
-and in general is taken into account as memory allocated by Redis.
+KeyDB INFO memory, used for keys eviction according to maxmemory settings
+and in general is taken into account as memory allocated by KeyDB.
 You should avoid using malloc().
 
 ## `RedisModule_Calloc`
@@ -19,8 +19,8 @@ You should avoid using malloc().
     void *RedisModule_Calloc(size_t nmemb, size_t size);
 
 Use like calloc(). Memory allocated with this function is reported in
-Redis INFO memory, used for keys eviction according to maxmemory settings
-and in general is taken into account as memory allocated by Redis.
+KeyDB INFO memory, used for keys eviction according to maxmemory settings
+and in general is taken into account as memory allocated by KeyDB.
 You should avoid using calloc() directly.
 
 ## `RedisModule_Realloc`
@@ -102,7 +102,7 @@ order to report keys, like in the following example:
 
     int RedisModule_CreateCommand(RedisModuleCtx *ctx, const char *name, RedisModuleCmdFunc cmdfunc, const char *strflags, int firstkey, int lastkey, int keystep);
 
-Register a new command in the Redis server, that will be handled by
+Register a new command in the KeyDB server, that will be handled by
 calling the function pointer 'func' using the RedisModule calling
 convention. The function returns `REDISMODULE_ERR` if the specified command
 name is already busy or a set of invalid flags were passed, otherwise
@@ -149,7 +149,7 @@ example "write deny-oom". The set of flags are:
 * **"getkeys-api"**: The command implements the interface to return
                      the arguments that are keys. Used when start/stop/step
                      is not enough because of the command syntax.
-* **"no-cluster"**: The command should not register in Redis Cluster
+* **"no-cluster"**: The command should not register in KeyDB Cluster
                     since is not designed to work with it because, for
                     example, is unable to report the position of the
                     keys, programmatically creates key names, or any
@@ -161,7 +161,7 @@ example "write deny-oom". The set of flags are:
 
 Called by `RM_Init()` to setup the `ctx->module` structure.
 
-This is an internal function, Redis modules developers don't need
+This is an internal function, KeyDB modules developers don't need
 to use it.
 
 ## `RedisModule_IsModuleNameBusy`
@@ -244,7 +244,7 @@ The passed context 'ctx' may be NULL if necessary, see the
 
     void RedisModule_FreeString(RedisModuleCtx *ctx, RedisModuleString *str);
 
-Free a module string object obtained with one of the Redis modules API calls
+Free a module string object obtained with one of the KeyDB modules API calls
 that return new string objects.
 
 It is possible to call this function even when automatic memory management
@@ -448,7 +448,7 @@ The function always returns `REDISMODULE_OK`.
 
     int RedisModule_ReplyWithCallReply(RedisModuleCtx *ctx, RedisModuleCallReply *reply);
 
-Reply exactly what a Redis command returned us with `RedisModule_Call()`.
+Reply exactly what a KeyDB command returned us with `RedisModule_Call()`.
 This function is useful when we use `RedisModule_Call()` in order to
 execute some command, as we want to reply to the client exactly the
 same reply we obtained by the command.
@@ -534,7 +534,7 @@ Return the currently selected DB.
 
 Return the current context's flags. The flags provide information on the
 current request context (whether the client is a Lua script or in a MULTI),
-and about the Redis instance in general, i.e replication and persistence.
+and about the KeyDB instance in general, i.e replication and persistence.
 
 The available flags are:
 
@@ -542,15 +542,15 @@ The available flags are:
 
  * REDISMODULE_CTX_FLAGS_MULTI: The command is running inside a transaction
 
- * REDISMODULE_CTX_FLAGS_MASTER: The Redis instance is a master
+ * REDISMODULE_CTX_FLAGS_MASTER: The KeyDB instance is a master
 
- * REDISMODULE_CTX_FLAGS_SLAVE: The Redis instance is a replica(slave)
+ * REDISMODULE_CTX_FLAGS_SLAVE: The KeyDB instance is a replica(slave)
 
- * REDISMODULE_CTX_FLAGS_READONLY: The Redis instance is read-only
+ * REDISMODULE_CTX_FLAGS_READONLY: The KeyDB instance is read-only
 
- * REDISMODULE_CTX_FLAGS_CLUSTER: The Redis instance is in cluster mode
+ * REDISMODULE_CTX_FLAGS_CLUSTER: The KeyDB instance is in cluster mode
 
- * REDISMODULE_CTX_FLAGS_AOF: The Redis instance has AOF enabled
+ * REDISMODULE_CTX_FLAGS_AOF: The KeyDB instance has AOF enabled
 
  * REDISMODULE_CTX_FLAGS_RDB: The instance has RDB enabled
 
@@ -559,7 +559,7 @@ The available flags are:
  * REDISMODULE_CTX_FLAGS_EVICT:  Maxmemory is set and has an eviction
    policy that may delete keys
 
- * REDISMODULE_CTX_FLAGS_OOM: Redis is out of memory according to the
+ * REDISMODULE_CTX_FLAGS_OOM: KeyDB is out of memory according to the
    maxmemory setting.
 
  * REDISMODULE_CTX_FLAGS_OOM_WARNING: Less than 25% of memory remains before
@@ -573,7 +573,7 @@ Change the currently selected DB. Returns an error if the id
 is out of range.
 
 Note that the client will retain the currently selected DB even after
-the Redis command implemented by the module calling this function
+the KeyDB command implemented by the module calling this function
 returns.
 
 If the module command wishes to change something in a different DB and
@@ -584,7 +584,7 @@ before in order to restore the old DB number before returning.
 
     void *RedisModule_OpenKey(RedisModuleCtx *ctx, robj *keyname, int mode);
 
-Return an handle representing a Redis key, so that it is possible
+Return an handle representing a KeyDB key, so that it is possible
 to call other APIs with the key handle as argument to perform
 operations on the key.
 
@@ -1086,7 +1086,7 @@ integer. Otherwise (wrong reply type) return NULL.
 
     RedisModuleCallReply *RedisModule_Call(RedisModuleCtx *ctx, const char *cmdname, const char *fmt, ...);
 
-Exported API to call any Redis command from modules.
+Exported API to call any KeyDB command from modules.
 On success a RedisModuleCallReply object is returned, otherwise
 NULL is returned and errno is set to the following values:
 
@@ -1108,7 +1108,7 @@ Register a new data type exported by the module. The parameters are the
 following. Please for in depth documentation check the modules API
 documentation, especially the TYPES.md file.
 
-* **name**: A 9 characters data type name that MUST be unique in the Redis
+* **name**: A 9 characters data type name that MUST be unique in the KeyDB
   Modules ecosystem. Be creative... and there will be no collisions. Use
   the charset A-Z a-z 9-0, plus the two "-_" characters. A good
   idea is to use, for example `<typename>-<vendor>`. For example
@@ -1148,14 +1148,14 @@ documentation, especially the TYPES.md file.
 * **free**: A callback function pointer that can free a type value.
 
 The **digest* and **mem_usage** methods should currently be omitted since
-they are not yet implemented inside the Redis modules core.
+they are not yet implemented inside the KeyDB modules core.
 
 Note: the module name "AAAAAAAAA" is reserved and produces an error, it
 happens to be pretty lame as well.
 
 If there is already a module registering a type with the same name,
 and if the module name or encver is invalid, NULL is returned.
-Otherwise the new type is registered into Redis, and a reference of
+Otherwise the new type is registered into KeyDB, and a reference of
 type RedisModuleType is returned: the caller of the function should store
 this reference into a gobal variable to make future use of it in the
 modules type API, since a single module may register multiple types.
@@ -1308,11 +1308,11 @@ Add a new element to the digest. This function can be called multiple times
 one element after the other, for all the elements that constitute a given
 data structure. The function call must be followed by the call to
 ``RedisModule_DigestEndSequence`` eventually, when all the elements that are
-always in a given order are added. See the Redis Modules data types
-documentation for more info. However this is a quick example that uses Redis
+always in a given order are added. See the KeyDB Modules data types
+documentation for more info. However this is a quick example that uses KeyDB
 data types as an example.
 
-To add a sequence of unordered elements (for example in the case of a Redis
+To add a sequence of unordered elements (for example in the case of a KeyDB
 Set), the pattern to use is:
 
     foreach element {
@@ -1332,7 +1332,7 @@ use:
     }
 
 Because the key and value will be always in the above order, while instead
-the single key-value pairs, can appear in any position into a Redis hash.
+the single key-value pairs, can appear in any position into a KeyDB hash.
 
 A list of ordered elements would be implemented with:
 
@@ -1362,7 +1362,7 @@ Emits a command into the AOF during the AOF rewriting process. This function
 is only called in the context of the aof_rewrite method of data types exported
 by a module. The command works exactly like `RedisModule_Call()` in the way
 the parameters are passed, but it does not return anything as the error
-handling is performed by Redis itself.
+handling is performed by KeyDB itself.
 
 ## `RedisModule_LogRaw`
 
@@ -1377,7 +1377,7 @@ This is the low level function implementing both:
 
     void RedisModule_Log(RedisModuleCtx *ctx, const char *levelstr, const char *fmt, ...);
 
-Produces a log message to the standard Redis log, the format accepts
+Produces a log message to the standard KeyDB log, the format accepts
 printf-alike specifiers, while level is a string describing the log
 level to use when emitting the log, and must be one of the following:
 
@@ -1505,7 +1505,7 @@ while it was blocked.
 
     RedisModuleCtx *RedisModule_GetThreadSafeContext(RedisModuleBlockedClient *bc);
 
-Return a context which can be used inside threads to make Redis context
+Return a context which can be used inside threads to make KeyDB context
 calls with certain modules APIs. If 'bc' is not NULL then the module will
 be bound to a blocked client, and it will be possible to use the
 ``RedisModule_Reply`*` family of functions to accumulate a reply for when the
@@ -1583,20 +1583,20 @@ The subscriber signature is:
 
 `type` is the event type bit, that must match the mask given at registration
 time. The event string is the actual command being executed, and key is the
-relevant Redis key.
+relevant KeyDB key.
 
-Notification callback gets executed with a redis context that can not be
+Notification callback gets executed with a KeyDB context that can not be
 used to send anything to the client, and has the db number where the event
 occurred as its selected db number.
 
-Notice that it is not necessary to enable notifications in redis.conf for
+Notice that it is not necessary to enable notifications in keydb.conf for
 module notifications to work.
 
 Warning: the notification callbacks are performed in a synchronous manner,
-so notification callbacks must to be fast, or they would slow Redis down.
+so notification callbacks must to be fast, or they would slow KeyDB down.
 If you need to take long actions, use threads to offload them.
 
-See https://redis.io/topics/notifications for more information.
+See https://docs.keydb.dev/docs/notifications/ for more information.
 
 ## `RedisModule_RegisterClusterMessageReceiver`
 
@@ -1627,8 +1627,8 @@ known cluster node, `REDISMODULE_ERR` is returned.
 Return an array of string pointers, each string pointer points to a cluster
 node ID of exactly `REDISMODULE_NODE_ID_SIZE` bytes (without any null term).
 The number of returned node IDs is stored into `*numnodes`.
-However if this function is called by a module not running an a Redis
-instance with Redis Cluster enabled, NULL is returned instead.
+However if this function is called by a module not running an a KeyDB
+instance with KeyDB Cluster enabled, NULL is returned instead.
 
 The IDs returned can be used with `RedisModule_GetClusterNodeInfo()` in order
 to get more information about single nodes.
@@ -1672,10 +1672,10 @@ cluster mode, zero is returned.
 
     void RedisModule_SetClusterFlags(RedisModuleCtx *ctx, uint64_t flags);
 
-Set Redis Cluster flags in order to change the normal behavior of
-Redis Cluster, especially with the goal of disabling certain functions.
+Set KeyDB Cluster flags in order to change the normal behavior of
+KeyDB Cluster, especially with the goal of disabling certain functions.
 This is useful for modules that use the Cluster API in order to create
-a different distributed system, but still want to use the Redis Cluster
+a different distributed system, but still want to use the KeyDB Cluster
 message bus. Flags that can be set:
 
  CLUSTER_MODULE_FLAG_NO_FAILOVER
@@ -1683,11 +1683,11 @@ message bus. Flags that can be set:
 
 With the following effects:
 
- NO_FAILOVER: prevent Redis Cluster replicas to failover a failing master.
+ NO_FAILOVER: prevent KeyDB Cluster replicas to failover a failing master.
               Also disables the replica migration feature.
 
  NO_REDIRECTION: Every node will accept any key, without trying to perform
-                 partitioning according to the user Redis Cluster algorithm.
+                 partitioning according to the user KeyDB Cluster algorithm.
                  Slots informations will still be propagated across the
                  cluster, but without effects.
 
