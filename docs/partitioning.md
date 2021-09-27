@@ -115,6 +115,6 @@ Basically Twemproxy is an intermediate layer between clients and KeyDB instances
 Clients supporting consistent hashing
 ---
 
-An alternative to Twemproxy is to use a client that implements client side partitioning via consistent hashing or other similar algorithms. There are multiple KeyDB clients with support for consistent hashing, notably redis-rb and Predis.
+An alternative to Twemproxy is to use a client that implements client side partitioning via consistent hashing or other similar algorithms. There are multiple Redis clients with support for consistent hashing, notably [Redis-rb](https://github.com/redis/redis-rb), [Predis](https://github.com/nrk/predis) and [Jedis](https://github.com/redis/jedis).
 
 Please check the [full list of redis clients](http://redis.io/clients)(KeyDB compatible) to check if there is a mature client with consistent hashing implementation for your language.
