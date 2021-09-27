@@ -71,7 +71,7 @@ CONFIG SET and CONFIG GET
 pages for more information.
 
 Note that modifying the configuration on the fly **has no effects on the
-keydb.conf file** so at the next restart of Redis the old configuration will
+keydb.conf file** so at the next restart of KeyDB the old configuration will
 be used instead.
 
 Make sure to also modify the `keydb.conf` file accordingly to the configuration
@@ -93,7 +93,7 @@ all the keys will be evicted using an approximated LRU algorithm as long
 as we hit the 2 megabyte memory limit.
 
 Basically in this configuration KeyDB acts in a similar way to memcached.
-We have more extensive documentation about using Redis as an LRU cache in the "commands" section.
+We have more extensive documentation about using KeyDB as an LRU cache in the "commands" section.
 
 ## Default Configuration File
 
