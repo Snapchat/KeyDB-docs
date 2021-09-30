@@ -31,7 +31,7 @@ introduction by redis (same commands but use keydb instead of redis):
 
 **Important note:** please make sure to avoid debugging Lua scripts using your KeyDB production server. Use a development server instead. Also note that using the synchronous debugging mode (which is NOT the default) results into the KeyDB server blocking for all the time the debugging session lasts.
 
-To start a mew debugging session using `keydb-cli` do the following steps:
+To start a new debugging session using `keydb-cli` do the following steps:
 
 1. Create your script in some file with your preferred editor. Let's assume you are editing your KeyDB Lua script located at `/tmp/script.lua`.
 2. Start a debugging session with:
