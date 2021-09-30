@@ -14,17 +14,17 @@ This system works using three main mechanisms:
 
 KeyDB uses by default asynchronous replication, which being low latency and
 high performance, is the natural replication mode for the vast majority of KeyDB
-use cases. However KeyDB replicas asynchronously acknowledge the amount of data
+use cases. However, KeyDB replicas asynchronously acknowledge the amount of data
 they received periodically with the master. So the master does not wait every time
 for a command to be processed by the replicas, however it knows, if needed, what
-replica already processed what command. This allows to have optional syncrhonous replication.
+replica already processed what command. This allows having optional synchronous replication.
 
 Synchronous replication of certain data can be requested by the clients using
 the `WAIT` command. However `WAIT` is only able to ensure that there are the
 specified number of acknowledged copies in the other KeyDB instances, it does not
 turn a set of KeyDB instances into a CP system with strong consistency: acknowledged
 writes can still be lost during a failover, depending on the exact configuration
-of the KeyDB persistence. However with `WAIT` the probability of losign a write
+of the KeyDB persistence. However with `WAIT` the probability of losing a write
 after a failure event is greatly reduced to certain hard to trigger failure
 modes.
 
@@ -39,7 +39,7 @@ The following are some very important facts about KeyDB replication:
 * KeyDB replication is non-blocking on the master side. This means that the master will continue to handle queries when one or more replicas perform the initial synchronization or a partial resynchronization.
 * Replication is also largely non-blocking on the replica side. While the replica is performing the initial synchronization, it can handle queries using the old version of the dataset, assuming you configured KeyDB to do so in keydb.conf.  Otherwise, you can configure KeyDB replicas to return an error to clients if the replication stream is down. However, after the initial sync, the old dataset must be deleted and the new one must be loaded. The replica will block incoming connections during this brief window (that can be as long as many seconds for very large datasets). It is possible to configure KeyDB so that the deletion of the old data set happens in a different thread, however loading the new initial dataset will still happen in the main thread and block the replica.
 * Replication can be used both for scalability, in order to have multiple replicas for read-only queries (for example, slow O(N) operations can be offloaded to replicas), or simply for improving data safety and high availability.
-* It is possible to use replication to avoid the cost of having the master writing the full dataset to disk: a typical technique involves configuring your master `keydb.conf` to avoid persisting to disk at all, then connect a replica configured to save from time to time, or with AOF enabled. However this setup must be handled with care, since a restarting master will start with an empty dataset: if the replica tries to synchronized with it, the replica will be emptied as well.
+* It is possible to use replication to avoid the cost of having the master writing the full dataset to disk: a typical technique involves configuring your master `keydb.conf` to avoid persisting to disk at all, then connect a replica configured to save from time to time, or with AOF enabled. However this setup must be handled with care, since a restarting master will start with an empty dataset: if the replica tries to synchronize with it, the replica will be emptied as well.
 
 Safety of replication when master has persistence turned off
 ---
@@ -58,7 +58,7 @@ is wiped from the master and all its replicas:
 3. Nodes B and C will replicate from node A, which is empty, so they'll effectively destroy their copy of the data.
 
 When KeyDB Sentinel is used for high availability, also turning off persistence
-on the master, together with auto restart of the process, is dangerous. For example the master can restart fast enough for Sentinel to don't detect a failure, so that the failure mode described above happens.
+on the master, together with auto restart of the process, is dangerous. For example the master can restart fast enough for Sentinel to not detect a failure, so that the failure mode described above happens.
 
 Every time data safety is important, and replication is used with master configured without persistence, auto restart of instances should be disabled.
 
@@ -76,7 +76,7 @@ is actually connected, so basically every given pair of:
 
 Identifies an exact version of the dataset of a master.
 
-When replicas connects to masters, they use the `PSYNC` command in order to send
+When replicas connect to masters, they use the `PSYNC` command in order to send
 their old master replication ID and the offsets they processed so far. This way
 the master can send just the incremental part needed. However if there is not
 enough *backlog* in the master buffers, or if the replica is referring to an
@@ -113,7 +113,7 @@ potentially at a different time. It is the offset that works as a logical time
 to understand, for a given history (replication ID) who holds the most updated
 data set.
 
-For instance if two instances A and B have the same replication ID, but one
+For instance, if two instances A and B have the same replication ID, but one
 with offset 1000 and one with offset 1023, it means that the first lacks certain
 commands applied to the data set. It also means that A, by applying just a few
 commands, may reach exactly the same state of B.
@@ -129,7 +129,7 @@ was the offset when this ID switch happened. Later it will select a new random
 replication ID, because a new history begins. When handling the new replicas
 connecting, the master will match their IDs and offsets both with the current
 ID and the secondary ID (up to a given offset, for safety). In short this means
-that after a failover, replicas connecting to the new promoted master don't have
+that after a failover, replicas connecting to the newly promoted master don't have
 to perform a full sync.
 
 In case you wonder why a replica promoted to master needs to change its
@@ -141,8 +141,8 @@ two random instances mean they have the same data set.
 Diskless replication
 ---
 
-Normally a full resynchronization requires to create an RDB file on disk,
-then reload the same RDB from disk in order to feed the replicas with the data.
+Normally a full resynchronization requires creating an RDB file on disk,
+then reloading the same RDB from disk in order to feed the replicas with the data.
 
 With slow disks this can be a very stressing operation for the master. In this setup the child process directly sends the RDB over the wire to replicas, without using the disk as intermediate storage.
 
@@ -162,8 +162,8 @@ in memory by the master to perform the partial resynchronization. See the exampl
 `keydb.conf` shipped with the KeyDB distribution for more information.
 
 Diskless replication can be enabled using the `repl-diskless-sync` configuration
-parameter. The delay to start the transfer in order to wait more replicas to
-arrive after the first one, is controlled by the `repl-diskless-sync-delay`
+parameter. The delay to start the transfer in order to wait for more replicas to
+arrive after the first one is controlled by the `repl-diskless-sync-delay`
 parameter. Please refer to the example `keydb.conf` file in the KeyDB distribution
 for more details.
 
@@ -188,7 +188,7 @@ Now, writable replicas are able to evict keys with TTL as masters do, with the e
 of keys written in DB numbers greater than 63 (but by default KeyDB instances
 only have 16 databases).
 
-Writes are only local, and are not propagated to sub-replicas attached to the instance. Sub replicas instead will always receive the replication stream identical to the one sent by the top-level master to the intermediate replicas. So for example in the following setup:
+Replica writes are only local, and are not propagated to sub-replicas attached to the instance. Sub-replicas instead will always receive the replication stream identical to the one sent by the top-level master to the intermediate replicas. So for example in the following setup:
 
     A ---> B ---> C
 
@@ -240,27 +240,27 @@ KeyDB source distribution.
 How KeyDB replication deals with expires on keys
 ---
 
-KeyDB expires allow keys to have a limited time to live. Such a feature depends
+KeyDB expires allow keys to have a limited time to live (TTL). Such a feature depends
 on the ability of an instance to count the time, however KeyDB replicas correctly
 replicate keys with expires, even when such keys are altered using Lua
 scripts.
 
 To implement such a feature KeyDB cannot rely on the ability of the master and
 replica to have synchronized clocks, since this is a problem that cannot be solved
-and would result into race conditions and diverging data sets, so KeyDB
+and would result in race conditions and diverging data sets, so KeyDB
 uses three main techniques in order to make the replication of expired keys
 able to work:
 
 1. Replicas don't expire keys, instead they wait for masters to expire the keys. When a master expires a key (or evict it because of LRU), it synthesizes a `DEL` command which is transmitted to all the replicas.
-2. However because of master-driven expire, sometimes replicas may still have in memory keys that are already logically expired, since the master was not able to provide the `DEL` command in time. In order to deal with that the replica uses its logical clock in order to report that a key does not exist **only for read operations** that don't violate the consistency of the data set (as new commands from the master will arrive). In this way replicas avoid to report logically expired keys are still existing. In practical terms, an HTML fragments cache that uses replicas to scale will avoid returning items that are already older than the desired time to live.
-3. During Lua scripts executions no keys expires are performed. As a Lua script runs, conceptually the time in the master is frozen, so that a given key will either exist or not for all the time the script runs. This prevents keys to expire in the middle of a script, and is needed in order to send the same script to the replica in a way that is guaranteed to have the same effects in the data set.
+2. However because of master-driven expire, sometimes replicas may still have in memory keys that are already logically expired, since the master was not able to provide the `DEL` command in time. In order to deal with that the replica uses its logical clock in order to report that a key does not exist **only for read operations** that don't violate the consistency of the data set (as new commands from the master will arrive). In this way replicas avoid reporting logically expired keys are still existing. In practical terms, an HTML fragments cache that uses replicas to scale will avoid returning items that are already older than the desired time to live.
+3. During Lua scripts executions no key expiries are performed. As a Lua script runs, conceptually the time in the master is frozen, so that a given key will either exist or not for all the time the script runs. This prevents keys expiring in the middle of a script, and is needed in order to send the same script to the replica in a way that is guaranteed to have the same effects in the data set.
 
 Once a replica is promoted to a master it will start to expire keys independently, and will not require any help from its old master.
 
 Configuring replication in Docker and NAT
 ---
 
-When Docker, or other types of containers using port forwarding, or Network Address Translation is used, KeyDB replication needs some extra care, especially when using KeyDB Sentinel or other systems where the master `INFO` or `ROLE` commands output are scanned in order to discover replicas addresses.
+When Docker, or other types of containers using port forwarding, or Network Address Translation is used, KeyDB replication needs some extra care, especially when using KeyDB Sentinel or other systems where the master `INFO` or `ROLE` commands output is scanned in order to discover replicas' addresses.
 
 The problem is that the `ROLE` command, and the replication section of
 the `INFO` output, when issued into a master instance, will show replicas
@@ -269,7 +269,7 @@ environments using NAT may be different compared to the logical address of the
 replica instance (the one that clients should use to connect to replicas).
 
 Similarly the replicas will be listed with the listening port configured
-into `keydb.conf`, that may be different than the forwarded port in case
+into `keydb.conf`, that may be different from the forwarded port in case
 the port is remapped.
 
 In order to fix both issues, it is possible, to force
@@ -313,4 +313,20 @@ This is useful in case of upgrades. When this is needed, it is better to use
 the `SHUTDOWN` command in order to perform a `save & quit` operation on the replica.
 
 It is not possible to partially resynchronize a replica that restarted via the AOF file. However the instance may be turned to RDB persistence before shutting down it, than can be restarted, and finally AOF can be enabled again.
+
+Maxmemory on replicas
+---
+
+Replicas don't honor `maxmemory` because by default a replica will ignore this setting (unless it is promoted to master after a failover or manually).
+It means that the eviction of keys will just be handled by the master, sending the DEL commands to the replica as keys evict in the master side.
+
+This behavior ensures that masters and replicas stay consistent, which is usually what you want.
+However, if your replica is writable, or you want the replica to have a different memory setting, and you are sure all the writes performed to the replica are idempotent, then you may change this default (but be sure to understand what you are doing).
+
+Note that since the replica by default does not evict, it may end up using more memory than what is set via `maxmemory` (since there are certain buffers that may be larger on the replica, or data structures may sometimes take more memory and so forth).
+So make sure you monitor your replicas and make sure they have enough memory to never hit a real out-of-memory condition before the master hits the configured `maxmemory` setting.
+
+In order to change this behavior, it is possible to allow a replica to not ignore the maxmemory. The configuration directives to use is:
+
+    replica-ignore-maxmemory no
 
