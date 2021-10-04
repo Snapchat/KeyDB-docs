@@ -32,7 +32,7 @@ as long as the keys all belong to the same node.
 
 KeyDB Cluster implements a concept called **hash tags** that can be used
 in order to force certain keys to be stored in the same node. However during
-manual reshardings, multi-key operations may become unavailable for some time
+manual resharding, multi-key operations may become unavailable for some time
 while single key operations are always available.
 
 KeyDB Cluster does not support multiple databases like the stand alone version
@@ -472,7 +472,7 @@ is that:
 * All queries about non-existing keys in A are processed by "B", because "A" will redirect clients to "B".
 
 This way we no longer create new keys in "A".
-In the meantime, a special program called `keydb-trib` used during reshardings
+In the meantime, `keydb-cli` used during reshardings
 and KeyDB Cluster configuration will migrate existing keys in
 hash slot 8 from A to B.
 This is performed using the following command:
@@ -480,12 +480,12 @@ This is performed using the following command:
     CLUSTER GETKEYSINSLOT slot count
 
 The above command will return `count` keys in the specified hash slot.
-For every key returned, `keydb-trib` sends node "A" a `MIGRATE` command, that
-will migrate the specified key from A to B in an atomic way (both instances
-are locked for the time (usually very small time) needed to migrate a key so
+For keys returned, `keydb-cli` sends node "A" a `MIGRATE` command, that
+will migrate the specified keys from A to B in an atomic way (both instances
+are locked for the time (usually very small time) needed to migrate keys so
 there are no race conditions). This is how `MIGRATE` works:
 
-    MIGRATE target_host target_port key target_database id timeout
+    MIGRATE target_host target_port "" target_database id timeout KEYS key1 key2 ...
 
 `MIGRATE` will connect to the target instance, send a serialized version of
 the key, and once an OK code is received, the old key from its own dataset
@@ -779,7 +779,7 @@ At node creation every KeyDB Cluster node, both replicas and master nodes, set t
 
 Every time a packet is received from another node, if the epoch of the sender (part of the cluster bus messages header) is greater than the local node epoch, the `currentEpoch` is updated to the sender epoch.
 
-Because of these semantics, eventually all the nodes will agree to the greatest `configEpoch` in the cluster.
+Because of these semantics, eventually all the nodes will agree to the greatest `currentEpoch` in the cluster.
 
 This information is used when the state of the cluster is changed and a node seeks agreement in order to perform some action.
 
@@ -837,13 +837,13 @@ Replica rank
 As soon as a master is in `FAIL` state, a replica waits a short period of time before trying to get elected. That delay is computed as follows:
 
     DELAY = 500 milliseconds + random delay between 0 and 500 milliseconds +
-            SLAVE_RANK * 1000 milliseconds.
+            REPLICA_RANK * 1000 milliseconds.
 
 The fixed delay ensures that we wait for the `FAIL` state to propagate across the cluster, otherwise the replica may try to get elected while the masters are still unaware of the `FAIL` state, refusing to grant their vote.
 
 The random delay is used to desynchronize replicas so they're unlikely to start an election at the same time.
 
-The `SLAVE_RANK` is the rank of this replica regarding the amount of replication data it has processed from the master.
+The `REPLICA_RANK` is the rank of this replica regarding the amount of replication data it has processed from the master.
 Replicas exchange messages when the master is failing in order to establish a (best effort) rank:
 the replica with the most updated replication offset is at rank 0, the second most updated at rank 1, and so forth.
 In this way the most updated replicas try to get elected before others.
@@ -944,7 +944,7 @@ So if we receive a heartbeat from node A claiming to serve hash slots 1 and 2 wi
 16383 -> NULL
 ```
 
-When a new cluster is created, a system administrator needs to manually assign (using the `CLUSTER ADDSLOTS` command, via the keydb-trib command line tool, or by any other means) the slots served by each master node only to the node itself, and the information will rapidly propagate across the cluster.
+When a new cluster is created, a system administrator needs to manually assign (using the `CLUSTER ADDSLOTS` command, via the keydb-cli command line tool, or by any other means) the slots served by each master node only to the node itself, and the information will rapidly propagate across the cluster.
 
 However this rule is not enough. We know that hash slot mapping can change
 during two events:
@@ -956,7 +956,7 @@ For now let's focus on failovers. When a replica fails over its master, it obtai
 a configuration epoch which is guaranteed to be greater than the one of its
 master (and more generally greater than any other configuration epoch
 generated previously). For example node B, which is a replica of A, may failover
-B with configuration epoch of 4. It will start to send heartbeat packets
+A with configuration epoch of 4. It will start to send heartbeat packets
 (the first time mass-broadcasting cluster-wide) and because of the following
 second rule, receivers will update their hash slot tables:
 
@@ -976,7 +976,7 @@ Liveness property: because of the second rule, eventually all nodes in the clust
 
 This mechanism in KeyDB Cluster is called **last failover wins**.
 
-The same happens during reshardings. When a node importing a hash slot
+The same happens during resharding. When a node importing a hash slot
 completes the import operation, its configuration epoch is incremented to make
 sure the change will be propagated throughout the cluster.
 
@@ -1112,14 +1112,14 @@ Both the events are system-administrator triggered:
 1. `CLUSTER FAILOVER` command with `TAKEOVER` option is able to manually promote a replica node into a master *without the majority of masters being available*. This is useful, for example, in multi data center setups.
 2. Migration of slots for cluster rebalancing also generates new configuration epochs inside the local node without agreement for performance reasons.
 
-Specifically, during manual reshardings, when a hash slot is migrated from
+Specifically, during manual resharding, when a hash slot is migrated from
 a node A to a node B, the resharding program will force B to upgrade
 its configuration to an epoch which is the greatest found in the cluster,
 plus 1 (unless the node is already the one with the greatest configuration
 epoch), without requiring agreement from other nodes.
 Usually a real world resharding involves moving several hundred hash slots
 (especially in small clusters). Requiring an agreement to generate new
-configuration epochs during reshardings, for each hash slot moved, is
+configuration epochs during resharding, for each hash slot moved, is
 inefficient. Moreover it requires an fsync in each of the cluster nodes
 every time in order to store the new configuration. Because of the way it is
 performed instead, we only need a new config epoch when the first hash slot is moved,
@@ -1138,7 +1138,7 @@ When masters serving different hash slots have the same `configEpoch`, there
 are no issues. It is more important that replicas failing over a master have
 unique configuration epochs.
 
-That said, manual interventions or reshardings may change the cluster
+That said, manual interventions or resharding may change the cluster
 configuration in different ways. The KeyDB Cluster main liveness property
 requires that slot configurations always converge, so under every circumstance
 we really want all the master nodes to have a different `configEpoch`.
@@ -1155,7 +1155,7 @@ If there are any set of nodes with the same `configEpoch`, all the nodes but the
 
 This mechanism also guarantees that after a fresh cluster is created, all
 nodes start with a different `configEpoch` (even if this is not actually
-used) since `keydb-trib` makes sure to use `CONFIG SET-CONFIG-EPOCH` at startup.
+used) since `keydb-cli` makes sure to use `CONFIG SET-CONFIG-EPOCH` at startup.
 However if for some reason a node is left misconfigured, it will update
 its configuration to a different configuration epoch automatically.
 
