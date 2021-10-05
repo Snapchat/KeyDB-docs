@@ -8649,18 +8649,121 @@ keydb-cli> GET myotherkey
 
 **Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
+#### Syntax :
+
+```REPLICAOF <hostname> <port>```
+
+```REPLICAOF NO ONE```
+
+```REPLICAOF REMOVE <hostname> <port>```
+
+#### Description :
+
 The `REPLICAOF` command can change the replication settings of a replica on the fly.
 
 If a KeyDB server is already acting as replica, the command `REPLICAOF NO ONE` will turn off the replication, turning the KeyDB server into a MASTER.  In the proper form `REPLICAOF <hostname> <port>` will make the server a replica of another server listening at the specified hostname and port.
 
 If a server is already a replica of some master, `REPLICAOF <hostname> <port>` will stop the replication against the old server and start the synchronization against the new one, discarding the old dataset.
 
+While it is possible for a KeyDB server S to be configured to become a replica of itself (by being issued `REPLICAOF <hostname-of-server-S> <port-of-server-S>`), doing so would create an additional and unneeded replication traffic for this server S. The added traffic may incur a performance penalty. 
+
 The form `REPLICAOF NO ONE` will stop replication, turning the server into a MASTER, but will not discard the replication. So, if the old master stops working, it is possible to turn the replica into a master and set the application to use this new master in read/write. Later when the other KeyDB server is fixed, it can be reconfigured to work as a replica.
+
+For a replica to cease replicating from one specific master (as in case of a multi-master setup), issue `REPLICAOF REMOVE <hostname-of-master> <port-of-master>`. Multiple invocations of `REPLICA REMOVE <hostname-master> <port-of-master>` where a replica ceases replicating from all of it's original masters one by one is the same as `REPLICAOF NO ONE`
 
 #### Return:
 
 Simple String Reply
 
+#### Examples:
+```
+127.0.0.1:6379> info replication
+# Replication
+role:master
+connected_slaves:0
+master_replid:f1faed7e9de7e980b43d2e1c1875cdece036d974
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:37
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:1
+repl_backlog_histlen:37
+```
+```
+127.0.0.1:6380> replicaof 127.0.0.1 6379
+OK
+```
+```
+127.0.0.1:6379> info replication
+# Replication
+role:master
+connected_slaves:1
+slave0:ip=127.0.0.1,port=6380,state=online,offset=37,lag=0
+master_replid:f1faed7e9de7e980b43d2e1c1875cdece036d974
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:37
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:1
+repl_backlog_histlen:37
+```
+```
+127.0.0.1:6380> replicaof no one
+OK
+```
+```
+127.0.0.1:6379> info replication
+# Replication
+role:master
+connected_slaves:0
+master_replid:f1faed7e9de7e980b43d2e1c1875cdece036d974
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:74
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:1
+repl_backlog_histlen:74
+```
+```
+127.0.0.1:6380> replicaof 127.0.0.1 6379
+OK
+```
+```
+127.0.0.1:6379> info replication
+# Replication
+role:master
+connected_slaves:1
+slave0:ip=127.0.0.1,port=6380,state=online,offset=88,lag=1
+master_replid:3aa02ee57e29f8981702c4dae8a2d5ce85734fb2
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:88
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:1
+repl_backlog_histlen:88
+```
+```
+127.0.0.1:6380> replicaof remove 127.0.0.1 6379
+OK
+```
+```
+127.0.0.1:6379> info replication
+# Replication
+role:master
+connected_slaves:0
+master_replid:3aa02ee57e29f8981702c4dae8a2d5ce85734fb2
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:139
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:1
+repl_backlog_histlen:139
+```
 ---
 
 ## REPLPING
