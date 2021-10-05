@@ -8665,8 +8665,6 @@ If a KeyDB server is already acting as replica, the command `REPLICAOF NO ONE` w
 
 If a server is already a replica of some master, `REPLICAOF <hostname> <port>` will stop the replication against the old server and start the synchronization against the new one, discarding the old dataset.
 
-While it is possible for a KeyDB server S to be configured to become a replica of itself (by being issued `REPLICAOF <hostname-of-server-S> <port-of-server-S>`), doing so would create an additional and unneeded replication traffic for this server S. The added traffic may incur a performance penalty. 
-
 The form `REPLICAOF NO ONE` will stop replication, turning the server into a MASTER, but will not discard the replication. So, if the old master stops working, it is possible to turn the replica into a master and set the application to use this new master in read/write. Later when the other KeyDB server is fixed, it can be reconfigured to work as a replica.
 
 For a replica to cease replicating from one specific master (as in case of a multi-master setup), issue `REPLICAOF REMOVE <hostname-of-master> <port-of-master>`. Multiple invocations of `REPLICA REMOVE <hostname-master> <port-of-master>` where a replica ceases replicating from all of it's original masters one by one is the same as `REPLICAOF NO ONE`
