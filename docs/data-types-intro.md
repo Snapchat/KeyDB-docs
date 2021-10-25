@@ -6,7 +6,7 @@ sidebar_label: Intro To Data-Types
 
 
 KeyDB is not a *plain* key-value store, it is actually a *data structures server*, supporting different kinds of values. What this means is that, while in
-traditional key-value stores you associated string keys to string values, in
+traditional key-value stores you associate string keys to string values, in
 KeyDB the value is not limited to a simple string, but can also hold more complex
 data structures. The following is the list of all the data structures supported
 by KeyDB, which will be covered separately in this tutorial:
@@ -34,7 +34,7 @@ by KeyDB, which will be covered separately in this tutorial:
 
 It's not always trivial to grasp how these data types work and what to use in
 order to solve a given problem from the [command reference](https://docs.keydb.dev/docs/commands), so this
-document is a crash course to KeyDB data types and their most common patterns.
+document is a crash course in KeyDB data types and their most common patterns.
 
 For all the examples we'll use the `keydb-cli` utility, a simple but
 handy command-line utility, to issue commands against the KeyDB server.
@@ -274,7 +274,7 @@ First steps with KeyDB Lists
 
 The `LPUSH` command adds a new element into a list, on the
 left (at the head), while the `RPUSH` command adds a new
-element into a list ,on the right (at the tail). Finally the
+element into a list, on the right (at the tail). Finally the
 `LRANGE` command extracts ranges of elements from lists:
 
     > rpush mylist A
@@ -965,7 +965,8 @@ For example imagine you want to know the longest streak of daily visits of
 your web site users. You start counting days starting from zero, that is the
 day you made your web site public, and set a bit with `SETBIT` every time
 the user visits the web site. As a bit index you simply take the current unix
-time, subtract the initial offset, and divide by 3600\*24.
+time, subtract the initial offset, and divide by the number of seconds in a day
+(normally, 3600\*24).
 
 This way for each user you have a small string containing the visit
 information for each day. With `BITCOUNT` it is possible to easily get
