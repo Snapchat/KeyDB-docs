@@ -17,13 +17,11 @@ Since this is a CPU / memory trade off it is possible to tune the maximum number
 
     hash-max-ziplist-entries 512
     hash-max-ziplist-value 64
-    list-max-ziplist-entries 512
-    list-max-ziplist-value 64
     zset-max-ziplist-entries 128
     zset-max-ziplist-value 64
     set-max-intset-entries 512
 
-If a specially encoded value will overflow the configured max size, KeyDB will automatically convert it into normal encoding. This operation is very fast for small values, but if you change the setting in order to use specially encoded values for much larger aggregate types the suggestion is to run some benchmark and test to check the conversion time.
+If a specially encoded value overflows the configured max size, KeyDB will automatically convert it into normal encoding. This operation is very fast for small values, but if you change the setting in order to use specially encoded values for much larger aggregate types the suggestion is to run some benchmarks and tests to check the conversion time.
 
 Using 32 bit instances
 ----------------------
@@ -33,12 +31,12 @@ KeyDB compiled with 32 bit target uses a lot less memory per key, since pointers
 Bit and byte level operations
 -----------------------------
 
-Bit and byte level operations: `GETRANGE`, `SETRANGE`, `GETBIT` and `SETBIT`. Using these commands you can treat the KeyDB string type as a random access array. For instance if you have an application where users are identified by a unique progressive integer number, you can use a bitmap in order to save information about the sex of users, setting the bit for females and clearing it for males, or the other way around. With 100 million users this data will take just 12 megabytes of RAM in a KeyDB instance. You can do the same using `GETRANGE` and `SETRANGE` in order to store one byte of information for each user. This is just an example but it is actually possible to model a number of problems in very little space with these new primitives.
+Bit and byte level operations: `GETRANGE`, `SETRANGE`, `GETBIT` and `SETBIT`. Using these commands you can treat the KeyDB string type as a random access array. For instance if you have an application where users are identified by a unique progressive integer number, you can use a bitmap in order to save information about the subscription of users in a mailing list, setting the bit for subscribed and clearing it for unsubscribed, or the other way around. With 100 million users this data will take just 12 megabytes of RAM in a KeyDB instance. You can do the same using `GETRANGE` and `SETRANGE` in order to store one byte of information for each user. This is just an example but it is actually possible to model a number of problems in very little space with these new primitives.
 
 Use hashes when possible
 ------------------------
 
-Small hashes are encoded in a very small space, so you should try representing your data using hashes every time it is possible. For instance if you have objects representing users in a web application, instead of using different keys for name, surname, email, password, use a single hash with all the required fields.
+Small hashes are encoded in a very small space, so you should try representing your data using hashes whenever possible. For instance if you have objects representing users in a web application, instead of using different keys for name, surname, email, password, use a single hash with all the required fields.
 
 If you want to know more about this, read the next section.
 
@@ -49,7 +47,7 @@ Basically it is possible to model a plain key-value store using KeyDB
 where values can just be just strings, that is not just more memory efficient
 than KeyDB plain keys but also much more memory efficient than memcached.
 
-Let's start with some fact: a few keys use a lot more memory than a single key
+Let's start with some facts: a few keys use a lot more memory than a single key
 containing a hash with a few fields. How is this possible? We use a trick.
 In theory in order to guarantee that we perform lookups in constant time
 (also known as O(1) in big O notation) there is the need to use a data structure
@@ -60,9 +58,9 @@ instead just encode them in an O(N) data structure, like a linear
 array with length-prefixed key value pairs. Since we do this only when N
 is small, the amortized time for HGET and HSET commands is still O(1): the
 hash will be converted into a real hash table as soon as the number of elements
-it contains will grow too much (you can configure the limit in keydb.conf).
+it contains grows too large (you can configure the limit in keydb.conf).
 
-This does not work well just from the point of view of time complexity, but
+This does not only work well from the point of view of time complexity, but
 also from the point of view of constant times, since a linear array of key
 value pairs happens to play very well with the CPU cache (it has a better
 cache locality than a hash table).
@@ -70,7 +68,7 @@ cache locality than a hash table).
 However since hash fields and values are not (always) represented as full
 featured KeyDB objects, hash fields can't have an associated time to live
 (expire) like a real key, and can only contain a string. But we are okay with
-this, this was anyway the intention when the hash data type API was
+this, this was the intention anyway when the hash data type API was
 designed (we trust simplicity more than features, so nested data structures
 are not allowed, as expires of single fields are not allowed).
 
@@ -107,7 +105,7 @@ As you can see every hash will end containing 100 fields, that
 is an optimal compromise between CPU and memory saved.
 
 There is another very important thing to note, with this schema
-every hash will have more or 
+every hash will have more or
 less 100 fields regardless of the number of objects we cached. This is since
 our objects will always end with a number, and not a random string. In some
 way the final number can be considered as a form of implicit pre-sharding.
@@ -133,18 +131,18 @@ memory is around 3GB.  This happens because the underlying allocator can't easil
 most of the times 5GB could do, you need to provision for 10GB.
 * However allocators are smart and are able to reuse free chunks of memory,
 so after you freed 2GB of your 5GB data set, when you start adding more keys
-again, you'll see the RSS (Resident Set Size) to stay steady and don't grow
+again, you'll see the RSS (Resident Set Size) stay steady and not grow
 more, as you add up to 2GB of additional keys. The allocator is basically
 trying to reuse the 2GB of memory previously (logically) freed.
 * Because of all this, the fragmentation ratio is not reliable when you
-had a memory usage that at peak is much larger than the currently used memory.
-The fragmentation is calculated as the amount of memory currently in use
-(as the sum of all the allocations performed by KeyDB) divided by the physical
-memory actually used (the RSS value). Because the RSS reflects the peak memory,
+have a memory usage that at peak is much larger than the currently used memory.
+The fragmentation is calculated as the physical memory actually used (the RSS
+value) divided by the amount of memory currently in use (as the sum of all
+the allocations performed by KeyDB). Because the RSS reflects the peak memory,
 when the (virtually) used memory is low since a lot of keys / values were
-freed, but the RSS is high, the ratio `mem_used / RSS` will be very high.
+freed, but the RSS is high, the ratio `RSS / mem_used` will be very high.
 
-If `maxmemory` is not set KeyDB will keep allocating memory as it finds
+If `maxmemory` is not set KeyDB will keep allocating memory as it sees
 fit and thus it can (gradually) eat up all your free memory.
 Therefore it is generally advisable to configure some limit. You may also
 want to set `maxmemory-policy` to `noeviction` (which is *not* the default
