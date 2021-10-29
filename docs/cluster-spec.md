@@ -742,7 +742,7 @@ A `PFAIL` condition is escalated to a `FAIL` condition when the following set of
 If all the above conditions are true, Node A will:
 
 * Mark the node as `FAIL`.
-* Send a `FAIL` message to all the reachable nodes.
+* Send a `FAIL` message (as opposted to a `FAIL` condition within a heartbeat message) to all the reachable nodes.
 
 The `FAIL` message will force every receiving node to mark the node in `FAIL` state, whether or not it already flagged the node in `PFAIL` state.
 
@@ -976,9 +976,8 @@ Liveness property: because of the second rule, eventually all nodes in the clust
 
 This mechanism in KeyDB Cluster is called **last failover wins**.
 
-The same happens during resharding. When a node importing a hash slot
-completes the import operation, its configuration epoch is incremented to make
-sure the change will be propagated throughout the cluster.
+The same happens during resharding. When a node importing a hash slot completes the import operation, its configuration epoch is incremented to make sure the
+change will be propagated throughout the cluster.
 
 UPDATE messages, a closer look
 ---
