@@ -9,7 +9,7 @@ The modules documentation is composed of the following pages:
 
 * Introduction to KeyDB modules (this file). An overview about KeyDB Modules system and API. It's a good idea to start your reading here.
 * [Implementing native data types](/docs/modules-native-types) covers the implementation of native data types into modules.
-* [Blocking operations](/docs/modules-blocking-ops) shows how to write blocking commands that will not reply immediately, but will block the client, without blocking the Redis server, and will provide a reply whenever will be possible.
+* [Blocking operations](/docs/modules-blocking-ops) shows how to write blocking commands that will not reply immediately, but will block the client, without blocking the KeyDB server, and will provide a reply whenever will be possible.
 * [Redis modules API reference](/docs/modules-api-ref) is generated from module.c top comments of RedisModule functions. It is a good reference in order to understand how each function works.
 
 
@@ -158,7 +158,7 @@ exactly like other KeyDB commands do, like for example `INCR` or `SCARD`.
 # Module cleanup
 
 In most cases, there is no need for special cleanup.
-When a module is unloaded, Redis will automatically unregister commands and
+When a module is unloaded, KeyDB will automatically unregister commands and
 unsubscribe from notifications.
 However in the case where a module contains some persistent memory or
 configuration, a module may include an optional `RedisModule_OnUnload`
