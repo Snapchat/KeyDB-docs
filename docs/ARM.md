@@ -16,7 +16,7 @@ to also make it an officially supported platform.
 We believe that KeyDB is ideal for IoT and Embedded devices for several
 reasons:
 
-* KeyDB has a very small memory footprint and CPU requirements. Can run in small devices like the Raspberry Pi Zero without impacting the overall performance, using a small amount of memory, while delivering good performance for many use cases.
+* KeyDB has a very small memory footprint and CPU requirements. It can run in small devices like the Raspberry Pi Zero without impacting the overall performance, using a small amount of memory, while delivering good performance for many use cases.
 * The data structures of KeyDB are often a good way to model IoT/embedded use cases. For example in order to accumulate time series data, to receive or queue commands to execute or responses to send back to the remote servers and so forth.
 * Modeling data inside KeyDB can be very useful in order to make in-device decisions for appliances that must respond very quickly or when the remote servers are offline.
 * KeyDB can be used as an interprocess communication system between the processes running in the device.
