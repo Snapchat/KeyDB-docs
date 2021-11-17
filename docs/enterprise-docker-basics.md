@@ -12,7 +12,7 @@ If you need a brushup on any of the docker commands you can check out dockers do
 
 ## Start a KeyDB Enterprise instance without a license key
 
-Please note that if you do not input a license key, it will start in demo-mode with a 2hr timeout after which the server will be killed. This can be used for basic testing, however if you are in need of a longer trial period for POC testing, please contact sales@eqalpha.com to get set up.
+Please note that KeyDB Enterprise will not work without a license key. For POC testing or trial licenses, please contact sales@eqalpha.com to get set up.
 ```
 docker run --name some-keydb -d eqalpha/keydb-enterprise
 ```
