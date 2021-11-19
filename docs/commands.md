@@ -106,7 +106,7 @@ strong and very long password so that this attack is infeasible.
 
 #### Return:
 
-Simple String Reply
+Simple String Reply or an error if the password, or username/password pair, is invalid.
 
 ---
 
