@@ -325,23 +325,23 @@ Note that:
 1. Addressing with `GET` bits outside the current string length (including the case the key does not exist at all), results in the operation to be performed like the missing part all consists of bits set to 0.
 2. Addressing with `SET` or `INCRBY` bits outside the current string length will enlarge the string, zero-padding it, as needed, for the minimal length needed, according to the most far bit touched.
 
-#### Supported subcommands and integer types
+#### Supported subcommands and integer encoding
 
 The following is the list of supported commands.
 
-* **GET** `<type>` `<offset>` -- Returns the specified bit field.
-* **SET** `<type>` `<offset>` `<value>` -- Set the specified bit field and returns its old value.
-* **INCRBY** `<type>` `<offset>` `<increment>` -- Increments or decrements (if a negative increment is given) the specified bit field and returns the new value.
+* **GET** `<encoding>` `<offset>` -- Returns the specified bit field.
+* **SET** `<encoding>` `<offset>` `<value>` -- Set the specified bit field and returns its old value.
+* **INCRBY** `<encoding>` `<offset>` `<increment>` -- Increments or decrements (if a negative increment is given) the specified bit field and returns the new value.
 
 There is another subcommand that only changes the behavior of successive
-`INCRBY` subcommand calls by setting the overflow behavior:
+`INCRBY` and `SET` subcommands calls by setting the overflow behavior:
 
 * **OVERFLOW** `[WRAP|SAT|FAIL]`
 
-Where an integer type is expected, it can be composed by prefixing with `i` for signed integers and `u` for unsigned integers with the number of bits of our integer type. So for example `u8` is an unsigned integer of 8 bits and `i16` is a
+Where an integer encoding is expected, it can be composed by prefixing with `i` for signed integers and `u` for unsigned integers with the number of bits of our integer encoding. So for example `u8` is an unsigned integer of 8 bits and `i16` is a
 signed integer of 16 bits.
 
-The supported types are up to 64 bits for signed integers, and up to 63 bits for
+The supported encodings are up to 64 bits for signed integers, and up to 63 bits for
 unsigned integers. This limitation with unsigned integers is due to the fact
 that currently the KeyDB protocol is unable to return 64 bit unsigned integers
 as replies.
@@ -353,9 +353,9 @@ If a number without any prefix is specified, it is used just as a zero based
 bit offset inside the string.
 
 However if the offset is prefixed with a `#` character, the specified offset
-is multiplied by the integer type width, so for example:
+is multiplied by the integer encoding's width, so for example:
 
-    BITFIELD mystring SET i8 #0 100 i8 #1 200
+    BITFIELD mystring SET i8 #0 100 SET i8 #1 200
 
 Will set the first i8 integer at offset 0 and the second at offset 8.
 This way you don't have to do the math yourself inside your client if what
@@ -371,7 +371,7 @@ the following behaviors:
 * **SAT**: uses saturation arithmetic, that is, on underflows the value is set to the minimum integer value, and on overflows to the maximum integer value. For example incrementing an `i8` integer starting from value 120 with an increment of 10, will result into the value 127, and further increments will always keep the value at 127. The same happens on underflows, but towards the value is blocked at the most negative value.
 * **FAIL**: in this mode no operation is performed on overflows or underflows detected. The corresponding return value is set to NULL to signal the condition to the caller.
 
-Note that each `OVERFLOW` statement only affects the `INCRBY` commands
+Note that each `OVERFLOW` statement only affects the `INCRBY` and `SET` commands
 that follow it in the list of subcommands, up to the next `OVERFLOW`
 statement.
 
