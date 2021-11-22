@@ -581,11 +581,39 @@ keydb-cli> BITPOS mykey 1
 ```
 ---
 
+## BLMOVE
 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx)
+
+`BLMOVE` is the blocking variant of `LMOVE`.
+When `source` contains elements, this command behaves exactly like `LMOVE`.
+When used inside a `MULTI`/`EXEC` block, this command behaves exactly like `LMOVE`.
+When `source` is empty, KeyDB will block the connection until another client
+pushes to it or until `timeout` (a double value specifying the maximum number of seconds to block) is reached.
+A `timeout` of zero can be used to block indefinitely.
+
+This command comes in place of the now deprecated `BRPOPLPUSH`. Doing
+`BLMOVE RIGHT LEFT` is equivalent.
+
+See `LMOVE` for more information.
+
+#### Return:
+
+Bulk String Reply: the element being popped from `source` and pushed to `destination`. If `timeout` is reached, a Null reply is returned.
+
+#### Pattern: Reliable queue
+
+Please see the pattern description in the `LMOVE` documentation.
+
+#### Pattern: Circular list
+
+Please see the pattern description in the `LMOVE` documentation.
+
+---
 
 ## BLPOP
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax: 
 
@@ -734,7 +762,7 @@ keydb-cli> EXEC
 
 ## BRPOP
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -780,7 +808,7 @@ keydb-cli> BRPOP list1 list2 0
 
 ## BRPOPLPUSH
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -6717,7 +6745,7 @@ Integer Reply: the number of event time series that were reset.
 
 ## LINDEX
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -6760,7 +6788,7 @@ keydb-cli> LINDEX mylist 3
 
 ## LINSERT
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -6804,7 +6832,7 @@ keydb-cli> LRANGE mylist 0 -1
 
 ## LLEN
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -6835,7 +6863,7 @@ keydb-cli> LLEN mylist
 
 ## LPOP
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -6873,7 +6901,7 @@ keydb-cli> LRANGE mylist 0 -1
 
 ## LPUSH
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -6918,7 +6946,7 @@ keydb-cli> LRANGE mylist 0 -1
 
 ## LPUSHX
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 
 #### Syntax:
@@ -6959,7 +6987,7 @@ keydb-cli> LRANGE myotherlist 0 -1
 
 ## LRANGE
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 
 #### Syntax:
@@ -7028,7 +7056,7 @@ keydb-cli> LRANGE mylist 5 10
 
 ## LREM
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -7081,7 +7109,7 @@ keydb-cli> LRANGE mylist 0 -1
 
 ## LSET
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -7125,7 +7153,7 @@ keydb-cli> LRANGE mylist 0 -1
 
 ## LTRIM
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -8868,7 +8896,7 @@ keydb-cli> ROLE
 
 ## RPOP
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -8906,7 +8934,7 @@ keydb-cli> LRANGE mylist 0 -1
 
 ## RPOPLPUSH
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -9004,7 +9032,7 @@ processed at the next iteration.
 
 ## RPUSH
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
@@ -9048,7 +9076,7 @@ keydb-cli> LRANGE mylist 0 -1
 
 ## RPUSHX
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax:
 
