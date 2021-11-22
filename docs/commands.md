@@ -1038,7 +1038,7 @@ ID has certain guarantees:
 2. The ID is monotonically incremental. If the ID of a connection is greater than the ID of another connection, it is guaranteed that the second connection was established with the server at a later time.
 
 This command is especially useful together with `CLIENT UNBLOCK` which was
-introduced also in KeyDB together with `CLIENT ID`. Check the `CLIENT UNBLOCK` command page for a pattern involving the two commands.
+introduced also in KeyDB 5 together with `CLIENT ID`. Check the `CLIENT UNBLOCK` command page for a pattern involving the two commands.
 
 #### Return:
 
@@ -1067,11 +1067,11 @@ With the new form it is possible to kill clients by different attributes
 instead of killing just by address. The following filters are available:
 
 * `CLIENT KILL ADDR ip:port`. This is exactly the same as the old three-arguments behavior.
-* `CLIENT KILL ID client-id`. Allows to kill a client by its unique `ID` field.
-* `CLIENT KILL TYPE type`, where *type* is one of `normal`, `master`, `slave` and `pubsub`. This closes the connections of **all the clients** in the specified class. Note that clients blocked into the `MONITOR` command are considered to belong to the `normal` class.
+* `CLIENT KILL LADDR ip:port`. Kill all clients connected to specified local (bind) address.
+* `CLIENT KILL ID client-id`. Allows to kill a client by its unique `ID` field. Client `ID`'s are retrieved using the `CLIENT LIST` command.
+* `CLIENT KILL TYPE type`, where *type* is one of `normal`, `master`, `replica` and `pubsub`. This closes the connections of **all the clients** in the specified class. Note that clients blocked into the `MONITOR` command are considered to belong to the `normal` class.
+* `CLIENT KILL USER username`. Closes all the connections that are authenticated with the specified [ACL](/docs/acl) username, however it returns an error if the username does not map to an existing ACL user.
 * `CLIENT KILL SKIPME yes/no`. By default this option is set to `yes`, that is, the client calling the command will not get killed, however setting this option to `no` will have the effect of also killing the client calling the command.
-
-**Note: starting with KeyDB 5 the project is no longer using the slave word. You can use `TYPE replica` instead, however the old form is still supported for backward compatibility.**
 
 It is possible to provide multiple filters at the same time. The command will handle multiple filters via logical AND. For example:
 
