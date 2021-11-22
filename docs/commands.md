@@ -930,8 +930,8 @@ Array Reply: specifically:
 
 * A `nil` multi-bulk when no element could be popped and the timeout expired.
 * A three-element multi-bulk with the first element being the name of the key
-  where a member was popped, the second element being the score of the popped
-  member, and the third element being the popped member itself.
+  where a member was popped, the second element is the popped member itself,
+  and the third element is the score of the popped element.
 
 #### Examples:
 
@@ -941,9 +941,9 @@ keydb-cli> DEL zset1 zset2
 keydb-cli> ZADD zset1 0 a 1 b 2 c
 (integer) 3
 keydb-cli> BZPOPMIN zset1 zset2 0
-1) "zet1"
-2) "0"
+1) "zset1"
 2) "a"
+3) "0"
 ```
 
 ---
