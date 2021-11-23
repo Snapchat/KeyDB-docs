@@ -1116,7 +1116,9 @@ Integer Reply: the number of clients killed.
 The `CLIENT LIST` command returns information and statistics about the client
 connections server in a mostly human readable format.
 
-As of v5.0, the optional `TYPE type` subcommand can be used to filter the list by clients' type, where *type* is one of `normal`, `master`, `replica` and `pubsub`. Note that clients blocked into the `MONITOR` command are considered to belong to the `normal` class.
+You can use one of the optional subcommands to filter the list. The `TYPE type` subcommand filters the list by clients' type, where *type* is one of `normal`, `master`, `replica`, and `pubsub`. Note that clients blocked by the `MONITOR` command belong to the `normal` class.
+
+The `ID` filter only returns entries for clients with IDs matching the `client-id` arguments.
 
 #### Return:
 
@@ -1128,9 +1130,10 @@ Bulk String Reply: a unique string, formatted as follows:
 
 Here is the meaning of the fields:
 
-* `id`: an unique 64-bit client ID (introduced in KeyDB 2.8.12).
+* `id`: an unique 64-bit client ID.
 * `name`: the name set by the client with `CLIENT SETNAME`
-* `addr`: address/port of the client
+* `addr`: address/port of the clienti
+* `laddr`: address/port of local address client connected to (bind address)
 * `fd`: file descriptor corresponding to the socket
 * `age`: total duration of the connection in seconds
 * `idle`: idle time of the connection in seconds
@@ -1146,6 +1149,10 @@ Here is the meaning of the fields:
 * `omem`: output buffer memory usage
 * `events`: file descriptor events (see below)
 * `cmd`: last command played
+* `argv-mem`: incomplete arguments for the next command (already extracted from query buffer)
+* `tot-mem`: total memory consumed by this client in its various buffers
+* `redir`: client id of current client tracking redirection
+* `user`: the authenticated username of the client
 
 The client flags can be a combination of:
 
@@ -1164,6 +1171,9 @@ S: the client is a replica node connection to this instance
 u: the client is unblocked
 U: the client is connected via a Unix domain socket
 x: the client is in a MULTI/EXEC context
+t: the client enabled keys tracking in order to perform client side caching
+R: the client tracking target client is invalid
+B: the client enabled broadcast tracking mode
 ```
 
 The file descriptor events can be:
