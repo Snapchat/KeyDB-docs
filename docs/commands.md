@@ -1716,7 +1716,7 @@ OK
 
 This command only works in cluster mode and may be useful for
 debugging and in order to manually orchestrate a cluster configuration
-when a new cluster is created. It is currently not used by `keydb-trib`,
+when a new cluster is created. It is currently not used by `keydb-cli`,
 and mainly exists for API completeness.
 
 #### Return:
@@ -2153,7 +2153,7 @@ Note that normally clients willing to fetch the map between Cluster
 hash slots and node addresses should use `CLUSTER SLOTS` instead.
 `CLUSTER NODES`, that provides more information, should be used for
 administrative tasks, debugging, and configuration inspections.
-It is also used by `keydb-trib` in order to manage a cluster.
+It is also used by `keydb-cli` in order to manage a cluster.
 
 #### Serialization format
 
