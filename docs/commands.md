@@ -581,15 +581,13 @@ keydb-cli> BITPOS mykey 1
 ```
 ---
 
-## BLMOVE
-
-**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx)
+#### BLMOVE
 
 `BLMOVE` is the blocking variant of `LMOVE`.
 When `source` contains elements, this command behaves exactly like `LMOVE`.
 When used inside a `MULTI`/`EXEC` block, this command behaves exactly like `LMOVE`.
-When `source` is empty, KeyDB will block the connection until another client
-pushes to it or until `timeout` (a double value specifying the maximum number of seconds to block) is reached.
+When `source` is empty, Redis will block the connection until another client
+pushes to it or until `timeout` is reached.
 A `timeout` of zero can be used to block indefinitely.
 
 This command comes in place of the now deprecated `BRPOPLPUSH`. Doing
@@ -599,7 +597,7 @@ See `LMOVE` for more information.
 
 #### Return:
 
-Bulk String Reply: the element being popped from `source` and pushed to `destination`. If `timeout` is reached, a Null reply is returned.
+Bulk String Reply: the element being popped from `source` and pushed to `destination`.If `timeout` is reached, a Null reply is returned.
 
 #### Pattern: Reliable queue
 
@@ -613,7 +611,7 @@ Please see the pattern description in the `LMOVE` documentation.
 
 ## BLPOP
 
-**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax: 
 
@@ -640,6 +638,34 @@ Keys are checked in the order that they are given.
 Let's say that the key `list1` doesn't exist and `list2` and `list3` hold
 non-empty lists.
 Consider the following command:
+
+```
+BLPOP list1 list2 list3 0
+```
+
+`BLPOP` guarantees to return an element from the list stored at `list2` (since
+it is the first non empty list when checking `list1`, `list2` and `list3` in
+that order).
+
+#### Blocking behavior
+
+If none of the specified keys exist, `BLPOP` blocks the connection until another
+client performs an `LPUSH` or `RPUSH` operation against one of the keys.
+
+Once new data is present on one of the lists, the client returns with the name
+of the key unblocking it and the popped value.
+
+When `BLPOP` causes a client to block and a non-zero timeout is specified,
+the client will unblock returning a `nil` multi-bulk value when the specified
+timeout has expired without a push operation against at least one of the
+specified keys.
+
+**The timeout argument is interpreted as an integer value specifying the maximum number of seconds to block**. A timeout of zero can be used to block indefinitely.
+
+#### What key is served first? What client? What element? Priority ordering details.
+
+* If the client tries to blocks for multiple keys, but at least one key contains elements, the returned key / element pair is the first key from left to right that has one or more elements. In this case the client is not blocked. So for instance `BLPOP key1 key2 key3 key4 0`, assuming that both `key2` and `key4` are non-empty, will always return an element from `key2`.
+* If multiple clients are blocked for the same key, the first client to be served is the one that was waiting for more time (the first that blocked for the key). Once a client is unblocked it does not retain any priority, when it blocks again with the next call to `BLPOP` it will be served accordingly to the number of clients already blocked for the same key, that will all be served before it (from the first to the last that blocked).
 
 ```
 BLPOP list1 list2 list3 0
@@ -2673,7 +2699,7 @@ keydb-cli:7000> CLUSTER SLAVES 6fc83eff61ae87f33958908604635fe6d7362391
 KeyDB instances. The command is suitable to be used by KeyDB Cluster client
 libraries implementations in order to retrieve (or update when a redirection
 is received) the map associating cluster *hash slots* with actual nodes
-network coordinates (composed of an IP address and a TCP port), so that when
+network coordinates (composed of an IP address, a TCP port, and the node ID), so that when
 a command is received, it can be sent to what is likely the right instance
 for the keys specified in the command.
 
@@ -2682,7 +2708,7 @@ Each nested result is:
 
   - Start slot range
   - End slot range
-  - Master for slot range represented as nested IP/Port array 
+  - Master for slot range represented as nested IP/Port/ID array 
   - First replica of master for slot range
   - Second replica
   - ...continues until all replicas for this master are returned.
@@ -2690,54 +2716,23 @@ Each nested result is:
 Each result includes all active replicas of the master instance
 for the listed slot range.  Failed replicas are not returned.
 
-The third nested reply is guaranteed to be the IP/Port pair of
+The third nested reply is guaranteed to be the IP/Port/ID array of
 the master instance for the slot range.
-All IP/Port pairs after the third nested reply are replicas
+All IP/Port/ID arrays after the third nested reply are replicas
 of the master.
 
 If a cluster instance has non-contiguous slots (e.g. 1-400,900,1800-6000) then
-master and replica IP/Port results will be duplicated for each top-level
+master and replica IP/Port/ID results will be duplicated for each top-level
 slot range reply.
-
-**Warning:** Newer versions of KeyDB Cluster will output, for each KeyDB instance, not just the IP and port, but also the node ID as third element of the array. In future versions there could be more elements describing the node better. In general a client implementation should just rely on the fact that certain parameters are at fixed positions as specified, but more parameters may follow and should be ignored. Similarly a client library should try if possible to cope with the fact that older versions may just have the IP and port parameter.
 
 #### Return:
 
-Array Reply: nested list of slot ranges with IP/Port mappings.
+Array Reply: nested list of slot ranges with IP/Port/ID mappings.
 
-#### Sample Output (old version)
-```
-127.0.0.1:7001> cluster slots
-1) 1) (integer) 0
-   2) (integer) 4095
-   3) 1) "127.0.0.1"
-      2) (integer) 7000
-   4) 1) "127.0.0.1"
-      2) (integer) 7004
-2) 1) (integer) 12288
-   2) (integer) 16383
-   3) 1) "127.0.0.1"
-      2) (integer) 7003
-   4) 1) "127.0.0.1"
-      2) (integer) 7007
-3) 1) (integer) 4096
-   2) (integer) 8191
-   3) 1) "127.0.0.1"
-      2) (integer) 7001
-   4) 1) "127.0.0.1"
-      2) (integer) 7005
-4) 1) (integer) 8192
-   2) (integer) 12287
-   3) 1) "127.0.0.1"
-      2) (integer) 7002
-   4) 1) "127.0.0.1"
-      2) (integer) 7006
-```
+#### Examples:
 
-
-#### Sample Output (new version, includes IDs)
 ```
-127.0.0.1:30001> cluster slots
+127.0.0.1:30001> CLUSTER SLOTS
 1) 1) (integer) 0
    2) (integer) 5460
    3) 1) "127.0.0.1"
@@ -2763,6 +2758,12 @@ Array Reply: nested list of slot ranges with IP/Port mappings.
       2) (integer) 30006
       3) "58e6e48d41228013e5d9c1c37c5060693925e97e"
 ```
+
+#### Warning:
+
+In future versions there could be more elements describing the node better. In general a client implementation should just rely on the fact that certain parameters are at fixed positions as specified, but more parameters may follow and should be ignored. Similarly a client library should try if possible to cope with the fact that older versions may just have the IP and port parameter.
+
+
 
 ---
 
@@ -14002,205 +14003,3 @@ keydb-cli> ZREVRANGEBYLEX myzset (g [aaa
 
 Returns all the elements in the sorted set at `key` with a score between `max`
 and `min` (including elements with score equal to `max` or `min`).
-In contrary to the default ordering of sorted sets, for this command the
-elements are considered to be ordered from high to low scores.
-
-The elements having the same score are returned in reverse lexicographical
-order.
-
-Apart from the reversed ordering, `ZREVRANGEBYSCORE` is similar to
-`ZRANGEBYSCORE`.
-
-#### Return:
-
-Array Reply: list of elements in the specified score range (optionally
-with their scores).
-
-#### Examples:
-
-```
-keydb-cli> ZADD myzset 1 "one"
-(integer) 1
-keydb-cli> ZADD myzset 2 "two"
-(integer) 1
-keydb-cli> ZADD myzset 3 "three"
-(integer) 1
-keydb-cli> ZREVRANGEBYSCORE myzset +inf -inf
-1) "three"
-2) "two"
-3) "one"
-keydb-cli> ZREVRANGEBYSCORE myzset 2 1
-1) "two"
-2) "one"
-keydb-cli> ZREVRANGEBYSCORE myzset 2 (1
-1) "two"
-keydb-cli> ZREVRANGEBYSCORE myzset (2 (1
-(empty array)
-```
----
-
-
-
-
-
-
-## ZREVRANK
-
-**Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
-
-#### Syntax :
-
-```ZREVRANK <key> <member>``` 
-
-#### Description:
-
-Returns the rank of `member` in the sorted set stored at `key`, with the scores
-ordered from high to low.
-The rank (or index) is 0-based, which means that the member with the highest
-score has rank `0`.
-
-Use `ZRANK` to get the rank of an element with the scores ordered from low to
-high.
-
-#### Return:
-
-* If `member` exists in the sorted set, Integer Reply: the rank of `member`.
-* If `member` does not exist in the sorted set or `key` does not exist,
-  Bulk String Reply: `nil`.
-
-#### Examples:
-
-```
-keydb-cli> ZADD myzset 1 "one"
-(integer) 1
-keydb-cli> ZADD myzset 2 "two"
-(integer) 1
-keydb-cli> ZADD myzset 3 "three"
-(integer) 1
-keydb-cli> ZREVRANK myzset "one"
-(integer) 2
-keydb-cli> ZREVRANK myzset "four"
-(nil)
-```
----
-
-
-
-
-
-## ZSCAN
-
-**Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
-
-See `SCAN` for `ZSCAN` documentation.
-
----
-
-
-
-
-## ZSCORE
-
-**Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
-
-#### Syntax:
-
-```ZSCORE <key> <member>```
-
-#### Description:
-
-Returns the score of `member` in the sorted set at `key`.
-
-If `member` does not exist in the sorted set, or `key` does not exist, `nil` is
-returned.
-
-#### Return:
-
-Bulk String Reply: the score of `member` (a double precision floating point number),
-represented as string.
-
-#### Examples:
-
-```
-keydb-cli> ZADD myzset 1 "one"
-(integer) 1
-keydb-cli> ZSCORE myzset "one"
-"1"
-```
----
-
-
-
-
-## ZUNIONSTORE
-
-**Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
-
-#### Syntax: 
-
-```ZUNIONSTORE <destination> <numkeys> <key-of-zset1> ... <key-of-zsetn>```
-
-```ZUNIONSTORE <destination> <numkeys> <key-of-zset1> ... <key-of-zsetn> WEIGHTS <weight-1> ... <weight-numkeys>```
-
-#### Description: 
-
-Computes the union of `numkeys` sorted sets given by the specified keys, and
-stores the result in `destination`.
-It is mandatory to provide the number of input keys (`numkeys`) before passing
-the input keys and the other (optional) arguments.
-
-By default, the resulting score of an element is the sum of its scores in the
-sorted sets where it exists.
-
-Using the `WEIGHTS` option, it is possible to specify a multiplication factor
-for each input sorted set.
-This means that the score of every element in every input sorted set is
-multiplied by this factor before being passed to the aggregation function.
-When `WEIGHTS` is not given, the multiplication factors default to `1`.
-
-With the `AGGREGATE` option, it is possible to specify how the results of the
-union are aggregated.
-This option defaults to `SUM`, where the score of an element is summed across
-the inputs where it exists.
-When this option is set to either `MIN` or `MAX`, the resulting set will contain
-the minimum or maximum score of an element across the inputs where it exists.
-
-If `destination` already exists, it is overwritten.
-
-#### Return:
-
-Integer Reply: the number of elements in the resulting sorted set at
-`destination`.
-
-#### Examples:
-
-```
-keydb-cli> ZADD zset1 1 "one"
-(integer) 1
-keydb-cli> ZADD zset1 2 "two"
-(integer) 1
-keydb-cli> ZADD zset2 1 "one"
-(integer) 1
-keydb-cli> ZADD zset2 2 "two"
-(integer) 1
-keydb-cli> ZADD zset2 3 "three"
-(integer) 1
-keydb-cli> ZUNIONSTORE out 2 zset1 zset2 WEIGHTS 2 3
-(integer) 3
-keydb-cli> ZRANGE out 0 -1 WITHSCORES
-1) "one"
-2) "5"
-3) "three"
-4) "9"
-5) "two"
-6) "10"
-```
-
-"one" : 5 = 1 X 2 + 1 X 3 (sorted set score X weight)
-
-"three" : 9 = 3 X 3 (sorted set score X weight)
-
-"two" : 10 = 2 X 2 + 2 X 3 (sorted set score X weight)
-
-
-
