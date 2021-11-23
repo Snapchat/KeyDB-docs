@@ -2822,7 +2822,7 @@ Command flags is Array Reply containing one or more status replies:
 
   - *write* - command may result in modifications
   - *readonly* - command will never modify keys
-  - *denyoom* - reject command if currently OOM
+  - *denyoom* - reject command if currently out of memory
   - *admin* - server admin command
   - *pubsub* - pubsub-related command
   - *noscript* - deny this command from scripts
@@ -2856,8 +2856,12 @@ Cluster client needs to parse commands marked `movablekeys` to locate all releva
 Complete list of commands currently requiring key location parsing:
 
   - `SORT` - optional `STORE` key, optional `BY` weights, optional `GET` keys
+  - `ZUNION` - keys stop when `WEIGHT` or `AGGREGATE` starts
   - `ZUNIONSTORE` - keys stop when `WEIGHT` or `AGGREGATE` starts
+  - `ZINTER` - keys stop when `WEIGHT` or `AGGREGATE` starts
   - `ZINTERSTORE` - keys stop when `WEIGHT` or `AGGREGATE` starts
+  - `ZDIFF` - keys stop after `numkeys` count arguments
+  - `ZDIFFSTORE` - keys stop after `numkeys` count arguments
   - `EVAL` - keys stop after `numkeys` count arguments
   - `EVALSHA` - keys stop after `numkeys` count arguments
 
