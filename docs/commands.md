@@ -581,12 +581,14 @@ keydb-cli> BITPOS mykey 1
 ```
 ---
 
-#### BLMOVE
+#### BLMOVEi
+
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx)
 
 `BLMOVE` is the blocking variant of `LMOVE`.
 When `source` contains elements, this command behaves exactly like `LMOVE`.
 When used inside a `MULTI`/`EXEC` block, this command behaves exactly like `LMOVE`.
-When `source` is empty, Redis will block the connection until another client
+When `source` is empty, KeyDB will block the connection until another client
 pushes to it or until `timeout` is reached.
 A `timeout` of zero can be used to block indefinitely.
 
@@ -611,7 +613,7 @@ Please see the pattern description in the `LMOVE` documentation.
 
 ## BLPOP
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax: 
 
@@ -3579,11 +3581,12 @@ keys (so `ARGV[1]`, `ARGV[2]`, ...).
 The following example should clarify what stated above:
 
 ```
-keydb-cli> eval "return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}" 2 key1 key2 first second
+keydb-cli> eval "return {KEYS[1],KEYS[2],ARGV[1],ARGV[2], ARGV[3]}" 2 key1 key2 first second third
 1) "key1"
 2) "key2"
 3) "first"
 4) "second"
+5) "third"
 ```
 
 Note: as you can see Lua arrays are returned as KeyDB multi bulk replies, that
@@ -3669,10 +3672,13 @@ KeyDB to Lua conversion rule:
 
 * Lua boolean true -> KeyDB integer reply with value of 1.
 
-Also there are two important rules to note:
+Lastly, there are three important rules to note:
 
 * Lua has a single numerical type, Lua numbers. There is no distinction between integers and floats. So we always convert Lua numbers into integer replies, removing the decimal part of the number if any. **If you want to return a float from Lua you should return it as a string**, exactly like KeyDB itself does (see for instance the `ZSCORE` command).
 * There is no simple way to have nils inside Lua arrays, this is a result of Lua table semantics, so when KeyDB converts a Lua array into KeyDB protocol the conversion is stopped if a nil is encountered.
+* When a Lua table contains keys (and their values), the converted KeyDB reply will **not** include them.
+
+**RESP3 mode conversion rules**: note that the Lua engine can work in RESP3 mode using the new KeyDB 6 protocol. In this case there are additional conversion rules, and certain conversions are also modified compared to the RESP2 mode. Please refer to the RESP3 section of this document for more information.
 
 Here are a few conversion Examples::
 
@@ -3693,17 +3699,17 @@ The last example shows how it is possible to receive the exact return value of
 `KeyDB.call()` or `KeyDB.pcall()` from Lua that would be returned if the command
 was called directly.
 
-In the following example we can see how floats and arrays with nils are handled:
+In the following example we can see how floats and arrays containing nils and keys are handled:
 
 ```
-keydb-cli> eval "return {1,2,3.3333,'foo',nil,'bar'}" 0
+keydb-cli> eval "return {1,2,3.3333,somekey='somevalue','foo',nil,'bar'}" 0
 1) (integer) 1
 2) (integer) 2
 3) (integer) 3
 4) "foo"
 ```
 
-As you can see 3.333 is converted into 3, and the *bar* string is never returned as there is a nil before.
+As you can see 3.333 is converted into 3, *somekey* is excluded, and the *bar* string is never returned as there is a nil before.
 
 #### Helper functions to return KeyDB types
 
@@ -3751,6 +3757,18 @@ returned in the format specified above (as a Lua table with an `err` field).
 The script can pass the exact error to the user by returning the error object
 returned by `KeyDB.pcall()`.
 
+#### Running Lua under low memory conditions
+
+When the memory usage in KeyDB exceeds the `maxmemory` limit, the first write command encountered in the Lua script that uses additional memory will cause the script to abort (unless `redis.pcall` was used).
+However, one thing to caution here is that if the first write command does not use additional memory such as DEL, LREM, or SREM, etc, KeyDB will allow it to run and all subsequent commands in the Lua script will execute to completion for atomicity.
+If the subsequent writes in the script generate additional memory, the KeyDB memory usage can go over `maxmemory`.
+
+Another possible way for Lua script to cause KeyDB memory usage to go above `maxmemory` happens when the script execution starts when KeyDB is slightly below `maxmemory` so the first write command in the script is allowed.
+As the script executes, subsequent write commands continue to generate memory and causes the KeyDB server to go above `maxmemory`.
+
+In those scenarios, it is recommended to configure the `maxmemory-policy` not to use `noeviction`.
+Also Lua scripts should be short so that evictions of items can happen in between Lua scripts.
+
 #### Bandwidth and EVALSHA
 
 The `EVAL` command forces you to send the script body again and again.
@@ -3792,7 +3810,7 @@ OK
 > evalsha 6b1bf486c81ceb7edf3c093f4c48582e38c0e791 0
 "bar"
 > evalsha ffffffffffffffffffffffffffffffffffffffff 0
-(error) `NOSCRIPT` No matching script. Please use `EVAL`.
+(error) NOSCRIPT No matching script. Please use EVAL.
 ```
 
 The client library implementation can always optimistically send `EVALSHA` under
@@ -3887,14 +3905,14 @@ SCRIPT currently accepts three different commands:
 
 *Note: starting with KeyDB 5, scripts are always replicated as effects and not sending the script verbatim. So the following section is mostly applicable to Redis version 4 or older.*
 
-A very important part of scripting is writing scripts that are pure functions.
+A very important part of scripting is writing scripts that only change the database in a deterministic way.
 Scripts executed in a KeyDB instance are, by default, propagated to replicas
 and to the AOF file by sending the script itself -- not the resulting
 commands.
+Since the script will be re-run on the remote host (or when reloading the AOF file), the changes it makes to the database must be reproducible.
 
-The reason is that sending a script to another KeyDB instance is often much
-faster than sending the multiple commands the script generates, so if the
-client is sending many scripts to the master, converting the scripts into
+The reason for sending the script is that it is often much faster than sending the multiple commands that the script generates.
+If the client is sending many scripts to the master, converting the scripts into
 individual commands for the replica / AOF would result in too much bandwidth
 for the replication link or the Append Only File (and also too much CPU since
 dispatching a command received via network is a lot more work for KeyDB compared
@@ -3905,12 +3923,13 @@ however not in all the cases. So starting with Redis 3.2 (carried to the current
 the scripting engine is able to, alternatively, replicate the sequence of write
 commands resulting from the script execution, instead of replicating the
 script itself. See the next section for more information.
+
 In this section we'll assume that scripts are replicated by sending the whole
 script. Let's call this replication mode **whole scripts replication**.
 
 The main drawback with the *whole scripts replication* approach is that scripts are required to have the following property:
 
-* The script must always evaluates the same KeyDB _write_ commands with the
+* The script must always execute the same KeyDB _write_ commands with the
   same arguments given the same input data set.
   Operations performed by the script cannot depend on any hidden (non-explicit)
   information or state that may change as script execution proceeds or between
@@ -3918,7 +3937,7 @@ The main drawback with the *whole scripts replication* approach is that scripts 
   from I/O devices.
 
 Things like using the system time, calling KeyDB random commands like
-`RANDOMKEY`, or using Lua random number generator, could result into scripts
+`RANDOMKEY`, or using Lua's random number generator, could result in scripts
 that will not always evaluate in the same way.
 
 In order to enforce this behavior in scripts KeyDB does the following:
@@ -3946,9 +3965,8 @@ In order to enforce this behavior in scripts KeyDB does the following:
   assume that certain commands in Lua will be ordered, but instead rely on
   the documentation of the original command you call to see the properties
   it provides.
-* Lua pseudo random number generation functions `math.random` and
-  `math.randomseed` are modified in order to always have the same seed every
-  time a new script is executed.
+* Lua's pseudo-random number generation function `math.random` is
+  modified to always use the same seed every time a new script is executed.
   This means that calling `math.random` will always generate the same sequence
   of numbers every time a script is executed if `math.randomseed` is not used.
 
@@ -3979,7 +3997,7 @@ r.del(:mylist)
 puts r.eval(RandomPushScript,[:mylist],[10,rand(2**32)])
 ```
 
-Every time this script executed the resulting list will have exactly the
+Every time this script is executed the resulting list will have exactly the
 following elements:
 
 ```
@@ -3996,9 +4014,9 @@ following elements:
 10) "0.17082803611217"
 ```
 
-In order to make it a pure function, but still be sure that every invocation
+In order to make it deterministic, but still be sure that every invocation
 of the script will result in different random elements, we can simply add an
-additional argument to the script that will be used in order to seed the Lua
+additional argument to the script that will be used to seed the Lua
 pseudo-random number generator.
 The new script is as follows:
 
@@ -4019,9 +4037,8 @@ puts r.eval(RandomPushScript,1,:mylist,10,rand(2**32))
 ```
 
 What we are doing here is sending the seed of the PRNG as one of the arguments.
-This way the script output will be the same given the same arguments, but we are
-changing one of the arguments in every invocation, generating the random seed
-client-side.
+The script output will always be the same given the same arguments (our requirement)
+but we are changing one of the arguments at every invocation, generating the random seed client-side.
 The seed will be propagated as one of the arguments both in the replication
 link and in the Append Only File, guaranteeing that the same changes will be
 generated when the AOF is reloaded or when the replica processes the script.
@@ -4036,50 +4053,49 @@ output.
 
 *Note: starting with KeyDB 5, the replication method described in this section (scripts effects replication) is the default and does not need to be explicitly enabled.*
 
-Instead of replicating whole scripts, it is possible as an alternative to just replicate single write commands generated by the script. We call this **script effects replication**.
+Instead of replicating whole scripts, we
+can just replicate single write commands generated by the script.
+We call this **script effects replication**.
 
 In this replication mode, while Lua scripts are executed, KeyDB collects
 all the commands executed by the Lua scripting engine that actually modify
 the dataset. When the script execution finishes, the sequence of commands
 that the script generated are wrapped into a MULTI / EXEC transaction and
-are sent to replicas and AOF.
+are sent to the replicas and AOF.
 
 This is useful in several ways depending on the use case:
 
-* When the script is slow to compute, but the effects can be summarized by
-a few write commands, it is a shame to re-compute the script on the replicas 
-or when reloading the AOF. In this case to replicate just the effect of the
-script is much better.
-* When script effects replication is enabled, the controls about non
-deterministic functions are disabled. You can, for example, use the `TIME`
-or `SRANDMEMBER` commands inside your scripts freely at any place.
-* The Lua PRNG in this mode is seeded randomly at every call.
+* When the script is slow to compute, but the effects can be summarized by a few write commands, it is a shame to re-compute the script on the replicas or when reloading the AOF.
+  In this case it is much better to replicate just the effects of the script.
+* When script effects replication is enabled, the restrictions on non-deterministic functions are removed.
+  You can, for example, use the `TIME` or `SRANDMEMBER` commands inside your scripts freely at any place.
+* The Lua PRNG in this mode is seeded randomly on every call.
 
-In order to enable script effects replication, you need to issue the
-following Lua command before any write operated by the script:
+To enable script effects replication you need to issue the
+following Lua command before the script performs a write:
 
     KeyDB.replicate_commands()
 
-The function returns true if the script effects replication was enabled,
-otherwise if the function was called after the script already called
-some write command, it returns false, and normal whole script replication
+The function returns true if script effects replication was enabled;
+otherwise, if the function was called after the script already called
+a write command, it returns false, and normal whole script replication
 is used.
 
 #### Selective replication of commands
 
 When script effects replication is selected (see the previous section), it
-is possible to have more control in the way commands are replicated to replicas
-and AOF. This is a very advanced feature since **a misuse can do damage** by
-breaking the contract that the master, replicas, and AOF, all must contain the
+is possible to have more control over the way commands are propagated to replicas and the AOF.
+This is a very advanced feature since **a misuse can do damage** by breaking the contract that the master, replicas, and AOF must all contain the
 same logical content.
 
 However this is a useful feature since, sometimes, we need to execute certain
 commands only in the master in order to create, for example, intermediate
 values.
 
-Think at a Lua script where we perform an intersection between two sets.
-Pick five random elements, and create a new set with this five random
-elements. Finally we delete the temporary key representing the intersection
+Think of a Lua script where we perform an intersection between two sets.
+We then pick five random elements from the intersection and create a new set
+containing them.
+Finally, we delete the temporary key representing the intersection
 between the two original sets. What we want to replicate is only the creation
 of the new set with the five elements. It's not useful to also replicate the
 commands creating the temporary key.
@@ -4091,15 +4107,14 @@ an error if called when script effects replication is disabled.
 
 The command can be called with four different arguments:
 
-    KeyDB.set_repl(KeyDB.REPL_ALL) -- Replicate to AOF and replicas.
-    KeyDB.set_repl(KeyDB.REPL_AOF) -- Replicate only to AOF.
+    KeyDB.set_repl(KeyDB.REPL_ALL) -- Replicate to the AOF and replicas.
+    KeyDB.set_repl(KeyDB.REPL_AOF) -- Replicate only to the AOF.
     KeyDB.set_repl(KeyDB.REPL_REPLICA) -- Replicate only to replicas (KeyDB >= 5)
     KeyDB.set_repl(KeyDB.REPL_SLAVE) -- Used for backward compatibility, the same as REPL_REPLICA.
     KeyDB.set_repl(KeyDB.REPL_NONE) -- Don't replicate at all.
 
-By default the scripting engine is always set to `REPL_ALL`. By calling
-this function the user can switch on/off AOF and or replicas propagation, and
-turn them back later at her/his wish.
+By default the scripting engine is set to `REPL_ALL`.
+By calling this function the user can switch the replication mode on or off at any time.
 
 A simple example follows:
 
@@ -4110,8 +4125,7 @@ A simple example follows:
     KeyDB.set_repl(KeyDB.REPL_ALL)
     KeyDB.call('set','C','3')
 
-After running the above script, the result is that only keys A and C
-will be created on replicas and AOF.
+After running the above script, the result is that only the keys A and C will be created on the replicas and AOF.
 
 #### Global variables protection
 
@@ -4147,6 +4161,62 @@ It is possible to call `SELECT` inside Lua scripts like with normal clients, how
 The semantic change between patch level releases was needed since the old
 behavior was inherently incompatible with the KeyDB replication layer and
 was the cause of bugs.
+
+#### Using Lua scripting in RESP3 mode
+
+Starting with KeyDB version 6, the server supports two different protocols.
+One is called RESP2, and is the old protocol: all the new connections to
+the server start in this mode. However clients are able to negotiate the
+new protocol using the `HELLO` command: this way the connection is put
+in RESP3 mode. In this mode certain commands, like for instance `HGETALL`,
+reply with a new data type (the Map data type in this specific case). The
+RESP3 protocol is semantically more powerful, however most scripts are OK
+with using just RESP2.
+
+The Lua engine always assumes to run in RESP2 mode when talking with KeyDB,
+so whatever the connection that is invoking the `EVAL` or `EVALSHA` command
+is in RESP2 or RESP3 mode, Lua scripts will, by default, still see the
+same kind of replies they used to see in the past from KeyDB, when calling
+commands using the `redis.call()` built-in function.
+
+However Lua scripts running in KeyDB 6 or greater, are able to switch to
+RESP3 mode, and get the replies using the new available types. Similarly
+Lua scripts are able to reply to clients using the new types. Please make
+sure to understand
+[the capabilities for RESP3](https://github.com/antirez/resp3)
+before continuing reading this section.
+
+In order to switch to RESP3 a script should call this function:
+
+    redis.setresp(3)
+
+Note that a script can switch back and forth from RESP3 and RESP2 by
+calling the function with the argument '3' or '2'.
+
+At this point the new conversions are available, specifically:
+
+**KeyDB to Lua** conversion table specific to RESP3:
+
+* KeyDB map reply -> Lua table with a single `map` field containing a Lua table representing the fields and values of the map.
+* KeyDB set reply -> Lua table with a single `set` field containing a Lua table representing the elements of the set as fields, having as value just `true`.
+* KeyDB new RESP3 single null value -> Lua nil.
+* KeyDB true reply -> Lua true boolean value.
+* KeyDB false reply -> Lua false boolean value.
+* KeyDB double reply -> Lua table with a single `score` field containing a Lua number representing the double value.
+* KeyDB big number reply -> Lua table with a single `big_number` field containing a Lua string representing the big number value.
+* KeyDB verbatim string reply -> Lua table with a single `verbatim_string` field containing a Lua table with two fields, `string` and `format`, representing the verbatim string and verbatim format respectively.
+* All the RESP2 old conversions still apply.
+
+**Lua to KeyDB** conversion table specific for RESP3.
+
+* Lua boolean -> KeyDB boolean true or false. **Note that this is a change compared to the RESP2 mode**, where returning true from Lua returned the number 1 to the KeyDB client, and returning false used to return NULL.
+* Lua table with a single `map` field set to a field-value Lua table -> KeyDB map reply.
+* Lua table with a single `set` field set to a field-value Lua table -> KeyDB set reply, the values are discarded and can be anything.
+* Lua table with a single `double` field set to a field-value Lua table -> KeyDB double reply.
+* Lua null -> KeyDB RESP3 new null reply (protocol `"_\r\n"`).
+* All the RESP2 old conversions still apply unless specified above.
+
+There is one key thing to understand: in case Lua replies with RESP3 types, but the connection calling Lua is in RESP2 mode, KeyDB will automatically convert the RESP3 protocol to RESP2 compatible protocol, as it happens for normal commands. For instance returning a map type to a connection in RESP2 mode will have the effect of returning a flat array of fields and values.
 
 #### Available libraries
 
