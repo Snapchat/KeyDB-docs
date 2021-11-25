@@ -5406,7 +5406,9 @@ keydb-cli> GETRANGE mykey 10 100
 #### Description:
 
 Atomically sets `key` to `value` and returns the old value stored at `key`.
-Returns an error when `key` exists but does not hold a string value.
+Returns an error when `key` exists but does not hold a string value.  Any 
+previous time to live associated with the key is discarded on successful 
+`SET` operation.
 
 #### Design pattern
 
@@ -5424,6 +5426,8 @@ keydb-cli> GETSET mycounter "0"
 keydb-cli> GET mycounter
 "0"
 ```
+
+As per KeyDB 6.2, GETSET is considered deprecated. Please prefer `SET` with `GET` parameter in new code.
 
 #### Return:
 
