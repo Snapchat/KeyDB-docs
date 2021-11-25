@@ -5144,7 +5144,7 @@ keydb-cli> GEOPOS Sicily Palermo Catania NonExisting
 
 #### Syntax:
 
-```GEORADIUS <key> <longitude> <latitude> <radius> <distance-unit:m|km|ft|mi> <OPTIONAL:WITHDIST> <OPTIONAL:WITHCOORD> <OPTIONAL:WITHHASH>```
+```GEORADIUS <key> <longitude> <latitude> <radius> <distance-unit:m|km|ft|mi> <OPTIONAL:WITHDIST> <OPTIONAL:WITHCOORD> <OPTIONAL:WITHHASH> <OPTIONAL:COUNT> <COUNT-argument:count> <COUNT-optional-argument:ANY>  <OPTIONAL:ASC|DESC> <OPTIONAL:STORE> <STORE-argument:key> <OPTIONAL:STOREDIST> <STOREDIST-argument:key>```
 
 #### Description:
 
@@ -5247,18 +5247,20 @@ keydb-cli> GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
 
 #### Syntax:
 
-```GEORADIUSBYMEMBER <key> <member> <radius> <distance-unit:m|km|ft|mi> <OPTIONAL:WITHDIST> <OPTIONAL:WITHCOORD> <OPTIONAL:WITHHASH>```
+```GEORADIUSBYMEMBER <key> <member> <radius> <distance-unit:m|km|ft|mi> <OPTIONAL:WITHDIST> <OPTIONAL:WITHCOORD> <OPTIONAL:WITHHASH> <OPTIONAL:COUNT> <COUNT-argument:count> <COUNT-optional-argument:ANY>  <OPTIONAL:ASC|DESC> <OPTIONAL:STORE> <STORE-argument:key> <OPTIONAL:STOREDIST> <STOREDIST-argument:key>```
 
 #### Description:
 
 This command is exactly like `GEORADIUS` with the sole difference that instead
 of taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.
 
+As per KeyDB 6.2.0, GEORADIUS command family are considered deprecated. Please prefer `GEOSEARCH` and `GEOSEARCHSTORE` in new code.
+
 The position of the specified member is used as the center of the query.
 
 Please check the example below and the `GEORADIUS` documentation for more information about the command and its options.
 
-Note that `GEORADIUSBYMEMBER_RO` is also available since KeyDB 3.2.10 and KeyDB 4.0.0 in order to provide a read-only command that can be used in replicas. See the `GEORADIUS` page for more information.
+Note that `GEORADIUSBYMEMBER_RO` is also available in order to provide a read-only command that can be used in replicas. See the `GEORADIUS` page for more information.
 
 #### Examples:
 
