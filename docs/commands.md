@@ -7225,30 +7225,39 @@ keydb-cli> LLEN mylist
 
 #### Syntax:
 
-```LPOP <key>```
+```LPOP <key> <OPTIONAL:count>```
 
 #### Description:
 
-Removes and returns the first element of the list stored at `key`.
+Removes and returns the first elements of the list stored at `key`.
+
+By default, the command pops a single element from the beginning of the list.
+When provided with the optional `count` argument, the reply will consist of up
+to `count` elements, depending on the list's length.
 
 #### Return:
 
+When called without the `count` argument:
+
 Bulk String Reply: the value of the first element, or `nil` when `key` does not exist.
+
+When called with the `count` argument:
+
+Array Reply: list of popped elements, or `nil` when `key` does not exist.
 
 #### Examples:
 
 ```
-keydb-cli> RPUSH mylist "one"
-(integer) 1
-keydb-cli> RPUSH mylist "two"
-(integer) 2
-keydb-cli> RPUSH mylist "three"
-(integer) 3
+keydb-cli> RPUSH mylist "one" "two" "three" "four" "five"
+(integer) 5
 keydb-cli> LPOP mylist
 "one"
-keydb-cli> LRANGE mylist 0 -1
+keydb-cli> LPOP mylist 2
 1) "two"
 2) "three"
+keydb-cli> LRANGE mylist 0 -1
+1) "four"
+2) "five"
 ```
 
 ---
