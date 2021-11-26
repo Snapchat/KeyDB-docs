@@ -7738,7 +7738,7 @@ to `5`. To sample the all of the nested values, use `SAMPLES 0`.
 
 #### Examples:
 
-With KeyDB v4.0.1 64-bit and **jemalloc**, the empty string measures as follows:
+With KeyDB 64-bit and **jemalloc**, the empty string measures as follows:
 
 ```
 keydb-cli> SET "" ""
@@ -7765,7 +7765,7 @@ keydb-cli> MEMORY USAGE cento
 
 #### Return:
 
-Integer Reply: the memory usage in bytes 
+Integer Reply: the memory usage in bytes, or `nil` when the key does not exist.
 
 ---
 
