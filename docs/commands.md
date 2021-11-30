@@ -8243,54 +8243,47 @@ Cache.
 
 The `OBJECT` command supports multiple sub commands:
 
-* `OBJECT REFCOUNT <key>` returns the number of references of the value
-  associated with the specified key.
-  This command is mainly useful for debugging.
-* `OBJECT ENCODING <key>` returns the kind of internal representation used in
-  order to store the value associated with a key.
-* `OBJECT IDLETIME <key>` returns the number of seconds since the object stored
-  at the specified key is idle (not requested by read or write operations).
-  While the value is returned in seconds the actual resolution of this timer is
-  10 seconds, but may vary in future implementations. This subcommand is
-  available when `maxmemory-policy` is set to an LRU policy or `noeviction`. 
-* `OBJECT LASTMODIFIED <key>` Returns the time elapsed (in seconds) since the key 
-  was last modified.  This differs from idletime as it is not affected by reads 
+* `OBJECT ENCODING <key>` returns the internal encoding for the KeyDB object stored at `<key>`
+* `OBJECT IDLETIME <key>` returns the time in milliseconds since the last access to the value stored at `<key>`. This command is only available when the `maxmemory-policy` configuration directive is set to one of the LRU policies.
+* `OBJECT FREQ <key>` returns the logarithmic access frequency counter of a KeyDB object stored at `<key>`. This command is only available when the `maxmemory-policy` configuration directive is set to one of the LFU policies.
+* `OBJECT LASTMODIFIED <key>` returns the time elapsed (in seconds) since the key
+  was last modified.  This differs from idletime as it is not affected by reads
   of a key.
-* `OBJECT FREQ <key>` returns the logarithmic access frequency counter of the
-  object stored at the specified key. This subcommand is available when
-  `maxmemory-policy` is set to an LFU policy.
-* `OBJECT HELP` returns a succint help text.
+* `OBJECT HELP` command returns a helpful text describing the different subcommands.
+* `OBJECT REFCOUNT <key>` returns the reference count of the stored at `<key>`.
+  This command is mainly useful for debugging.
 
-Objects can be encoded in different ways:
+KeyDB objects can be encoded in different ways:
 
-* Strings can be encoded as `raw` (normal string encoding) or `int` (strings
-  representing integers in a 64 bit signed interval are encoded in this way in
-  order to save space).
-* Lists can be encoded as `ziplist`, `quicklist`, or `linkedlist`.
-  The `ziplist` is the special representation that is used to save space for
-  small lists.
-* Sets can be encoded as `intset` or `hashtable`.
-  The `intset` is a special encoding used for small sets composed solely of
-  integers.
-* Hashes can be encoded as `ziplist` or `hashtable`.
-  The `ziplist` is a special encoding used for small hashes.
-* Sorted Sets can be encoded as `ziplist` or `skiplist` format.
-  As for the List type small sorted sets can be specially encoded using
-  `ziplist`, while the `skiplist` encoding is the one that works with sorted
-  sets of any size.
+* Strings can be encoded as `raw` (normal string encoding) or `int` (strings representing integers in a 64 bit signed interval are encoded in this way in order to save space).
+* Lists can be encoded as `ziplist` or `linkedlist`. The `ziplist` is the special representation that is used to save space for small lists.
+* Sets can be encoded as `intset` or `hashtable`. The `intset` is a special encoding used for small sets composed solely of integers.
+* Hashes can be encoded as `ziplist` or `hashtable`. The `ziplist` is a special encoding used for small hashes.
+* Sorted Sets can be encoded as `ziplist` or `skiplist` format. As for the List type small sorted sets can be specially encoded using `ziplist`, while the `skiplist` encoding is the one that works with sorted sets of any size.
 
-All the specially encoded types are automatically converted to the general type
-once you perform an operation that makes it impossible for KeyDB to retain the
-space saving encoding.
+All the specially encoded types are automatically converted to the general type once you perform an operation that makes it impossible for KeyDB to retain the space saving encoding.
 
 #### Return:
 
-Different return values are used for different subcommands.
+OBJECT ENCODING: 
 
-* Subcommands `refcount` and `idletime` return integers.
-* Subcommand `encoding` returns a bulk reply.
+Bulk String Reply: the encoding of the object, or `nil` if the key doesn't exist
 
-If the object you try to inspect is missing, a null bulk reply is returned.
+OBJECT FREQUENCY:
+
+Integer Reply: The counter's value.
+
+OBJECT HELP:
+
+Array Reply: a list of subcommands and their descriptions
+
+OBJECT IDLETIME:
+
+Integer Reply: The idle time in milliseconds.
+
+OBJECT REFCOUT:
+
+Integer Reply: The number of references.
 
 #### Examples:
 
