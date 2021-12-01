@@ -9312,27 +9312,36 @@ keydb-cli> ROLE
 
 #### Syntax:
 
-```RPOP <key>```
+```RPOP <key <OPTIONAL:count>```
 
 #### Description:
 
-Removes and returns the last element of the list stored at `key`.
+Removes and returns the last elements of the list stored at `key`.
+
+By default, the command pops a single element from the end of the list.
+When provided with the optional `count` argument, the reply will consist of up
+to `count` elements, depending on the list's length.
 
 #### Return:
 
+When called without the `count` argument:
+
 Bulk String Reply: the value of the last element, or `nil` when `key` does not exist.
+
+When called with the `count` argument:
+
+Array Reply: list of popped elements, or `nil` when `key` does not exist.
 
 #### Examples:
 
 ```
-keydb-cli> RPUSH mylist "one"
-(integer) 1
-keydb-cli> RPUSH mylist "two"
-(integer) 2
-keydb-cli> RPUSH mylist "three"
-(integer) 3
+keydb-cli> RPUSH mylist "one" "two" "three" "four" "five"
+(integer) 5
 keydb-cli> RPOP mylist
-"three"
+"five"
+keydb-cli> RPOP mylist 2
+1) "four"
+2) "three"
 keydb-cli> LRANGE mylist 0 -1
 1) "one"
 2) "two"
