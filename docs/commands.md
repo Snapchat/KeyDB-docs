@@ -9558,7 +9558,7 @@ An error is returned when the value stored at `key` is not a set.
 #### Return:
 
 Integer Reply: the number of elements that were added to the set, not including
-all the elements already present into the set.
+all the elements already present in the set.
 
 
 #### Examples:
