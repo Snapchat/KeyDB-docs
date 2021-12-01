@@ -9756,9 +9756,32 @@ keydb-cli> scan 176 MATCH *11* COUNT 1000
 
 As you can see most of the calls returned zero elements, but the last call where a COUNT of 1000 was used in order to force the command to do more scanning for that iteration.
 
+#### The TYPE option
+
+As of version 6.0 you can use this option to ask `SCAN` to only return objects that match a given `type`, allowing you to iterate through the database looking for keys of a specific type. The **TYPE** option is only available on the whole-database `SCAN`, not `HSCAN` or `ZSCAN` etc.
+
+The `type` argument is the same string name that the `TYPE` command returns. Note a quirk where some KeyDB types, such as GeoHashes, HyperLogLogs, Bitmaps, and Bitfields, may internally be implemented using other KeyDB types, such as a string or zset, so can't be distinguished from other keys of that same type by `SCAN`. For example, a ZSET and GEOHASH:
+
+```
+keydb-cli> GEOADD geokey 0 0 value
+(integer) 1
+keydb-cli> ZADD zkey 1000 value
+(integer) 1
+keydb-cli> TYPE geokey
+zset
+keydb-cli> TYPE zkey
+zset
+keydb-cli> SCAN 0 TYPE zset
+1) "0"
+2) 1) "zkey"
+   2) "geokey"
+```
+
+It is important to note that the **TYPE** filter is also applied after elements are retrieved from the database, so the option does not reduce the amount of work the server has to do to complete a full iteration, and for rare types you may receive no elements in many iterations.
+
 #### Multiple parallel iterations
 
-It is possible for an infinite number of clients to iterate the same collection at the same time, as the full state of the iterator is in the cursor, that is obtained and returned to the client at every call. Server side no state is taken at all.
+It is possible for an infinite number of clients to iterate the same collection at the same time, as the full state of the iterator is in the cursor, that is obtained and returned to the client at every call. No server side state is taken at all.
 
 #### Terminating iterations in the middle
 
