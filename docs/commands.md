@@ -581,14 +581,12 @@ keydb-cli> BITPOS mykey 1
 ```
 ---
 
-#### BLMOVEi
-
-**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx)
+#### BLMOVE
 
 `BLMOVE` is the blocking variant of `LMOVE`.
 When `source` contains elements, this command behaves exactly like `LMOVE`.
 When used inside a `MULTI`/`EXEC` block, this command behaves exactly like `LMOVE`.
-When `source` is empty, KeyDB will block the connection until another client
+When `source` is empty, Redis will block the connection until another client
 pushes to it or until `timeout` is reached.
 A `timeout` of zero can be used to block indefinitely.
 
@@ -613,7 +611,7 @@ Please see the pattern description in the `LMOVE` documentation.
 
 ## BLPOP
 
-**Related Commands:** [BLMOVE](/docs/commands/#blmove), [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
 
 #### Syntax: 
 
@@ -640,6 +638,34 @@ Keys are checked in the order that they are given.
 Let's say that the key `list1` doesn't exist and `list2` and `list3` hold
 non-empty lists.
 Consider the following command:
+
+```
+BLPOP list1 list2 list3 0
+```
+
+`BLPOP` guarantees to return an element from the list stored at `list2` (since
+it is the first non empty list when checking `list1`, `list2` and `list3` in
+that order).
+
+#### Blocking behavior
+
+If none of the specified keys exist, `BLPOP` blocks the connection until another
+client performs an `LPUSH` or `RPUSH` operation against one of the keys.
+
+Once new data is present on one of the lists, the client returns with the name
+of the key unblocking it and the popped value.
+
+When `BLPOP` causes a client to block and a non-zero timeout is specified,
+the client will unblock returning a `nil` multi-bulk value when the specified
+timeout has expired without a push operation against at least one of the
+specified keys.
+
+**The timeout argument is interpreted as an integer value specifying the maximum number of seconds to block**. A timeout of zero can be used to block indefinitely.
+
+#### What key is served first? What client? What element? Priority ordering details.
+
+* If the client tries to blocks for multiple keys, but at least one key contains elements, the returned key / element pair is the first key from left to right that has one or more elements. In this case the client is not blocked. So for instance `BLPOP key1 key2 key3 key4 0`, assuming that both `key2` and `key4` are non-empty, will always return an element from `key2`.
+* If multiple clients are blocked for the same key, the first client to be served is the one that was waiting for more time (the first that blocked for the key). Once a client is unblocked it does not retain any priority, when it blocks again with the next call to `BLPOP` it will be served accordingly to the number of clients already blocked for the same key, that will all be served before it (from the first to the last that blocked).
 
 ```
 BLPOP list1 list2 list3 0
@@ -8803,9 +8829,15 @@ keydb-cli> PTTL myset member2
 
 Posts a message to the given channel.
 
+In a KeyDB Cluster clients can publish to every node. The cluster makes sure
+that published messages are forwarded as needed, so clients can subscribe to any
+channel by connecting to any one of the nodes.
+
 #### Return:
 
-Integer Reply: the number of clients that received the message.
+Integer Reply: the number of clients that received the message. Note that in a
+Redis Cluster, only clients that are connected to the same node as the
+publishing client are included in the count.
 
 ---
 
@@ -14002,190 +14034,3 @@ keydb-cli> ZRANGE myzset 0 -1
 ---
 
 
-
-
-
-## ZREMRANGEBYRANK
-
-**Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
-
-#### Syntax:
-
-```ZREMRANGEBYRANK <key> <start> <stop>```
-
-#### Description:
-
-Removes all elements in the sorted set stored at `key` with rank between `start`
-and `stop`.
-Both `start` and `stop` are `0` -based indexes with `0` being the element with
-the lowest score.
-These indexes can be negative numbers, where they indicate offsets starting at
-the element with the highest score.
-For example: `-1` is the element with the highest score, `-2` the element with
-the second highest score and so forth.
-
-#### Return:
-
-Integer Reply: the number of elements removed.
-
-#### Examples:
-
-```
-keydb-cli> ZADD myzset 1 "one"
-(integer) 1
-keydb-cli> ZADD myzset 2 "two"
-(integer) 1
-keydb-cli> ZADD myzset 3 "three"
-(integer) 1
-keydb-cli> ZREMRANGEBYRANK myzset 0 1
-(integer) 2
-keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
-1) "three"
-2) "3"
-```
----
-
-
-
-## ZREMRANGEBYSCORE
-
-**Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
-
-#### Syntax:
-
-```ZREMRANGEBYSCORE <key> <min> <max>```
-
-#### Description:
-
-Removes all elements in the sorted set stored at `key` with a score between
-`min` and `max` (inclusive).
-
-`min` and `max` can be exclusive, following the syntax of `ZRANGEBYSCORE`.
-
-#### Return:
-
-Integer Reply: the number of elements removed.
-
-#### Examples:
-
-```
-keydb-cli> ZADD myzset 1 "one"
-(integer) 1
-keydb-cli> ZADD myzset 2 "two"
-(integer) 1
-keydb-cli> ZADD myzset 3 "three"
-(integer) 1
-keydb-cli> ZREMRANGEBYSCORE myzset -inf (2
-(integer) 1
-keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
-1) "two"
-2) "2"
-3) "three"
-4) "3"
-```
----
-
-
-
-
-
-## ZREVRANGE
-
-**Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
-
-#### Syntax: 
-
-```ZREVRANGE <key> <start> <stop>```
-
-#### Description:
-
-Returns the specified range of elements in the sorted set stored at `key`.
-The elements are considered to be ordered from the highest to the lowest score.
-Descending lexicographical order is used for elements with equal score.
-
-Apart from the reversed ordering, `ZREVRANGE` is similar to `ZRANGE`.
-
-#### Return:
-
-Array Reply: list of elements in the specified range (optionally with
-their scores).
-
-#### Examples:
-
-```
-keydb-cli> ZADD myzset 1 "one"
-(integer) 1
-keydb-cli> ZADD myzset 2 "two"
-(integer) 1
-keydb-cli> ZADD myzset 3 "three"
-(integer) 1
-keydb-cli> ZREVRANGE myzset 0 -1
-1) "three"
-2) "two"
-3) "one"
-keydb-cli> ZREVRANGE myzset 2 3
-1) "one"
-keydb-cli> ZREVRANGE myzset -2 -1
-1) "two"
-2) "one"
-```
----
-
-
-
-
-
-## ZREVRANGEBYLEX
-
-**Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
-
-#### Syntax:
-
-```ZREVRANGEBYLEX <key> <max> <min>```
-
-#### Description:
- 
-When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `max` and `min`.
-
-Apart from the reversed ordering, `ZREVRANGEBYLEX` is similar to `ZRANGEBYLEX`.
-
-#### Return:
-
-Array Reply: list of elements in the specified score range.
-
-#### Examples:
-
-```
-keydb-cli> ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
-(integer) 7
-keydb-cli> ZREVRANGEBYLEX myzset [c -
-1) "c"
-2) "b"
-3) "a"
-keydb-cli> ZREVRANGEBYLEX myzset (c -
-1) "b"
-2) "a"
-keydb-cli> ZREVRANGEBYLEX myzset (g [aaa
-1) "f"
-2) "e"
-3) "d"
-4) "c"
-5) "b"
-```
----
-
-
-
-
-## ZREVRANGEBYSCORE
-
-**Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
-
-#### Syntax: 
-
-```ZREVRANGEBYSCORE <key> <max> <min>```
-
-#### Description:
-
-Returns all the elements in the sorted set at `key` with a score between `max`
-and `min` (including elements with score equal to `max` or `min`).
