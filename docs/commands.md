@@ -8858,48 +8858,58 @@ documented separately. The general form is:
 
 ```PUBSUB CHANNELS [pattern]```
 
-Lists the currently *active channels*. An active channel is a Pub/Sub channel
-with one or more subscribers (not including clients subscribed to patterns).
+Lists the currently *active channels*.
+
+An active channel is a Pub/Sub channel with one or more subscribers (excluding clients subscribed to patterns).
 
 If no `pattern` is specified, all the channels are listed, otherwise if pattern
 is specified only channels matching the specified glob-style pattern are
 listed.
 
+Cluster note: in a KeyDB Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, `PUBSUB`'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
+
 #### Return:
 
 Array Reply: a list of active channels, optionally matching the specified pattern.
 
-### PUBSUB NUMSUB
+### PUBSUB HELP
 
-```PUBSUB NUMSUB [channel-1 ... channel-N]```
-
-Returns the number of subscribers (not counting clients subscribed to patterns)
-for the specified channels.
+The `PUBSUB HELP` command returns a helpful text describing the different subcommands.
 
 #### Return:
 
-Array Reply: a list of channels and number of subscribers for every channel. The format is channel, count, channel, count, ..., so the list is flat.
-The order in which the channels are listed is the same as the order of the
-channels specified in the command call.
-
-Note that it is valid to call this command without channels. In this case it
-will just return an empty list.
+Array Reply: a list of subcommands and their descriptions
 
 ### PUBSUB NUMPAT
 
-Returns the number of subscriptions to patterns (that are performed using the
-`PSUBSCRIBE` command). Note that this is not just the count of clients subscribed
-to patterns but the total number of patterns all the clients are subscribed to.
+Returns the number of unique patterns that are subscribed to by clients (that are performed using the `PSUBSCRIBE` command).
+
+Note that this isn't the count of clients subscribed to patterns, but the total number of unique patterns all the clients are subscribed to.
+
+Cluster note: in a KeyDB Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, `PUBSUB`'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
 
 #### Return:
 
 Integer Reply: the number of patterns all the clients are subscribed to.
 
+### PUBSUB NUMSUB
+
+```PUBSUB NUMSUB [channel-1 ... channel-N]```
+
+Returns the number of subscribers (exclusive of clients subscribed to patterns)
+for the specified channels.
+
+Note that it is valid to call this command without channels. In this case it will just return an empty list.
+
+Cluster note: in a KeyDB Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, `PUBSUB`'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
+
+#### Return:
+
+Array Reply: a list of channels and number of subscribers for every channel.
+
+The format is channel, count, channel, count, ..., so the list is flat. The order in which the channels are listed is the same as the order of the channels specified in the command call.
+
 ---
-
-
-
-
 
 ## PUNSUBSCRIBE
 
