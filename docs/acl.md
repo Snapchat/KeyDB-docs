@@ -1,6 +1,6 @@
 ---
 id: acl
-title: Using Access Control Lists (ALC)
+title: Using Access Control Lists (ACL)
 sidebar_label: Access Control Lists
 ---
 
