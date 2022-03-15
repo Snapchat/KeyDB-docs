@@ -8,6 +8,12 @@ sidebar_label: Commands
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```APPEND <key> <value>```
+
+#### Description: 
+
 If `key` already exists and is a string, this command appends the `value` at the end of the string. If `key` 
 does not exist it is created and set as an empty string, so `APPEND` will be similar to `SET` in this special 
 case.
@@ -23,7 +29,7 @@ keydb-cli> EXISTS mykey
 (integer) 0
 keydb-cli> APPEND mykey "Hello"
 (integer) 5
-keydb-cli> APPEND mykey " World"
+keydb-cli> APPEND mykey "World"
 (integer) 10
 keydb-cli> GET mykey
 "helloworld"
@@ -61,17 +67,29 @@ more friendly to be distributed across many KeyDB instances.
 An example sampling the temperature of a sensor using fixed-size strings (using
 a binary format is better in real implementations).
 
-```cli
-APPEND ts "0043"
-APPEND ts "0035"
-GETRANGE ts 0 3
-GETRANGE ts 4 7
+```
+keydb-cli> APPEND ts "0043"
+(integer) 4
+keydb-cli> APPEND ts "0035"
+(integer) 8
+keydb-cli> GETRANGE ts 0 3
+"0043"
+keydb-cli> GETRANGE ts 4 7
+"0035"
 ```
 ---
 
 ## AUTH
 
 **Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
+
+#### Syntax:
+
+```AUTH <password>```
+
+```AUTH <username> <password>```
+
+#### Description:
 
 Request for authentication in a password-protected KeyDB server.
 KeyDB can be instructed to require a password before allowing clients to execute
@@ -82,7 +100,7 @@ If `password` matches the password in the configuration file, the server replies
 with the `OK` status code and starts accepting commands.
 Otherwise, an error is returned and the clients needs to try a new password.
 
-**Note**: because of the high performance nature of KeyDB, it is possible to try
+**TIP**: because of the high performance nature of KeyDB, it is possible to try
 a lot of passwords in parallel in very short time, so make sure to generate a
 strong and very long password so that this attack is infeasible.
 
@@ -94,7 +112,15 @@ Simple String Reply
 
 ## BGSAVE
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```BGSAVE```
+
+```BGSAVE SCHEDULE```
+
+#### Description: 
 
 Save the DB in background.
 The OK code is immediately returned.
@@ -103,13 +129,19 @@ on disk then exits.
 A client may be able to check if the operation succeeded using the `LASTSAVE`
 command.
 
-Please refer to the [persistence documentation][https://docs.keydb.dev/docs/persistence/] for detailed information.
+Please refer to the [persistence documentation](https://docs.keydb.dev/docs/persistence/) for detailed information.
 
 ---
 
-## BGWRITEAOF
+## BGREWRITEAOF
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax: 
+
+```BGREWRITEAOF```
+
+#### Description:
 
 Instruct KeyB to start an [Append Only File](https://docs.keydb.dev/docs/persistence/) rewrite process.
 The rewrite will create a small optimized version of the current Append Only
@@ -146,6 +178,14 @@ Simple String Reply: always `OK`.
 ## BITCOUNT
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```BITCOUNT <key> ```
+
+```BITCOUNT <key> <start> <end>```
+
+#### Description:
 
 Count the number of set bits (population counting) in a string.
 
@@ -222,15 +262,33 @@ When the bitmap is big, there are two alternatives:
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax
+
+```BITFIELD <key>```
+
+```BITFIELD <key> <OPTIONAL:GET> <GET-argument:type> <GET-argument:offset>```
+
+```BITFIELD <key> <OPTIONAL:SET> <SET-argument:type> <SET-argument:offset> <SET-argument:value>```
+
+```BITFIELD <key> <OPTIONAL:INCRBY> <INCRBY-argument:type> <INCRBY-argument:offset> <INCRBY-argument:increment>```
+
+```BITFIELD <key> <OPTIONAL:OVERFLOW> <OVERFLOW-argument:WRAP|SAT|FAIL>```
+
+
+
+#### Description:
+
 The command treats a KeyDB string as a array of bits, and is capable of addressing specific integer fields of varying bit widths and arbitrary non (necessary) aligned offset. In practical terms using this command you can set, for example, a signed 5 bits integer at bit offset 1234 to a specific value, retrieve a 31 bit unsigned integer from offset 4567. Similarly the command handles increments and decrements of the specified integers, providing guaranteed and well specified overflow and underflow behavior that the user can configure.
 
 `BITFIELD` is able to operate with multiple bit fields in the same command call. It takes a list of operations to perform, and returns an array of replies, where each array matches the corresponding operation in the list of arguments.
 
 For example the following command increments an 8 bit signed integer at bit offset 100, and gets the value of the 4 bit unsigned integer at bit offset 0:
 
-    > BITFIELD mykey INCRBY i5 100 1 GET u4 0
-    1) (integer) 1
-    2) (integer) 0
+```
+keydb-cli> BITFIELD mykey INCRBY i5 100 1 GET u4 0
+1) (integer) 1
+2) (integer) 0
+```
 
 Note that:
 
@@ -289,18 +347,20 @@ statement.
 
 By default, **WRAP** is used if not otherwise specified.
 
-    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
-    1) (integer) 1
-    2) (integer) 1
-    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
-    1) (integer) 2
-    2) (integer) 2
-    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
-    1) (integer) 3
-    2) (integer) 3
-    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
-    1) (integer) 0
-    2) (integer) 3
+```
+keydb-cli> BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 1
+2) (integer) 1
+keydb-cli> BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 2
+2) (integer) 2
+keydb-cli> BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 3
+2) (integer) 3
+keyb-cli> BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1
+1) (integer) 0
+2) (integer) 3
+```
 
 #### Return value
 
@@ -310,8 +370,10 @@ as generating a reply.
 
 The following is an example of `OVERFLOW FAIL` returning NULL.
 
-    > BITFIELD mykey OVERFLOW FAIL incrby u2 102 1
-    1) (nil)
+```
+keydb-cli> BITFIELD mykey OVERFLOW FAIL incrby u2 102 1
+1) (nil)
+```
 
 #### Motivations
 
@@ -416,16 +478,27 @@ the population counting operation is performed.
 `BITOP` is a potentially slow command as it runs in O(N) time.
 Care should be taken when running it against long input strings.
 
-For real-time metrics and statistics involving large inputs a good approach is
-to use a replica (with read-only option disabled) where the bit-wise
-operations are performed to avoid blocking the master instance.
+For real-time metrics and statistics involving large inputs a good approach is to use a replica (with read-only option disabled) where the bit-wise operations are performed to avoid blocking the master instance.
+
 ---
 
 
 
 ## BITPOS
 
-**Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) Return the position of the first bit set to 1 or 0 in a string.
+**Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen)
+
+#### Syntax:
+
+```BITPOS <key>```
+
+```BITPOS <key> <start>```
+
+```BITPOS <key> <start> <end>```
+
+#### Description:
+
+Return the position of the first bit set to 1 or 0 in a string.
 
 The position is returned, thinking of the string as an array of bits from left to
 right, where the first byte's most significant bit is at position 0, the second
@@ -460,14 +533,21 @@ However, this behavior changes if you are looking for clear bits and specify a r
 
 #### Examples:
 
-```cli
-SET mykey "\xff\xf0\x00"
-BITPOS mykey 0
-SET mykey "\x00\xff\xf0"
-BITPOS mykey 1 0
-BITPOS mykey 1 2
-set mykey "\x00\x00\x00"
-BITPOS mykey 1
+```
+keydb-cli> SET mykey "\xff\xf0\x00"
+OK
+keydb-cli> BITPOS mykey 0
+(integer) 12
+keydb-cli> SET mykey "\x00\xff\xf0"
+OK
+keydb-cli> BITPOS mykey 1 0
+(integer) 8
+keydb-cli> BITPOS mykey 1 2
+(integer) 16
+keydb-cli> SET mykey "\x00\x00\x00"
+OK
+keydb-cli> BITPOS mykey 1
+(integer) -1
 ```
 ---
 
@@ -475,7 +555,16 @@ BITPOS mykey 1
 
 ## BLPOP
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax: 
+
+```BLPOP <key> <timeout>```
+
+```BLPOP <key> <key-2> ... <key-n> <timeout>```
+
+#### Description:
+
 
 `BLPOP` is a blocking list pop primitive.
 It is the blocking version of `LPOP` because it blocks the connection when there
@@ -559,11 +648,11 @@ Array Reply: specifically:
 #### Examples:
 
 ```
-KeyDB> DEL list1 list2
+keydb-cli> DEL list1 list2
 (integer) 0
-KeyDB> RPUSH list1 a b c
+keydb-cli> RPUSH list1 a b c
 (integer) 3
-KeyDB> BLPOP list1 list2 0
+keydb-cli> BLPOP list1 list2 0
 1) "list1"
 2) "a"
 ```
@@ -598,10 +687,15 @@ END
 While in the producer side we'll use simply:
 
 ```
-MULTI
-SADD key element
-LPUSH helper_key x
-EXEC
+keydb-cli> MULTI
+OK
+keydb-cli> SADD key element
+QUEUED
+keydb-cli> LPUSH helper_key x
+QUEUED
+keydb-cli> EXEC
+1) (integer) 1
+2) (integer) 1
 ```
 ---
 
@@ -610,7 +704,15 @@ EXEC
 
 ## BRPOP
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```BRPOP <key> <timeout>```
+
+```BRPOP <key> <key-2> ... <key-n> <timeout>```
+
+#### Description:
 
 `BRPOP` is a blocking list pop primitive.
 It is the blocking version of `RPOP` because it blocks the connection when there
@@ -621,8 +723,6 @@ given keys being checked in the order that they are given.
 See the [BLPOP documentation](/docs/commands/#BLPOP) for the exact semantics, since `BRPOP` is
 identical to `BLPOP` with the only difference being that it pops elements from
 the tail of a list instead of popping from the head.
-
-
 
 #### Return:
 
@@ -636,11 +736,11 @@ Array Reply: specifically:
 #### Examples:
 
 ```
-KeyDB> DEL list1 list2
+keydb-cli> DEL list1 list2
 (integer) 0
-KeyDB> RPUSH list1 a b c
+keydb-cli> RPUSH list1 a b c
 (integer) 3
-KeyDB> BRPOP list1 list2 0
+keydb-cli> BRPOP list1 list2 0
 1) "list1"
 2) "c"
 ```
@@ -650,7 +750,13 @@ KeyDB> BRPOP list1 list2 0
 
 ## BRPOPLPUSH
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```BRPOPLPUSH <source> <destination> <timeout>```
+
+#### Description: 
 
 `BRPOPLPUSH` is the blocking variant of `RPOPLPUSH`.
 When `source` contains elements, this command behaves exactly like `RPOPLPUSH`.
@@ -681,6 +787,14 @@ Please see the pattern description in the `RPOPLPUSH` documentation.
 ## BZPOPMAX
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax:
+
+```BZPOPMAX <key> <timeout>```
+
+```BZPOPMAX <key> <key-2> ... <key-n> <timeout>```
+
+#### Description: 
 
 `BZPOPMAX` is the blocking variant of the sorted set `ZPOPMAX` primitive.
 
@@ -726,6 +840,14 @@ keydb-cli> BZPOPMAX zset1 zset2 0
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
 
+#### Syntax:
+
+```BZPOPMIN <key> <timeout>```
+
+```BZPOPMIN <key> <key-2> ... <key-n> <timeout>```
+
+#### Description:
+
 `BZPOPMIN` is the blocking variant of the sorted set `ZPOPMIN` primitive.
 
 It is the blocking version because it blocks the connection when there are no
@@ -765,10 +887,44 @@ keydb-cli> BZPOPMIN zset1 zset2 0
 
 ---
 
+## CLIENT CACHING
 
-## CLIENT-GETNAME
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+#### Syntax:
+
+```CLIENT CACHING <YES|NO>```
+
+#### Description:
+
+This command controls the tracking of the keys in the next command executed
+by the connection, when tracking is enabled in `OPTIN` or `OPTOUT` mode.
+Please check the
+[client side caching documentation](/docs/client-side-caching) for
+background information.
+
+When tracking is enabled KeyDB, using the `CLIENT TRACKING` command, it is
+possible to specify the `OPTIN` or `OPTOUT` options, so that keys
+in read only commands are not automatically remembered by the server to
+be invalidated later. When we are in `OPTIN` mode, we can enable the
+tracking of the keys in the next command by calling `CLIENT CACHING yes`
+immediately before it. Similarly when we are in `OPTOUT` mode, and keys
+are normally tracked, we can avoid the keys in the next command to be
+tracked using `CLIENT CACHING no`.
+
+Basically the command sets a state in the connection, that is valid only
+for the next command execution, that will modify the behavior of client
+tracking.
+
+#### Return: 
+
+Simple String Reply: `OK` or an error if the argument is not yes or no.
+
+---
+
+## CLIENT GETNAME
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The `CLIENT GETNAME` returns the name of the current connection as set by `CLIENT SETNAME`. Since every new connection starts without an associated name, if no name was assigned a null bulk reply is returned.
 
@@ -776,13 +932,43 @@ The `CLIENT GETNAME` returns the name of the current connection as set by `CLIEN
 
 Bulk String Reply: The connection name, or a null bulk reply if no name is set.
 
+#### Examples:
+
+```
+keydb-cli> CLIENT LIST
+id=3 addr=127.0.0.1:39866 fd=10 name= age=620 idle=0 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=26 qbuf-free=32742 argv-mem=10 obl=0 oll=0 omem=0 tot-mem=61466 events=r cmd=client user=default
+keydb-cli> CLIENT GETNAME
+(nil)
+keydb-cli> CLIENT SETNAME foo
+OK
+keydb-cli> CLIENT GETNAME
+"foo"
+```
+
+---
+
+## CLIENT GETREDIR
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+This command returns the client ID we are redirecting our
+[tracking](/docs/client-side-caching) notifications to. We set a client
+to redirect to when using `CLIENT TRACKING` to enable tracking. However in
+order to avoid forcing client libraries implementations to remember the
+ID notifications are redirected to, this command exists in order to improve
+introspection and allow clients to check later if redirection is active
+and towards which client ID.
+
+#### Return:
+
+Integer Reply: the ID of the client we are redirecting the notifications to. The command returns `-1` if client tracking is not enabled, or `0` if client tracking is enabled but we are not redirecting the notifications to any client.
 
 ---
 
 
-## CLIENT-ID
+## CLIENT ID
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The command just returns the ID of the current connection. Every connection
 ID has certain guarantees:
@@ -795,26 +981,20 @@ introduced also in KeyDB 5 together with `CLIENT ID`. Check the `CLIENT UNBLOCK`
 
 #### Examples:
 
-```cli
-CLIENT ID
+```
+keydb-cli> CLIENT ID
+(integer) 5
 ```
 
 ---
 
 
 
-## CLIENT-KILL
+## CLIENT KILL
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
-The `CLIENT KILL` command closes a given client connection. Up to KeyDB 2.8.11 it was possible to close a connection only by client address, using the following form:
-
-    CLIENT KILL addr:port
-
-The `ip:port` should match a line returned by the `CLIENT LIST` command (`addr` field).
-
-However starting with KeyDB 2.8.12 or greater, the command accepts the following
-form:
+The `CLIENT KILL` command closes a given client connection. The command accepts the following form:
 
     CLIENT KILL <filter> <value> ... ... <filter> <value>
 
@@ -822,8 +1002,8 @@ With the new form it is possible to kill clients by different attributes
 instead of killing just by address. The following filters are available:
 
 * `CLIENT KILL ADDR ip:port`. This is exactly the same as the old three-arguments behavior.
-* `CLIENT KILL ID client-id`. Allows to kill a client by its unique `ID` field, which was introduced in the `CLIENT LIST` command starting from KeyDB 2.8.12.
-* `CLIENT KILL TYPE type`, where *type* is one of `normal`, `master`, `slave` and `pubsub` (the `master` type is available from v3.2). This closes the connections of **all the clients** in the specified class. Note that clients blocked into the `MONITOR` command are considered to belong to the `normal` class.
+* `CLIENT KILL ID client-id`. Allows to kill a client by its unique `ID` field.
+* `CLIENT KILL TYPE type`, where *type* is one of `normal`, `master`, `slave` and `pubsub`. This closes the connections of **all the clients** in the specified class. Note that clients blocked into the `MONITOR` command are considered to belong to the `normal` class.
 * `CLIENT KILL SKIPME yes/no`. By default this option is set to `yes`, that is, the client calling the command will not get killed, however setting this option to `no` will have the effect of also killing the client calling the command.
 
 **Note: starting with KeyDB 5 the project is no longer using the slave word. You can use `TYPE replica` instead, however the old form is still supported for backward compatibility.**
@@ -838,7 +1018,7 @@ When the new form is used the command no longer returns `OK` or an error, but in
 
 #### CLIENT KILL and KeyDB Sentinel
 
-Recent versions of KeyDB Sentinel (KeyDB 2.8.12 or greater) use CLIENT KILL
+KeyDB Sentinel use CLIENT KILL
 in order to kill clients when an instance is reconfigured, in order to
 force clients to perform the handshake with one Sentinel again and update
 its configuration.
@@ -864,11 +1044,9 @@ Integer Reply: the number of clients killed.
 
 ---
 
+## CLIENT LIST
 
-
-## CLIENT-LIST
-
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The `CLIENT LIST` command returns information and statistics about the client
 connections server in a mostly human readable format.
@@ -932,18 +1110,29 @@ w: the client socket is writable (event loop)
 
 #### Notes
 
-New fields are regularly added for debugging purpose. Some could be removed
-in the future. A version safe KeyDB client using this command should parse
-the output accordingly (i.e. handling gracefully missing fields, skipping
-unknown fields).
+New fields are regularly added for debugging purpose. Some could be removed in the future. A version safe KeyDB client using this command should parse the output accordingly (i.e. handling gracefully missing fields, skipping unknown fields).
+
+#### Examples:
+
+```
+keydb-cli> CLIENT LIST
+id=7 addr=127.0.0.1:39518 fd=10 name= age=0 idle=0 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=26 qbuf-free=32742 argv-mem=10 obl=0 oll=0 omem=0 tot-mem=61466 events=r cmd=client user=default
+```
+
 ---
 
 
 
 
-## CLIENT-PAUSE
+## CLIENT PAUSE
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```CLIENT PAUSE <timeout> <OPTIONAL:WRITE|ALL>```
+
+#### Description:
 
 `CLIENT PAUSE` is a connections control command able to suspend all the KeyDB clients for the specified amount of time (in milliseconds).
 
@@ -970,14 +1159,35 @@ to be static not just from the point of view of clients not being able to write,
 
 Simple String Reply: The command returns OK or an error if the timeout is invalid.
 
+#### Examples:
+
+```
+keydb-cli> CLIENT PAUSE -1
+(error) ERR timeout is negative
+keydb-cli> CLIENT PAUSE 10000000000000000000
+(error) ERR timeout is not an integer or out of range
+keydb-cli> CLIENT PAUSE 1000000000000000000
+OK
+keydb-cli> GET key 
+{client is waiting for timeout to expire}
+```
+
+The `GET` will not be executed until the timeout expires.
+
 ---
 
 
 
 
-## CLIENT-REPLY
+## CLIENT REPLY
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```CLIENT REPLY <ON|OFF|SKIP>```
+
+#### Description:
 
 Sometimes it can be useful for clients to completely disable replies from the KeyDB server. For example when the client sends fire and forget commands or performs a mass loading of data, or in caching contexts where new data is streamed constantly. In such contexts to use server time and bandwidth in order to send back replies to clients, which are going to be ignored, is considered wasteful.
 
@@ -997,9 +1207,15 @@ Simple String Reply: `OK`.
 
 
 
-## CLIENT-SETNAME
+## CLIENT SETNAME
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```CLIENT SETNAME <name>```
+
+#### Description:
 
 The `CLIENT SETNAME` command assigns a name to the current connection.
 
@@ -1015,20 +1231,36 @@ The connection name can be inspected using `CLIENT GETNAME`.
 
 Every new connection starts without an assigned name.
 
-Tip: setting names to connections is a good way to debug connection leaks due to bugs in the application using KeyDB.
+**Tip**: setting names to connections is a good way to debug connection leaks due to bugs in the application using KeyDB.
 
 #### Return:
 
 Simple String Reply: `OK` if the connection name was successfully set.
+
+#### Examples:
+
+```
+keydb-cli> CLIENT SETNAME foo
+OK
+keydb-cli> CLIENT GETNAME
+"foo"
+```
 
 ---
 
 
 
 
-## CLIENT-UNBLOCK
+## CLIENT UNBLOCK
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```CLIENT UNBLOCK <client-id> <OPTIONAL:TIMEOUT|ERROR>```
+
+
+#### Description:
 
 This command can unblock, from a different connection, a client blocked in a blocking operation, such as for instance `BRPOP` or `XREAD` or `WAIT`.
 
@@ -1060,35 +1292,123 @@ will return and can be finally reissued.
 This example shows the application in the context of KeyDB streams, however
 the pattern is a general one and can be applied to other cases.
 
-#### Example
+#### Example:
 
 ```
-Connection A (blocking connection):
-> CLIENT ID
-2934
-> BRPOP key1 key2 key3 0
-(client is blocked)
+Connection A {blocking connection}:
+keydb-cli> CLIENT ID
+(integer) 2934
+keydb-cli> BRPOP key1 key2 key3 0
+{client is blocked}
 
-... Now we want to add a new key ...
+{... Now we want to add a new key ...}
 
-Connection B (control connection):
-> CLIENT UNBLOCK 2934
-1
+Connection B {control connection}:
+keydb-cli> CLIENT UNBLOCK 2934
+(integer) 1
 
-Connection A (blocking connection):
+Connection A {blocking connection}:
 ... BRPOP reply with timeout ...
-NULL
-> BRPOP key1 key2 key3 key4 0
-(client is blocked again)
+(nil)
+(##.##s)
+keydb-cli> BRPOP key1 key2 key3 key4 0
+{client is blocked again}
 ```
+
 ---
 
+## CLIENT TRACKING
 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
 
+#### Syntax:
 
-## CLUSTER-ADDSLOTS
+```CLIENT TRACKING <ON|OFF>```
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+```CLIENT TRACKING <ON|OFF> <OPTIONAL:REDIRECT> <REDIRECT-argument:client-id>```
+
+```CLIENT TRACKING <ON|OFF> <OPTIONAL:PREFIX-1> <PREFIX-1-argument:prefix-1> ... <OPTIONAL:PREFIX-n> <PREFIX-n-argument:prefix-n>```
+
+```CLIENT TRACKING <ON|OFF> <OPTIONAL:BCAST>```
+
+```CLIENT TRACKING <ON|OFF> <OPTIONAL:OPTIN>```
+
+```CLIENT TRACKING <ON|OFF> <OPTIONAL:OPTOUT>```
+
+```CLIENT TRACKING <ON|OFF> <OPTIONAL:NOLOOP>```
+
+#### Description:
+
+This command enables the tracking feature of the KeyDB server, that is used
+for [server assisted client side caching](/docs/client-side-caching).
+
+When tracking is enabled KeyDB remembers the keys that the connection
+requested, in order to send later invalidation messages when such keys are
+modified. Invalidation messages are sent in the same connection (only available
+when the RESP3 protocol is used) or redirected in a different connection
+(available also with RESP2 and Pub/Sub). A special *broadcasting* mode is
+available where clients participating in this protocol receive every
+notification just subscribing to given key prefixes, regardless of the
+keys that they requested. Given the complexity of the argument please
+refer to [the main client side caching documentation](/docs/client-side-caching) for the details. This manual page is only a reference for the options of this subcommand.
+
+In order to enable tracking, use:
+
+    CLIENT TRACKING on ... options ...
+
+The feature will remain active in the current connection for all its life,
+unless tracking is turned on with `CLIENT TRACKING off` at some point.
+
+The following are the list of options that modify the behavior of the
+command when enabling tracking:
+
+* `REDIRECT <id>`: send invalidation messages to the connection with the specified ID. The connection must exist. You can get the ID of a connection using `CLIENT ID`. If the connection we are redirecting to is terminated, when in RESP3 mode the connection with tracking enabled will receive `tracking-redir-broken` push messages in order to signal the condition.
+* `BCAST`: enable tracking in broadcasting mode. In this mode invalidation messages are reported for all the prefixes specified, regardless of the keys requested by the connection. Instead when the broadcasting mode is not enabled, KeyDB will track which keys are fetched using read-only commands, and will report invalidation messages only for such keys.
+* `PREFIX <prefix>`: for broadcasting, register a given key prefix, so that notifications will be provided only for keys starting with this string. This option can be given multiple times to register multiple prefixes. If broadcasting is enabled without this option, KeyDB will send notifications for every key. You can't delete a single prefix, but you can delete all prefixes by disabling and re-enabling tracking. Using this option adds the additional time complexity of O(N^2), where N is the total number of prefixes tracked. 
+* `OPTIN`: when broadcasting is NOT active, normally don't track keys in read only commands, unless they are called immediately after a `CLIENT CACHING yes` command.
+* `OPTOUT`: when broadcasting is NOT active, normally track keys in read only commands, unless they are called immediately after a `CLIENT CACHING no` command.
+* `NOLOOP`: don't send notifications about keys modified by this connection itself.
+
+#### Return:
+
+Simple String Reply: `OK` if the connection was successfully put in tracking mode or if the tracking mode was successfully disabled. Otherwise an error is returned.
+
+---
+
+## CLIENT TRACKINGINFO
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+The command returns information about the current client connection's use of the [server assisted client side caching](/docs/client-side-caching) feature.
+
+#### Return:
+
+Array Reply: a list of tracking information sections and their respective values, specifically:
+
+* **flags**: A list of tracking flags used by the connection. The flags and their meanings are as follows:
+  * `off`: The connection isn't using server assisted client side caching.
+  * `on`: Server assisted client side caching is enabled for the connection.
+  * `bcast`: The client uses broadcasting mode.
+  * `optin`: The client does not cache keys by default.
+  * `optout`: The client caches keys by default.
+  * `caching-yes`: The next command will cache keys (exists only together with `optin`).
+  * `caching-no`: The next command won't cache keys (exists only together with `optout`).
+  * `noloop`: The client isn't notified about keys modified by itself.
+  * `broken_redirect`: The client ID used for redirection isn't valid anymore.
+* **redirect**: The client ID used for notifications redirection, or -1 when none.
+* **prefixes**: A list of key prefixes for which notifications are sent to the client.
+
+---
+
+## CLUSTER ADDSLOTS
+
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER ADDSLOTS <slot-1> ... <slot-n>``` 
+
+#### Description:
 
 This command is useful in order to modify a node's view of the cluster
 configuration. Specifically it assigns a set of hash slots to the node
@@ -1107,14 +1427,18 @@ However note that:
 For example the following command assigns slots 1 2 3 to the node receiving
 the command:
 
-    > CLUSTER ADDSLOTS 1 2 3
-    OK
+```
+keydb-cli> CLUSTER ADDSLOTS 1 2 3
+OK
+```
 
 However trying to execute it again results into an error since the slots
 are already assigned:
 
-    > CLUSTER ADDSLOTS 1 2 3
-    ERR Slot 1 is already busy
+```
+keydb-cli> CLUSTER ADDSLOTS 1 2 3
+ERR Slot 1 is already busy
+```
 
 #### Usage in KeyDB Cluster
 
@@ -1144,11 +1468,31 @@ Simple String Reply: `OK` if the command was successful. Otherwise an error is r
 
 ---
 
+## CLUSTER BUMPEPOCH
 
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
-## CLUSTER-COUNT-FAILURE-REPORTS
+Advances the cluster config epoch.
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+The `CLUSTER BUMPEPOCH` command triggers an increment to the cluster's config epoch from the connected node. The epoch will be incremented if the node's config epoch is zero, or if it is less than the cluster's greatest epoch.
+
+**Note:** config epoch management is performed internally by the cluster, and relies on obtaining a consensus of nodes. The `CLUSTER BUMPEPOCH` attempts to increment the config epoch **WITHOUT** getting the consensus, so using it may violate the "last failover wins" rule. Use it with caution.
+
+#### Return:
+
+Simple String Reply: `BUMPED` if the epoch was incremented, or `STILL` if the node already has the greatest config epoch in the cluster.
+
+---
+
+## CLUSTER COUNT-FAILURE-REPORTS
+
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER COUNT-FAILURE-REPORTS <node-id-1> ... <node-id-n>```
+
+#### Description:
 
 The command returns the number of *failure reports* for the specified node.
 Failure reports are the way KeyDB Cluster uses in order to promote a
@@ -1173,14 +1517,34 @@ KeyDB Cluster is not operating as we believe it should.
 
 Integer Reply: the number of active failure reports for the node.
 
+#### Examples:
+
+```
+keydb-cli> CLUSTER NODES
+61cb160099c2a84ad949bcf9cbb059fd9c275811 127.0.0.1:7000@17000 myself,master - 0 1631219482000 1 connected 0-5460
+7c6a14f5ea89625aa85b5cafc388f0b34fafa1d9 127.0.0.1:7002@17002 master - 0 1631219484728 3 connected 10923-16383
+9352fd75f2c2403e41b601d7ce27bf44b48ec070 127.0.0.1:7004@17004 slave 61cb160099c2a84ad949bcf9cbb059fd9c275811 0 1631219484227 1 connected
+3f182f3f6b4e7f50991740bfcbe80d4544dd4f6a 127.0.0.1:7005@17005 slave 4a797e3195ef3a0b1fad7dc42d00a5fc2778aabe 0 1631219484000 2 connected
+d04c6dcd72d92a385fc8c3b3e782f04f6a11a6e4 127.0.0.1:7003@17003 slave 7c6a14f5ea89625aa85b5cafc388f0b34fafa1d9 0 1631219483726 3 connected
+4a797e3195ef3a0b1fad7dc42d00a5fc2778aabe 127.0.0.1:7001@17001 master - 0 1631219485230 2 connected 5461-10922
+keydb-cli> CLUSTER COUNT-FAILURE-REPORTS 61cb160099c2a84ad949bcf9cbb059fd9c275811
+(integer) 0
+```
+
 ---
 
 
 
 
-## CLUSTER-COUNTKEYSINSLOT
+## CLUSTER COUNTKEYSINSLOT
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER COUNTKEYSINSLOT <slot>```
+
+#### Description:
 
 Returns the number of keys in the specified KeyDB Cluster hash slot. The
 command only queries the local data set, so contacting a node
@@ -1188,7 +1552,7 @@ that is not serving the specified hash slot will always result in a count of
 zero being returned.
 
 ```
-> CLUSTER COUNTKEYSINSLOT 7000
+keydb-cli> CLUSTER COUNTKEYSINSLOT 7000
 (integer) 50341
 ```
 
@@ -1201,9 +1565,15 @@ Integer Reply: The number of keys in the specified hash slot, or an error if the
 
 
 
-## CLUSTER-DELSLOTS
+## CLUSTER DELSLOTS
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER DELSLOTS <slot-1> ... <slot-n>```
+
+#### Description:
 
 In KeyDB Cluster, each node keeps track of which master is serving
 a particular hash slot.
@@ -1239,8 +1609,10 @@ associated with some node.
 The following command removes the association for slots 5000 and
 5001 from the node receiving the command:
 
-    > CLUSTER DELSLOTS 5000 5001
-    OK
+```
+keydb-cli> CLUSTER DELSLOTS 5000 5001
+OK
+```
 
 #### Usage in KeyDB Cluster
 
@@ -1259,9 +1631,15 @@ an error is returned.
 
 
 
-## CLUSTER-FAILOVER
+## CLUSTER FAILOVER
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER FAILOVER <FORCE|TAKEOVER>```
+
+#### Description:
 
 This command, that can only be sent to a KeyDB Cluster replica node, forces
 the replica to start a manual failover of its master instance.
@@ -1328,14 +1706,65 @@ that the state of the cluster changes after some time the command was sent.
 
 Simple String Reply: `OK` if the command was accepted and a manual failover is going to be attempted. An error if the operation cannot be executed, for example if we are talking with a node which is already a master.
 
+#### Examples:
+
+```
+keydb-cli:7000> CLUSTER NODES
+97980631a6ae3dbc6c21667cf43376688de212d2 127.0.0.1:7003@17003 slave 3abd673a0304a699fa438eed362e73cad05b6c55 0 1631223238939 3 connected
+3f7ca4ea096d892c4f69647814fa5b2f34f46e20 127.0.0.1:7004@17004 slave f7f407020c7b9e25d5da711e0bda67174cac0d74 0 1631223237000 1 connected
+f7f407020c7b9e25d5da711e0bda67174cac0d74 127.0.0.1:7000@17000 myself,master - 0 1631223238000 1 connected 0-5460
+df89fcd5f2939edaebfd35d52f7c7a117946d169 127.0.0.1:7005@17005 slave ccd21518a5eb0d068fd73f02044dc6586c7278ac 0 1631223237936 2 connected
+ccd21518a5eb0d068fd73f02044dc6586c7278ac 127.0.0.1:7001@17001 master - 0 1631223238036 2 connected 5461-10922
+3abd673a0304a699fa438eed362e73cad05b6c55 127.0.0.1:7002@17002 master - 0 1631223238537 3 connected 10923-16383
+keydb-cli:7000> CLUSTER FAILOVER
+(error) ERR You should send CLUSTER FAILOVER to a replica
+```
+
+```
+keydb-cli:7003> CLUSTER NODES
+0965de9f4bf83aebfd59164ec4c8c02038a94b2b 127.0.0.1:7000@17000 master - 0 1631223490167 1 connected 0-5460
+fbc1ad64d1505e7c11172128963239219db86de0 127.0.0.1:7004@17004 slave 27aabea1a0af6379fdb20ad47456de6a04f3a42d 0 1631223491572 3 connected
+0c1aa51848534a3e2bc62eb0305c2b763331cb30 127.0.0.1:7003@17003 myself,slave f3a1cdf36034ca7eab28b13e444d52be89bc2c48 0 1631223491000 2 connected
+f3a1cdf36034ca7eab28b13e444d52be89bc2c48 127.0.0.1:7001@17001 master - 0 1631223490000 2 connected 5461-10922
+27aabea1a0af6379fdb20ad47456de6a04f3a42d 127.0.0.1:7002@17002 master - 0 1631223490000 3 connected 10923-16383
+c566ea1e5a85f677f8647e0fa7d8bed6438c4076 127.0.0.1:7005@17005 slave 0965de9f4bf83aebfd59164ec4c8c02038a94b2b 0 1631223491170 1 connected
+keydb-cli:7003> CLUSTER FAILOVER
+OK
+keydb-cli:7003> CLUSTER NODES
+0965de9f4bf83aebfd59164ec4c8c02038a94b2b 127.0.0.1:7000@17000 master - 0 1631223496585 1 connected 0-5460
+fbc1ad64d1505e7c11172128963239219db86de0 127.0.0.1:7004@17004 slave 27aabea1a0af6379fdb20ad47456de6a04f3a42d 0 1631223495181 3 connected
+0c1aa51848534a3e2bc62eb0305c2b763331cb30 127.0.0.1:7003@17003 myself,master - 0 1631223496000 7 connected 5461-10922
+f3a1cdf36034ca7eab28b13e444d52be89bc2c48 127.0.0.1:7001@17001 master - 0 1631223495000 2 connected
+27aabea1a0af6379fdb20ad47456de6a04f3a42d 127.0.0.1:7002@17002 master - 0 1631223496685 3 connected 10923-16383
+c566ea1e5a85f677f8647e0fa7d8bed6438c4076 127.0.0.1:7005@17005 slave 0965de9f4bf83aebfd59164ec4c8c02038a94b2b 0 1631223496183 1 connected
+```
+
+
 ---
 
+## CLUSTER FLUSHSLOTS
 
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
+Deletes all slots from a node.
 
-## CLUSTER-FORGET
+The `CLUSTER FLUSHSLOTS` deletes all information about slots from the connected node. It can only be called when the database is empty.
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+#### Return:
+
+Simple String Reply: `OK`
+
+---
+
+## CLUSTER FORGET
+
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER FORGET <node-id>```
+
+#### Description:
 
 The command is used in order to remove a node, specified via its node ID,
 from the set of *known nodes* of the KeyDB Cluster node receiving the command.
@@ -1395,14 +1824,40 @@ The command does not succeed and returns an error in the following cases:
 
 Simple String Reply: `OK` if the command was executed successfully, otherwise an error is returned.
 
+#### Description:
+
+```
+keydb-cli:7000> CLUSTER NODES
+0c1aa51848534a3e2bc62eb0305c2b763331cb30 127.0.0.1:7003@17003 master - 0 1631224243477 7 connected 5461-10922
+27aabea1a0af6379fdb20ad47456de6a04f3a42d 127.0.0.1:7002@17002 master - 0 1631224242000 3 connected 10923-16383
+c566ea1e5a85f677f8647e0fa7d8bed6438c4076 127.0.0.1:7005@17005 slave 0965de9f4bf83aebfd59164ec4c8c02038a94b2b 0 1631224242573 1 connected
+fbc1ad64d1505e7c11172128963239219db86de0 127.0.0.1:7004@17004 slave 27aabea1a0af6379fdb20ad47456de6a04f3a42d 0 1631224242000 3 connected
+f3a1cdf36034ca7eab28b13e444d52be89bc2c48 127.0.0.1:7001@17001 slave 0c1aa51848534a3e2bc62eb0305c2b763331cb30 0 1631224242474 7 connected
+0965de9f4bf83aebfd59164ec4c8c02038a94b2b 127.0.0.1:7000@17000 myself,master - 0 1631224242000 1 connected 0-5460
+keydb-cli:7000> CLUSTER FORGET c566ea1e5a85f677f8647e0fa7d8bed6438c4076
+OK
+keydb-cli:7000> CLUSTER NODES
+0c1aa51848534a3e2bc62eb0305c2b763331cb30 127.0.0.1:7003@17003 master - 0 1631224250998 7 connected 5461-10922
+27aabea1a0af6379fdb20ad47456de6a04f3a42d 127.0.0.1:7002@17002 master - 0 1631224250496 3 connected 10923-16383
+fbc1ad64d1505e7c11172128963239219db86de0 127.0.0.1:7004@17004 slave 27aabea1a0af6379fdb20ad47456de6a04f3a42d 0 1631224249494 3 connected
+f3a1cdf36034ca7eab28b13e444d52be89bc2c48 127.0.0.1:7001@17001 slave 0c1aa51848534a3e2bc62eb0305c2b763331cb30 0 1631224249092 7 connected
+0965de9f4bf83aebfd59164ec4c8c02038a94b2b 127.0.0.1:7000@17000 myself,master - 0 1631224248000 1 connected 0-5460
+```
+
 ---
 
 
 
 
-## CLUSTER-GETKEYSINSLOT
+## CLUSTER GETKEYSINSLOT
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER GETKEYSINSLOT <slot> <count>```
+
+#### Description:
 
 The command returns an array of keys names stored in the contacted node and
 hashing to the specified hash slot. The maximum number of keys to return
@@ -1415,7 +1870,7 @@ Cluster specification, or in a more simple to digest form, as an appendix
 of the `CLUSTER SETSLOT` command documentation.
 
 ```
-> CLUSTER GETKEYSINSLOT 7000 3
+keydb-cli> CLUSTER GETKEYSINSLOT 7000 3
 "47344|273766|70329104160040|key_39015"
 "47344|273766|70329104160040|key_89793"
 "47344|273766|70329104160040|key_92937"
@@ -1430,9 +1885,9 @@ Array Reply: From 0 to *count* key names in a KeyDB array reply.
 
 
 
-## CLUSTER-INFO
+## CLUSTER INFO
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
 `CLUSTER INFO` provides `INFO` style information about KeyDB Cluster
 vital parameters. The following is a sample output, followed by the
@@ -1475,9 +1930,15 @@ Bulk String Reply: A map between named fields and values in the form of `<field>
 
 
 
-## CLUSTER-KEYSLOT
+## CLUSTER KEYSLOT
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER KEYSLOT <key>```
+
+#### Description:
 
 Returns an integer identifying the hash slot the specified key hashes to.
 This command is mainly useful for debugging and testing, since it exposes
@@ -1490,11 +1951,11 @@ Example use cases for this command:
 #### Example
 
 ```
-> CLUSTER KEYSLOT somekey
-11058
-> CLUSTER KEYSLOT foo{hash_tag}
+keydb-cli> CLUSTER KEYSLOT somekey
+(integer) 11058
+keydb-cli> CLUSTER KEYSLOT foo{hash_tag}
 (integer) 2515
-> CLUSTER KEYSLOT bar{hash_tag}
+keydb-cli> CLUSTER KEYSLOT bar{hash_tag}
 (integer) 2515
 ```
 
@@ -1509,9 +1970,15 @@ Integer Reply: The hash slot number.
 
 
 
-## CLUSTER-MEET
+## CLUSTER MEET
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER MEET <ip> <port>```
+
+#### Description:
 
 `CLUSTER MEET` is used in order to connect different KeyDB nodes with cluster
 support enabled, into a working cluster.
@@ -1556,12 +2023,23 @@ Simple String Reply: `OK` if the command was successful. If the address or port 
 
 ---
 
+## CLUSTER MYID
 
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
+Returns the node's id.
 
-## CLUSTER-NODES
+The `CLUSTER MYID` command returns the unique, auto-generated identifier that is associated with the connected cluster node.
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+#### Return:
+
+Bulk String Reply: The node id.
+
+---
+
+## CLUSTER NODES
+
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
 Each node in a KeyDB Cluster has its view of the current cluster configuration,
 given by the set of known nodes, the state of the connection we have with such
@@ -1678,9 +2156,15 @@ Bulk String Reply: The serialized cluster configuration.
 
 
 
-## CLUSTER-REPLICAS
+## CLUSTER REPLICAS
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER REPLICAS <node-id>```
+
+#### Description:
 
 The command provides a list of replica nodes replicating from the specified
 master node. The list is provided in the same format used by `CLUSTER NODES` (please refer to its documentation for the specification of the format).
@@ -1698,14 +2182,36 @@ will agree about the set of nodes associated with a given master.
 
 The command returns data in the same format as `CLUSTER NODES`.
 
+#### Examples:
+
+```
+keydb-cli:7000> CLUSTER NODES
+4b216f8a741f76b264e7e3c08a29ba1adaad44fe 127.0.0.1:7005@17005 slave 0ed0bb3a8dc07bad2b71ad67ed2b39cdd6714956 0 1631231982000 1 connected
+17ba11feb265d588e4c123a4164af9900ca63baf 127.0.0.1:7002@17002 master - 0 1631231981367 3 connected 10923-16383
+271af52206b851f2ba8c11403a8798b2f0216aaf 127.0.0.1:7003@17003 slave e5eb7a11a658dcb36c57d87a9a713be873595d0d 0 1631231982871 2 connected
+6fc83eff61ae87f33958908604635fe6d7362391 127.0.0.1:7004@17004 slave 17ba11feb265d588e4c123a4164af9900ca63baf 0 1631231982369 3 connected
+e5eb7a11a658dcb36c57d87a9a713be873595d0d 127.0.0.1:7001@17001 master - 0 1631231982000 2 connected 5461-10922
+0ed0bb3a8dc07bad2b71ad67ed2b39cdd6714956 127.0.0.1:7000@17000 myself,master - 0 1631231981000 1 connected 0-5460
+keydb-cli:7000> CLUSTER REPLICAS 17ba11feb265d588e4c123a4164af9900ca63baf
+1) "6fc83eff61ae87f33958908604635fe6d7362391 127.0.0.1:7004@17004 slave 17ba11feb265d588e4c123a4164af9900ca63baf 0 1631231984877 3 connected"
+keydb-cli:7000> CLUSTER REPLICAS 6fc83eff61ae87f33958908604635fe6d7362391
+(error) ERR The specified node is not a master
+```
+
 ---
 
 
 
 
-## CLUSTER-REPLICATE
+## CLUSTER REPLICATE
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER REPLICATE <node-id>```
+
+#### Description:
 
 The command reconfigures a node as a replica of the specified master.
 If the node receiving the command is an *empty master*, as a side effect
@@ -1734,14 +2240,67 @@ If the command succeeds the new replica will immediately try to contact its mast
 
 Simple String Reply: `OK` if the command was executed successfully, otherwise an error is returned.
 
+#### Examples:
+
+```
+keydb-cli:7003> CLUSTER NODES
+9dcd7be7b2f2033e12e4d3513b5b9fbe2629e8e7 127.0.0.1:7004@17004 slave 90172a7a57cfd320a23a9d318e817b9eb6b8cd6a 0 1631227844714 2 connected
+90172a7a57cfd320a23a9d318e817b9eb6b8cd6a 127.0.0.1:7001@17001 master - 0 1631227844011 2 connected 5461-10922
+c74a50c8f71f1b9d5a40ac922e8f55031eab6ef1 127.0.0.1:7002@17002 master - 0 1631227844000 3 connected 10923-16383
+bd9dc2576ad140e47409049e3a6860598e374276 127.0.0.1:7000@17000 master - 0 1631227844513 1 connected 0-5460
+d58eeed1e5a3871cd1f9bc963a5fdbff23e3b68c 127.0.0.1:7003@17003 myself,slave bd9dc2576ad140e47409049e3a6860598e374276 0 1631227844000 1 connected
+833ae65b490082eb2b31afa257f3f9747141366e 127.0.0.1:7005@17005 slave c74a50c8f71f1b9d5a40ac922e8f55031eab6ef1 0 1631227844513 3 connected
+keydb-cli:7003> CLUSTER REPLICATE c74a50c8f71f1b9d5a40ac922e8f55031eab6ef1
+OK
+keydb-cli:7003> CLUSTER NODES
+9dcd7be7b2f2033e12e4d3513b5b9fbe2629e8e7 127.0.0.1:7004@17004 slave 90172a7a57cfd320a23a9d318e817b9eb6b8cd6a 0 1631227869000 2 connected
+90172a7a57cfd320a23a9d318e817b9eb6b8cd6a 127.0.0.1:7001@17001 master - 0 1631227869593 2 connected 5461-10922
+c74a50c8f71f1b9d5a40ac922e8f55031eab6ef1 127.0.0.1:7002@17002 master - 0 1631227869091 3 connected 10923-16383
+bd9dc2576ad140e47409049e3a6860598e374276 127.0.0.1:7000@17000 master - 0 1631227869593 1 connected 0-5460
+d58eeed1e5a3871cd1f9bc963a5fdbff23e3b68c 127.0.0.1:7003@17003 myself,slave c74a50c8f71f1b9d5a40ac922e8f55031eab6ef1 0 1631227868000 3 connected
+833ae65b490082eb2b31afa257f3f9747141366e 127.0.0.1:7005@17005 slave c74a50c8f71f1b9d5a40ac922e8f55031eab6ef1 0 1631227868000 3 connected
+```
+
+```
+keydb-cli:7000> CLUSTER NODES
+46606b6db45bbefca6032f681a818a9225a02609 127.0.0.1:7001@17001 master - 0 1631228327704 2 connected 5461-10922
+cca9bf177468ceee8078e0723a827a1913fa1415 127.0.0.1:7004@17004 slave 870bab53251d4dc6bd57e65ceff1ac1ada6bcda8 0 1631228327604 1 connected
+02c5f7f488836ae81c799066db0ee2d885090bc9 127.0.0.1:7003@17003 slave 135065e1d071b1e3c0386b9acaffe4b8ea907f5c 0 1631228328506 3 connected
+870bab53251d4dc6bd57e65ceff1ac1ada6bcda8 127.0.0.1:7000@17000 myself,master - 0 1631228328000 1 connected 0-5460
+135065e1d071b1e3c0386b9acaffe4b8ea907f5c 127.0.0.1:7002@17002 master - 0 1631228328707 3 connected 10923-16383
+c9067eb6af322b12d91813cad19c7c273748e6b5 127.0.0.1:7005@17005 slave 46606b6db45bbefca6032f681a818a9225a02609 0 1631228327000 2 connected
+keydb-cli:7000> CLUSTER REPLICATE 870bab53251d4dc6bd57e65ceff1ac1ada6bcda8
+(error) ERR Can't replicate myself
+keydb-cli:7000> CLUSTER REPLICATE 46606b6db45bbefca6032f681a818a9225a02609
+(error) ERR To set a master the node must be empty and without assigned slots.
+```
+
+```
+127.0.0.1:7003> CLUSTER NODES
+02c5f7f488836ae81c799066db0ee2d885090bc9 127.0.0.1:7003@17003 myself,slave 135065e1d071b1e3c0386b9acaffe4b8ea907f5c 0 1631228543000 3 connected
+135065e1d071b1e3c0386b9acaffe4b8ea907f5c 127.0.0.1:7002@17002 master - 0 1631228543546 3 connected 10923-16383
+cca9bf177468ceee8078e0723a827a1913fa1415 127.0.0.1:7004@17004 slave 870bab53251d4dc6bd57e65ceff1ac1ada6bcda8 0 1631228541340 1 connected
+46606b6db45bbefca6032f681a818a9225a02609 127.0.0.1:7001@17001 master - 0 1631228543000 2 connected 5461-10922
+870bab53251d4dc6bd57e65ceff1ac1ada6bcda8 127.0.0.1:7000@17000 master - 0 1631228542000 1 connected 0-5460
+c9067eb6af322b12d91813cad19c7c273748e6b5 127.0.0.1:7005@17005 slave 46606b6db45bbefca6032f681a818a9225a02609 0 1631228543346 2 connected
+127.0.0.1:7003> CLUSTER REPLICATE cca9bf177468ceee8078e0723a827a1913fa1415
+(error) ERR I can only replicate a master, not a replica.
+```
+
 ---
 
 
 
 
-## CLUSTER-RESET
+## CLUSTER RESET
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER RESET <HARD|SOFT>```
+
+#### Description:
 
 Reset a KeyDB Cluster node, in a more or less drastic way depending on the
 reset type, that can be **hard** or **soft**. Note that this command
@@ -1774,9 +2333,9 @@ Simple String Reply: `OK` if the command was successful. Otherwise an error is r
 
 
 
-## CLUSTER-SAVECONFIG
+## CLUSTER SAVECONFIG
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
 Forces a node to save the `nodes.conf` configuration on disk. Before to return
 the command calls `fsync(2)` in order to make sure the configuration is
@@ -1799,9 +2358,15 @@ Simple String Reply: `OK` or an error if the operation fails.
 
 
 
-## CLUSTER-SET-CONFIG-EPOCH
+## CLUSTER SET-CONFIG-EPOCH
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER SET-CONFIG-EPOCH <config-epoch>```
+
+#### Description:
 
 This command sets a specific *config epoch* in a fresh node. It only works when:
 
@@ -1829,14 +2394,41 @@ joining the cluster together.
 
 Simple String Reply: `OK` if the command was executed successfully, otherwise an error is returned.
 
+#### Examples:
+
+```
+keydb-cli:7003> CLUSTER NODES
+02c5f7f488836ae81c799066db0ee2d885090bc9 127.0.0.1:7003@17003 myself,slave 135065e1d071b1e3c0386b9acaffe4b8ea907f5c 0 1631230498000 3 connected
+135065e1d071b1e3c0386b9acaffe4b8ea907f5c 127.0.0.1:7002@17002 master - 0 1631230500390 3 connected 10923-16383
+cca9bf177468ceee8078e0723a827a1913fa1415 127.0.0.1:7004@17004 slave 870bab53251d4dc6bd57e65ceff1ac1ada6bcda8 0 1631230499086 1 connected
+46606b6db45bbefca6032f681a818a9225a02609 127.0.0.1:7001@17001 master - 0 1631230499387 2 connected 5461-10922
+870bab53251d4dc6bd57e65ceff1ac1ada6bcda8 127.0.0.1:7000@17000 master - 0 1631230499889 1 connected 0-5460
+c9067eb6af322b12d91813cad19c7c273748e6b5 127.0.0.1:7005@17005 slave 46606b6db45bbefca6032f681a818a9225a02609 0 1631230498384 2 connected
+keydb-cli:7003> CLUSTER SET-CONFIG-EPOCH 1
+(error) ERR The user can assign a config epoch only when the node does not know any other node.
+```
+
+```
+keydb-cli:7000> CLUSTER NODES
+0ed0bb3a8dc07bad2b71ad67ed2b39cdd6714956 :7000@17000 myself,master - 0 0 0 connected
+keydb-cli:7000> CLUSTER SET-CONFIG-EPOCH 1
+OK
+```
 ---
 
 
 
 
-## CLUSTER-SETSLOT
+## CLUSTER SETSLOT
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER SETLOT <slot> IMPORTING|MIGRATING|STABLE|NODE <node-id>```
+
+
+#### Description:
 
 `CLUSTER SETSLOT` is responsible of changing the state of a hash slot in the receiving node in different ways. It can, depending on the subcommand used:
 
@@ -1922,9 +2514,15 @@ Notes:
 ---
 
 
-## CLUSTER-SLAVES
+## CLUSTER SLAVES
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+
+#### Syntax:
+
+```CLUSTER SLAVES <node-id>```
+
+#### Description:
 
 **A note about the word slave used in this man page and command name**: Starting with KeyDB 5 this command: starting with KeyDB version 5, if not for backward compatibility, the KeyDB project no longer uses the word slave. Please use the new command `CLUSTER REPLICAS`. The command `SLAVEOF` will continue to work for backward compatibility.
 
@@ -1944,14 +2542,31 @@ will agree about the set of nodes associated with a given master.
 
 The command returns data in the same format as `CLUSTER NODES`.
 
+#### Examples:
+
+```
+keydb-cli:7000> CLUSTER NODES
+4b216f8a741f76b264e7e3c08a29ba1adaad44fe 127.0.0.1:7005@17005 slave 0ed0bb3a8dc07bad2b71ad67ed2b39cdd6714956 0 1631231580133 1 connected
+17ba11feb265d588e4c123a4164af9900ca63baf 127.0.0.1:7002@17002 master - 0 1631231581135 3 connected 10923-16383
+271af52206b851f2ba8c11403a8798b2f0216aaf 127.0.0.1:7003@17003 slave e5eb7a11a658dcb36c57d87a9a713be873595d0d 0 1631231581537 2 connected
+6fc83eff61ae87f33958908604635fe6d7362391 127.0.0.1:7004@17004 slave 17ba11feb265d588e4c123a4164af9900ca63baf 0 1631231581537 3 connected
+e5eb7a11a658dcb36c57d87a9a713be873595d0d 127.0.0.1:7001@17001 master - 0 1631231581135 2 connected 5461-10922
+0ed0bb3a8dc07bad2b71ad67ed2b39cdd6714956 127.0.0.1:7000@17000 myself,master - 0 1631231580000 1 connected 0-5460
+keydb-cli:7000> CLUSTER SLAVES 17ba11feb265d588e4c123a4164af9900ca63baf
+1) "6fc83eff61ae87f33958908604635fe6d7362391 127.0.0.1:7004@17004 slave 17ba11feb265d588e4c123a4164af9900ca63baf 0 1631231590161 3 connected"
+keydb-cli:7000> CLUSTER SLAVES 6fc83eff61ae87f33958908604635fe6d7362391
+(error) ERR The specified node is not a master
+
+```
+
 ---
 
 
 
 
-## CLUSTER-SLOTS
+## CLUSTER SLOTS
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
 `CLUSTER SLOTS` returns details about which cluster slots map to which
 KeyDB instances. The command is suitable to be used by KeyDB Cluster client
@@ -2054,9 +2669,7 @@ Array Reply: nested list of slot ranges with IP/Port mappings.
 
 ## COMMAND
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
-
-Returns Array Reply of details about all KeyDB commands.
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
 
 Cluster clients must be aware of key positions in commands so commands can go to matching instances,
 but KeyDB commands vary between accepting one key,
@@ -2081,30 +2694,9 @@ Command name is the command returned as a lowercase string.
 
 ### Command Arity
 
-<table style={{'width':'50%'}}>
-<tr><td>
-<pre>
-<code>1) 1) "get"
-   2) (integer) 2
-   3) 1) readonly
-   4) (integer) 1
-   5) (integer) 1
-   6) (integer) 1
-</code>
-</pre>
-</td>
-<td>
-<pre>
-<code>1) 1) "mget"
-   2) (integer) -2
-   3) 1) readonly
-   4) (integer) 1
-   5) (integer) -1
-   6) (integer) 1
-</code>
-</pre>
-</td></tr>
-</table>
+| `GET` | `MGET` |
+| ------------- | ------------- |
+| ```1) 1) "get"```<br/>```2) (integer) 2```<br/>```3) 1) readonly```<br/>```4) (integer) 1```<br/>```5) (integer) 1```<br/>```6) (integer) 1``` | ```1) 1) "mget"```<br/>```2) (integer) -2```<br/>```3) 1) readonly```<br/>```4) (integer) 1```<br/>```5) (integer) -1```<br/>```6) (integer) 1```|
 
 Command arity follows a simple pattern:
 
@@ -2190,38 +2782,15 @@ If a command accepts an unlimited number of keys, the last key position is -1.
 
 ### Step Count
 
-<table style={{'width':'50%'}}>
-<tr><td>
-<pre>
-<code>1) 1) "mset"
-   2) (integer) -3
-   3) 1) write
-      2) denyoom
-   4) (integer) 1
-   5) (integer) -1
-   6) (integer) 2
-</code>
-</pre>
-</td>
-<td>
-<pre>
-<code>1) 1) "mget"
-   2) (integer) -2
-   3) 1) readonly
-   4) (integer) 1
-   5) (integer) -1
-   6) (integer) 1
-</code>
-</pre>
-</td></tr>
-</table>
+| `MSET` | `MGET` |
+| ------------- | ------------- |
+| ```1) 1) "mset"```<br/>```2) (integer) -3```<br/>```3) 1) write```<br/>&nbsp&nbsp&nbsp&nbsp&nbsp```2) denyoom```<br/>```4) (integer) 1```<br/>```5) (integer) -1```<br/>```6) (integer) 2``` | ```1) 1) "mget"```<br/>```2) (integer) -2```<br/>```3) 1) readonly```<br/>```4) (integer) 1```<br/>```5) (integer) -1```<br/>```6) (integer) 1``` |
 
 Key step count allows us to find key positions in commands
 like `MSET` where the format is `MSET _key1_ _val1_ [key2] [val2] [key3] [val3]...`.
 
 In the case of `MSET`, keys are every other position so the step value is 2.  Compare
 with `MGET` above where the step value is just 1.
-
 
 
 #### Return:
@@ -2231,16 +2800,29 @@ in random order.
 
 #### Examples:
 
-```cli
-COMMAND
+```
+keydb-cli> COMMAND
+
+{output for all commands...}
+
+215) 1) "bitcount"
+     2) (integer) -2
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+     7) 1) @read
+        2) @bitmap
+        3) @slow
+
 ```
 ---
 
 
 
-## COMMAND-COUNT
+## COMMAND COUNT
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 Returns Integer Reply of number of total commands in this KeyDB server.
 
@@ -2250,16 +2832,23 @@ Integer Reply: number of commands returned by `COMMAND`
 
 #### Examples:
 
-```cli
-COMMAND COUNT
+```
+keydb-cli> COMMAND COUNT
+(integer) 215
 ```
 ---
 
 
 
-## COMMAND-GETKEYS
+## COMMAND GETKEYS
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```COMMAND GETKEYS <commandX> <argument-1-of-commandX> ... <argument-n-of-commandX>```
+
+#### Description: 
 
 Returns Array Reply of keys from a full KeyDB command.
 
@@ -2278,18 +2867,32 @@ Array Reply: list of keys from your command.
 
 #### Examples:
 
-```cli
-COMMAND GETKEYS MSET a b c d e f
-COMMAND GETKEYS EVAL "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
-COMMAND GETKEYS SORT mylist ALPHA STORE outlist
+```
+keydb-cli> COMMAND GETKEYS MSET a b c d e f
+1) "a"
+2) "c"
+3) "e"
+keydb-cli> COMMAND GETKEYS EVAl "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
+1) "key1"
+2) "key2"
+3) "key3"
+keydb-cli> COMMAND GETKEYS SORT mylist ALPHA STORE outlist
+1) "mylist"
+2) "outlist"
 ```
 ---
 
 
 
-## COMMAND-INFO
+## COMMAND INFO
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```COMMAND INFO <command-1> ... <command-n>```
+
+#### Description: 
 
 Returns Array Reply of details about multiple KeyDB commands.
 
@@ -2306,18 +2909,75 @@ Array Reply: nested list of command details.
 
 #### Examples:
 
-```cli
-COMMAND INFO get set eval
-COMMAND INFO foo evalsha config bar
+```
+keydb-cli> COMMAND INFO get set eval
+1) 1) "get"
+   2) (integer) 2
+   3) 1) readonly
+      2) fast
+   4) (integer) 1
+   5) (integer) 1
+   6) (integer) 1
+   7) 1) @read
+      2) @string
+      3) @fast
+2) 1) "set"
+   2) (integer) -3
+   3) 1) write
+      2) denyoom
+   4) (integer) 1
+   5) (integer) 1
+   6) (integer) 1
+   7) 1) @write
+      2) @string
+      3) @slow
+3) 1) "eval"
+   2) (integer) -3
+   3) 1) noscript
+      2) movablekeys
+   4) (integer) 0
+   5) (integer) 0
+   6) (integer) 0
+   7) 1) @slow
+      2) @scripting
+keydb-cli> COMMAND INFO foo evalsha config bar
+1) (nil)
+2) 1) "evalsha"
+   2) (integer) -3
+   3) 1) noscript
+      2) movablekeys
+   4) (integer) 0
+   5) (integer) 0
+   6) (integer) 0
+   7) 1) @slow
+      2) @scripting
+3) 1) "config"
+   2) (integer) -2
+   3) 1) admin
+      2) noscript
+      3) loading
+      4) stale
+   4) (integer) 0
+   5) (integer) 0
+   6) (integer) 0
+   7) 1) @admin
+      2) @slow
+      3) @dangerous
 ```
 ---
 
 
 
 
-## CONFIG-GET
+## CONFIG GET
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax :
+
+```CONFIG GET <parameter|glob-style-pattern>```
+
+#### Description:
 
 The `CONFIG GET` command is used to read the configuration parameters of a
 running KeyDB server.
@@ -2328,10 +2988,11 @@ SET`.
 `CONFIG GET` takes a single argument, which is a glob-style pattern.
 All the configuration parameters matching this parameter are reported as a list
 of key-value pairs.
-Example:
+
+#### Example:
 
 ```
-KeyDB> config get *max-*-entries*
+keydb-cli> config get *max-*-entries*
 1) "hash-max-zipmap-entries"
 2) "512"
 3) "list-max-ziplist-entries"
@@ -2375,9 +3036,11 @@ The return type of the command is a Array Reply.
 
 
 
-## CONFIG-RESETSTAT
+## CONFIG RESETSTAT
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Description : 
 
 Resets the statistics reported by KeyDB using the `INFO` command.
 
@@ -2401,9 +3064,9 @@ Simple String Reply: always `OK`.
 
 
 
-## CONFIG-REWRITE
+## CONFIG REWRITE
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The `CONFIG REWRITE` command rewrites the `keydb.conf` file the server was started with, applying the minimal changes needed to make it reflect the configuration currently used by the server, which may be different compared to the original one because of the use of the `CONFIG SET` command.
 
@@ -2426,14 +3089,27 @@ In order to make sure the keydb.conf file is always consistent, that is, on erro
 Simple String Reply: `OK` when the configuration was rewritten properly.
 Otherwise an error is returned.
 
+#### Example:
+
+```
+keydb-cli> CONFIG REWRITE
+(error) ERR The server is running without a config file
+```
+
 ---
 
 
 
 
-## CONFIG-SET
+## CONFIG SET
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```CONFIG SET <server-configuration-parameter> <server-configruation-parameter-value-1> .. <server-configuration-parameter-value-n>```
+
+#### Description:
 
 The `CONFIG SET` command is used in order to reconfigure the server at run time
 without the need to restart KeyDB.
@@ -2456,8 +3132,7 @@ https://github.com/JohnSully/KeyDB/blob/unstable/keydb.conf
 * In options where bytes or other quantities are specified, it is not
   possible to use the `keydb.conf` abbreviated form (`10k`, `2gb` ... and so forth),
   everything should be specified as a well-formed 64-bit integer, in the base
-  unit of the configuration directive. However since KeyDB version 3.0 or
-  greater, it is possible to use `CONFIG SET` with memory units for
+  unit of the configuration directive. However it is possible to use `CONFIG SET` with memory units for
   `maxmemory`, client output buffers, and replication backlog size.
 * The save parameter is a single string of space-separated integers.
   Every pair of integers represent a seconds/modifications threshold.
@@ -2471,7 +3146,11 @@ save 300 10
 
 that means, save after 900 seconds if there is at least 1 change to the dataset,
 and after 300 seconds if there are at least 10 changes to the dataset, should
-be set using `CONFIG SET SAVE "900 1 300 10"`.
+be set using  : 
+
+```
+CONFIG SET SAVE "900 1 300 10"
+```
 
 It is possible to switch persistence from RDB snapshotting to append-only file
 (and the other way around) using the `CONFIG SET` command.
@@ -2499,7 +3178,7 @@ Otherwise an error is returned.
 
 ## DBSIZE
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 Return the number of keys in the currently-selected database.
 
@@ -2507,13 +3186,24 @@ Return the number of keys in the currently-selected database.
 
 Integer Reply
 
+#### Example:
+
+```
+keydb-cli> DBSIZE
+(integer) 0
+keydb-cli> set key 1
+OK
+keydb-cli> DBSIZE
+(integer) 1
+```
+
 ---
 
 
 
-## DEBUG-OBJECT
+## DEBUG OBJECT
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 `DEBUG OBJECT` is a debugging command that should not be used by clients.
 Check the `OBJECT` command instead.
@@ -2527,12 +3217,20 @@ Simple String Reply
 
 
 
-## DEBUG-SEGFAULT
+## DEBUG SEGFAULT
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 `DEBUG SEGFAULT` performs an invalid memory access that crashes KeyDB.
 It is used to simulate bugs during the development.
+
+#### Example: 
+
+```
+keydb-cli>DEBUG SEGFAULT
+Could not connect to Redis at 127.0.0.1:6379: Connection refused
+not connected>
+```
 
 #### Return:
 
@@ -2545,6 +3243,12 @@ Simple String Reply
 ## DECR
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax :
+
+```DECR <key>```
+
+#### Description : 
 
 Decrements the number stored at `key` by one.
 If the key does not exist, it is set to `0` before performing the operation.
@@ -2560,11 +3264,15 @@ Integer Reply: the value of `key` after the decrement
 
 #### Examples:
 
-```cli
-SET mykey "10"
-DECR mykey
-SET mykey "234293482390480948029348230948"
-DECR mykey
+```
+keydb-cli> SET mykey "10"
+OK
+keydb-cli> DECR mykey
+(integer) 9
+keydb-cli> SET mykey "234293482390480948029348230948"
+OK
+keydb-cli> DECR mykey
+(error) ERR value is not an integer or out of range
 ```
 ---
 
@@ -2573,6 +3281,12 @@ DECR mykey
 ## DECRBY
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```DECRBY <key> <decrement>```
+
+#### Description: 
 
 Decrements the number stored at `key` by `decrement`.
 If the key does not exist, it is set to `0` before performing the operation.
@@ -2588,9 +3302,11 @@ Integer Reply: the value of `key` after the decrement
 
 #### Examples:
 
-```cli
-SET mykey "10"
-DECRBY mykey 3
+```
+keydb-cli> SET mykey "10"
+OK
+keydb-cli> DECRBY mykey 3
+(integer) 7
 ```
 
 ---
@@ -2603,16 +3319,23 @@ DECRBY mykey 3
 Removes the specified keys.
 A key is ignored if it does not exist.
 
+#### Syntax:
+
+```DEL <key-1> ... <key-n>```
+
 #### Return:
 
 Integer Reply: The number of keys that were removed.
 
 #### Examples:
 
-```cli
-SET key1 "Hello"
-SET key2 "World"
-DEL key1 key2 key3
+```
+keydb-cli> SET key1 "Hello"
+OK
+keydb-cli> SET key2 "World"
+OK
+keydb-cli> DEL key1 key2 key3
+(integer) 2
 ```
 ---
 
@@ -2621,6 +3344,8 @@ DEL key1 key2 key3
 ## DISCARD
 
 **Related Commands:** [DISCARD](/docs/commands/#discard), [EXEC](/docs/commands/#exec), [MULTI](/docs/commands/#multi), [UNWATCH](/docs/commands/#unwatch), [WATCH](/docs/commands/#watch)
+
+#### Description: 
 
 Flushes all previously queued commands in a [transaction](https://docs.keydb.dev/docs/transactions/) and restores the
 connection state to normal.
@@ -2631,6 +3356,17 @@ If `WATCH` was used, `DISCARD` unwatches all keys watched by the connection.
 
 Simple String Reply: always `OK`.
 
+#### Examples:
+
+```
+keydb-cli> MULTI
+OK
+keydb-cli> DISCARD
+OK
+keydb-cli> EXEC
+(error) ERR EXEC without MULTI
+```
+
 ---
 
 
@@ -2639,6 +3375,12 @@ Simple String Reply: always `OK`.
 ## DUMP
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+#### Syntax:
+
+```DUMP <key>```
+
+#### Description:
 
 Serialize the value stored at key in a keydb-specific format and return it to
 the user.
@@ -2669,9 +3411,11 @@ Bulk String Reply: the serialized value.
 
 #### Examples:
 
-```cli
-SET mykey 10
-DUMP mykey
+```
+keydb-cli> SET mykey 10
+OK
+keydb-cli> DUMP mykey
+"\x00\xc0\n\t\x00\xbem\x06\x89Z(\x00\n"
 ```
 ---
 
@@ -2682,6 +3426,12 @@ DUMP mykey
 
 **Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
 
+#### Syntax:
+
+```ECHO <message>```
+
+#### Description:
+
 Returns `message`.
 
 #### Return:
@@ -2690,8 +3440,9 @@ Bulk String Reply
 
 #### Examples:
 
-```cli
-ECHO "Hello World!"
+```
+keydb-cli> ECHO "Hello World!"
+"hello world!"
 ```
 ---
 
@@ -2722,7 +3473,7 @@ keys (so `ARGV[1]`, `ARGV[2]`, ...).
 The following example should clarify what stated above:
 
 ```
-> eval "return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}" 2 key1 key2 first second
+keydb-cli> eval "return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}" 2 key1 key2 first second
 1) "key1"
 2) "key2"
 3) "first"
@@ -2820,10 +3571,10 @@ Also there are two important rules to note:
 Here are a few conversion Examples::
 
 ```
-> eval "return 10" 0
+keydb-cli> eval "return 10" 0
 (integer) 10
 
-> eval "return {1,2,{3,'Hello World!'}}" 0
+keydb-cli> eval "return {1,2,{3,'Hello World!'}}" 0
 1) (integer) 1
 2) (integer) 2
 3) 1) (integer) 3
@@ -2839,7 +3590,7 @@ was called directly.
 In the following example we can see how floats and arrays with nils are handled:
 
 ```
-> eval "return {1,2,3.3333,'foo',nil,'bar'}" 0
+keydb-cli> eval "return {1,2,3.3333,'foo',nil,'bar'}" 0
 1) (integer) 1
 2) (integer) 2
 3) (integer) 3
@@ -2881,11 +3632,11 @@ will stop the execution of the script and return an error, in a way that
 makes it obvious that the error was generated by a script:
 
 ```
-> del foo
+keydb-cli> del foo
 (integer) 1
-> lpush foo a
+keydb-cli> lpush foo a
 (integer) 1
-> eval "return KeyDB.call('get','foo')" 0
+keydb-cli> eval "return KeyDB.call('get','foo')" 0
 (error) ERR Error running script (call to f_6b1bf486c81ceb7edf3c093f4c48582e38c0e791): ERR Operation against a key holding the wrong kind of value
 ```
 
@@ -3026,9 +3777,9 @@ SCRIPT currently accepts three different commands:
     not violate the scripting engine's guaranteed atomicity).
     See the next sections for more information about long running scripts.
 
-#### Scripts as pure functions
+#### Scripts with deterministic writes
 
-*Note: starting with KeyDB 5, scripts are always replicated as effects and not sending the script verbatim. So the following section is mostly applicable to KeyDB version 4 or older.*
+*Note: starting with KeyDB 5, scripts are always replicated as effects and not sending the script verbatim. So the following section is mostly applicable to Redis version 4 or older.*
 
 A very important part of scripting is writing scripts that are pure functions.
 Scripts executed in a KeyDB instance are, by default, propagated to replicas
@@ -3044,9 +3795,9 @@ dispatching a command received via network is a lot more work for KeyDB compared
 to dispatching a command invoked by Lua scripts).
 
 Normally replicating scripts instead of the effects of the scripts makes sense,
-however not in all the cases. So starting with KeyDB 3.2,
+however not in all the cases. So starting with Redis 3.2 (carried to the current version of KeyDB),
 the scripting engine is able to, alternatively, replicate the sequence of write
-commands resulting from the script execution, instead of replication the
+commands resulting from the script execution, instead of replicating the
 script itself. See the next section for more information.
 In this section we'll assume that scripts are replicated by sending the whole
 script. Let's call this replication mode **whole scripts replication**.
@@ -3076,16 +3827,16 @@ In order to enforce this behavior in scripts KeyDB does the following:
   Note that a _random command_ does not necessarily mean a command that uses
   random numbers: any non-deterministic command is considered a random command
   (the best example in this regard is the `TIME` command).
-* In KeyDB version 4, commands that may return elements in random order, like
+* In Redis version 4, commands that may return elements in random order, like
   `SMEMBERS` (because KeyDB Sets are _unordered_) have a different behavior
   when called from Lua, and undergo a silent lexicographical sorting filter
-  before returning data to Lua scripts. So `KeyDB.call("smembers",KEYS[1])`
+  before returning data to Lua scripts. So `Redis.call("smembers",KEYS[1])`
   will always return the Set elements in the same order, while the same
   command invoked from normal clients may return different results even if
-  the key contains exactly the same elements. However starting with KeyDB 5
-  there is no longer such ordering step, because KeyDB 5 replicates scripts
+  the key contains exactly the same elements. However KeyDB ensures
+  there is no longer such an ordering step, because KeyDB replicates scripts
   in a way that no longer needs non-deterministic commands to be converted
-  into deterministic ones. In general, even when developing for KeyDB 4, never
+  into deterministic ones. In general, never
   assume that certain commands in Lua will be ordered, but instead rely on
   the documentation of the original command you call to see the properties
   it provides.
@@ -3179,10 +3930,7 @@ output.
 
 *Note: starting with KeyDB 5, the replication method described in this section (scripts effects replication) is the default and does not need to be explicitly enabled.*
 
-Starting with KeyDB 3.2, it is possible to select an
-alternative replication method. Instead of replication whole scripts, we
-can just replicate single write commands generated by the script.
-We call this **script effects replication**.
+Instead of replicating whole scripts, it is possible as an alternative to just replicate single write commands generated by the script. We call this **script effects replication**.
 
 In this replication mode, while Lua scripts are executed, KeyDB collects
 all the commands executed by the Lua scripting engine that actually modify
@@ -3230,7 +3978,7 @@ between the two original sets. What we want to replicate is only the creation
 of the new set with the five elements. It's not useful to also replicate the
 commands creating the temporary key.
 
-For this reason, KeyDB 3.2 introduces a new command that only works when
+For this reason, KeyDB offers a command that only works when
 script effects replication is enabled, and is able to control the scripting
 replication engine. The command is called `KeyDB.set_repl()` and fails raising
 an error if called when script effects replication is disabled.
@@ -3288,13 +4036,7 @@ simply declare every variable you are going to use using the _local_ keyword.
 
 #### Using SELECT inside scripts
 
-It is possible to call `SELECT` inside Lua scripts like with normal clients,
-However one subtle aspect of the behavior changes between KeyDB 2.8.11 and
-KeyDB 2.8.12. Before the 2.8.12 release the database selected by the Lua
-script was *transferred* to the calling script as current database.
-Starting from KeyDB 2.8.12 the database selected by the Lua script only
-affects the execution of the script itself, but does not modify the database
-selected by the client calling the script.
+It is possible to call `SELECT` inside Lua scripts like with normal clients, however the database `SELECT`ed by the Lua script only affects the execution of the script itself, but does not modify the database selected by the client calling the script.
 
 The semantic change between patch level releases was needed since the old
 behavior was inherently incompatible with the KeyDB replication layer and
@@ -3390,7 +4132,6 @@ Example:
 #### bitop
 
 The Lua Bit Operations Module adds bitwise operations on numbers.
-It is available for scripting in KeyDB since version 2.8.18.
 
 Example:
 
@@ -3511,11 +4252,11 @@ The client library implementation should take one of the following approaches:
 
 #### Debugging Lua scripts
 
-Starting with KeyDB 3.2, KeyDB has support for native
+KeyDB has support for native
 Lua debugging. The KeyDB Lua debugger is a remote debugger consisting of
 a server, which is KeyDB itself, and a client, which is by default `keydb-cli`.
 
-The Lua debugger is described in the Lua scripts debugging document of the Troubleshooting section of the KeyDB documentation.
+The Lua debugger is described in the [Lua scripts debugging document](https://docs.keydb.dev/docs/ldb) of the Troubleshooting section of the KeyDB documentation.
 
 ---
 
@@ -3553,6 +4294,20 @@ atomic transaction.
 
 When using `WATCH`, `EXEC` can return a nil-reply if the execution was aborted.
 
+#### Examples:
+
+```
+keydb-cli> MULTI
+OK
+keydb-cli> SET KEY 1
+QUEUED
+keydb-cli> GET KEY
+QUEUED
+keydb-cli> EXEC
+1) OK
+2) "1"
+```
+
 ---
 
 
@@ -3561,9 +4316,18 @@ When using `WATCH`, `EXEC` can return a nil-reply if the execution was aborted.
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```EXISTS <key>```
+
+```EXISTS <key-1> ... <key-n>```
+
+
+#### Description:
+
 Returns if `key` exists.
 
-Since KeyDB 3.0.3 it is possible to specify multiple keys instead of a single one. In such a case, it returns the total number of keys existing. Note that returning 1 or 0 for a single key is just a special case of the variadic usage, so the command is completely backward compatible.
+It is also possible to specify multiple keys instead of a single one. In such a case, it returns the total number of keys existing. Note that returning 1 or 0 for a single key is just a special case of the variadic usage, so the command is completely backward compatible.
 
 The user should be aware that if the same existing key is mentioned in the arguments multiple times, it will be counted multiple times. So if `somekey` exists, `EXISTS somekey somekey` will return 2.
 
@@ -3574,18 +4338,23 @@ Integer Reply, specifically:
 * `1` if the key exists.
 * `0` if the key does not exist.
 
-Since KeyDB 3.0.3 the command accepts a variable number of keys and the return value is generalized:
+The command accepts a variable number of keys and the return value is generalized:
 
 * The number of keys existing among the ones specified as arguments. Keys mentioned multiple times and existing are counted multiple times.
 
 #### Examples:
 
-```cli
-SET key1 "Hello"
-EXISTS key1
-EXISTS nosuchkey
-SET key2 "World"
-EXISTS key1 key2 nosuchkey
+```
+keydb-cli> SET key1 "Hello"
+OK
+keydb-cli> EXISTS key1
+(integer) 1
+keydb-cli> EXISTS nosuchkey
+(integer) 0
+keydb-cli> SET key2 "World"
+OK
+keydb-cli> EXISTS key1 key2 nosuchkey
+(integer) 2
 ```
 ---
 
@@ -3594,6 +4363,13 @@ EXISTS key1 key2 nosuchkey
 ## EXPIRE
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+
+#### Syntax:
+
+```EXPIRE <key> <timeout-in-seconds>```
+
+#### Description: 
 
 Set a timeout on `key`.
 After the timeout has expired, the key will automatically be deleted.
@@ -3672,10 +4448,10 @@ You can easily model this pattern in KeyDB using the following strategy: every
 time the user does a page view you call the following commands:
 
 ```
-MULTI
-RPUSH pagewviews.user:<userid> http://.....
-EXPIRE pagewviews.user:<userid> 60
-EXEC
+keydb-cli> MULTI
+keydb-cli> RPUSH pagewviews.user:<userid> http://.....
+keydb-cli> EXPIRE pagewviews.user:<userid> 60
+keydb-cli> EXEC
 ```
 
 If the user will be idle more than 60 seconds, the key will be deleted and only
@@ -3761,6 +4537,12 @@ fully acting as a master.
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax :
+
+```EXPIREAT <key> <expiration-timestamp>```
+
+#### Description:
+
 `EXPIREAT` has the same effect and semantic as `EXPIRE`, but instead of
 specifying the number of seconds representing the TTL (time to live), it takes
 an absolute [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time) (seconds since January 1, 1970). A
@@ -3798,6 +4580,12 @@ keydb-cli> EXISTS mykey
 ---
 
 ## EXPIREMEMBER
+
+#### Syntax:
+
+```EXPIREMEMBER <key> <subkey> <timeout-in-seconds> <OPTIONAL:unit-time-format>```
+
+#### Description:
 
 Sets a timeout on a subkey (individual member of a set).
 
@@ -3854,8 +4642,15 @@ keydb-cli> EXPIREMEMBER key member1 10
 (error) ERR subkey does not exist
 ```
 
+---
 
 ## EXPIREMEMBERAT
+
+#### Syntax:
+
+```EXPIREMEMBERAT <key> <subkey> <expiration-timestamp>```
+
+#### Description:
 
 `EXPIREMEMBERAT` has the same effect and semantic as `EXPIREMEMBER`, but instead of
 specifying the number of seconds representing the TTL (time to live), it takes
@@ -3863,8 +4658,6 @@ an absolute [Unix timestamp] (seconds since January 1, 1970). A
 timestamp in the past will delete the key immediately.
 
 http://en.wikipedia.org/wiki/Unix_time
-
-The command format is `EXPIREMEMBERAT key timestamp`
 
 #### Return:
 
@@ -3883,10 +4676,15 @@ OK
 ```
 ---
 
----
 ## FLUSHALL
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```FLUSHALL <OPTIONAL:ASYNC>```
+
+#### Description:
 
 Delete all the keys of all the existing databases, not just the currently
 selected one.
@@ -3911,7 +4709,13 @@ Simple String Reply
 
 ## FLUSHDB
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```FLUSHDB <OPTIONAL:ASYNC>```
+
+#### Description:
 
 Delete all the keys of the currently selected DB.
 This command never fails.
@@ -3935,6 +4739,12 @@ Simple String Reply
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
 
+#### Syntax:
+
+```GEOADD <key> <longitude-1> <latitude-1> <name-1> ... <longitude-n> <latitude-n> <name-n>```
+
+#### Description:
+
 Adds the specified geospatial items (latitude, longitude, name) to the specified
 key. Data is stored into the key as a sorted set, in a way that makes it possible to later retrieve items using a query by radius with the `GEORADIUS` or `GEORADIUSBYMEMBER` commands.
 
@@ -3948,7 +4758,7 @@ limits, as specified by EPSG:900913 / EPSG:3785 / OSGEO:41001 are the following:
 
 The command will report an error when the user attempts to index coordinates outside the specified ranges.
 
-**Note:** there is no **GEODEL** command because you can use `ZREM` in order to remove elements. The Geo index structure is just a sorted set.
+**LIMITATION:** there is no **GEODEL** command because you can use `ZREM` in order to remove elements. The Geo index structure is just a sorted set.
 
 #### How does it work?
 
@@ -3980,58 +4790,29 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEODIST Sicily Palermo Catania
-GEORADIUS Sicily 15 37 100 km
-GEORADIUS Sicily 15 37 200 km
+```
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli> GEODIST Sicily Palermo Catania
+"166274.1516"
+keydb-cli> GEORADIUS Sicily 15 37 100 km
+1) "Catania"
+keydb-cli> GEORADIUS Sicily 15 37 200 km
+1) "Palermo"
+2) "Catania"
 ```
 
 ---
-
-
-
-
-## GEODECODE
-
-**Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
-
-Geospatial KeyDB commands encode positions of objects in a single 52 bit integer, using a technique called geohash. Those 52 bit integers are:
-
-1. Returned by `GEOAENCODE` as return value.
-2. Used by `GEOADD` as sorted set scores of members.
-
-The `GEODECODE` command is able to translate the 52 bit integers back into a position expressed as longitude and latitude. The command also returns the corners of the box that the 52 bit integer identifies on the earth surface, since each 52 integer actually represent not a single point, but a small area.
-
-This command usefulness is limited to the rare situations where you want to
-fetch raw data from the sorted set, for example with `ZRANGE`, and later
-need to decode the scores into positions. The other obvious use is debugging.
-
-#### Return:
-
-Array Reply, specifically:
-
-The command returns an array of three elements. Each element of the main array is an array of two elements, specifying a longitude and a latitude. So the returned value is in the following form:
-
-* center-longitude, center-latitude
-* min-longitude, min-latitude
-* max-longitude, max-latitude
-
-#### Examples:
-
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-ZSCORE Sicily "Palermo"
-GEODECODE 3479099956230698
-```
----
-
-
-
 
 ## GEODIST
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
+
+#### Syntax:
+
+```GEODIST <key> <member-1> <member-2> <OPTIONAL:distance-unit>```
+
+#### Description:
 
 Return the distance between two members in the geospatial index represented by the sorted set.
 
@@ -4057,60 +4838,19 @@ in the specified unit, or NULL if one or both the elements are missing.
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEODIST Sicily Palermo Catania
-GEODIST Sicily Palermo Catania km
-GEODIST Sicily Palermo Catania mi
-GEODIST Sicily Foo Bar
+```
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli> GEODIST Sicily Palermo Catania
+"166274.1516"
+keydb-cli> GEODIST Sicily Palermo Catania km
+"166.2742"
+keydb-cli> GEODIST Sicily Palermo Catania mi
+"103.3182"
+keydb-cli> GEODIST Sicily Foo Bar
+(nil)
 ```
 
----
-
-
-
-
-## GEOENCODE
-
-**Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
-
-Geospatial KeyDB commands encode positions of objects in a single 52 bit integer, using a technique called geohash. The encoding is further explained in the `GEODECODE` and `GEOADD` documentation. The `GEOENCODE` command, documented in this page, is able to convert a longitude and latitude pair into such 52 bit integer, which is used as the *score* for the sorted set members representing geopositional information.
-
-Normally you don't need to use this command, unless you plan to implement low level code in the client side interacting with the KeyDB geo commands. This command may also be useful for debugging purposes.
-
-`GEOENCODE` takes as input:
-
-1. The longitude and latitude of a point on the Earth surface.
-2. Optionally a radius represented by an integer and an unit.
-
-And returns a set of information, including the representation of the position as a 52 bit integer, the min and max corners of the bounding box represented by the geo hash, the center point in the area covered by the geohash integer, and finally the two sorted set scores to query in order to retrieve all the elements included in the geohash area.
-
-The radius optionally provided to the command is used in order to compute the two scores returned by the command for range query purposes. Moreover the returned geohash integer will only have the most significant bits set, according to the number of bits needed to approximate the specified radius.
-
-#### Use case
-
-
-As already specified this command is mostly not needed if not for debugging. However there are actual use cases, which is, when there is to query for the same areas multiple times, or with a different granularity or area shape compared to what KeyDB `GEORADIUS` is able to provide, the client may implement using this command part of the logic on the client side. Score ranges representing given areas can be cached client side and used to retrieve elements directly using `ZRANGEBYSCORE`.
-
-#### Return:
-
-Array Reply, specifically:
-
-The command returns an array of give elements in the following order:
-
-* The 52 bit geohash
-* min-longitude, min-latitude of the area identified
-* max-longitude, max-latitude of the area identified
-* center-longitude, center-latitude
-* min-score and max-score of the sorted set to retrieve the members inside the area
-
-#### Examples:
-
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-ZSCORE Sicily "Palermo"
-GEOENCODE 13.361389 38.115556 100 km
-```
 ---
 
 
@@ -4119,6 +4859,13 @@ GEOENCODE 13.361389 38.115556 100 km
 ## GEOHASH
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
+
+
+#### Syntax:
+
+```GEOHASH <key> <member-1> ... <member-n>```
+
+#### Description:
 
 Return valid [Geohash](https://en.wikipedia.org/wiki/Geohash) strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using `GEOADD`).
 
@@ -4149,9 +4896,12 @@ each member name passed as argument to the command.
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEOHASH Sicily Palermo Catania
+```
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli> GEOHASH Sicily Palermo Catania
+1) "sqc8b49rny0"
+2) "sqdtr74hyu0"
 ```
 
 ---
@@ -4163,6 +4913,13 @@ GEOHASH Sicily Palermo Catania
 ## GEOPOS
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
+
+
+#### Syntax
+
+```GEOPOS <key> <member-1> ... <member-n>```
+
+#### Description:
 
 Return the positions (longitude,latitude) of all the specified members of the geospatial index represented by the sorted set at *key*.
 
@@ -4182,9 +4939,15 @@ Non existing elements are reported as NULL elements of the array.
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEOPOS Sicily Palermo Catania NonExisting
+```
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli> GEOPOS Sicily Palermo Catania NonExisting
+1) 1) "13.36138933897018433"
+   2) "38.11555639549629859"
+2) 1) "15.08726745843887329"
+   2) "37.50266842333162032"
+3) (nil)
 ```
 
 ---
@@ -4196,6 +4959,12 @@ GEOPOS Sicily Palermo Catania NonExisting
 ## GEORADIUS
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
+
+#### Syntax:
+
+```GEORADIUS <key> <longitude> <latitude> <radius> <distance-unit:m|km|ft|mi> <OPTIONAL:WITHDIST> <OPTIONAL:WITHCOORD> <OPTIONAL:WITHHASH>```
+
+#### Description:
 
 Return the members of a sorted set populated with geospatial information using `GEOADD`, which are within the borders of the area specified with the center location and the maximum distance from the center (the radius).
 
@@ -4250,11 +5019,30 @@ Both commands were introduced in KeyDB 3.2.10 and KeyDB 4.0.0 respectively.
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEORADIUS Sicily 15 37 200 km WITHDIST
-GEORADIUS Sicily 15 37 200 km WITHCOORD
-GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
+```
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli> GEORADIUS Sicily 15 37 200 km WITHDIST
+1) 1) "Palermo"
+   2) "190.4424"
+2) 1) "Catania"
+   2) "56.4413"
+keydb-cli> GEORADIUS Sicily 15 37 200 km WITHCOORD
+1) 1) "Palermo"
+   2) 1) "13.36138933897018433"
+      2) "38.11555639549629859"
+2) 1) "Catania"
+   2) 1) "15.08726745843887329"
+      2) "37.50266842333162032"
+keydb-cli> GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
+1) 1) "Palermo"
+   2) "190.4424"
+   3) 1) "13.36138933897018433"
+      2) "38.11555639549629859"
+2) 1) "Catania"
+   2) "56.4413"
+   3) 1) "15.08726745843887329"
+      2) "37.50266842333162032
 ```
 
 ---
@@ -4265,6 +5053,12 @@ GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
 ## GEORADIUSBYMEMBER
 
 **Related Commands:** [GEOADD](/docs/commands/#geoadd), [GEODIST](/docs/commands/#geodist), [GEOHASH](/docs/commands/#geohash), [GEOPOS](/docs/commands/#geopos), [GEORADIUS](/docs/commands/#georadius), [GEORADIUSBYMEMBER](/docs/commands/#georadiusbymember)
+
+#### Syntax:
+
+```GEORADIUSBYMEMBER <key> <member> <radius> <distance-unit:m|km|ft|mi> <OPTIONAL:WITHDIST> <OPTIONAL:WITHCOORD> <OPTIONAL:WITHHASH>```
+
+#### Description:
 
 This command is exactly like `GEORADIUS` with the sole difference that instead
 of taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.
@@ -4277,10 +5071,14 @@ Note that `GEORADIUSBYMEMBER_RO` is also available since KeyDB 3.2.10 and KeyDB 
 
 #### Examples:
 
-```cli
-GEOADD Sicily 13.583333 37.316667 "Agrigento"
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEORADIUSBYMEMBER Sicily Agrigento 100 km
+```
+keydb-cli> GEOADD Sicily 13.583333 37.316667 "Agrigento"
+(integer) 1
+keydb-cli> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+keydb-cli> GEORADIUSBYMEMBER Sicily Agrigento 100 km
+1) "Agrigento"
+2) "Palermo"
 ```
 ---
 
@@ -4290,6 +5088,12 @@ GEORADIUSBYMEMBER Sicily Agrigento 100 km
 ## GET
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```GET <key>```
+
+#### Description:
 
 Get the value of `key`.
 If the key does not exist the special value `nil` is returned.
@@ -4302,10 +5106,13 @@ Bulk String Reply: the value of `key`, or `nil` when `key` does not exist.
 
 #### Examples:
 
-```cli
-GET nonexisting
-SET mykey "Hello"
-GET mykey
+```
+keydb-cli> GET nonexisting
+(nil)
+keydb-cli> SET mykey "Hello"
+OK
+keydb-cli> GET mykey
+"Hello"
 ```
 
 ---
@@ -4316,6 +5123,12 @@ GET mykey
 ## GETBIT
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```GETBIT <key> <offset>```
+
+#### Description:
 
 Returns the bit value at _offset_ in the string value stored at _key_.
 
@@ -4331,11 +5144,15 @@ Integer Reply: the bit value stored at _offset_.
 
 #### Examples:
 
-```cli
-SETBIT mykey 7 1
-GETBIT mykey 0
-GETBIT mykey 7
-GETBIT mykey 100
+```
+keydb-cli> SETBIT mykey 7 1
+(integer) 0
+keydb-cli> GETBIT mykey 0
+(integer) 0
+keydb-cli> GETBIT mykey 7
+(integer) 1
+keydb-cli> GETBIT mykey 100
+(integer) 0
 ```
 ---
 
@@ -4346,8 +5163,11 @@ GETBIT mykey 100
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
-**Warning**: this command was renamed to `GETRANGE`, it is called `SUBSTR` in
-KeyDB versions `<= 2.0`.
+#### Syntax:
+
+```GETRANGE <key> <start> <end>```
+
+#### Description:
 
 Returns the substring of the string value stored at `key`, determined by the
 offsets `start` and `end` (both are inclusive).
@@ -4364,12 +5184,17 @@ Bulk String Reply
 
 #### Examples:
 
-```cli
-SET mykey "This is a string"
-GETRANGE mykey 0 3
-GETRANGE mykey -3 -1
-GETRANGE mykey 0 -1
-GETRANGE mykey 10 100
+```
+keydb-cli> SET mykey "This is a string"
+OK
+keydb-cli> GETRANGE mykey 0 3
+"This"
+keydb-cli> GETRANGE mykey -3 -1
+"ing"
+keydb-cli> GETRANGE mykey 0 -1
+"This is a string"
+keydb-cli> GETRANGE mykey 10 100
+"string"
 ```
 ---
 
@@ -4380,6 +5205,12 @@ GETRANGE mykey 10 100
 ## GETSET
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```GETSET <key> <value>```
+
+#### Description:
 
 Atomically sets `key` to `value` and returns the old value stored at `key`.
 Returns an error when `key` exists but does not hold a string value.
@@ -4392,10 +5223,13 @@ some event occurs, but from time to time we need to get the value of the counter
 and reset it to zero atomically.
 This can be done using `GETSET mycounter "0"`:
 
-```cli
-INCR mycounter
-GETSET mycounter "0"
-GET mycounter
+```
+keydb-cli> INCR mycounter
+(integer) 1
+keydb-cli> GETSET mycounter "0"
+"1"
+keydb-cli> GET mycounter
+"0"
 ```
 
 #### Return:
@@ -4404,10 +5238,13 @@ Bulk String Reply: the old value stored at `key`, or `nil` when `key` did not ex
 
 #### Examples:
 
-```cli
-SET mykey "Hello"
-GETSET mykey "World"
-GET mykey
+```
+keydb-cli> SET mykey "Hello"
+OK
+keydb-cli> GETSET mykey "World"
+"Hello"
+keydb-cli> GET mykey
+"World"
 ```
 
 ---
@@ -4418,6 +5255,12 @@ GET mykey
 ## HDEL
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
+
+#### Syntax:
+
+```HDEL <key> <field-1> ..  <field-n>```
+
+#### Description:
 
 Removes the specified fields from the hash stored at `key`.
 Specified fields that do not exist within this hash are ignored.
@@ -4432,10 +5275,13 @@ including specified but non existing fields.
 
 #### Examples:
 
-```cli
-HSET myhash field1 "foo"
-HDEL myhash field1
-HDEL myhash field2
+```
+keydb-cli> HSET myhash field1 "foo"
+(integer) 1
+keydb-cli> HDEL myhash field1
+(integer) 1
+keydb-cli> HDEL myhash field2
+(integer) 0
 ```
 ---
 
@@ -4445,6 +5291,12 @@ HDEL myhash field2
 ## HEXISTS
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
+
+#### Syntax:
+
+```HEXISTS <key> <field>```
+
+#### Description:
 
 Returns if `field` is an existing field in the hash stored at `key`.
 
@@ -4457,10 +5309,13 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-HSET myhash field1 "foo"
-HEXISTS myhash field1
-HEXISTS myhash field2
+```
+keydb-cli> HSET myhash field1 "foo"
+(integer) 1
+keydb-cli> HEXISTS myhash field1
+(integer) 1
+keydb-cli> HEXISTS myhash field2
+(integer) 0
 ```
 ---
 
@@ -4473,6 +5328,10 @@ HEXISTS myhash field2
 
 Returns the value associated with `field` in the hash stored at `key`.
 
+#### Syntax:
+
+```HGET <key> <field>```
+
 #### Return:
 
 Bulk String Reply: the value associated with `field`, or `nil` when `field` is not
@@ -4480,10 +5339,13 @@ present in the hash or `key` does not exist.
 
 #### Examples:
 
-```cli
-HSET myhash field1 "foo"
-HGET myhash field1
-HGET myhash field2
+```
+keydb-cli> HSET myhash field1 "foo"
+(integer) 1
+keydb-cli> HGET myhash field1
+"foo"
+keydb-cli> HGET myhash field2
+(nil)
 ```
 ---
 
@@ -4493,6 +5355,13 @@ HGET myhash field2
 ## HGETALL
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
+
+
+#### Syntax:
+
+```HGETALL <key>```
+
+#### Description:
 
 Returns all fields and values of the hash stored at `key`.
 In the returned value, every field name is followed by its value, so the length
@@ -4505,11 +5374,18 @@ empty list when `key` does not exist.
 
 #### Examples:
 
-```cli
-HSET myhash field1 "Hello"
-HSET myhash field2 "World"
-HGETALL myhash
 ```
+keydb-cli> HSET myhash field1 "Hello"
+(integer) 1
+keydb-cli> HSET myhash field2 "World"
+(integer) 1
+keydb-cli> HGETALL myhash
+1) "field1"
+2) "Hello"
+3) "field2"
+4) "World" 
+```
+
 ---
 
 
@@ -4518,6 +5394,12 @@ HGETALL myhash
 ## HINCRBY
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
+
+#### Syntax:
+
+```HINCRBY <key> <field> <increment>```
+
+#### Description:
 
 Increments the number stored at `field` in the hash stored at `key` by
 `increment`.
@@ -4536,11 +5418,15 @@ Integer Reply: the value at `field` after the increment operation.
 Since the `increment` argument is signed, both increment and decrement
 operations can be performed:
 
-```cli
-HSET myhash field 5
-HINCRBY myhash field 1
-HINCRBY myhash field -1
-HINCRBY myhash field -10
+```
+keydb-cli> HSET myhash field 5
+(integer) 1
+keydb-cli> HINCRBY myhash field 1
+(integer) 6
+keydb-cli> HINCRBY myhash field -1
+(integer) 5
+keydb-cli> HINCRBY myhash field -10
+(integer) -5
 ```
 
 ---
@@ -4551,6 +5437,13 @@ HINCRBY myhash field -10
 ## HINCRBYFLOAT
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
+
+
+#### Syntax:
+
+```HINCRBYFLOAT <key> <field> <increment>```
+
+#### Description:
 
 Increment the specified `field` of a hash stored at `key`, and representing a
 floating point number, by the specified `increment`. If the increment value
@@ -4572,12 +5465,17 @@ Bulk String Reply: the value of `field` after the increment.
 
 #### Examples:
 
-```cli
-HSET mykey field 10.50
-HINCRBYFLOAT mykey field 0.1
-HINCRBYFLOAT mykey field -5
-HSET mykey field 5.0e3
-HINCRBYFLOAT mykey field 2.0e2
+```
+keydb-cli> HSET mykey field 10.50
+(integer) 1
+keydb-cli> HINCRBYFLOAT mykey field 0.1
+"10.6"
+keydb-cli> HINCRBYFLOAT mykey field -5
+"5.6"
+keydb-cli> HSET mykey field 5.0e3
+(integer) 0
+keydb-cli> HINCRBYFLOAT mykey field 2.0e2
+"5200"
 ```
 
 #### Implementation details
@@ -4596,6 +5494,12 @@ math implementation will not be sources of inconsistency.
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
 
+#### Syntax:
+
+```HKEYS <key>```
+
+#### Description:
+
 Returns all field names in the hash stored at `key`.
 
 #### Return:
@@ -4605,10 +5509,14 @@ not exist.
 
 #### Examples:
 
-```cli
-HSET myhash field1 "Hello"
-HSET myhash field2 "World"
-HKEYS myhash
+```
+keydb-cli> HSET myhash field1 "Hello"
+(integer) 1
+keydb-cli> HSET myhash field2 "World"
+(integer) 1
+keydb-cli> HKEYS myhash
+1) "field1"
+2) "field2"
 ```
 ---
 
@@ -4619,6 +5527,13 @@ HKEYS myhash
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
 
+
+#### Syntax:
+
+```HLEN <key>```
+
+#### Description:
+
 Returns the number of fields contained in the hash stored at `key`.
 
 #### Return:
@@ -4627,10 +5542,13 @@ Integer Reply: number of fields in the hash, or `0` when `key` does not exist.
 
 #### Examples:
 
-```cli
-HSET myhash field1 "Hello"
-HSET myhash field2 "World"
-HLEN myhash
+```
+keydb-cli> HSET myhash field1 "Hello"
+(integer) 1
+keydb-cli> HSET myhash field2 "World"
+(integer) 1
+keydb-cli> HLEN myhash
+(integer) 2
 ```
 ---
 
@@ -4640,6 +5558,13 @@ HLEN myhash
 ## HMGET
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
+
+
+#### Syntax
+
+```HMGET <key> <field-1> ... <field-n>```
+
+#### Description:
 
 Returns the values associated with the specified `fields` in the hash stored at
 `key`.
@@ -4653,10 +5578,15 @@ a non-existing `key` will return a list of `nil` values.
 Array Reply: list of values associated with the given fields, in the same
 order as they are requested.
 
-```cli
-HSET myhash field1 "Hello"
-HSET myhash field2 "World"
-HMGET myhash field1 field2 nofield
+```
+keydb-cli> HSET myhash field1 "Hello"
+(integer) 1
+keydb-cli> HSET myhash field2 "World"
+(integer) 1
+keydb-cli> HMGET myhash field1 field2 nofield
+1) "Hello"
+2) "World"
+3) (nil)
 ```
 ---
 
@@ -4666,6 +5596,12 @@ HMGET myhash field1 field2 nofield
 ## HMSET
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
+
+#### Syntax:
+
+```HMSET <key> <field-1> <value-1> ... <field-n> <value-n>```
+
+#### Description:
 
 Sets the specified fields to their respective values in the hash stored at
 `key`.
@@ -4678,10 +5614,13 @@ Simple String Reply
 
 #### Examples:
 
-```cli
-HMSET myhash field1 "Hello" field2 "World"
-HGET myhash field1
-HGET myhash field2
+```
+keydb-cli> HMSET myhash field1 "Hello" field2 "World"
+OK
+keydb-cli> HGET myhash field1
+"Hello"
+keydb-cli> HGET myhash field2
+"World"
 ```
 ---
 
@@ -4701,6 +5640,15 @@ See `SCAN` for `HSCAN` documentation.
 
 ## HSET
 
+**Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
+
+
+#### Syntax: 
+
+```HSET <key> <field> <value>```
+
+#### Description:
+
 Sets `field` in the hash stored at `key` to `value`.
 If `key` does not exist, a new key holding a hash is created.
 If `field` already exists in the hash, it is overwritten.
@@ -4714,10 +5662,13 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-HSET myhash field1 "Hello"
-HGET myhash field1
 ```
+keydb-cli> HSET myhash field1 "Hello"
+(integer) 1
+keydb-cli> HGET myhash field1
+"Hello"
+```
+
 ---
 
 
@@ -4726,6 +5677,12 @@ HGET myhash field1
 ## HSETNX
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
+
+#### Syntax:
+
+```HSETNX <key> <field> <value>```
+
+#### Description:
 
 Sets `field` in the hash stored at `key` to `value`, only if `field` does not
 yet exist.
@@ -4741,10 +5698,13 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-HSETNX myhash field "Hello"
-HSETNX myhash field "World"
-HGET myhash field
+```
+keydb-cli> HSETNX myhash field "Hello"
+(integer) 1
+keydb-cli> HSETNX myhash field "World"
+(integer) 0
+keydb-cli> HGET myhash field
+"Hello"
 ```
 ---
 
@@ -4755,6 +5715,12 @@ HGET myhash field
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
 
+#### Syntax:
+
+```HSTRLEN <key> <value>```
+
+#### Description:
+
 Returns the string length of the value associated with `field` in the hash stored at `key`. If the `key` or the `field` do not exist, 0 is returned.
 
 #### Return:
@@ -4763,11 +5729,15 @@ Integer Reply: the string length of the value associated with `field`, or zero w
 
 #### Examples:
 
-```cli
-HMSET myhash f1 HelloWorld f2 99 f3 -256
-HSTRLEN myhash f1
-HSTRLEN myhash f2
-HSTRLEN myhash f3
+```
+keydb-cli> HMSET myhash f1 HelloWorld f2 99 f3 -256
+OK
+keydb-cli> HSTRLEN myhash f1
+(integer) 10
+keydb-cli> HSTRLEN myhash f2
+(integer) 2
+keydb-cli> HSTRLEN myhash f3
+(integer) 4
 ```
 ---
 
@@ -4779,6 +5749,12 @@ HSTRLEN myhash f3
 
 **Related Commands:** [HDEL](/docs/commands/#hdel), [HEXISTS](/docs/commands/#hexists), [HGET](/docs/commands/#hget), [HGETALL](/docs/commands/#hgetall), [HINCRBY](/docs/commands/#hincrby), [HINCRBYFLOAT](/docs/commands/#hincrbyfloat), [HKEYS](/docs/commands/#hkeys), [HLEN](/docs/commands/#hlen), [HMGET](/docs/commands/#hmget), [HMSET](/docs/commands/#hmset), [HSCAN](/docs/commands/#hscan), [HSET](/docs/commands/#hset), [HSETNX](/docs/commands/#hsetnx), [HSTRLEN](/docs/commands/#hstrlen), [HVALS](/docs/commands/#hvals)
 
+#### Syntax:
+
+```HVALS <key>```
+
+#### Description:
+
 Returns all values in the hash stored at `key`.
 
 #### Return:
@@ -4788,10 +5764,14 @@ not exist.
 
 #### Examples:
 
-```cli
-HSET myhash field1 "Hello"
-HSET myhash field2 "World"
-HVALS myhash
+```
+keydb-cli> HSET myhash field1 "Hello"
+(integer) 1
+keydb-cli> HSET myhash field2 "World"
+(integer) 1
+keydb-cli> HVALS myhash
+1) "Hello"
+2) "World"
 ```
 ---
 
@@ -4802,6 +5782,12 @@ HVALS myhash
 ## INCR
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```INCR <key>```
+
+#### Description:
 
 Increments the number stored at `key` by one.
 If the key does not exist, it is set to `0` before performing the operation.
@@ -4824,10 +5810,12 @@ Integer Reply: the value of `key` after the increment
 
 #### Examples:
 
-```cli
-SET mykey "10"
-INCR mykey
-GET mykey
+```
+keydb-cli> SET mykey "10"
+OK
+keydb-cli> INCR mykey
+(integer) 11
+keydb-cli> GET mykey
 ```
 
 #### Pattern: Counter
@@ -4976,6 +5964,12 @@ limiting will still work correctly.
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```INCRBY <key> <increment>```
+
+#### Dsescription:
+
 Increments the number stored at `key` by `increment`.
 If the key does not exist, it is set to `0` before performing the operation.
 An error is returned if the key contains a value of the wrong type or contains a
@@ -4990,9 +5984,11 @@ Integer Reply: the value of `key` after the increment
 
 #### Examples:
 
-```cli
-SET mykey "10"
-INCRBY mykey 5
+```
+keydb-cli> SET mykey "10"
+OK
+keydb-cli> INCRBY mykey 5
+(integer) 15
 ```
 ---
 
@@ -5003,6 +5999,12 @@ INCRBY mykey 5
 ## INCRBYFLOAT
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```INCRBYFLOAT <key> <increment>```
+
+#### Description:
 
 Increment the string representing a floating point number stored at `key` by the
 specified `increment`. By using a negative `increment` value, the result is
@@ -5035,12 +6037,17 @@ Bulk String Reply: the value of `key` after the increment.
 
 #### Examples:
 
-```cli
-SET mykey 10.50
-INCRBYFLOAT mykey 0.1
-INCRBYFLOAT mykey -5
-SET mykey 5.0e3
-INCRBYFLOAT mykey 2.0e2
+```
+keydb-cli> SET mykey 10.50
+OK
+keydb-cli> INCRBYFLOAT mykey 0.1
+"10.6"
+keydb-cli> INCRBYFLOAT mykey -5
+"5.6"
+keydb-cli> SET mykey 5.0e3
+OK
+keydb-cli> INCRBYFLOAT mykey 2.0e2
+"5200"
 ```
 
 #### Implementation details
@@ -5057,7 +6064,7 @@ math implementation will not be sources of inconsistency.
 
 ## INFO
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The `INFO` command returns information and statistics about the server in a
 format that is simple to parse by computers and easy to read by humans.
@@ -5089,7 +6096,7 @@ Bulk String Reply: as a collection of text lines.
 Lines can contain a section name (starting with a # character) or a property.
 All the properties are in the form of `field:value` terminated by `\r\n`.
 
-```cli
+```
 INFO
 ```
 
@@ -5100,7 +6107,7 @@ added or removed. A robust client application should therefore parse the
 result of this command by skipping unknown properties, and gracefully handle
 missing fields.
 
-Here is the description of fields for KeyDB >= 2.4.
+Here is the description of fields for KeyDB.
 
 
 Here is the meaning of all fields in the **server** section:
@@ -5389,19 +6396,19 @@ KeyDB's CRON function schedules LUA scripts to run at specified times and interv
 
 `OK` if the task was accepted and successfully scheduled.
 
-#### Usage:
+#### Syntax:
 
 ```
-KEYDB.CRON name [single/repeat] [optional: start] delay script numkeys [key N] [arg N]
+KEYDB.CRON <name> <SINGLE|REPEAT> <OPTIONAL:start> <delay> <script> <numkeys> <key-N> <arg-N>
 ```
 where:
 * `name` is the name of the KEY. This will be visible in the keyspace, can be searched, and deleted with `DEL`. Each cron task will have its own name.
-* `[single/repeat]` specifies if the script will run only once, or if it will be repeated at the specified interval
-* `[optional: start]` is an integer specified in milliseconds since Epoch. If specified, the script will not execute until this Unix time has been reached. If the delay is greater than zero, this delay time will need to elapse prior to the script executing (timer begins to elapse at start time). If a start time 
+* `single/repeat` specifies if the script will run only once, or if it will be repeated at the specified interval
+* `start` is an integer specified in milliseconds since Epoch. If specified, the script will not execute until this Unix time has been reached. If the delay is greater than zero, this delay time will need to elapse prior to the script executing (timer begins to elapse at start time). If a start time 
 is specified, the delay will always remain in reference intervals to that start time.
 * `delay` is an integer specified in milliseconds used as the initial delay. If `repeat` is specified, this will also be the length of the repeating timer which will execute the script each time the delay elapses (will continue to execute indefinitely).
 * `script` is the LUA script to execute. This should be the LUA script itself and NOT the SHA1 digest of a loaded script.
-* `numkeys [key N] [arg N]` are the number of keys, keys, and arguments for the script, similar to usage with [EVAL](/docs/commands/#eval)
+* `numkeys <key-N> <arg-N>` are the number of keys, keys, and arguments for the script, similar to usage with [EVAL](/docs/commands/#eval)
 
 #### Persistence:
 
@@ -5425,7 +6432,7 @@ keydb-cli> KEYDB.CRON mytestname2 SINGLE 1610941618000 1 "redis.call('set',KEYS[
 OK
 ```
 
-The above command sets "mytestcounter" to zero at Unix Timestamp 1610941618000 milliseconds. This will occur only once. Note that we must specify a delay time. Once the task has completed the KEY will be removed and the name "mytestname2" will no longer exist.
+The above command sets `mytestcounter` to zero at Unix Timestamp 1610941618000 milliseconds. This will occur only once. Note that we must specify a delay time. Once the task has completed the KEY will be removed and the name `mytestname2` will no longer exist.
 
 For more information and examples on KEYDB.CRON, take a look at this blog post: https://docs.keydb.dev/blog/2021/01/26/blog-post/
 
@@ -5437,6 +6444,12 @@ For more information and examples on KEYDB.CRON, take a look at this blog post: 
 ## KEYS
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+#### Syntax:
+
+```KEYS <pattern>```
+
+#### Description:
 
 Returns all keys matching `pattern`.
 
@@ -5483,9 +6496,9 @@ keydb-cli> KEYS *name*
 keydb-cli> KEYS a??
 1) "age"
 keydb-cli> KEYS *
-1) "lastname"
-2) "firstname"
-3) "age"
+1) "age"
+2) "lastname"
+3) "firstname"
 ```
 
 ---
@@ -5496,7 +6509,7 @@ keydb-cli> KEYS *
 
 ## LASTSAVE
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 Return the UNIX TIME of the last DB save executed with success.
 A client may check if a `BGSAVE` command succeeded reading the `LASTSAVE` value,
@@ -5509,13 +6522,309 @@ Integer Reply: an UNIX time stamp.
 
 ---
 
+## LATENCY DOCTOR
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+The `LATENCY DOCTOR` command reports about different latency-related issues and advises about possible remedies.
+
+This command is the most powerful analysis tool in the latency monitoring
+framework, and is able to provide additional statistical data like the average
+period between latency spikes, the median deviation, and a human-readable
+analysis of the event. For certain events, like `fork`, additional information
+is provided, like the rate at which the system forks processes.
+
+This output can be useful in diagnosing Latency related issues.
+
+#### Examples:
+
+```
+keydb-cli> LATENCY DOCTOR
+
+Dave, I have observed latency spikes in this Redis instance.
+You don't mind talking about it, do you Dave?
+
+1. command: 5 latency spikes (average 300ms, mean deviation 120ms,
+    period 73.40 sec). Worst all time event 500ms.
+
+I have a few advices for you:
+
+- Your current Slow Log configuration only logs events that are
+    slower than your configured latency monitor threshold. Please
+    use 'CONFIG SET slowlog-log-slower-than 1000'.
+- Check your Slow Log to understand what are the commands you are
+    running which are too slow to execute. Please check
+    http://redis.io/commands/slowlog for more information.
+- Deleting, expiring or evicting (because of maxmemory policy)
+    large objects is a blocking operation. If you have very large
+    objects that are often deleted, expired, or evicted, try to
+    fragment those objects into multiple smaller objects.
+```
+
+**Note:** the doctor has erratic psychological behaviors, so we recommend interacting with it carefully.
+
+For more information refer to the [Latency Monitoring Framework page][lm].
+
+[lm]: https://docs.keydb.dev/docs/latency-monitor/
+
+#### Return:
+
+Bulk String Reply
 
 
+---
 
+## LATENCY GRAPH
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+#### Syntax:
+
+```LATENCY GRAPH <event>```
+
+#### Description
+
+Produces an ASCII-art style graph for the specified event.
+
+`LATENCY GRAPH` lets you intuitively understand the latency trend of an `event` via state-of-the-art visualization. It can be used for quickly grasping the situation before resorting to means such parsing the raw data from `LATENCY HISTORY` or external tooling.
+
+Valid values for `event` are:
+* `active-defrag-cycle`
+* `aof-fsync-always`
+* `aof-stat`
+* `aof-rewrite-diff-write`
+* `aof-rename`
+* `aof-write`
+* `aof-write-active-child`
+* `aof-write-alone`
+* `aof-write-pending-fsync`
+* `command`
+* `expire-cycle`
+* `eviction-cycle`
+* `eviction-del`
+* `fast-command`
+* `fork`
+* `rdb-unlink-temp-file`
+
+#### Examples:
+
+```
+keydb-cli> latency reset command
+(integer) 0
+keydb-cli> debug sleep .1
+OK
+keydb-cli> debug sleep .2
+OK
+keydb-cli> debug sleep .3
+OK
+keydb-cli> debug sleep .5
+OK
+keydb-cli> debug sleep .4
+OK
+keydb-cli> latency graph command
+command - high 500 ms, low 101 ms (all time high 500 ms)
+--------------------------------------------------------------------------------
+   #_
+  _||
+ _|||
+_||||
+
+11186
+542ss
+sss
+```
+
+The vertical labels under each graph column represent the amount of seconds,
+minutes, hours or days ago the event happened. For example "15s" means that the
+first graphed event happened 15 seconds ago.
+
+The graph is normalized in the min-max scale so that the zero (the underscore
+in the lower row) is the minimum, and a # in the higher row is the maximum.
+
+For more information refer to the [Latency Monitoring Framework page][lm].
+
+[lm]: https://docs.keydb.dev/docs/latency-monitor/
+
+#### Return:
+
+Bulk String Reply
+
+---
+
+## LATENCY HELP 
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+The `LATENCY HELP` command returns a helpful text describing the different
+subcommands.
+
+For more information refer to the [Latency Monitoring Framework page][lm].
+
+[lm]: https://docs.keydb.dev/docs/latency-monitor/
+
+#### Return :
+
+Array Reply: a list of subcommands and their descriptions
+
+---
+
+## LATENCY HISTORY
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+#### Syntax:
+
+```LATENCY HISTORY <event>```
+
+#### Description:
+
+The `LATENCY HISTORY` command returns the raw data of the `event`'s latency spikes time series.
+
+This is useful to an application that wants to fetch raw data in order to perform monitoring, display graphs, and so forth.
+
+The command will return up to 160 timestamp-latency pairs for the `event`.
+
+Valid values for `event` are:
+* `active-defrag-cycle`
+* `aof-fsync-always`
+* `aof-stat`
+* `aof-rewrite-diff-write`
+* `aof-rename`
+* `aof-write`
+* `aof-write-active-child`
+* `aof-write-alone`
+* `aof-write-pending-fsync`
+* `command`
+* `expire-cycle`
+* `eviction-cycle`
+* `eviction-del`
+* `fast-command`
+* `fork`
+* `rdb-unlink-temp-file`
+
+#### Examples:
+
+```
+keydb-cli> LATENCY HISTORY COMMAND
+1) 1) (integer) 1405067822
+   2) (integer) 251
+2) 1) (integer) 1405067941
+   2) (integer) 1001
+```
+
+For more information refer to the [Latency Monitoring Framework page][lm].
+
+[lm]: https://docs.keydb.dev/docs/latency-monitor/
+
+#### Return:
+
+Array Reply: Specifically:
+
+The command returns an array where each element is a two elements array
+representing the timestamp and the latency of the event.
+
+---
+
+## LATENCY LATEST
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+The `LATENCY LATEST` command reports the latest latency events logged.
+
+Each reported event has the following fields:
+
+* Event name.
+* Unix timestamp of the latest latency spike for the event.
+* Latest event latency in millisecond.
+* All-time maximum latency for this event.
+
+"All-time" means the maximum latency since the KeyDB instance was
+started, or the time that events were reset `LATENCY RESET`.
+
+Example:
+
+```
+keydb-cli> debug sleep 1
+OK
+(1.00s)
+keydb-cli> debug sleep .25
+OK
+keydb-cli> LATENCY LATEST
+1) 1) "command"
+   2) (integer) 1405067976
+   3) (integer) 251
+   4) (integer) 1001
+```
+
+For more information refer to the [Latency Monitoring Framework page][lm].
+
+[lm]: https://docs.keydb.dev/docs/latency-monitor/
+
+#### Return:
+
+Array Reply: specifically:
+
+The command returns an array where each element is a four elements array
+representing the event's name, timestamp, latest and all-time latency measurements.
+
+---
+
+## LATENCY RESET
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+#### Syntax:
+
+```LATENCY RESET <OPTIONAL:event>```
+
+The `LATENCY RESET` command resets the latency spikes time series of all, or only some, events
+
+#### Description:
+
+When the command is called without arguments, it resets all the
+events, discarding the currently logged latency spike events, and resetting
+the maximum event time register.
+
+It is possible to reset only specific events by providing the `event` names
+as arguments.
+
+Valid values for `event` are:
+* `active-defrag-cycle`
+* `aof-fsync-always`
+* `aof-stat`
+* `aof-rewrite-diff-write`
+* `aof-rename`
+* `aof-write`
+* `aof-write-active-child`
+* `aof-write-alone`
+* `aof-write-pending-fsync`
+* `command`
+* `expire-cycle`
+* `eviction-cycle`
+* `eviction-del`
+* `fast-command`
+* `fork`
+* `rdb-unlink-temp-file`
+
+For more information refer to the [Latency Monitoring Framework page][lm].
+
+[lm]: https://docs.keydb.dev/docs/latency-monitor/
+
+#### Return:
+
+Integer Reply: the number of event time series that were reset.
+
+---
 
 ## LINDEX
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```LINDEX <key> <index>```
+
+#### Description:
 
 Returns the element at index `index` in the list stored at `key`.
 The index is zero-based, so `0` means the first element, `1` the second element
@@ -5532,12 +6841,17 @@ Bulk String Reply: the requested element, or `nil` when `index` is out of range.
 
 #### Examples:
 
-```cli
-LPUSH mylist "World"
-LPUSH mylist "Hello"
-LINDEX mylist 0
-LINDEX mylist -1
-LINDEX mylist 3
+```
+keydb-cli> LPUSH mylist "World"
+(integer) 1
+keydb-cli> LPUSH mylist "Hello"
+(integer) 2
+keydb-cli> LINDEX mylist 0
+"Hello"
+keydb-cli> LINDEX mylist -1
+"World"
+keydb-cli> LINDEX mylist 3
+(nil)
 ```
 
 ---
@@ -5547,7 +6861,13 @@ LINDEX mylist 3
 
 ## LINSERT
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```LINSERT <key> <BEFORE|AFTER> <pivot> <element>```
+
+#### Description:
 
 Inserts `value` in the list stored at `key` either before or after the reference
 value `pivot`.
@@ -5564,11 +6884,17 @@ the value `pivot` was not found.
 
 #### Examples:
 
-```cli
-RPUSH mylist "Hello"
-RPUSH mylist "World"
-LINSERT mylist BEFORE "World" "There"
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "Hello"
+(integer) 1
+keydb-cli> RPUSH mylist "World"
+(integer) 2
+keydb-cli> LINSERT mylist BEFORE "World" "There"
+(integer) 3
+keydb-cli> LRANGE mylist 0 -1
+1) "Hello"
+2) "There"
+3) "World"
 ```
 
 ---
@@ -5579,7 +6905,13 @@ LRANGE mylist 0 -1
 
 ## LLEN
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```LLEN <key>```
+
+#### Description:
 
 Returns the length of the list stored at `key`.
 If `key` does not exist, it is interpreted as an empty list and `0` is returned.
@@ -5591,21 +6923,26 @@ Integer Reply: the length of the list at `key`.
 
 #### Examples:
 
-```cli
-LPUSH mylist "World"
-LPUSH mylist "Hello"
-LLEN mylist
+```
+keydb-cli> LPUSH mylist "World"
+(integer) 1
+keydb-cli> LPUSH mylist "Hello"
+(integer) 2
+keydb-cli> LLEN mylist
+(integer) 2
 ```
 
 ---
 
-
-
-
-
 ## LPOP
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```LPOP <key>```
+
+#### Description:
 
 Removes and returns the first element of the list stored at `key`.
 
@@ -5615,12 +6952,18 @@ Bulk String Reply: the value of the first element, or `nil` when `key` does not 
 
 #### Examples:
 
-```cli
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-LPOP mylist
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "one"
+(integer) 1
+keydb-cli> RPUSH mylist "two"
+(integer) 2
+keydb-cli> RPUSH mylist "three"
+(integer) 3
+keydb-cli> LPOP mylist
+"one"
+keydb-cli> LRANGE mylist 0 -1
+1) "two"
+2) "three"
 ```
 
 ---
@@ -5631,7 +6974,13 @@ LRANGE mylist 0 -1
 
 ## LPUSH
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```LPUSH <key> <element-1> ... <element-n>```
+
+#### Description:
 
 Insert all the specified values at the head of the list stored at `key`.
 If `key` does not exist, it is created as empty list before performing the push
@@ -5652,10 +7001,14 @@ Integer Reply: the length of the list after the push operations.
 
 #### Examples:
 
-```cli
-LPUSH mylist "world"
-LPUSH mylist "hello"
-LRANGE mylist 0 -1
+```
+keydb-cli> LPUSH mylist "world"
+(integer) 1
+keydb-cli> LPUSH mylist "hello"
+(integer) 2
+keydb-cli> LRANGE mylist 0 -1
+1) "hello"
+2) "world"
 ```
 
 ---
@@ -5666,7 +7019,14 @@ LRANGE mylist 0 -1
 
 ## LPUSHX
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+
+#### Syntax:
+
+```LPUSHX <key> <value>```
+
+#### Description:
 
 Inserts `value` at the head of the list stored at `key`, only if `key` already
 exists and holds a list.
@@ -5679,12 +7039,18 @@ Integer Reply: the length of the list after the push operation.
 
 #### Examples:
 
-```cli
-LPUSH mylist "World"
-LPUSHX mylist "Hello"
-LPUSHX myotherlist "Hello"
-LRANGE mylist 0 -1
-LRANGE myotherlist 0 -1
+```
+keydb-cli> LPUSH mylist "World"
+(integer) 1
+keydb-cli> LPUSHX mylist "Hello"
+(integer) 2
+keydb-cli> LPUSHX myotherlist "Hello"
+(integer) 0
+keydb-cli> LRANGE mylist 0 -1
+1) "Hello"
+2) "World"
+keydb-cli> LRANGE myotherlist 0 -1
+(empty array)
 ```
 
 ---
@@ -5694,7 +7060,14 @@ LRANGE myotherlist 0 -1
 
 ## LRANGE
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+
+#### Syntax:
+
+```LRANGE <key> <start> <stop>```
+
+#### Description:
 
 Returns the specified elements of the list stored at `key`.
 The offsets `start` and `stop` are zero-based indexes, with `0` being the first
@@ -5727,14 +7100,25 @@ Array Reply: list of elements in the specified range.
 
 #### Examples:
 
-```cli
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-LRANGE mylist 0 0
-LRANGE mylist -3 2
-LRANGE mylist -100 100
-LRANGE mylist 5 10
+```
+keydb-cli> RPUSH mylist "one"
+(integer) 1
+keydb-cli> RPUSH mylist "two"
+(integer) 2
+keydb-cli> RPUSH mylist "three"
+(integer) 3
+keydb-cli> LRANGE mylist 0 0
+1) "one"
+keydb-cli> LRANGE mylist -3 2
+1) "one"
+2) "two"
+3) "three"
+keydb-cli> LRANGE mylist -100 100
+1) "one"
+2) "two"
+3) "three"
+keydb-cli> LRANGE mylist 5 10
+(empty array)
 ```
 
 ---
@@ -5745,7 +7129,13 @@ LRANGE mylist 5 10
 
 ## LREM
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```LREM <key> <count> <element>```
+
+#### Description:
 
 Removes the first `count` occurrences of elements equal to `value` from the list
 stored at `key`.
@@ -5767,13 +7157,20 @@ Integer Reply: the number of removed elements.
 
 #### Examples:
 
-```cli
-RPUSH mylist "hello"
-RPUSH mylist "hello"
-RPUSH mylist "foo"
-RPUSH mylist "hello"
-LREM mylist -2 "hello"
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "hello"
+(integer) 1
+keydb-cli> RPUSH mylist "hello"
+(integer) 2
+keydb-cli> RPUSH mylist "foo"
+(integer) 3
+keydb-cli> RPUSH mylist "hello"
+(integer) 4
+keydb-cli> LREM mylist -2 "hello"
+(integer) 2
+keydb-cli> LRANGE mylist 0 -1
+1) "hello"
+2) "foo"
 ```
 
 ---
@@ -5785,7 +7182,13 @@ LRANGE mylist 0 -1
 
 ## LSET
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```LSET <key> <index> <element>```
+
+#### Description:
 
 Sets the list element at `index` to `value`.
 For more information on the `index` argument, see `LINDEX`.
@@ -5798,13 +7201,21 @@ Simple String Reply
 
 #### Examples:
 
-```cli
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-LSET mylist 0 "four"
-LSET mylist -2 "five"
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "one"
+(integer) 1
+keydb-cli> RPUSH mylist "two"
+(integer) 2
+keydb-cli> RPUSH mylist "three"
+(integer) 3
+keydb-cli> LSET mylist 0 "four"
+OK
+keydb-cli> LSET mylist -2 "five"
+OK
+keydb-cli> LRANGE mylist 0 -1
+1) "four"
+2) "five"
+3) "three"
 ```
 
 ---
@@ -5815,7 +7226,13 @@ LRANGE mylist 0 -1
 
 ## LTRIM
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```LTRIM <key> <start> <stop>```
+
+#### Description:
 
 Trim an existing list so that it will contain only the specified range of
 elements specified.
@@ -5839,8 +7256,10 @@ A common use of `LTRIM` is together with `LPUSH` / `RPUSH`.
 For example:
 
 ```
-LPUSH mylist someelement
-LTRIM mylist 0 99
+keydb-cli> LPUSH mylist someelement
+(integer) 1
+keydb-cli> LTRIM mylist 0 99
+OK
 ```
 
 This pair of commands will push a new element on the list, while making sure
@@ -5856,12 +7275,18 @@ Simple String Reply
 
 #### Examples:
 
-```cli
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-LTRIM mylist 1 -1
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "one"
+(integer) 1
+keydb-cli> RPUSH mylist "two"
+(integer) 2
+keydb-cli> RPUSH mylist "three"
+(integer) 3
+keydb-cli> LTRIM mylist 1 -1
+OK
+keydb-cli> LRANGE mylist 0 -1
+1) "two"
+2) "three"
 ```
 
 ---
@@ -5870,9 +7295,9 @@ LRANGE mylist 0 -1
 
 
 
-## MEMORY-DOCTOR
+## MEMORY DOCTOR
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The `MEMORY DOCTOR` command reports about different memory-related issues that
 the KeyDB server experiences, and advises about possible remedies.
@@ -5886,9 +7311,9 @@ Bulk String Reply
 
 
 
-## MEMORY-HELP
+## MEMORY HELP
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The `MEMORY HELP` command returns a helpful text describing the different
 subcommands.
@@ -5903,9 +7328,9 @@ Array Reply: a list of subcommands and their descriptions
 
 
 
-## MEMORY-MALLOC-STATS
+## MEMORY MALLOC-STATS
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The `MEMORY MALLOC-STATS` command provides an internal statistics report from
 the memory allocator.
@@ -5922,9 +7347,9 @@ Bulk String Reply: the memory allocator's internal statistics report
 
 
 
-## MEMORY-PURGE
+## MEMORY PURGE
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The `MEMORY PURGE` command attempts to purge dirty pages so these can be
 reclaimed by the allocator.
@@ -5941,9 +7366,9 @@ Simple String Reply
 
 
 
-## MEMORY-STATS
+## MEMORY STATS
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The `MEMORY STATS` command returns an Array Reply about the memory usage of the
 server.
@@ -5997,9 +7422,15 @@ Array Reply: nested list of memory usage metrics and their values
 
 
 
-## MEMORY-USAGE
+## MEMORY USAGE
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```MEMORY USAGE <key>```
+
+#### Description:
 
 The `MEMORY USAGE` command reports the number of bytes that a key and its value
 require to be stored in RAM.
@@ -6016,10 +7447,10 @@ to `5`. To sample the all of the nested values, use `SAMPLES 0`.
 With KeyDB v4.0.1 64-bit and **jemalloc**, the empty string measures as follows:
 
 ```
-> SET "" ""
+keydb-cli> SET "" ""
 OK
-> MEMORY USAGE ""
-(integer) 51
+kedyb-cli> MEMORY USAGE ""
+(integer) 50
 ```
 
 These bytes are pure overhead at the moment as no actual data is stored, and are
@@ -6027,15 +7458,15 @@ used for maintaining the internal data structures of the server. Longer keys and
 values show asymptotically linear usage.
 
 ```
-> SET foo bar
+keydb-cli> SET foo bar
 OK
-> MEMORY USAGE foo
-(integer) 54
-> SET cento 01234567890123456789012345678901234567890123
+keydb-cli> MEMORY USAGE foo
+(integer) 53
+keydb-cli> SET cento 01234567890123456789012345678901234567890123
 45678901234567890123456789012345678901234567890123456789
 OK
-127.0.0.1:6379> MEMORY USAGE cento
-(integer) 153
+keydb-cli> MEMORY USAGE cento
+(integer) 160
 ```
 
 #### Return:
@@ -6052,6 +7483,12 @@ Integer Reply: the memory usage in bytes
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```MGET <key-1> ... <key-n>```
+
+#### Description:
+
 Returns the values of all specified keys.
 For every key that does not hold a string value or does not exist, the special
 value `nil` is returned.
@@ -6063,10 +7500,15 @@ Array Reply: list of values at the specified keys.
 
 #### Examples:
 
-```cli
-SET key1 "Hello"
-SET key2 "World"
-MGET key1 key2 nonexisting
+```
+keydb-cli> SET key1 "Hello"
+OK
+keydb-cli> SET key2 "World"
+OK
+keydb-cli> MGET key1 key2 nonexisting
+1) "Hello"
+2) "World"
+3) (nil)
 ```
 
 ---
@@ -6077,6 +7519,12 @@ MGET key1 key2 nonexisting
 ## MIGRATE
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+#### Syntax:
+
+```MIGRATE <host> <port> <KEY|""> <destination-db> <timeout> <OPTIONAL:COPY> <OPTIONAL:REPLACE> <KEYS> <key-1> ... <key-n>```
+
+#### Description:
 
 Atomically transfer a key from a source KeyDB instance to a destination KeyDB
 instance.
@@ -6132,7 +7580,7 @@ In order to enable this form, the `KEYS` option is used, and the normal *key*
 argument is set to an empty string. The actual key names will be provided
 after the `KEYS` argument itself, like in the following example:
 
-    MIGRATE 192.168.1.34 6379 "" 0 5000 KEYS key1 key2 key3
+`keydb-cli> MIGRATE 192.168.1.34 6379 "" 0 5000 KEYS key1 key2 key3`
 
 When this form is used the `NOKEY` status code is only returned when none
 of the keys is present in the instance, otherwise the command is executed, even if
@@ -6157,10 +7605,82 @@ found in the source instance.
 
 
 
+## MODULE LIST
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+Returns information about the modules loaded to the server.
+
+#### Return:
+
+Array Reply: list of loaded modules. Each element in the list represents a
+module, and is in itself a list of property names and their values. The
+following properties is reported for each loaded module:
+
+*   `name`: Name of the module
+*   `ver`: Version of the module
+
+---
+
+
+
+
+
+## MODULE LOAD
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+#### Syntax:
+
+```MODULE LOAD <path> <OPTIONAL:argument-1> ... <OPTIONAL:argument-n>```
+
+#### Description:
+
+Loads a module from a dynamic library at runtime.
+
+This command loads and initializes the KeyDB module from the dynamic library
+specified by the `path` argument. The `path` should be the absolute path of the
+library, including the full filename. Any additional arguments are passed
+unmodified to the module.
+
+**TIP**: modules can also be loaded at server startup with `loadmodule`
+configuration directive in `keydb.conf`.
+
+#### Return:
+
+Simple String Reply: `OK` if module was loaded.
+
+---
+
+## MODULE UNLOAD
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+#### Syntax:
+
+```MODULE UNLOAD <name>```
+
+#### Description:
+
+Unloads a module.
+
+This command unloads the module specified by `name`. Note that the module's name
+is reported by the `MODULE LIST` command, and may differ from the dynamic
+library's filename.
+
+Known limitations:
+
+*   Modules that register custom data types can not be unloaded.
+
+#### Return:
+
+Simple String Reply: `OK` if module was unloaded.
+
+---
 
 ## MONITOR
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 `MONITOR` is a debugging command that streams back every command processed by
 the KeyDB server.
@@ -6256,6 +7776,12 @@ flow.
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```MOVE <key> <db>```
+
+#### Description:
+
 Move `key` from the currently selected database (see `SELECT`) to the specified
 destination database.
 When `key` already exists in the destination database, or it does not exist in
@@ -6269,6 +7795,22 @@ Integer Reply, specifically:
 * `1` if `key` was moved.
 * `0` if `key` was not moved.
 
+#### Example:
+
+```
+keydb-cli> SET k 1
+OK
+keydb-cli> MOVE k 10
+(integer) 1
+keydb-cli> GET k
+(nil)
+keydb-cli> SELECT 10
+OK
+keydb-cli[10]> GET k
+"1"
+```
+
+
 ---
 
 
@@ -6277,6 +7819,12 @@ Integer Reply, specifically:
 ## MSET
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```MSET <key-1> <value-1> ... <key-n> <value-n>```
+
+#### Description:
 
 Sets the given keys to their respective values.
 `MSET` replaces existing values with new values, just as regular `SET`.
@@ -6292,10 +7840,13 @@ Simple String Reply: always `OK` since `MSET` can't fail.
 
 #### Examples:
 
-```cli
-MSET key1 "Hello" key2 "World"
-GET key1
-GET key2
+```
+keydb-cli> MSET key1 "Hello" key2 "World"
+OK
+keydb-cli> GET key1
+"Hello"
+keydb-cli> GET key2
+"World"
 ```
 
 ---
@@ -6306,6 +7857,13 @@ GET key2
 ## MSETNX
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+
+#### Syntax:
+
+```MSETNX <key-1> <value-1> ... <key-n> <value-n>```
+
+#### Description:
 
 Sets the given keys to their respective values.
 `MSETNX` will not perform any operation at all even if just a single key already
@@ -6328,10 +7886,15 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-MSETNX key1 "Hello" key2 "there"
-MSETNX key2 "there" key3 "world"
-MGET key1 key2 key3
+```
+keydb-cli> MSETNX key1 "Hello" key2 "there"
+(integer) 1
+keydb-cli> MSETNX key2 "there" key3 "world"
+(integer) 0
+keydb-cli> MGET key1 key2 key3
+1) "Hello"
+2) "there"
+3) (nil)
 ```
 
 ---
@@ -6350,6 +7913,21 @@ Subsequent commands will be queued for atomic execution using `EXEC`.
 #### Return:
 
 Simple String Reply: always `OK`.
+
+#### Examples:
+
+```
+keydb-cli> MULTI
+OK
+keydb-cli> SET k 1
+QUEUED
+keydb-cli> GET k
+QUEUED
+keydb-cli> EXEC
+1) OK
+2) "1"
+```
+
 
 ---
 
@@ -6393,7 +7971,7 @@ Objects can be encoded in different ways:
 * Strings can be encoded as `raw` (normal string encoding) or `int` (strings
   representing integers in a 64 bit signed interval are encoded in this way in
   order to save space).
-* Lists can be encoded as `ziplist` or `linkedlist`.
+* Lists can be encoded as `ziplist`, `quicklist`, or `linkedlist`.
   The `ziplist` is the special representation that is used to save space for
   small lists.
 * Sets can be encoded as `intset` or `hashtable`.
@@ -6422,29 +8000,29 @@ If the object you try to inspect is missing, a null bulk reply is returned.
 #### Examples:
 
 ```
-KeyDB> lpush mylist "Hello World"
-(integer) 4
-KeyDB> object refcount mylist
+keydb-cli> LPUSH mylist "Hello World"
 (integer) 1
-KeyDB> object encoding mylist
-"ziplist"
-KeyDB> object idletime mylist
-(integer) 10
+keydb-cli> OBJECT REFCOUNT mylist
+(integer) 1
+keydb-cli> OBJECT ENCODING mylist
+"quicklist"
+keydb-cli> OBJECT IDLETIME mylist
+(integer) 17
 ```
 
 In the following example you can see how the encoding changes once KeyDB is no
 longer able to use the space saving encoding.
 
 ```
-KeyDB> set foo 1000
+keydb-cli> SET foo 1000
 OK
-KeyDB> object encoding foo
+keydb-cli> OBJECT ENCODING foo
 "int"
-KeyDB> append foo bar
+keydb-cli> APPEND foo bar
 (integer) 7
-KeyDB> get foo
+keydb-cli> GET foo
 "1000bar"
-KeyDB> object encoding foo
+keydb-cli> OBJECT ENCODING foo
 "raw"
 ```
 
@@ -6456,6 +8034,14 @@ KeyDB> object encoding foo
 ## PERSIST
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+#### Syntax:
+
+```PERSIST <key>```
+
+```PERSIST <key> <subkey>```
+
+#### Description:
 
 Remove the existing timeout on `key`, turning the key from _volatile_ (a key
 with an expire set) to _persistent_ (a key that will never expire as no timeout
@@ -6475,24 +8061,27 @@ Integer Reply, specifically:
 ```
 keydb-cli> SET mykey "Hello"
 OK
-keydb-cli> EXPIRE mykey 10
-(integer)1
+keydb-cli> EXPIRE mykey 100
+(integer) 1
 keydb-cli> TTL mykey
-(integer)10
+(integer) 97
 keydb-cli> PERSIST mykey
-OK
+(integer) 1
 keydb-cli> TTL mykey
-(integer)-1
-keydb-cli> sadd myset member1 member2
-(integer)2
-keydb-cli> EXPIREMEMBER myset member2 10
-OK
+(integer) -1
+```
+
+```
+keydb-cli> SADD myset member1 member2
+(integer) 2
+keydb-cli> EXPIREMEMBER myset member2 100
+(integer) 1
 keydb-cli> TTL myset member2
-(integer)10
+(integer) 95
 keydb-cli> PERSIST myset member2
-(integer)1
+(integer) 1
 keydb-cli> TTL myset member2
-(integer)-1
+(integer) -1
 ```
 
 ---
@@ -6503,6 +8092,12 @@ keydb-cli> TTL myset member2
 ## PEXPIRE
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+#### Syntax:
+
+```PEXPIRE <key> <time-to-live>```
+
+#### Description:
 
 This command works exactly like `EXPIRE` but the time to live of the key is
 specified in milliseconds instead of seconds.
@@ -6516,11 +8111,15 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-SET mykey "Hello"
-PEXPIRE mykey 1500
-TTL mykey
-PTTL mykey
+```
+keydb-cli> SET mykey "Hello"
+OK
+keydb-cli> PEXPIRE mykey 15000
+(integer) 1
+keydb-cli> TTL mykey
+(integer) 11
+keydb-cli> PTTL mykey
+(integer) 4569
 ```
 
 ---
@@ -6531,6 +8130,12 @@ PTTL mykey
 ## PEXPIREAT
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+#### Syntax:
+
+```PEXPIREAT <key> <milliseconds-unit-timestamp>```
+
+#### Description:
 
 `PEXPIREAT` has the same effect and semantic as `EXPIREAT`, but the Unix time at
 which the key will expire is specified in milliseconds instead of seconds.
@@ -6544,11 +8149,15 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-SET mykey "Hello"
-PEXPIREAT mykey 1555555555005
-TTL mykey
-PTTL mykey
+```
+keydb-cli> SET mykey "Hello"
+OK
+keydb-cli> PEXPIREAT mykey 2000000000000
+(integer) 1
+keydb-cli> TTL mykey
+(integer) 368952269
+keydb-cli> PTTL mykey
+(integer) 368952265316
 ```
 
 ---
@@ -6560,6 +8169,12 @@ PTTL mykey
 ## PFADD
 
 **Related Commands:** [PFADD](/docs/commands/#pfadd), [PFCOUNT](/docs/commands/#pfcount), [PFMERGE](/docs/commands/#pfmerge)
+
+#### Syntax:
+
+```PFADD <key> <element-1> ... <element-n>```
+
+#### Description:
 
 Adds all the element arguments to the HyperLogLog data structure stored at the variable name specified as first argument.
 
@@ -6579,9 +8194,11 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-PFADD hll a b c d e f g
-PFCOUNT hll
+```
+keydb-cli> PFADD hll a b c d e f g
+(integer) 1
+keydb-cli> PFCOUNT hll
+(integer) 7
 ```
 
 ---
@@ -6592,6 +8209,14 @@ PFCOUNT hll
 ## PFCOUNT
 
 **Related Commands:** [PFADD](/docs/commands/#pfadd), [PFCOUNT](/docs/commands/#pfcount), [PFMERGE](/docs/commands/#pfmerge)
+
+#### Syntax:
+
+```PFCOUNT <key>```
+
+```PFCOUNT <key-1> ... <key-n>```
+
+#### Description:
 
 When called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.
 
@@ -6614,13 +8239,19 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-PFADD hll foo bar zap
-PFADD hll zap zap zap
-PFADD hll foo bar
-PFCOUNT hll
-PFADD some-other-hll 1 2 3
-PFCOUNT hll some-other-hll
+```
+keydb-cli> PFADD hll foo bar zap
+(integer) 1
+keydb-cli> PFADD hll zap zap zap
+(integer) 0
+keydb-cli> PFADD hll foo bar
+(integer) 0
+keydb-cli> PFCOUNT hll
+(integer) 3
+keydb-cli> PFADD some-other-hll 1 2 3
+(integer) 1
+keydb-cli> PFCOUNT hll some-other-hll
+(integer) 6
 ```
 
 #### Performances
@@ -6664,6 +8295,12 @@ The source code of the implementation in the `hyperloglog.c` file is also easy t
 
 **Related Commands:** [PFADD](/docs/commands/#pfadd), [PFCOUNT](/docs/commands/#pfcount), [PFMERGE](/docs/commands/#pfmerge)
 
+#### Syntax:
+
+```PFMERGE <destination-key> <source-key-1> ... <source-key-n>```
+
+#### Description:
+
 Merge multiple HyperLogLog values into an unique value that will approximate
 the cardinality of the union of the observed Sets of the source HyperLogLog
 structures.
@@ -6677,11 +8314,15 @@ Simple String Reply: The command just returns `OK`.
 
 #### Examples:
 
-```cli
-PFADD hll1 foo bar zap a
-PFADD hll2 a b c foo
-PFMERGE hll3 hll1 hll2
-PFCOUNT hll3
+```
+keydb-cli> PFADD hll1 foo bar zap a
+(integer) 1
+keydb-cli> PFADD hll2 a b c foo
+(integer) 1
+keydb-cli> PFMERGE hll3 hll1 hll2
+OK
+keydb-cli> PFCOUNT hll3
+(integer) 6
 ```
 
 ---
@@ -6692,6 +8333,12 @@ PFCOUNT hll3
 ## PING
 
 **Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
+
+#### Syntax:
+
+```PING <message>```
+
+#### Description:
 
 Returns `PONG` if no argument is provided, otherwise return a copy of the
 argument as a bulk.
@@ -6709,10 +8356,11 @@ Simple String Reply
 
 #### Examples:
 
-```cli
-PING
-
-PING "hello world"
+```
+keydb-cli> PING
+PONG
+keydb-cli> PING "hello world"
+"hello world"
 ```
 
 ---
@@ -6724,15 +8372,24 @@ PING "hello world"
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```PSETEX <key> <milliseconds-to-expire> <value>```
+
+#### Description:
+
 `PSETEX` works exactly like `SETEX` with the sole difference that the expire
 time is specified in milliseconds instead of seconds.
 
 #### Examples:
 
-```cli
-PSETEX mykey 1000 "Hello"
-PTTL mykey
-GET mykey
+```
+keydb-cli> PSETEX mykey 1000 "Hello"
+OK
+keydb-cli> PTTL mykey
+(integer) -2
+keydb-cli> GET mykey
+(nil)
 ```
 
 ---
@@ -6744,6 +8401,12 @@ GET mykey
 
 **Related Commands:** [PSUBSCRIBE](/docs/commands/#psubscribe), [PUBLISH](/docs/commands/#publish), [PUBSUB](/docs/commands/#pubsub), [PUNSUBSCRIBE](/docs/commands/#punsubscribe), [SUBSCRIBE](/docs/commands/#subscribe), [UNSUBSCRIBE](/docs/commands/#unsubscribe)
 
+#### Syntax:
+
+```PSUBSCRIBE <pattern-1> ... <pattern-n>```
+
+#### Description:
+
 Subscribes the client to the given patterns.
 
 Supported glob-style patterns:
@@ -6753,6 +8416,43 @@ Supported glob-style patterns:
 * `h[ae]llo` subscribes to `hello` and `hallo,` but not `hillo`
 
 Use `\` to escape special characters if you want to match them verbatim.
+
+#### Examples:
+
+```
+keydb-cli> PSUBSCRIBE h?llo
+Reading messages... (press Ctrl-C to quit)
+1) "psubscribe"
+2) "h?llo"
+3) (integer) 1
+
+```
+
+---
+
+
+## PSYNC
+
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time)
+
+#### Syntax:
+
+```PSYNC <replication-id> <offset>```
+
+#### Description:
+
+Initiates a replication stream from the master.
+
+The PSYNC command is called by KeyDB replicas for initiating a replication stream from the master.
+
+For more information about replication in KeyDB, please check the [replication page](https://docs.keydb.dev/docs/replication).
+
+#### Return value:
+
+Non standard return value, a bulk transfer of the data followed by PING and write requests from the master.
+
+
+
 
 ---
 
@@ -6764,6 +8464,12 @@ Use `\` to escape special characters if you want to match them verbatim.
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```PTTL <key>```
+
+#### Description:
+
 Like `TTL` this command returns the remaining time to live of a key or subkey that has an
 expire set, with the sole difference that `TTL` returns the amount of remaining
 time in seconds while `PTTL` returns it in milliseconds.
@@ -6774,19 +8480,22 @@ Integer Reply: TTL in milliseconds, or a negative value in order to signal an er
 
 #### Examples:
 
-```cli
+```
 keydb-cli> SET mykey "Hello"
 OK
 keydb-cli> EXPIRE mykey 10
-(integer)1 
+(integer) 1
 keydb-cli> PTTL mykey
-(integer)10000
+(integer) 5846
+```
+
+```
 keydb-cli> SADD myset member1 member2
-OK
+(integer) 2
 keydb-cli> EXPIREMEMBER myset member2 10
-(integer)1
+(integer) 1
 keydb-cli> PTTL myset member2
-(integer)10000
+(integer) 4159
 ```
 
 ---
@@ -6797,6 +8506,12 @@ keydb-cli> PTTL myset member2
 ## PUBLISH
 
 **Related Commands:** [PSUBSCRIBE](/docs/commands/#psubscribe), [PUBLISH](/docs/commands/#publish), [PUBSUB](/docs/commands/#pubsub), [PUNSUBSCRIBE](/docs/commands/#punsubscribe), [SUBSCRIBE](/docs/commands/#subscribe), [UNSUBSCRIBE](/docs/commands/#unsubscribe)
+
+#### Syntax:
+
+```PUBLISH <channel> <message>```
+
+#### Description:
 
 Posts a message to the given channel.
 
@@ -6820,7 +8535,8 @@ documented separately. The general form is:
     PUBSUB <subcommand> ... args ...
 
 ### PUBSUB CHANNELS
-PUBSUB CHANNELS [pattern]
+
+```PUBSUB CHANNELS [pattern]```
 
 Lists the currently *active channels*. An active channel is a Pub/Sub channel
 with one or more subscribers (not including clients subscribed to patterns).
@@ -6834,7 +8550,8 @@ listed.
 Array Reply: a list of active channels, optionally matching the specified pattern.
 
 ### PUBSUB NUMSUB
-`PUBSUB NUMSUB [channel-1 ... channel-N]`
+
+```PUBSUB NUMSUB [channel-1 ... channel-N]```
 
 Returns the number of subscribers (not counting clients subscribed to patterns)
 for the specified channels.
@@ -6867,6 +8584,12 @@ Integer Reply: the number of patterns all the clients are subscribed to.
 ## PUNSUBSCRIBE
 
 **Related Commands:** [PSUBSCRIBE](/docs/commands/#psubscribe), [PUBLISH](/docs/commands/#publish), [PUBSUB](/docs/commands/#pubsub), [PUNSUBSCRIBE](/docs/commands/#punsubscribe), [SUBSCRIBE](/docs/commands/#subscribe), [UNSUBSCRIBE](/docs/commands/#unsubscribe)
+
+#### Syntax:
+
+```PUNSUBSCRIBE <pattern-1> ... <pattern-n>```
+
+#### Description:
 
 Unsubscribes the client from the given patterns, or from all of them if none is
 given.
@@ -6908,6 +8631,24 @@ Return a random key from the currently selected database.
 
 Bulk String Reply: the random key, or `nil` when the database is empty.
 
+#### Examples
+
+```
+keydb-cli> flushall
+OK
+keydb-cli> RANDOMKEY
+(nil)
+keydb-cli> SET k 1
+OK
+keydb-cli> RANDOMKEY
+"k"
+keydb-cli> SET l 2
+OK
+keydb-cli> RANDOMKEY
+"k"
+keydb-cli> RANDOMKEY
+"l"
+```
 ---
 
 
@@ -6915,7 +8656,7 @@ Bulk String Reply: the random key, or `nil` when the database is empty.
 
 ## READONLY
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
 Enables read queries for a connection to a KeyDB Cluster replica node. 
 
@@ -6944,11 +8685,11 @@ Simple String Reply
 
 ## READWRITE
 
-**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER ](/docs/commands/#cluster ), [COUNT-FAILURE-REPORTS](/docs/commands/#count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
+**Related Commands:** [CLUSTER ADDSLOTS](/docs/commands/#cluster-addslots), [CLUSTER BUMPEPOCH](/docs/commands/#cluster-bumpepoch), [CLUSTER COUNT-FAILURE-REPORTS](/docs/commands/#cluster-count-failure-reports), [CLUSTER COUNTKEYSINSLOT](/docs/commands/#cluster-countkeysinslot), [CLUSTER DELSLOTS](/docs/commands/#cluster-delslots), [CLUSTER FAILOVER](/docs/commands/#cluster-failover), [CLUSTER FLUSHSLOTS](/docs/commands/#cluster-flushslots), [CLUSTER FORGET](/docs/commands/#cluster-forget), [CLUSTER GETKEYSINSLOT](/docs/commands/#cluster-getkeysinslot), [CLUSTER INFO](/docs/commands/#cluster-info), [CLUSTER KEYSLOT](/docs/commands/#cluster-keyslot), [CLUSTER MEET](/docs/commands/#cluster-meet), [CLUSTER MYID](/docs/commands/#cluster-myid), [CLUSTER NODES](/docs/commands/#cluster-nodes), [CLUSTER REPLICAS](/docs/commands/#cluster-replicas), [CLUSTER REPLICATE](/docs/commands/#cluster-replicate), [CLUSTER RESET](/docs/commands/#cluster-reset), [CLUSTER SAVECONFIG](/docs/commands/#cluster-saveconfig), [CLUSTER SET-CONFIG-EPOCH](/docs/commands/#cluster-set-config-epoch), [CLUSTER SETSLOT](/docs/commands/#cluster-setslot), [CLUSTER SLAVES](/docs/commands/#cluster-slaves), [CLUSTER SLOTS](/docs/commands/#cluster-slots), [READONLY](/docs/commands/#readonly), [READWRITE](/docs/commands/#readwrite)
 
-Disables read queries for a connection to a KeyDB Cluster slave node.
+Disables read queries for a connection to a KeyDB Cluster replica node.
 
-Read queries against a KeyDB Cluster slave node are disabled by default,
+Read queries against a KeyDB Cluster replica node are disabled by default,
 but you can use the `READONLY` command to change this behavior on a per-
 connection basis. The `READWRITE` command resets the readonly mode flag
 of a connection back to readwrite.
@@ -6966,11 +8707,15 @@ Simple String Reply
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```RENAME <key> <newkey>```
+
+#### Description:
+
 Renames `key` to `newkey`.
 It returns an error when `key` does not exist.
 If `newkey` already exists it is overwritten, when this happens `RENAME` executes an implicit `DEL` operation, so if the deleted key contains a very big value it may cause high latency even if `RENAME` itself is usually a constant-time operation.
-
-**Note:** Before KeyDB 3.2.0, an error is returned if source and destination names are the same.
 
 #### Return:
 
@@ -6978,10 +8723,13 @@ Simple String Reply
 
 #### Examples:
 
-```cli
-SET mykey "Hello"
-RENAME mykey myotherkey
-GET myotherkey
+```
+keydb-cli> SET mykey "Hello"
+OK
+keydb-cli> RENAME mykey myotherkey
+OK
+keydb-cli> GET myotherkey
+"Hello"
 ```
 
 ---
@@ -6993,10 +8741,14 @@ GET myotherkey
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```RENAMENX <key> <newkey>```
+
+#### Description:
+
 Renames `key` to `newkey` if `newkey` does not yet exist.
 It returns an error when `key` does not exist.
-
-**Note:** Before KeyDB 3.2.0, an error is returned if source and destination names are the same.
 
 #### Return:
 
@@ -7007,11 +8759,15 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-SET mykey "Hello"
-SET myotherkey "World"
-RENAMENX mykey myotherkey
-GET myotherkey
+```
+keydb-cli> SET mykey "Hello"
+OK
+keydb-cli> SET myotherkey "World"
+OK
+keydb-cli> RENAMENX mykey myotherkey
+(integer) 0
+keydb-cli> GET myotherkey
+"World"
 ```
 
 ---
@@ -7022,15 +8778,15 @@ GET myotherkey
 
 ## REPLICAOF
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The `REPLICAOF` command can change the replication settings of a replica on the fly.
 
-If a KeyDB server is already acting as replica, the command `REPLICAOF` NO ONE will turn off the replication, turning the KeyDB server into a MASTER.  In the proper form `REPLICAOF` hostname port will make the server a replica of another server listening at the specified hostname and port.
+If a KeyDB server is already acting as replica, the command `REPLICAOF NO ONE` will turn off the replication, turning the KeyDB server into a MASTER.  In the proper form `REPLICAOF <hostname> <port>` will make the server a replica of another server listening at the specified hostname and port.
 
-If a server is already a replica of some master, `REPLICAOF` hostname port will stop the replication against the old server and start the synchronization against the new one, discarding the old dataset.
+If a server is already a replica of some master, `REPLICAOF <hostname> <port>` will stop the replication against the old server and start the synchronization against the new one, discarding the old dataset.
 
-The form `REPLICAOF` NO ONE will stop replication, turning the server into a MASTER, but will not discard the replication. So, if the old master stops working, it is possible to turn the replica into a master and set the application to use this new master in read/write. Later when the other KeyDB server is fixed, it can be reconfigured to work as a replica.
+The form `REPLICAOF NO ONE` will stop replication, turning the server into a MASTER, but will not discard the replication. So, if the old master stops working, it is possible to turn the replica into a master and set the application to use this new master in read/write. Later when the other KeyDB server is fixed, it can be reconfigured to work as a replica.
 
 #### Return:
 
@@ -7038,12 +8794,35 @@ Simple String Reply
 
 ---
 
+## REPLPING
 
+**Related Commands:** [PING](/docs/commands/#ping)
 
+Identical to [PING](/docs/commands/#ping), except that a blocked server will
+respond to it. Used internally to keep replication connections alive.
+
+#### Return:
+
+Simple String Reply
+
+#### Examples:
+
+```
+keydb-cli> REPLPING
+PONG
+```
+
+---
 
 ## RESTORE
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+#### Syntax:
+
+```RESTORE <key> <ttl> <serialized-value> <OPTIONAL:REPLACE> <OPTIONAL:ABSTTL> <OPTIONAL:IDLETIME> <IDLETIME-argument:seconds> <OPTIONAL:FREQ> <FREQ-argument:frequency> ```
+
+#### Description:
 
 Create a key associated with a value that is obtained by deserializing the
 provided serialized value (obtained via `DUMP`).
@@ -7072,15 +8851,15 @@ Simple String Reply: The command returns OK on success.
 #### Examples:
 
 ```
-KeyDB> DEL mykey
+keydb-cli> DEL mykey
 0
-KeyDB> RESTORE mykey 0 "\n\x17\x17\x00\x00\x00\x12\x00\x00\x00\x03\x00\
+keydb-cli> RESTORE mykey 0 "\n\x17\x17\x00\x00\x00\x12\x00\x00\x00\x03\x00\
                         x00\xc0\x01\x00\x04\xc0\x02\x00\x04\xc0\x03\x00\
                         xff\x04\x00u#<\xc0;.\xe9\xdd"
 OK
-KeyDB> TYPE mykey
+keydb-cli> TYPE mykey
 list
-KeyDB> LRANGE mykey 0 -1
+keydb-cli> LRANGE mykey 0 -1
 1) "1"
 2) "2"
 3) "3"
@@ -7094,7 +8873,7 @@ KeyDB> LRANGE mykey 0 -1
 
 ## ROLE
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 Provide information on the role of a KeyDB instance in the context of replication, by returning if the instance is currently a `master`, `slave`, or `sentinel`. The command also returns additional information about the state of the replication (if the role is master or slave) or the list of monitored master names (if the role is sentinel).
 
@@ -7174,8 +8953,11 @@ Array Reply: where the first element is one of `master`, `slave`, `sentinel` and
 
 #### Examples:
 
-```cli
-ROLE
+```
+keydb-cli> ROLE
+1) "master"
+2) (integer) 0
+3) (empty array)
 ```
 
 **A note about the word slave used in this man page**: Starting with KeyDB 5, if not for backward compatibility, the KeyDB project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
@@ -7187,7 +8969,13 @@ ROLE
 
 ## RPOP
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```RPOP <key>```
+
+#### Description:
 
 Removes and returns the last element of the list stored at `key`.
 
@@ -7197,12 +8985,18 @@ Bulk String Reply: the value of the last element, or `nil` when `key` does not e
 
 #### Examples:
 
-```cli
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-RPOP mylist
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "one"
+(integer) 1
+keydb-cli> RPUSH mylist "two"
+(integer) 2
+keydb-cli> RPUSH mylist "three"
+(integer) 3
+keydb-cli> RPOP mylist
+"three"
+keydb-cli> LRANGE mylist 0 -1
+1) "one"
+2) "two"
 ```
 
 ---
@@ -7213,7 +9007,13 @@ LRANGE mylist 0 -1
 
 ## RPOPLPUSH
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```RPOPLPUSH <source> <destination>```
+
+#### Description:
 
 Atomically returns and removes the last element (tail) of the list stored at
 `source`, and pushes the element at the first element (head) of the list stored
@@ -7236,13 +9036,20 @@ Bulk String Reply: the element being popped and pushed.
 
 #### Examples:
 
-```cli
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-RPOPLPUSH mylist myotherlist
-LRANGE mylist 0 -1
-LRANGE myotherlist 0 -1
+```
+keydb-cli> RPUSH mylist "one"
+(integer) 1
+keydb-cli> RPUSH mylist "two"
+(integer) 2
+keydb-cli> RPUSH mylist "three"
+(integer) 3
+keydb-cli> RPOPLPUSH mylist myotherlist
+"three"
+keydb-cli> LRANGE mylist 0 -1
+1) "one"
+2) "two"
+keydb-cli> LRANGE myotherlist 0 -1
+1) "three"
 ```
 
 #### Pattern: Reliable queue
@@ -7298,7 +9105,13 @@ processed at the next iteration.
 
 ## RPUSH
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```RPUSH <key> <element-1> ... <element-n>``` 
+
+#### Description:
 
 Insert all the specified values at the tail of the list stored at `key`.
 If `key` does not exist, it is created as empty list before performing the push
@@ -7319,10 +9132,14 @@ Integer Reply: the length of the list after the push operation.
 
 #### Examples:
 
-```cli
-RPUSH mylist "hello"
-RPUSH mylist "world"
-LRANGE mylist 0 -1
+```
+keydb-cli> RPUSH mylist "hello"
+(integer) 1
+keydb-cli> RPUSH mylist "world"
+(integer) 2
+keydb-cli> LRANGE mylist 0 -1
+1) "hello"
+2) "world"
 ```
 
 ---
@@ -7332,7 +9149,13 @@ LRANGE mylist 0 -1
 
 ## RPUSHX
 
-**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#LSET), [LTRIM](/docs/commands/#LTRIM), [RPOP](/docs/commands/#RPOP), [RPOPLPUSH](/docs/commands/#RPOPLPUSH), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+**Related Commands:** [BLPOP](/docs/commands/#blpop), [BRPOP](/docs/commands/#brpop), [BRPOPLPUSH](/docs/commands/#brpoplpush), [LINDEX](/docs/commands/#lindex), [LINSERT](/docs/commands/#linsert), [LLEN](/docs/commands/#llen), [LPOP](/docs/commands/#lpop), [LPUSH](/docs/commands/#lpush), [LPUSHX](/docs/commands/#lpushx), [LRANGE](/docs/commands/#lrange), [LREM](/docs/commands/#lrem), [LSET](/docs/commands/#lset), [LTRIM](/docs/commands/#ltrim), [RPOP](/docs/commands/#rpop), [RPOPLPUSH](/docs/commands/#rpoplpush), [RPUSH](/docs/commands/#rpush), [RPUSHX](/docs/commands/#rpushx) 
+
+#### Syntax:
+
+```RPUSHX <key> <value>```
+
+#### Description:
 
 Inserts `value` at the tail of the list stored at `key`, only if `key` already
 exists and holds a list.
@@ -7345,12 +9168,18 @@ Integer Reply: the length of the list after the push operation.
 
 #### Examples:
 
-```cli
-RPUSH mylist "Hello"
-RPUSHX mylist "World"
-RPUSHX myotherlist "World"
-LRANGE mylist 0 -1
-LRANGE myotherlist 0 -1
+```
+keydb-cli> RPUSH mylist "Hello"
+(integer) 1
+keydb-cli> RPUSHX mylist "World"
+(integer) 2
+keydb-cli> RPUSHX myotherlist "World"
+(integer) 0
+keydb-cli> LRANGE mylist 0 -1
+1) "Hello"
+2) "World"
+keydb-cli> LRANGE myotherlist 0 -1
+(empty array)
 ```
 
 ---
@@ -7361,6 +9190,12 @@ LRANGE myotherlist 0 -1
 ## SADD
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
+
+#### Syntax:
+
+```SADD <key> <member-1> ... <member-n>```
+
+#### Description:
 
 Add the specified members to the set stored at `key`.
 Specified members that are already a member of this set are ignored.
@@ -7377,11 +9212,16 @@ all the elements already present into the set.
 
 #### Examples:
 
-```cli
-SADD myset "Hello"
-SADD myset "World"
-SADD myset "World"
-SMEMBERS myset
+```
+keydb-cli> SADD myset "Hello"
+(integer) 1
+keydb-cli> SADD myset "World"
+(integer) 1
+keydb-cli> SADD myset "World"
+(integer) 0
+keydb-cli> SMEMBERS myset
+1) "Hello"
+2) "World"
 ```
 
 ---
@@ -7391,7 +9231,7 @@ SMEMBERS myset
 
 ## SAVE
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The `SAVE` commands performs a **synchronous** save of the dataset producing a
 _point in time_ snapshot of all the data inside the KeyDB instance, in the form
@@ -7420,6 +9260,12 @@ Simple String Reply: The commands returns OK on success.
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```SCAN <cursor> <OPTIONAL:MATCH> <MATCH-argument:pattern> <OPTIONAL:COUNT> <COUNT-argument:count> <OPTIONAL:TYPE> <TYPE-argument:type>```
+
+#### Description:
+
 The `SCAN` command and the closely related commands `SSCAN`, `HSCAN` and `ZSCAN` are used in order to incrementally iterate over a collection of elements.
 
 * `SCAN` iterates the set of keys in the currently selected KeyDB database.
@@ -7440,7 +9286,7 @@ SCAN is a cursor based iterator. This means that at every call of the command, t
 An iteration starts when the cursor is set to 0, and terminates when the cursor returned by the server is 0. The following is an example of SCAN iteration:
 
 ```
-KeyDB 127.0.0.1:6379> scan 0
+keydb-cli> scan 0
 1) "17"
 2)  1) "key:12"
     2) "key:8"
@@ -7453,7 +9299,7 @@ KeyDB 127.0.0.1:6379> scan 0
     9) "key:3"
    10) "key:7"
    11) "key:1"
-KeyDB 127.0.0.1:6379> scan 17
+keydb-cli> scan 17
 1) "0"
 2) 1) "key:5"
    2) "key:18"
@@ -7511,32 +9357,31 @@ To do so, just append the `MATCH <pattern>` arguments at the end of the `SCAN` c
 This is an example of iteration using **MATCH**:
 
 ```
-KeyDB 127.0.0.1:6379> sadd myset 1 2 3 foo foobar feelsgood
+keydb-cli> sadd myset 1 2 3 foo foobar feelsgood
 (integer) 6
-KeyDB 127.0.0.1:6379> sscan myset 0 match f*
+keydb-cli> sscan myset 0 match f*
 1) "0"
 2) 1) "foo"
    2) "feelsgood"
    3) "foobar"
-KeyDB 127.0.0.1:6379>
 ```
 
 It is important to note that the **MATCH** filter is applied after elements are retrieved from the collection, just before returning data to the client. This means that if the pattern matches very little elements inside the collection, `SCAN` will likely return no elements in most iterations. An example is shown below:
 
 ```
-KeyDB 127.0.0.1:6379> scan 0 MATCH *11*
+keydb-cli> scan 0 MATCH *11*
 1) "288"
 2) 1) "key:911"
-KeyDB 127.0.0.1:6379> scan 288 MATCH *11*
+keydb-cli> scan 288 MATCH *11*
 1) "224"
 2) (empty list or set)
-KeyDB 127.0.0.1:6379> scan 224 MATCH *11*
+keydb-cli> scan 224 MATCH *11*
 1) "80"
 2) (empty list or set)
-KeyDB 127.0.0.1:6379> scan 80 MATCH *11*
+keydb-cli> scan 80 MATCH *11*
 1) "176"
 2) (empty list or set)
-KeyDB 127.0.0.1:6379> scan 176 MATCH *11* COUNT 1000
+keydb-cli> scan 176 MATCH *11* COUNT 1000
 1) "0"
 2)  1) "key:611"
     2) "key:711"
@@ -7556,7 +9401,6 @@ KeyDB 127.0.0.1:6379> scan 176 MATCH *11* COUNT 1000
    16) "key:811"
    17) "key:511"
    18) "key:11"
-KeyDB 127.0.0.1:6379>
 ```
 
 As you can see most of the calls returned zero elements, but the last call where a COUNT of 1000 was used in order to force the command to do more scanning for that iteration.
@@ -7606,9 +9450,9 @@ Also note that this behavior is specific of `SSCAN`, `HSCAN` and `ZSCAN`. `SCAN`
 Iteration of a Hash value.
 
 ```
-KeyDB 127.0.0.1:6379> hmset hash name Jack age 33
+keydb-cli> hmset hash name Jack age 33
 OK
-KeyDB 127.0.0.1:6379> hscan hash 0
+keydb-cli> hscan hash 0
 1) "0"
 2) 1) "name"
    2) "Jack"
@@ -7626,6 +9470,13 @@ KeyDB 127.0.0.1:6379> hscan hash 0
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
 
+
+#### Syntax:
+
+```SCARD <key>```
+
+#### Description:
+
 Returns the set cardinality (number of elements) of the set stored at `key`.
 
 #### Return:
@@ -7635,10 +9486,13 @@ does not exist.
 
 #### Examples:
 
-```cli
-SADD myset "Hello"
-SADD myset "World"
-SCARD myset
+```
+keydb-cli> SADD myset "Hello"
+(integer) 1
+keydb-cli> SADD myset "World"
+(integer) 1
+keydb-cli> SCARD myset
+(integer) 2
 ```
 
 ---
@@ -7646,7 +9500,7 @@ SCARD myset
 
 
 
-## SCRIPT-DEBUG
+## SCRIPT DEBUG
 
 **Related Commands:** [EVAL](/docs/commands/#eval), [EVALSHA](/docs/commands/#evalsha), [SCRIPT DEBUG](/docs/commands/#script-debug), [SCRIPT EXISTS](/docs/commands/#script-exists), [SCRIPT FLUSH](/docs/commands/#script-flush), [SCRIPT KILL](/docs/commands/#script-kill), [SCRIPT LOAD](/docs/commands/#script-load)
 
@@ -7675,12 +9529,19 @@ is active and retains all changes to the data set once it ends.
 
 Simple String Reply: `OK`.
 
+#### Examples:
+
+```
+keydb-cli> SCRIPT DEBUG NO
+OK
+```
+
 
 ---
 
 
 
-## SCRIPT-EXISTS
+## SCRIPT EXISTS
 
 **Related Commands:** [EVAL](/docs/commands/#eval), [EVALSHA](/docs/commands/#evalsha), [SCRIPT DEBUG](/docs/commands/#script-debug), [SCRIPT EXISTS](/docs/commands/#script-exists), [SCRIPT FLUSH](/docs/commands/#script-flush), [SCRIPT KILL](/docs/commands/#script-kill), [SCRIPT LOAD](/docs/commands/#script-load)
 
@@ -7709,7 +9570,7 @@ script cache, an 1 is returned, otherwise 0 is returned.
 
 
 
-## SCRIPT-FLUSH
+## SCRIPT FLUSH
 
 **Related Commands:** [EVAL](/docs/commands/#eval), [EVALSHA](/docs/commands/#evalsha), [SCRIPT DEBUG](/docs/commands/#script-debug), [SCRIPT EXISTS](/docs/commands/#script-exists), [SCRIPT FLUSH](/docs/commands/#script-flush), [SCRIPT KILL](/docs/commands/#script-kill), [SCRIPT LOAD](/docs/commands/#script-load)
 
@@ -7726,7 +9587,7 @@ Simple String Reply
 
 
 
-## SCRIPT-KILL
+## SCRIPT KILL
 
 **Related Commands:** [EVAL](/docs/commands/#eval), [EVALSHA](/docs/commands/#evalsha), [SCRIPT DEBUG](/docs/commands/#script-debug), [SCRIPT EXISTS](/docs/commands/#script-exists), [SCRIPT FLUSH](/docs/commands/#script-flush), [SCRIPT KILL](/docs/commands/#script-kill), [SCRIPT LOAD](/docs/commands/#script-load)
 
@@ -7756,7 +9617,7 @@ Simple String Reply
 
 
 
-## SCRIPT-LOAD
+## SCRIPT LOAD
 
 **Related Commands:** [EVAL](/docs/commands/#eval), [EVALSHA](/docs/commands/#evalsha), [SCRIPT DEBUG](/docs/commands/#script-debug), [SCRIPT EXISTS](/docs/commands/#script-exists), [SCRIPT FLUSH](/docs/commands/#script-flush), [SCRIPT KILL](/docs/commands/#script-kill), [SCRIPT LOAD](/docs/commands/#script-load)
 
@@ -7788,6 +9649,12 @@ script cache.
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
 
+#### Syntax:
+
+```SDIFF <key-1> ... <key-n>```
+
+#### Description:
+
 Returns the members of the set resulting from the difference between the first
 set and all the successive sets.
 
@@ -7808,14 +9675,22 @@ Array Reply: list with members of the resulting set.
 
 #### Examples:
 
-```cli
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SDIFF key1 key2
+```
+keydb-cli> SADD key1 "a"
+(integer) 1
+keydb-cli> SADD key1 "b"
+(integer) 1
+keydb-cli> SADD key1 "c"
+(integer) 1
+keydb-cli> SADD key2 "c"
+(integer) 1
+keydb-cli> SADD key2 "d"
+(integer) 1
+keydb-cli> SADD key2 "e"
+(integer) 1
+keydb-cli> SDIFF key1 key2
+1) "a"
+2) "b"
 ```
 
 ---
@@ -7826,6 +9701,14 @@ SDIFF key1 key2
 ## SDIFFSTORE
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
+
+#### Syntax:
+
+```
+SDIFFSTORE <destination> <key-1> ... <key-n>
+```
+
+#### Description:
 
 This command is equal to `SDIFF`, but instead of returning the resulting set, it
 is stored in `destination`.
@@ -7838,15 +9721,24 @@ Integer Reply: the number of elements in the resulting set.
 
 #### Examples:
 
-```cli
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SDIFFSTORE key key1 key2
-SMEMBERS key
+```
+keydb-cli> SADD key1 "a"
+(integer) 0
+keydb-cli> SADD key1 "b"
+(integer) 0
+keydb-cli> SADD key1 "c"
+(integer) 0
+keydb-cli> SADD key2 "c"
+(integer) 0
+keydb-cli> SADD key2 "d"
+(integer) 0
+keydb-cli> SADD key2 "3"
+(integer) 1
+keydb-cli> SDIFFSTORE key key1 key2
+(integer) 2
+keydb-cli> SMEMBERS key
+1) "a"
+2) "b"
 ```
 ---
 
@@ -7856,6 +9748,12 @@ SMEMBERS key
 ## SELECT
 
 **Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
+
+#### Syntax:
+
+```SELECT <index>```
+
+#### Description:
 
 Select the KeyDB logical database having the specified zero-based numeric index.
 New connections always use the database 0.
@@ -7872,6 +9770,16 @@ Since the currently selected database is a property of the connection, clients s
 
 Simple String Reply
 
+#### Examples:
+
+```
+127.0.0.1:6379> SELECT 1
+OK
+127.0.0.1:6379[1]> SELECT 0
+OK
+```
+
+
 ---
 
 
@@ -7880,6 +9788,20 @@ Simple String Reply
 ## SET
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```SET <key> <value>```
+
+```SET <key> <value> EX <seconds>```
+
+```SET <key> <value> PX <milliseconds>```
+
+```SET <key> <value> NX```
+
+```SET <key> <value> XX```
+
+#### Description:
 
 Set `key` to hold the string `value`.
 If `key` already holds a value, it is overwritten, regardless of its type.
@@ -7904,9 +9826,11 @@ nil-reply: a Null Bulk Reply is returned if the `SET` operation was not performe
 
 #### Examples:
 
-```cli
-SET mykey "Hello"
-GET mykey
+```
+keydb-cli> SET mykey "Hello"
+OK
+keydb-cli> GET mykey
+"Hello"
 ```
 
 #### Patterns
@@ -7946,6 +9870,12 @@ The script should be called with `EVAL ...script... 1 resource-name token-value`
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```SETBIT <key> <offset> <value>```
+
+#### Description:
+
 Sets or clears the bit at _offset_ in the string value stored at _key_.
 
 The bit is either set or cleared depending on _value_, which can be either 0 or
@@ -7973,10 +9903,13 @@ Integer Reply: the original bit value stored at _offset_.
 
 #### Examples:
 
-```cli
-SETBIT mykey 7 1
-SETBIT mykey 7 0
-GET mykey
+```
+keydb-cli> SETBIT mykey 7 1
+(integer) 0
+keydb-cli> SETBIT mykey 7 0
+(integer) 1
+keydb-cli> GET mykey
+"\x00"
 ```
 
 ---
@@ -7987,6 +9920,12 @@ GET mykey
 ## SETEX
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```SETEX <key> <timeout> <value>```
+
+#### Description:
 
 Set `key` to hold the string `value` and set `key` to timeout after a given
 number of seconds.
@@ -8010,10 +9949,13 @@ Simple String Reply
 
 #### Examples:
 
-```cli
-SETEX mykey 10 "Hello"
-TTL mykey
-GET mykey
+```
+keydb-cli> SETEX mykey 10 "Hello"
+OK
+keydb-cli> TTL mykey
+(integer) 8
+keydb-cli> GET mykey
+"Hello"
 ```
 ---
 
@@ -8022,6 +9964,12 @@ GET mykey
 ## SETNX
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
+
+#### Syntax:
+
+```SETNX <key> <value>```
+
+#### Description:
 
 Set `key` to hold string `value` if `key` does not exist.
 In that case, it is equal to `SET`.
@@ -8037,10 +9985,13 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-SETNX mykey "Hello"
-SETNX mykey "World"
-GET mykey
+```
+keydb-cli> SETNX mykey "Hello"
+(integer) 1
+keydb-cli> SETNX mykey "World"
+(integer) 0
+keydb-cli> GET mykey
+"Hello"
 ```
 
 #### Design pattern: Locking with `!SETNX`
@@ -8133,6 +10084,12 @@ client).
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```SETRANGE <key> <offset> <value>```
+
+#### Description:
+
 Overwrites part of the string stored at _key_, starting at the specified offset,
 for the entire length of _value_.
 If the offset is larger than the current length of the string at _key_, the
@@ -8169,17 +10126,22 @@ Integer Reply: the length of the string after it was modified by the command.
 
 Basic usage:
 
-```cli
-SET key1 "Hello World"
-SETRANGE key1 6 "KeyDB"
-GET key1
+```
+keydb-cli> SET key1 "Hello World"
+OK
+keydb-cli> SETRANGE key1 6 "KeyDB"
+(integer) 11
+keydb-cli> GET key1
+"Hello KeyDB"
 ```
 
 Example of zero padding:
 
-```cli
-SETRANGE key2 6 "KeyDB"
-GET key2
+```
+keydb-cli> SETRANGE key2 6 "KeyDB"
+(integer) 11
+keydb-cli> GET key2
+"\x00\x00\x00\x00\x00\x00KeyDB"
 ```
 
 ---
@@ -8190,7 +10152,7 @@ GET key2
 
 ## SHUTDOWN
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The command behavior is the following:
 
@@ -8204,7 +10166,7 @@ without the lost of any data.
 This is not guaranteed if the client uses simply `SAVE` and then `QUIT` because
 other clients may alter the DB data between the two commands.
 
-Note: A KeyDB instance that is configured for not persisting on disk (no AOF
+**REMINDER**: A KeyDB instance that is configured for not persisting on disk (no AOF
 configured, nor "save" directive) will not dump the RDB file on `SHUTDOWN`, as
 usually you don't want KeyDB instances used only for caching to block on when
 shutting down.
@@ -8253,6 +10215,12 @@ closed.
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
 
+#### Syntax
+
+```SINTER <key-1> ... <key-n>```
+
+#### Description:
+
 Returns the members of the set resulting from the intersection of all the given
 sets.
 
@@ -8275,14 +10243,21 @@ Array Reply: list with members of the resulting set.
 
 #### Examples:
 
-```cli
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SINTER key1 key2
+```
+keydb-cli> SADD key1 "a"
+(integer) 1
+keydb-cli> SADD key1 "b"
+(integer) 1
+keydb-cli> SADD key1 "c"
+(integer) 1
+keydb-cli> SADD key2 "c"
+(integer) 1
+keydb-cli> SADD key2 "d"
+(integer) 1
+keydb-cli> SADD key2 "e"
+(integer) 1
+keydb-cli> SINTER key1 key2
+1) "c"
 ```
 ---
 
@@ -8292,6 +10267,14 @@ SINTER key1 key2
 ## SINTERSTORE
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
+
+#### Syntax:
+
+```
+SINTERSTORE <destination> <key-1> ... <key-n>
+```
+
+#### Description:
 
 This command is equal to `SINTER`, but instead of returning the resulting set,
 it is stored in `destination`.
@@ -8304,15 +10287,23 @@ Integer Reply: the number of elements in the resulting set.
 
 #### Examples:
 
-```cli
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SINTERSTORE key key1 key2
-SMEMBERS key
+```
+keydb-cli> SADD key1 "a"
+(integer) 1
+keydb-cli> SADD key1 "b"
+(integer) 1
+keydb-cli> SADD key1 "c"
+(integer) 1
+keydb-cli> SADD key2 "c"
+(integer) 1
+keydb-cli> SADD key2 "d"
+(integer) 1
+keydb-cli> SADD key2 "e"
+(integer) 1
+keydb-cli> SINTERSTORE key key1 key2
+(integer) 1
+keydb-cli> SMEMBERS key
+1) "c"
 ```
 
 ---
@@ -8323,6 +10314,12 @@ SMEMBERS key
 ## SISMEMBER
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
+
+#### Syntax:
+
+```SISMEMBER <key> <member>```
+
+#### Description:
 
 Returns if `member` is a member of the set stored at `key`.
 
@@ -8335,10 +10332,13 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-SADD myset "one"
-SISMEMBER myset "one"
-SISMEMBER myset "two"
+```
+keydb-cli> SADD myset "one"
+(integer) 1
+keydb-cli> SISMEMBER myset "one"
+(integer) 1
+keydb-cli> SISMEMBER myset "two"
+(integer) 0
 ```
 
 ---
@@ -8347,21 +10347,21 @@ SISMEMBER myset "two"
 
 ## SLAVEOF
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 **A note about the word slave used in this man page and command name**: Starting with KeyDB 5 this command: starting with KeyDB version 5, if not for backward compatibility, the KeyDB project no longer uses the word slave. Please use the new command `REPLICAOF`. The command `SLAVEOF` will continue to work for backward compatibility.
 
 The `SLAVEOF` command can change the replication settings of a replica on the fly.
-If a KeyDB server is already acting as replica, the command `SLAVEOF` NO ONE will
+If a KeyDB server is already acting as replica, the command `SLAVEOF NO ONE` will
 turn off the replication, turning the KeyDB server into a MASTER.
 In the proper form `SLAVEOF` hostname port will make the server a replica of
 another server listening at the specified hostname and port.
 
-If a server is already a replica of some master, `SLAVEOF` hostname port will stop
+If a server is already a replica of some master, `SLAVEOF <hostname> <port>` will stop
 the replication against the old server and start the synchronization against the
 new one, discarding the old dataset.
 
-The form `SLAVEOF` NO ONE will stop replication, turning the server into a
+The form `SLAVEOF NO ONE` will stop replication, turning the server into a
 MASTER, but will not discard the replication.
 So, if the old master stops working, it is possible to turn the replica into a
 master and set the application to use this new master in read/write.
@@ -8380,7 +10380,17 @@ Simple String Reply
 
 ## SLOWLOG
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+
+#### Syntax:
+
+```SLOWLOG GET <N-entries>```
+
+```SLOWLOG LEN```
+
+```SLOWLOG RESET```
+
+#### Description:
 
 This command is used in order to read and reset the KeyDB slow queries log.
 
@@ -8427,7 +10437,7 @@ implemented in keydb-cli (deeply nested multi bulk replies).
 #### Output format
 
 ```
-KeyDB 127.0.0.1:6379> slowlog get 2
+keydb-cli> slowlog get 2
 1) 1) (integer) 14
    2) (integer) 1309448221
    3) (integer) 15
@@ -8482,6 +10492,12 @@ Once deleted the information is lost forever.
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
 
+#### Syntax:
+
+```SMEMBERS <key>```
+
+#### Description:
+
 Returns all the members of the set value stored at `key`.
 
 This has the same effect as running `SINTER` with one argument `key`.
@@ -8492,10 +10508,14 @@ Array Reply: all elements of the set.
 
 #### Examples:
 
-```cli
-SADD myset "Hello"
-SADD myset "World"
-SMEMBERS myset
+```
+keydb-cli> SADD myset "Hello"
+(integer) 1
+keydb-cli> SADD myset "World"
+(integer) 1
+keydb-cli> SMEMBERS myset
+1) "Hello"
+2) "World"
 ```
 
 ---
@@ -8507,6 +10527,12 @@ SMEMBERS myset
 ## SMOVE
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
+
+#### Syntax:
+
+```SMOVE <source> <destination> <member>```
+
+#### Description:
 
 Move `member` from the set at `source` to the set at `destination`.
 This operation is atomic.
@@ -8531,13 +10557,20 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-SADD myset "one"
-SADD myset "two"
-SADD myotherset "three"
-SMOVE myset myotherset "two"
-SMEMBERS myset
-SMEMBERS myotherset
+```
+keydb-cli> SADD myset "one"
+(integer) 1
+keydb-cli> SADD myset "two"
+(integer) 1
+keydb-cli> SADD myotherset "three"
+(integer) 1
+keydb-cli> SMOVE myset myotherset "two"
+(integer) 1
+keydb-cli> SMEMBERS myset
+1) "one"
+keydb-cli> SMEMBERS myotherset
+1) "three"
+2) "two"
 ```
 
 ---
@@ -8695,11 +10728,16 @@ Integer Reply: when the `store` option is specified the command returns the numb
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
 
+
+#### Syntax:
+
+```SPOP <key> <OPTIONAL:count>```
+
+#### Description:
+
 Removes and returns one or more random elements from the set value store at `key`.
 
 This operation is similar to `SRANDMEMBER`, that returns one or more random elements from a set but does not remove it.
-
-The `count` argument is available since version 3.2.
 
 #### Return:
 
@@ -8707,16 +10745,28 @@ Bulk String Reply: the removed element, or `nil` when `key` does not exist.
 
 #### Examples:
 
-```cli
-SADD myset "one"
-SADD myset "two"
-SADD myset "three"
-SPOP myset
-SMEMBERS myset
-SADD myset "four"
-SADD myset "five"
-SPOP myset 3
-SMEMBERS myset
+```
+keydb-cli> SADD myset "one"
+(integer) 1
+keydb-cli> SADD myset "two"
+(integer) 1
+keydb-cli> SADD myset "three"
+(integer) 1
+keydb-cli> SPOP myset
+"two"
+keydb-cli> SMEMBERS myset
+1) "one"
+2) "three"
+keydb-cli> SADD myset "four"
+(integer) 1
+keydb-cli> SADD myset "five"
+(integer) 1
+keydb-cli> SPOP myset 3
+1) "four"
+2) "three"
+3) "five"
+keydb-cli> SMEMBERS myset
+1) "one"
 ```
 
 #### Specification of the behavior when count is passed
@@ -8740,6 +10790,12 @@ KeyDB 3.2 introduced an optional `count` argument that can be passed to `SPOP` i
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
 
+#### Syntax:
+
+```SRANDMEMBER <key> <OPTIONAL:count>```
+
+#### Description:
+
 When called with just the `key` argument, return a random element from the set value stored at `key`.
 
 when called with the additional `count` argument, return an array of `count` **distinct elements** if `count` is positive. If called with a negative `count` the behavior changes and the command is allowed to return the **same element multiple times**. In this case the number of returned elements is the absolute value of the specified `count`.
@@ -8753,11 +10809,20 @@ Array Reply: when the additional `count` argument is passed the command returns 
 
 #### Examples:
 
-```cli
-SADD myset one two three
-SRANDMEMBER myset
-SRANDMEMBER myset 2
-SRANDMEMBER myset -5
+```
+keydb-cli> SADD myset one two three
+(integer) 3
+keydb-cli> SRANDMEMBER myset
+"two"
+keydb-cli> SRANDMEMBER myset 2
+1) "one"
+2) "three"
+keydb-cli> SRANDMEMBER myset -5
+1) "three"
+2) "two"
+3) "two"
+4) "three"
+5) "three"
 ```
 
 #### Specification of the behavior when count is passed
@@ -8790,6 +10855,12 @@ This means that if you have two non-empty buckets in the entire hash table, and 
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
 
+#### Syntax:
+
+```SREM <key> <member-1> ... <member-n>```
+
+#### Description:
+
 Remove the specified members from the set stored at `key`.
 Specified members that are not a member of this set are ignored.
 If `key` does not exist, it is treated as an empty set and this command returns
@@ -8805,13 +10876,20 @@ including non existing members.
 
 #### Examples:
 
-```cli
-SADD myset "one"
-SADD myset "two"
-SADD myset "three"
-SREM myset "one"
-SREM myset "four"
-SMEMBERS myset
+```
+keydb-cli> SADD myset "one"
+(integer) 1
+keydb-cli> SADD myset "two"
+(integer) 1
+keydb-cli> SADD myset "three"
+(integer) 1
+keydb-cli> SREM myset "one"
+(integer) 1
+keydb-cli> SREM myset "four"
+(integer) 0
+keydb-cli> SMEMBERS myset
+1) "three"
+2) "two"
 ```
 ---
 
@@ -8834,6 +10912,12 @@ See `SCAN` for `SSCAN` documentation.
 
 **Related Commands:** [APPEND](/docs/commands/#append), [BITCOUNT](/docs/commands/#bitcount), [BITFIELD](/docs/commands/#bitfield), [BITOP](/docs/commands/#bitop), [BITPOS](/docs/commands/#bitpos), [DECR](/docs/commands/#decr), [DECRBY](/docs/commands/#decrby), [GET](/docs/commands/#get), [GETBIT](/docs/commands/#getbit), [GETRANGE](/docs/commands/#getrange), [GETSET](/docs/commands/#getset), [INCR](/docs/commands/#incr), [INCRBY](/docs/commands/#incrby), [INCRBYFLOAT](/docs/commands/#incrbyfloat), [MGET](/docs/commands/#mget), [MSET](/docs/commands/#mset), [MSETNX](/docs/commands/#msetnx), [PSETEX](/docs/commands/#psetex), [SET](/docs/commands/#set), [SETBIT](/docs/commands/#setbit), [SETEX](/docs/commands/#setex), [SETNX](/docs/commands/#setnx), [SETRANGE](/docs/commands/#setrange), [STRLEN](/docs/commands/#strlen) 
 
+#### Syntax:
+
+```STRLEN <key>```
+
+#### Description:
+
 Returns the length of the string value stored at `key`.
 An error is returned when `key` holds a non-string value.
 
@@ -8844,10 +10928,13 @@ exist.
 
 #### Examples:
 
-```cli
-SET mykey "Hello world"
-STRLEN mykey
-STRLEN nonexisting
+```
+keydb-cli> SET mykey "Hello world"
+OK
+keydb-cli> STRLEN mykey
+(integer) 11
+keydb-cli> STRLEN nonexisting
+(integer) 0
 ```
 ---
 
@@ -8856,6 +10943,13 @@ STRLEN nonexisting
 ## SUBSCRIBE
 
 **Related Commands:** [PSUBSCRIBE](/docs/commands/#psubscribe), [PUBLISH](/docs/commands/#publish), [PUBSUB](/docs/commands/#pubsub), [PUNSUBSCRIBE](/docs/commands/#punsubscribe), [SUBSCRIBE](/docs/commands/#subscribe), [UNSUBSCRIBE](/docs/commands/#unsubscribe)
+
+#### Syntax:
+
+```SUBSCRIBE <channel-1> ... <channel-n>```
+
+
+#### Description:
 
 Subscribes the client to the specified channels.
 
@@ -8871,6 +10965,12 @@ and `PUNSUBSCRIBE` commands.
 ## SUNION
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
+
+#### Syntax:
+
+```SUNION <key-1> ... <key-n>```
+
+#### Description:
 
 Returns the members of the set resulting from the union of all the given sets.
 
@@ -8891,14 +10991,25 @@ Array Reply: list with members of the resulting set.
 
 #### Examples:
 
-```cli
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SUNION key1 key2
+```
+keydb-cli> SADD key1 "a"
+(integer) 1
+keydb-cli> SADD key1 "b"
+(integer) 1
+keydb-cli> SADD key1 "c"
+(integer) 1
+keydb-cli> SADD key2 "c"
+(integer) 1
+keydb-cli> SADD key2 "d"
+(integer) 1
+keydb-cli> SADD key2 "e"
+(integer) 1
+keydb-cli> SUNION key1 key2
+1) "b"
+2) "c"
+3) "a"
+4) "e"
+5) "d"
 ```
 
 ---
@@ -8909,6 +11020,14 @@ SUNION key1 key2
 ## SUNIONSTORE
 
 **Related Commands:** [SADD](/docs/commands/#sadd), [SCARD](/docs/commands/#scard), [SDIFF](/docs/commands/#sdiff), [SDIFFSTORE](/docs/commands/#sdiffstore), [SINTER](/docs/commands/#sinter), [SINTERSTORE](/docs/commands/#sinterstore), [SISMEMBER](/docs/commands/#sismember), [SMEMBERS](/docs/commands/#smembers), [SMOVE](/docs/commands/#smove), [SPOP](/docs/commands/#spop), [SRANDMEMBER](/docs/commands/#srandmember), [SREM](/docs/commands/#srem), [SSCAN](/docs/commands/#sscan), [SUNION](/docs/commands/#sunion), [SUNIONSTORE](/docs/commands/#sunionstore)
+
+#### Syntax:
+
+```
+SUNIONSTORE <destination> <set-1> ... <set-n>
+```
+
+#### Description:
 
 This command is equal to `SUNION`, but instead of returning the resulting set,
 it is stored in `destination`.
@@ -8921,15 +11040,27 @@ Integer Reply: the number of elements in the resulting set.
 
 #### Examples:
 
-```cli
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SUNIONSTORE key key1 key2
-SMEMBERS key
+```
+keydb-cli> SADD key1 "a"
+(integer) 1
+keydb-cli> SADD key1 "b"
+(integer) 1
+keydb-cli> SADD key1 "c"
+(integer) 1
+keydb-cli> SADD key2 "c"
+(integer) 1
+keydb-cli> SADD key2 "d"
+(integer) 1
+keydb-cli> SADD key2 "e"
+(integer) 1
+keydb-cli> SUNIONSTORE key key1 key2
+(integer) 5
+keydb-cli> SMEMBERS key
+1) "b"
+2) "c"
+3) "a"
+4) "e"
+5) "d"
 ```
 
 ---
@@ -8940,6 +11071,12 @@ SMEMBERS key
 ## SWAPDB
 
 **Related Commands:** [AUTH](/docs/commands/#append), [ECHO](/docs/commands/#echo), [PING](/docs/commands/#ping), [QUIT](/docs/commands/#quit), [SELECT](/docs/commands/#select), [SWAPDB](/docs/commands/#swapdb)
+
+#### Syntax:
+
+```SWAPDB <index-1> <index-2>```
+
+#### Description:
 
 This command swaps two KeyDB databases, so that immediately all the
 clients connected to a given database will see the data of the other database, and
@@ -8956,7 +11093,8 @@ Simple String Reply: `OK` if `SWAPDB` was executed correctly.
 #### Examples:
 
 ```
-SWAPDB 0 1
+keydb-cli> SWAPDB 0 1
+OK
 ```
 
 ---
@@ -8966,11 +11104,17 @@ SWAPDB 0 1
 
 ## SYNC
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
-#### Examples:
+Initiates a replication stream from the master.
 
-#### Return:
+The SYNC command is called by KeyDB replicas for initiating a replication stream from the master. It has been replaced in newer versions of KeyDB by [PSYNC](/docs/commands/#psync).
+
+For more information about replication in KeyDB please check the replication page.
+
+#### Return value:
+Non standard return value, a bulk transfer of the data followed by [PING](/docs/commands/#ping) and write requests from the master.
+
 
 ---
 
@@ -8979,7 +11123,7 @@ SWAPDB 0 1
 
 ## TIME
 
-**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT-GETNAME](/docs/commands/#client-getname), [CLIENT ID](/docs/commands/#client-id), [CLIENT-KILL](/docs/commands/#client-kill), [CLIENT-LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [LOLWUT](/docs/commands/#lolwut), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#MEMORY-PURGE), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
+**Related Commands:** [BGREWRITEAOF](/docs/commands/#bgrewriteaof), [BGSAVE](/docs/commands/#bgsave), [CLIENT CACHING](/docs/commands/#client-caching), [CLIENT GETNAME](/docs/commands/#client-getname), [CLIENT GETREDIR](/docs/commands/#client-getredir), [CLIENT ID](/docs/commands/#client-id), [CLIENT KILL](/docs/commands/#client-kill), [CLIENT LIST](/docs/commands/#client-list), [CLIENT PAUSE](/docs/commands/#client-pause), [CLIENT REPLY](/docs/commands/#client-reply), [CLIENT SETNAME](/docs/commands/#client-setname), [CLIENT UNBLOCK](/docs/commands/#client-unblock), [CLIENT TRACKING](/docs/commands/#client-tracking), [CLIENT TRACKINGINFO](/docs/commands/#client-trackinginfo), [COMMAND](/docs/commands/#command), [COMMAND COUNT](/docs/commands/#command-count), [COMMAND GETKEYS](/docs/commands/#command-getkeys), [COMMAND INFO](/docs/commands/#command-info), [CONFIG GET](/docs/commands/#config-get), [CONFIG RESETSTAT](/docs/commands/#config-resetstat), [CONFIG REWRITE](/docs/commands/#config-rewrite), [CONFIG SET](/docs/commands/#config-set), [DBSIZE](/docs/commands/#dbsize), [DEBUG OBJECT](/docs/commands/#debug-object), [DEBUG SEGFAULT](/docs/commands/#debug-segfault), [FLUSHALL](/docs/commands/#flushall), [FLUSHDB](/docs/commands/#flushdb), [INFO](/docs/commands/#info), [LASTSAVE](/docs/commands/#lastsave), [LATENCY DOCTOR](/docs/commands/#latency-doctor), [LATENCY GRAPH](/docs/commands/#latency-graph), [LATENCY HELP](/docs/commands/#latency-help), [LATENCY HISTORY](/docs/commands/#latency-history), [LATENCY LATEST](/docs/commands/#latency-latest), [LATENCY RESET](/docs/commands/#latency-reset), [MEMORY DOCTOR](/docs/commands/#memory-doctor), [MEMORY HELP](/docs/commands/#memory-help), [MEMORY MALLOC-STATS](/docs/commands/#memory-malloc-stats), [MEMORY PURGE](/docs/commands/#memory-purge), [MEMORY STATS](/docs/commands/#memory-stats), [MEMORY USAGE](/docs/commands/#memory-usage), [MODULE LIST](/docs/commands/#module-list), [MODULE LOAD](/docs/commands/#module-load), [MODULE UNLOAD](/docs/commands/#module-unload), [MONITOR](/docs/commands/#monitor), [PSYNC](/docs/commands/#psync), [REPLICAOF](/docs/commands/#replicaof), [ROLE](/docs/commands/#role), [SAVE](/docs/commands/#save), [SHUTDOWN](/docs/commands/#shutdown), [SLAVEOF](/docs/commands/#slaveof), [SLOWLOG](/docs/commands/#slowlog), [SYNC](/docs/commands/#sync), [TIME](/docs/commands/#time) 
 
 The `TIME` command returns the current server time as a two items lists: a Unix
 timestamp and the amount of microseconds already elapsed in the current second.
@@ -8997,9 +11141,13 @@ A multi bulk reply containing two elements:
 
 #### Examples:
 
-```cli
-TIME
-TIME
+```
+keydb-cli> TIME
+1) "1631131723"
+2) "621317"
+keydb-cli> TIME
+1) "1631131724"
+2) "525306"
 ```
 
 ---
@@ -9012,6 +11160,12 @@ TIME
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```TOUCH <key-1> ... <key-n>```
+
+#### Description:
+
 Alters the last access time of a key(s).
 A key is ignored if it does not exist.
 
@@ -9021,10 +11175,13 @@ Integer Reply: The number of keys that were touched.
 
 #### Examples:
 
-```cli
-SET key1 "Hello"
-SET key2 "World"
-TOUCH key1 key2
+```
+keydb-cli> SET key1 "Hello"
+OK
+keydb-cli> SET key2 "World"
+OK
+keydb-cli> TOUCH key1 key2
+(integer) 2
 ```
 ---
 
@@ -9035,6 +11192,13 @@ TOUCH key1 key2
 ## TTL
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+#### Syntax:
+
+```TTL <key>```
+
+```TTL <key> <subkey>```
+#### Description:
 
 Returns the remaining time to live of a key or subkey that has a timeout.
 This introspection capability allows a KeyDB client to check how many seconds a
@@ -9055,12 +11219,15 @@ keydb-cli> EXPIRE mykey 10
 (integer) 1
 keydb-cli> TTL mykey
 (integer) 10
+```
+
+```
 keydb-cli> SADD myset member1 member2
-OK
+(integer) 2
 keydb-cli> EXPIREMEMBER myset member2 10
 (integer) 1
 keydb-cli> TTL myset member2
-(integer)10
+(integer) 6
 ```
 ---
 
@@ -9072,6 +11239,12 @@ keydb-cli> TTL myset member2
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
 
+#### Syntax:
+
+```TYPE <key>```
+
+#### Description:
+
 Returns the string representation of the type of the value stored at `key`.
 The different types that can be returned are: `string`, `list`, `set`, `zset`,
 `hash` and `stream`.
@@ -9082,13 +11255,19 @@ Simple String Reply: type of `key`, or `none` when `key` does not exist.
 
 #### Examples:
 
-```cli
-SET key1 "value"
-LPUSH key2 "value"
-SADD key3 "value"
-TYPE key1
-TYPE key2
-TYPE key3
+```
+keydb-cli> SET key1 "value"
+OK
+keydb-cli> LPUSH key2 "value"
+(integer) 1
+keydb-cli> SADD key3 "value"
+(integer) 1
+keydb-cli> TYPE key1
+string
+keydb-cli> TYPE key2
+list
+keydb-cli> TYPE key3
+set
 ```
 ---
 
@@ -9098,6 +11277,12 @@ TYPE key3
 ## UNLINK
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+#### Syntax:
+
+```UNLINK <key-1> ... <key-n>```
+
+#### Description:
 
 This command is very similar to `DEL`: it removes the specified keys.
 Just like `DEL` a key is ignored if it does not exist. However the command
@@ -9112,10 +11297,13 @@ Integer Reply: The number of keys that were unlinked.
 
 #### Examples:
 
-```cli
-SET key1 "Hello"
-SET key2 "World"
-UNLINK key1 key2 key3
+```
+keydb-cli> SET key1 "Hello"
+OK
+keydb-cli> SET key2 "World"
+OK
+keydb-cli> UNLINK key1 key2 key3
+(integer) 2
 ```
 
 ---
@@ -9126,6 +11314,12 @@ UNLINK key1 key2 key3
 ## UNSUBSCRIBE
 
 **Related Commands:** [PSUBSCRIBE](/docs/commands/#psubscribe), [PUBLISH](/docs/commands/#publish), [PUBSUB](/docs/commands/#pubsub), [PUNSUBSCRIBE](/docs/commands/#punsubscribe), [SUBSCRIBE](/docs/commands/#subscribe), [UNSUBSCRIBE](/docs/commands/#unsubscribe)
+
+#### Syntax:
+
+```UNSUBSCRIBE <channel-1> ... <channel-n>```
+
+#### Description:
 
 Unsubscribes the client from the given channels, or from all of them if none is
 given.
@@ -9160,6 +11354,12 @@ Simple String Reply: always `OK`.
 ## WAIT
 
 **Related Commands:** [DEL](/docs/commands/#del), [DUMP](/docs/commands/#dump), [EXISTS](/docs/commands/#exists), [EXPIRE](/docs/commands/#expire), [EXPIREAT](/docs/commands/#expireat), [KEYS](/docs/commands/#keys), [MIGRATE](/docs/commands/#migrate), [MOVE](/docs/commands/#move), [OBJECT](/docs/commands/#object), [PERSIST](/docs/commands/#persist), [PEXPIRE](/docs/commands/#pexpire), [PEXPIREAT](/docs/commands/#pexpireat), [PTTL](/docs/commands/#pttl), [RANDOMKEY](/docs/commands/#randomkey), [RENAME](/docs/commands/#rename), [RENAMENX](/docs/commands/#renamenx), [RESTORE](/docs/commands/#restore), [SCAN](/docs/commands/#scan), [SORT](/docs/commands/#sort), [TOUCH](/docs/commands/#touch), [TTL](/docs/commands/#ttl), [TYPE](/docs/commands/#type), [UNLINK](/docs/commands/#unlink), [WAIT](/docs/commands/#wait)
+
+#### Syntax:
+
+```WAIT <numreplicas> <timeout>```
+
+#### Description:
 
 This command blocks the current client until all the previous write commands
 are successfully transferred and acknowledged by at least the specified number
@@ -9206,11 +11406,11 @@ Integer Reply: The command returns the number of replicas reached by all the wri
 #### Examples:
 
 ```
-> SET foo bar
+keydb-cli> SET foo bar
 OK
-> WAIT 1 0
+keydb-cli> WAIT 1 0
 (integer) 1
-> WAIT 2 1000
+keydb-cli> WAIT 2 1000
 (integer) 1
 ```
 
@@ -9226,6 +11426,12 @@ In the following example the first call to `WAIT` does not use a timeout and ask
 
 **Related Commands:** [DISCARD](/docs/commands/#discard), [EXEC](/docs/commands/#exec), [MULTI](/docs/commands/#multi), [UNWATCH](/docs/commands/#unwatch), [WATCH](/docs/commands/#watch)
 
+#### Syntax:
+
+```WATCH <key-1> ... <key-n>```
+
+#### Description:
+
 Marks the given keys to be watched for conditional execution of a
 transaction
 
@@ -9233,6 +11439,12 @@ transaction
 
 Simple String Reply: always `OK`.
 
+#### Example:
+
+```
+keydb-cli> WATCH k
+OK
+```
 ---
 
 
@@ -9241,6 +11453,12 @@ Simple String Reply: always `OK`.
 ## XACK
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+```XACK <key> <group> <id-1> ... <id-n>``` 
+
+#### Description:
 
 The `XACK` command removes one or multiple messages from the
 *pending entries list* (PEL) of a stream consumer group. A message is pending,
@@ -9267,8 +11485,9 @@ Certain message IDs may no longer be part of the PEL (for example because
 they have been already acknowledge), and XACK will not count them as
 successfully acknowledged.
 
-```cli
-XACK mystream mygroup 1526569495631-0
+```
+keydb-cli> XACK mystream mygroup 1526569495631-0
+(integer) 0
 ```
 
 ---
@@ -9280,6 +11499,12 @@ XACK mystream mygroup 1526569495631-0
 ## XADD
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+```XADD <key> <OPTIONAL:NOMKSTREAM> <OPTIONAL:MAXLEN|MINID> <OPTIONAL-MAXLEN|MINID-argument:=|\> <MAXLEN|MINID-argument:threshold> <OPTIONAL-MAXLEN|MINID-argument:LIMIT> <LIMIT-argument:count> <MAXLEN|MINID-argument:*|ID> <MAXLEN|MINID-argument:field-1> <MAXLEN|MINID-argument:value-1> ... <MAXLEN|MINID-argument:field-n> <MAXLEN|MINID-argument:value-n>```
+
+#### Description:
 
 Appends the specified stream entry to the stream at the specified key.
 If the key does not exist, as a side effect of running this command the
@@ -9363,11 +11588,26 @@ specified by the user during insertion.
 
 #### Examples:
 
-```cli
-XADD mystream * name Sara surname OConnor
-XADD mystream * field1 value1 field2 value2 field3 value3
-XLEN mystream
-XRANGE mystream - +
+```
+keydb-cli> XADD mystream * name Sara surname OConnor
+"1631199397243-0"
+keydb-cli> XADD mystream * field1 value1 field2 value2 field3 value3
+"1631199403874-0"
+keydb-cli> XLEN mystream
+(integer) 2
+keydb-cli> XRANGE mystream - +
+1) 1) "1631199397243-0"
+   2) 1) "name"
+      2) "Sara"
+      3) "surname"
+      4) "OConnor"
+2) 1) "1631199403874-0"
+   2) 1) "field1"
+      2) "value1"
+      3) "field2"
+      4) "value2"
+      5) "field3"
+      6) "value3"
 ```
 
 ---
@@ -9378,6 +11618,12 @@ XRANGE mystream - +
 ## XCLAIM
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+```XCLAIM <key> <group> <consumer> <min-idle-time> <id-1> ... <id-n> <OPTIONAL:IDLE> <IDLE-argument:ms> <OPTIONAL:TIME> <TIME-argument:ms-unix-time> <OPTIONAL:RETRYCOUNT> <RETRYCOUNT-argument:count> <OPTIONAL:FORCE> <OPTIONAL:JUSTID>```
+
+#### Description:
 
 In the context of a stream consumer group, this command changes the ownership
 of a pending message, so that the new owner is the consumer specified as the
@@ -9399,7 +11645,7 @@ Moreover, as a side effect, `XCLAIM` will increment the count of attempted deliv
 
 The command has multiple options, however most are mainly for internal use in
 order to transfer the effects of `XCLAIM` or other commands to the AOF file
-and to propagate the same effects to the slaves, and are unlikely to be
+and to propagate the same effects to the replicas, and are unlikely to be
 useful to normal users:
 
 1. `IDLE <ms>`: Set the idle time (last time it was delivered) of the message. If IDLE is not specified, an IDLE of 0 is assumed, that is, the time count is reset because the message has now a new owner trying to process it.
@@ -9416,10 +11662,10 @@ The command returns all the messages successfully claimed, in the same format
 as `XRANGE`. However if the `JUSTID` option was specified, only the message
 IDs are reported, without including the actual message.
 
-Example:
+#### Examples:
 
 ```
-> XCLAIM mystream mygroup Alice 3600000 1526569498055-0
+keydb-cli> XCLAIM mystream mygroup Alice 3600000 1526569498055-0
 1) 1) 1526569498055-0
    2) 1) "message"
       2) "orange"
@@ -9436,6 +11682,12 @@ In the above example we claim the message with ID `1526569498055-0`, only if the
 ## XDEL
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+```XDEL <key> <id-1> ... <id-n>```
+
+#### Description:
 
 Removes the specified entries from a stream, and returns the number of entries
 deleted, that may be different from the number of IDs passed to the command in
@@ -9472,19 +11724,19 @@ Integer Reply: the number of entries actually deleted.
 #### Examples:
 
 ```
-> XADD mystream * a 1
-1538561698944-0
-> XADD mystream * b 2
-1538561700640-0
-> XADD mystream * c 3
-1538561701744-0
-> XDEL mystream 1538561700640-0
+keydb-cli> XADD mystream * a 1
+"1631200981785-0"
+keydb-cli> XADD mystream * b 2
+"1631200987382-0"
+keydb-cli> XADD mystream * c 3
+"1631200996636-0"
+keydb-cli> XDEL mystream 1631200987382-0
 (integer) 1
-127.0.0.1:6379> XRANGE mystream - +
-1) 1) 1538561698944-0
+keydb-cli> XRANGE mystream - +
+1) 1) "1631200981785-0"
    2) 1) "a"
       2) "1"
-2) 1) 1538561701744-0
+2) 1) "1631200996636-0"
    2) 1) "c"
       2) "3"
 ```
@@ -9498,6 +11750,18 @@ Integer Reply: the number of entries actually deleted.
 ## XGROUP
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+```XGROUP CREATE <key> <groupname> <id|$> <OPTIONAL:MKSTREAM>```
+
+```XGROUP SETID <key> <groupname> <id|$>```
+
+```XGROUP DESTROY <key> <groupname>```
+
+```XGROUP DELCONSUMER <key> <groupname> <consumername>```
+
+#### Description:
 
 This command is used in order to manage the consumer groups associated
 with a stream data structure. Using `XGROUP` you can:
@@ -9576,7 +11840,7 @@ In this form the command returns general information about the stream stored
 at the specified key.
 
 ```
-> XINFO STREAM mystream
+keydb-cli> XINFO STREAM mystream
  1) length
  2) (integer) 2
  3) radix-tree-keys
@@ -9611,7 +11875,7 @@ In this form we just get as output all the consumer groups associated with the
 stream:
 
 ```
-> XINFO GROUPS mystream
+keydb-cli> XINFO GROUPS mystream
 1) 1) name
    2) "mygroup"
    3) consumers
@@ -9636,7 +11900,7 @@ Finally it is possible to get the list of every consumer in a specific consumer
 group:
 
 ```
-> XINFO CONSUMERS mystream mygroup
+keydb-cli> XINFO CONSUMERS mystream mygroup
 1) 1) name
    2) "Alice"
    3) pending
@@ -9666,7 +11930,7 @@ Finally it is possible to get help from the command, in case the user can't
 remember the exact syntax, by using the `HELP` subcommnad:
 
 ```
-> XINFO HELP
+keydb-cli> XINFO HELP
 1) XINFO <subcommand> arg arg ... arg. Subcommands are:
 2) CONSUMERS <key> <groupname>  -- Show consumer groups of group <groupname>.
 3) GROUPS <key>                 -- Show the stream consumer groups.
@@ -9682,6 +11946,12 @@ remember the exact syntax, by using the `HELP` subcommnad:
 ## XLEN
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+```XLEN <key>```
+
+#### Description:
 
 Returns the number of entries inside a stream. If the specified key does not
 exist the command returns zero, as if the stream was empty.
@@ -9699,20 +11969,32 @@ Integer Reply: the number of entries of the stream at `key`.
 
 #### Examples:
 
-```cli
-XADD mystream * item 1
-XADD mystream * item 2
-XADD mystream * item 3
-XLEN mystream
+```
+keydb-cli> XADD mystream * item 1
+"1631205538841-0"
+keydb-cli> XADD mystream * item 2
+"1631205541969-0"
+keydb-cli> XADD mystream * item 3
+"1631205543427-0"
+keydb-cli> XLEN mystream
+(integer) 3
 ```
 ---
 
 
 
 
-## XSPENDING
+## XPENDING
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+```XPENDING <key> <group>```
+
+```XPENDING <key> <group> <OPTIONAL:IDLE> <IDLE-argument:min-idle-time> <OPTIONAL:start> <OPTIONAL:end> <OPTIONAL:count> <OPTIONAL:consumer>```
+
+#### Description:
 
 Fetching data from a stream via a consumer group, and not acknowledging
 such data, has the effect of creating *pending entries*. This is
@@ -9743,10 +12025,10 @@ immediatelycreate a pending message by reading from the group with
 `XREADGROUP`.
 
 ```
-> XGROUP CREATE mystream group55 0-0
+keydb-cli> XGROUP CREATE mystream group55 0-0
 OK
 
-> XREADGROUP GROUP group55 consumer-123 COUNT 1 STREAMS mystream >
+keydb-cli> XREADGROUP GROUP group55 consumer-123 COUNT 1 STREAMS mystream >
 1) 1) "mystream"
    2) 1) 1) 1526984818136-0
          2) 1) "duration"
@@ -9763,7 +12045,7 @@ message without acknowledging its processing. The simples `XPENDING`
 form will give us this information:
 
 ```
-> XPENDING mystream group55
+keydb-cli> XPENDING mystream group55
 1) (integer) 1
 2) 1526984818136-0
 3) 1526984818136-0
@@ -9783,7 +12065,7 @@ we need to also pass a range of IDs, in a similar way we do it with
 of messages returned per call:
 
 ```
-> XPENDING mystream group55 - + 10
+keydb-cli> XPENDING mystream group55 - + 10
 1) 1) 1526984818136-0
    2) "consumer-123"
    3) (integer) 196415
@@ -9808,7 +12090,7 @@ Finally it is possible to pass an additional argument to the command, in order
 to see the messages having a specific owner:
 
 ```
-> XPENDING mystream group55 - + 10 consumer-123
+keydb-cli> XPENDING mystream group55 - + 10 consumer-123
 ```
 
 But in the above case the output would be the same, since we have pending
@@ -9836,6 +12118,12 @@ an array of items.
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
 
+#### Syntax:
+
+```XRANGE <key> <start> <end> <OPTIONAL:COUNT> <COUNT-argument:count>``` 
+
+#### Description:
+
 The command returns the stream entries matching a given range of IDs.
 The range is specified by a minimum and maximum ID. All the entires having
 an ID between the two specified or exactly one of the two IDs specified
@@ -9861,7 +12149,7 @@ and the maximum ID possible inside a stream, so the following command
 will just return every entry in the stream:
 
 ```
-> XRANGE somestream - +
+keydb-cli> XRANGE somestream - +
 1) 1) 1526985054069-0
    2) 1) "duration"
       2) "72"
@@ -9891,7 +12179,7 @@ to use `XRANGE` specifying just the first part of the ID, the millisecond time,
 like in the following example:
 
 ```
-> XRANGE somestream 1526985054069 1526985055069
+keydb-cli> XRANGE somestream 1526985054069 1526985055069
 ```
 
 In this case, `XRANGE` will auto-complete the start interval with `-0`
@@ -9913,7 +12201,7 @@ because it allows, for instance, to model operations such as *give me
 the entry greater or equal to the following*:
 
 ```
-> XRANGE somestream 1526985054069-0 + COUNT 1
+keydb-cli> XRANGE somestream 1526985054069-0 + COUNT 1
 1) 1) 1526985054069-0
    2) 1) "duration"
       2) "72"
@@ -9934,7 +12222,7 @@ we want two elements per iteration. We start fetching the first two
 elements, which is trivial:
 
 ```
-> XRANGE writers - + COUNT 2
+keydb-cli> XRANGE writers - + COUNT 2
 1) 1) 1526985676425-0
    2) 1) "name"
       2) "Virginia"
@@ -9955,7 +12243,7 @@ The ID of the last entry is `1526985685298-0`, so we just add 1 to the
 sequence to obtain `1526985685298-1`, and continue our iteration:
 
 ```
-> XRANGE writers 1526985685298-1 + COUNT 2
+keydb-cli> XRANGE writers 1526985685298-1 + COUNT 2
 1) 1) 1526985691746-0
    2) 1) "name"
       2) "Toni"
@@ -9986,7 +12274,7 @@ stream. All you have to do is to specify the ID two times in the arguments
 of XRANGE:
 
 ```
-> XRANGE mystream 1526984818136-0 1526984818136-0
+keydb-cli> XRANGE mystream 1526984818136-0 1526984818136-0
 1) 1) 1526984818136-0
    2) 1) "duration"
       2) "1532"
@@ -10012,14 +12300,30 @@ their fields and values in the exact same order as `XADD` added them.
 
 #### Examples:
 
-```cli
-XADD writers * name Virginia surname Woolf
-XADD writers * name Jane surname Austen
-XADD writers * name Toni surname Morris
-XADD writers * name Agatha surname Christie
-XADD writers * name Ngozi surname Adichie
-XLEN writers
-XRANGE writers - + COUNT 2
+```
+keydb-cli> XADD writers * name Virginia surname Woolf
+"1631206675205-0"
+keydb-cli> XADD writers * name Jane surname Austen
+"1631206680413-0"
+keydb-cli> XADD writers * name Toni surname Morris
+"1631206685031-0"
+keydb-cli> XADD writers * name Agatha surname Christie
+"1631206690003-0"
+keydb-cli> XADD writers * name Ngozi surname Adichie
+"1631206694127-0"
+keydb-cli> XLEN writers
+(integer) 5
+keydb-cli> XRANGE writers - + COUNT 2
+1) 1) "1631206675205-0"
+   2) 1) "name"
+      2) "Virginia"
+      3) "surname"
+      4) "Woolf"
+2) 1) "1631206680413-0"
+   2) 1) "name"
+      2) "Jane"
+      3) "surname"
+      4) "Austen"
 ```
 
 ---
@@ -10032,6 +12336,12 @@ XRANGE writers - + COUNT 2
 ## XREAD
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+```XREAD <OPTIONAL:COUNT> <COUNT-argument:count> <OPTIONAL:BLOCK> <BLOCK-argument:milliseconds> <STREAMS> <key-1> ... <key-n> <id-1> ... <id-n>```
+
+#### Description:
 
 Read data from one or multiple streams, only returning entries with an
 ID greater than the last received ID reported by the caller.
@@ -10065,7 +12375,7 @@ Note: we use the **COUNT** option in the example, so that for each stream
 the call will return at maximum two elements per stream.
 
 ```
-> XREAD COUNT 2 STREAMS mystream writers 0-0 0-0
+keydb-cli> XREAD COUNT 2 STREAMS mystream writers 0-0 0-0
 1) 1) "mystream"
    2) 1) 1) 1526984818136-0
          2) 1) "duration"
@@ -10110,7 +12420,7 @@ stream `writers` has the ID `1526985685298-0`.
 To continue iterating the two streams I'll call:
 
 ```
-> XREAD COUNT 2 STREAMS mystream writers 1526999352406-0 1526985685298-0
+keydb-cli> XREAD COUNT 2 STREAMS mystream writers 1526999352406-0 1526985685298-0
 1) 1) "mystream"
    2) 1) 1) 1526999626221-0
          2) 1) "duration"
@@ -10144,13 +12454,13 @@ here the sequence part of the ID, if missing, is always interpreted as
 zero, so the command:
 
 ```
-> XREAD COUNT 2 STREAMS mystream writers 0 0
+keydb-cli> XREAD COUNT 2 STREAMS mystream writers 0 0
 ```
 
 is exactly equivalent to
 
 ```
-> XREAD COUNT 2 STREAMS mystream writers 0-0 0-0
+keydb-cli> XREAD COUNT 2 STREAMS mystream writers 0-0 0-0
 ```
 
 #### Blocking for data
@@ -10184,7 +12494,7 @@ This is an example of blocking invocation, where the command later returns
 a null reply because the timeout has elapsed without new data arriving:
 
 ```
-> XREAD BLOCK 1000 STREAMS mystream 1526999626221-0
+keydb-cli> XREAD BLOCK 1000 STREAMS mystream 1526999626221-0
 (nil)
 ```
 
@@ -10207,13 +12517,13 @@ This is how a typical `XREAD` call looks like in the first iteration
 of a consumer willing to consume only new entries:
 
 ```
-> XREAD BLOCK 5000 COUNT 100 STREAMS mystream $
+keydb-cli> XREAD BLOCK 5000 COUNT 100 STREAMS mystream $
 ```
 
 Once we get some replies, the next call will be something like:
 
 ```
-> XREAD BLOCK 5000 COUNT 100 STREAMS mystream 1526999644174-3
+keydb-cli> XREAD BLOCK 5000 COUNT 100 STREAMS mystream 1526999644174-3
 ```
 
 And so forth.
@@ -10258,6 +12568,12 @@ and semantics.
 ## XREADGROUP
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+```XREADGROUP GROUP <group> <consumer> <OPTIONAL:COUNT> <COUNT-argument:count> <OPTIONAL:BLOCK> <BLOCK-argument:millseconds> <OPTIONAL:NOACK> STREAMS <key-1> ... <key-n> <id-1> ... <id-n>```
+
+#### Description:
 
 The `XREADGROUP` command is a special version of the `XREAD` command
 with support for consumer groups. Probably you will have to understand the
@@ -10373,6 +12689,12 @@ To see how the command actually replies, please check the `XREAD` command page.
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
 
+#### Syntax:
+
+```XREVRANGE <key> <end> <start> <OPTIONAL:COUNT> <COUNT-argument:count>```
+
+#### Description:
+
 This command is exactly like `XRANGE`, but with the notable difference of
 returning the entries in reverse order, and also taking the start-end
 range in reverse order: in `XREVRANGE` you need to state the *end* ID
@@ -10403,7 +12725,7 @@ be such a number (see `XRANGE` for more info about incomplete IDs).
 Example:
 
 ```
-> XREVRANGE writers + - COUNT 2
+keydb-cli> XREVRANGE writers + - COUNT 2
 1) 1) 1526985723355-0
    2) 1) "name"
       2) "Ngozi"
@@ -10421,7 +12743,7 @@ already zero, the next ID I'll use instead of the `+` special ID will
 be `1526985712946-18446744073709551615`, or just `18446744073709551615`:
 
 ```
-> XREVRANGE writers 1526985712946-18446744073709551615 - COUNT 2
+keydb-cli> XREVRANGE writers 1526985712946-18446744073709551615 - COUNT 2
 1) 1) 1526985691746-0
    2) 1) "name"
       2) "Toni"
@@ -10449,14 +12771,25 @@ their fields and values in the exact same order as `XADD` added them.
 
 #### Examples:
 
-```cli
-XADD writers * name Virginia surname Woolf
-XADD writers * name Jane surname Austen
-XADD writers * name Toni surname Morris
-XADD writers * name Agatha surname Christie
-XADD writers * name Ngozi surname Adichie
-XLEN writers
-XREVRANGE writers + - COUNT 1
+```
+keydb-cli> XADD writers * name Virginia surname Woolf
+"1631207871329-0"
+keydb-cli> XADD writers * name Jane surname Austen
+"1631207875380-0"
+keydb-cli> XADD writers * name Toni surname Morris
+"1631207879126-0"
+keydb-cli> XADD writers * name Agatha surname Christie
+"1631207882612-0"
+keydb-cli> XADD writers * name Ngozi surname Adichie
+"1631207887623-0"
+keydb-cli> XLEN writers
+(integer) 5
+keydb-cli> XREVRANGE writers + - COUNT 1
+1) 1) "1631207887623-0"
+   2) 1) "name"
+      2) "Ngozi"
+      3) "surname"
+      4) "Adichie"
 ```
 
 ---
@@ -10467,6 +12800,12 @@ XREVRANGE writers + - COUNT 1
 ## XTRIM
 
 **Related Commands:** [XACK](/docs/commands/#xack), [XADD](/docs/commands/#xadd), [XCLAIM](/docs/commands/#xclaim), [XDEL](/docs/commands/#xdel), [XGROUP](/docs/commands/#xgroup), [XINFO](/docs/commands/#xinfo), [XLEN](/docs/commands/#xlen), [XPENDING](/docs/commands/#xpending), [XRANGE](/docs/commands/#xrange), [XREAD](/docs/commands/#xread), [XREADGROUP](/docs/commands/#xreadgroup), [XREVRANGE](/docs/commands/#xrevrange), [XTRIM](/docs/commands/#xtrim)
+
+#### Syntax:
+
+```XTRIM <key> MAXLEN|MINID <OPTIONAL:=|~> <threshold> <OPTIONAL:LIMIT> <LIMIT-argument:count>```
+
+#### Description:
 
 `XTRIM` trims the stream to a given number of items, evicting older items
 (items with lower IDs) if needed. The command is conceived to accept multiple
@@ -10500,10 +12839,21 @@ Integer Reply, specifically:
 
 The command returns the number of entries deleted from the stream.
 
-```cli
-XADD mystream * field1 A field2 B field3 C field4 D
-XTRIM mystream MAXLEN 2
-XRANGE mystream - +
+```
+keydb-cli> XADD mystream * field1 A field2 B field3 C field4 D
+"1631208144388-0"
+keydb-cli> XTRIM mystream MAXLEN 2
+(integer) 0
+keydb-cli> XRANGE mystream - +
+1) 1) "1631208144388-0"
+   2) 1) "field1"
+      2) "A"
+      3) "field2"
+      4) "B"
+      5) "field3"
+      6) "C"
+      7) "field4"
+      8) "D"
 ```
 
 ---
@@ -10514,6 +12864,14 @@ XRANGE mystream - +
 ## ZADD
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax:
+
+```ZADD <key> <score> <member>```
+
+```ZADD <key> <OPTIONAL:NX|XX> <OPTIONAL:CH> <OPTIONAL:INCR> <score> <member>```
+
+#### Description:
 
 Adds all the specified members with the specified scores to the sorted set
 stored at `key`.
@@ -10583,11 +12941,22 @@ If the `INCR` option is specified, the return value will be Bulk String Reply:
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 1 "uno"
-ZADD myzset 2 "two" 3 "three"
-ZRANGE myzset 0 -1 WITHSCORES
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 1 "uno"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two" 3 "three"
+(integer) 2
+keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
+1) "one"
+2) "1"
+3) "uno"
+4) "1"
+5) "two"
+6) "2"
+7) "three"
+8) "3"
 ```
 
 ---
@@ -10599,6 +12968,12 @@ ZRANGE myzset 0 -1 WITHSCORES
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
 
+#### Syntax:
+
+```ZCARD <key>```
+
+#### Description:
+
 Returns the sorted set cardinality (number of elements) of the sorted set stored
 at `key`.
 
@@ -10609,10 +12984,13 @@ if `key` does not exist.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZCARD myzset
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZCARD myzset
+(integer) 2
 ```
 ---
 
@@ -10623,6 +13001,12 @@ ZCARD myzset
 ## ZCOUNT
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax:
+
+```ZCOUNT <key> <min> <max>```
+
+#### Description:
 
 Returns the number of elements in the sorted set at `key` with a score between
 `min` and `max`.
@@ -10638,12 +13022,17 @@ Integer Reply: the number of elements in the specified score range.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZCOUNT myzset -inf +inf
-ZCOUNT myzset (1 3
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZCOUNT myzset -inf +inf
+(integer) 3
+keydb-cli> ZCOUNT myzset (1 3
+(integer) 2
 ```
 
 ---
@@ -10654,6 +13043,12 @@ ZCOUNT myzset (1 3
 ## ZINCRBY
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax:
+
+```ZINCRBY <key> <increment> <member>```
+
+#### Description:
 
 Increments the score of `member` in the sorted set stored at `key` by
 `increment`.
@@ -10675,11 +13070,18 @@ number), represented as string.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZINCRBY myzset 2 "one"
-ZRANGE myzset 0 -1 WITHSCORES
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZINCRBY myzset 2 "one"
+"3"
+keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
+1) "two"
+2) "2"
+3) "one"
+4) "3"
 ```
 
 ---
@@ -10691,6 +13093,12 @@ ZRANGE myzset 0 -1 WITHSCORES
 ## ZINTERSTORE
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax:
+
+```ZINTERSTORE <destination> <numkeys> <key-of-zset1> ... <key-of-zsetn>```
+
+```ZINTERSTORE <destination> <numkeys> <key-of-zset1> ... <key-of-zsetn> WEIGHTS <weight-1> ... <weight-numkeys> ```
 
 Computes the intersection of `numkeys` sorted sets given by the specified keys,
 and stores the result in `destination`.
@@ -10705,6 +13113,8 @@ be equal to the number of input sorted sets.
 
 For a description of the `WEIGHTS` and `AGGREGATE` options, see `ZUNIONSTORE`.
 
+
+
 If `destination` already exists, it is overwritten.
 
 #### Return:
@@ -10714,15 +13124,29 @@ Integer Reply: the number of elements in the resulting sorted set at
 
 #### Examples:
 
-```cli
-ZADD zset1 1 "one"
-ZADD zset1 2 "two"
-ZADD zset2 1 "one"
-ZADD zset2 2 "two"
-ZADD zset2 3 "three"
-ZINTERSTORE out 2 zset1 zset2 WEIGHTS 2 3
-ZRANGE out 0 -1 WITHSCORES
 ```
+keydb-cli> ZADD zset1 1 "one"
+(integer) 1
+keydb-cli> ZADD zset1 2 "two"
+(integer) 1
+keydb-cli> ZADD zset2 1 "one"
+(integer) 1
+keydb-cli> ZADD zset2 2 "two"
+(integer) 1
+keydb-cli> ZADD zset2 3 "three"
+(integer) 1
+keydb-cli> ZINTERSTORE out 2 zset1 zset2 WEIGHTS 2 3
+(integer) 2
+keydb-cli> ZRANGE out 0 -1 WITHSCORES
+1) "one"
+2) "5"
+3) "two"
+4) "10"
+```
+
+"one" : 5 = 1 X 2 + 1 X 3 (sorted set score X weight)
+
+"two" : 10 = 2 X 2 + 2 X 3 (sorted set score X weight)
 
 ---
 
@@ -10733,6 +13157,12 @@ ZRANGE out 0 -1 WITHSCORES
 ## ZLEXCOUNT
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax : 
+
+```ZLEXCOUNT <key> <min> <max>```
+
+#### Description:
 
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns the number of elements in the sorted set at `key` with a value between `min` and `max`.
 
@@ -10747,11 +13177,15 @@ Integer Reply: the number of elements in the specified score range.
 
 #### Examples:
 
-```cli
-ZADD myzset 0 a 0 b 0 c 0 d 0 e
-ZADD myzset 0 f 0 g
-ZLEXCOUNT myzset - +
-ZLEXCOUNT myzset [b [f
+```
+keydb-cli> ZADD myzset 0 a 0 b 0 c 0 d 0 e
+(integer) 5
+keydb-cli> ZADD myzset 0 f 0 g
+(integer) 2
+keydb-cli> ZLEXCOUNT myzset - +
+(integer) 7
+keydb-cli> ZLEXCOUNT myzset [b [f
+(integer) 5
 ```
 
 ---
@@ -10763,6 +13197,13 @@ ZLEXCOUNT myzset [b [f
 ## ZPOPMAX
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+
+#### Syntax:
+
+```ZPOPMAX <key> <OPTIONAL:count>```
+
+#### Description:
 
 Removes and returns up to `count` members with the highest scores in the sorted
 set stored at `key`.
@@ -10778,11 +13219,16 @@ Array Reply: list of popped elements and scores.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZPOPMAX myzset
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZPOPMAX myzset
+1) "three"
+2) "3"
 ```
 
 ----
@@ -10794,6 +13240,12 @@ ZPOPMAX myzset
 ## ZPOPMIN
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax:
+
+```ZPOPMIN <key> <OPTIONAL:count>```
+
+#### Description:
 
 Removes and returns up to `count` members with the lowest scores in the sorted
 set stored at `key`.
@@ -10809,11 +13261,16 @@ Array Reply: list of popped elements and scores.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZPOPMIN myzset
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZPOPMIN myzset
+1) "one"
+2) "1"
 ```
 ---
 
@@ -10823,6 +13280,12 @@ ZPOPMIN myzset
 ## ZRANGE
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax:
+
+```ZRANGE <key> <start> <stop>```
+
+#### Description:
 
 Returns the specified range of elements in the sorted set stored at `key`.
 The elements are considered to be ordered from the lowest to the highest score.
@@ -10860,19 +13323,32 @@ their scores, in case the `WITHSCORES` option is given).
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZRANGE myzset 0 -1
-ZRANGE myzset 2 3
-ZRANGE myzset -2 -1
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZRANGE myzset 0 -1
+1) "one"
+2) "two"
+3) "three"
+keydb-cli> ZRANGE myzset 2 3
+1) "three"
+keydb-cli> ZRANGE myzset -2 -1
+1) "two"
+2) "three"
 ```
 
 The following example using `WITHSCORES` shows how the command returns always an array, but this time, populated with *element_1*, *score_1*, *element_2*, *score_2*, ..., *element_N*, *score_N*.
 
-```cli
-ZRANGE myzset 0 1 WITHSCORES
+```
+keydb-cli> ZRANGE myzset 0 1 withscores
+1) "one"
+2) "1"
+3) "two"
+4) "2"
 ```
 
 ---
@@ -10885,6 +13361,14 @@ ZRANGE myzset 0 1 WITHSCORES
 ## ZRANGEBYLEX
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax:
+
+```ZRANGEBYLEX <key> <min> <max>```
+
+```ZRANGEBYLEX <key> <min> <max> <OPTIONAL:LIMIT> <LIMIT-argument:offset> <LIMIT-argument:count>```
+
+#### Description:
 
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `min` and `max`.
 
@@ -10941,11 +13425,22 @@ Array Reply: list of elements in the specified score range.
 
 #### Examples:
 
-```cli
-ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
-ZRANGEBYLEX myzset - [c
-ZRANGEBYLEX myzset - (c
-ZRANGEBYLEX myzset [aaa (g
+```
+keydb-cli> ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
+(integer) 7
+keydb-cli> ZRANGEBYLEX myzset - [c
+1) "a"
+2) "b"
+3) "c"
+keydb-cli> ZRANGEBYLEX myzset - (c
+1) "a"
+2) "b"
+keydb-cli> ZRANGEBYLEX myzset [aaa (g
+1) "b"
+2) "c"
+3) "d"
+4) "e"
+5) "f"
 ```
 
 ---
@@ -10956,6 +13451,12 @@ ZRANGEBYLEX myzset [aaa (g
 ## ZRANGEBYSCORE
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax:
+
+```ZRANGEBYSCORE <key> <min> <max> <OPTIONAL:WITHSCORES> <OPTIONAL:LIMIT> <LIMIT-argument:offset> <LIMIT-argument:count>```
+
+#### Description:
 
 Returns all the elements in the sorted set at `key` with a score between `min`
 and `max` (including elements with score equal to `min` or `max`).
@@ -10974,7 +13475,6 @@ O(N) time complexity.
 
 The optional `WITHSCORES` argument makes the command return both the element and
 its score, instead of the element alone.
-This option is available since KeyDB 2.0.
 
 #### Exclusive intervals and infinity
 
@@ -11006,14 +13506,24 @@ with their scores).
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZRANGEBYSCORE myzset -inf +inf
-ZRANGEBYSCORE myzset 1 2
-ZRANGEBYSCORE myzset (1 2
-ZRANGEBYSCORE myzset (1 (2
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZRANGEBYSCORE myzset -inf +inf
+1) "one"
+2) "two"
+3) "three"
+keydb-cli> ZRANGEBYSCORE myzset 1 2
+1) "one"
+2) "two"
+keydb-cli> ZRANGEBYSCORE myzset (1 2
+1) "two"
+keydb-cli> ZRANGEBYSCORE myzset (1 (2
+(empty array)
 ```
 
 #### Pattern: weighted random selection of an element
@@ -11069,6 +13579,12 @@ just compute a random number between 0 and 1 (which is like calling
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
 
+#### Syntax:
+
+```ZRANK <key> <member>```
+
+#### Description:
+
 Returns the rank of `member` in the sorted set stored at `key`, with the scores
 ordered from low to high.
 The rank (or index) is 0-based, which means that the member with the lowest
@@ -11085,12 +13601,17 @@ to low.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZRANK myzset "three"
-ZRANK myzset "four"
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZRANK myzset "three"
+(integer) 2
+keydb-cli> ZRANK myzset "four"
+(nil)
 ```
 ---
 
@@ -11101,6 +13622,12 @@ ZRANK myzset "four"
 ## ZREM
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax:
+
+```ZREM <key> <member-1> ... <member-n>```
+
+#### Description:
 
 Removes the specified members from the sorted set stored at `key`.
 Non existing members are ignored.
@@ -11117,12 +13644,20 @@ Integer Reply, specifically:
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZREM myzset "two"
-ZRANGE myzset 0 -1 WITHSCORES
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZREM myzset "two"
+(integer) 1
+keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
+1) "one"
+2) "1"
+3) "three"
+4) "3"
 ```
 
 ---
@@ -11136,6 +13671,12 @@ ZRANGE myzset 0 -1 WITHSCORES
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
 
+#### Syntax:
+
+```ZREMRANGEBYLEX <key> <min> <max>```
+
+#### Description:
+
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command removes all elements in the sorted set stored at `key` between the lexicographical range specified by `min` and `max`.
 
 The meaning of `min` and `max` are the same of the `ZRANGEBYLEX` command. Similarly, this command actually returns the same elements that `ZRANGEBYLEX` would return if called with the same `min` and `max` arguments.
@@ -11146,12 +13687,29 @@ Integer Reply: the number of elements removed.
 
 #### Examples:
 
-```cli
-ZADD myzset 0 aaaa 0 b 0 c 0 d 0 e
-ZADD myzset 0 foo 0 zap 0 zip 0 ALPHA 0 alpha
-ZRANGE myzset 0 -1
-ZREMRANGEBYLEX myzset [alpha [omega
-ZRANGE myzset 0 -1
+```
+keydb-cli> ZADD myzset 0 aaaa 0 b 0 c 0 d 0 e
+(integer) 5
+keydb-cli> ZADD myzset 0 foo 0 zap 0 zip 0 ALPHA 0 alpha
+(integer) 5
+keydb-cli> ZRANGE myzset 0 -1
+ 1) "ALPHA"
+ 2) "aaaa"
+ 3) "alpha"
+ 4) "b"
+ 5) "c"
+ 6) "d"
+ 7) "e"
+ 8) "foo"
+ 9) "zap"
+10) "zip"
+keydb-cli> ZREMRANGEBYLEX myzset [alpha [omega
+(integer) 6
+keydb-cli> ZRANGE myzset 0 -1
+1) "ALPHA"
+2) "aaaa"
+3) "zap"
+4) "zip"
 ```
 ---
 
@@ -11162,6 +13720,12 @@ ZRANGE myzset 0 -1
 ## ZREMRANGEBYRANK
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax:
+
+```ZREMRANGEBYRANK <key> <start> <stop>```
+
+#### Description:
 
 Removes all elements in the sorted set stored at `key` with rank between `start`
 and `stop`.
@@ -11178,12 +13742,18 @@ Integer Reply: the number of elements removed.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZREMRANGEBYRANK myzset 0 1
-ZRANGE myzset 0 -1 WITHSCORES
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZREMRANGEBYRANK myzset 0 1
+(integer) 2
+keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
+1) "three"
+2) "3"
 ```
 ---
 
@@ -11193,11 +13763,16 @@ ZRANGE myzset 0 -1 WITHSCORES
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
 
+#### Syntax:
+
+```ZREMRANGEBYSCORE <key> <min> <max>```
+
+#### Description:
+
 Removes all elements in the sorted set stored at `key` with a score between
 `min` and `max` (inclusive).
 
-Since version 2.1.6, `min` and `max` can be exclusive, following the syntax of
-`ZRANGEBYSCORE`.
+`min` and `max` can be exclusive, following the syntax of `ZRANGEBYSCORE`.
 
 #### Return:
 
@@ -11205,12 +13780,20 @@ Integer Reply: the number of elements removed.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZREMRANGEBYSCORE myzset -inf (2
-ZRANGE myzset 0 -1 WITHSCORES
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZREMRANGEBYSCORE myzset -inf (2
+(integer) 1
+keydb-cli> ZRANGE myzset 0 -1 WITHSCORES
+1) "two"
+2) "2"
+3) "three"
+4) "3"
 ```
 ---
 
@@ -11221,6 +13804,12 @@ ZRANGE myzset 0 -1 WITHSCORES
 ## ZREVRANGE
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax: 
+
+```ZREVRANGE <key> <start> <stop>```
+
+#### Description:
 
 Returns the specified range of elements in the sorted set stored at `key`.
 The elements are considered to be ordered from the highest to the lowest score.
@@ -11235,13 +13824,22 @@ their scores).
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZREVRANGE myzset 0 -1
-ZREVRANGE myzset 2 3
-ZREVRANGE myzset -2 -1
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZREVRANGE myzset 0 -1
+1) "three"
+2) "two"
+3) "one"
+keydb-cli> ZREVRANGE myzset 2 3
+1) "one"
+keydb-cli> ZREVRANGE myzset -2 -1
+1) "two"
+2) "one"
 ```
 ---
 
@@ -11253,6 +13851,12 @@ ZREVRANGE myzset -2 -1
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
 
+#### Syntax:
+
+```ZREVRANGEBYLEX <key> <max> <min>```
+
+#### Description:
+ 
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `max` and `min`.
 
 Apart from the reversed ordering, `ZREVRANGEBYLEX` is similar to `ZRANGEBYLEX`.
@@ -11263,11 +13867,22 @@ Array Reply: list of elements in the specified score range.
 
 #### Examples:
 
-```cli
-ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
-ZREVRANGEBYLEX myzset [c -
-ZREVRANGEBYLEX myzset (c -
-ZREVRANGEBYLEX myzset (g [aaa
+```
+keydb-cli> ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
+(integer) 7
+keydb-cli> ZREVRANGEBYLEX myzset [c -
+1) "c"
+2) "b"
+3) "a"
+keydb-cli> ZREVRANGEBYLEX myzset (c -
+1) "b"
+2) "a"
+keydb-cli> ZREVRANGEBYLEX myzset (g [aaa
+1) "f"
+2) "e"
+3) "d"
+4) "c"
+5) "b"
 ```
 ---
 
@@ -11277,6 +13892,12 @@ ZREVRANGEBYLEX myzset (g [aaa
 ## ZREVRANGEBYSCORE
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax: 
+
+```ZREVRANGEBYSCORE <key> <max> <min>```
+
+#### Description:
 
 Returns all the elements in the sorted set at `key` with a score between `max`
 and `min` (including elements with score equal to `max` or `min`).
@@ -11296,14 +13917,24 @@ with their scores).
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZREVRANGEBYSCORE myzset +inf -inf
-ZREVRANGEBYSCORE myzset 2 1
-ZREVRANGEBYSCORE myzset 2 (1
-ZREVRANGEBYSCORE myzset (2 (1
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZREVRANGEBYSCORE myzset +inf -inf
+1) "three"
+2) "two"
+3) "one"
+keydb-cli> ZREVRANGEBYSCORE myzset 2 1
+1) "two"
+2) "one"
+keydb-cli> ZREVRANGEBYSCORE myzset 2 (1
+1) "two"
+keydb-cli> ZREVRANGEBYSCORE myzset (2 (1
+(empty array)
 ```
 ---
 
@@ -11315,6 +13946,12 @@ ZREVRANGEBYSCORE myzset (2 (1
 ## ZREVRANK
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax :
+
+```ZREVRANK <key> <member>``` 
+
+#### Description:
 
 Returns the rank of `member` in the sorted set stored at `key`, with the scores
 ordered from high to low.
@@ -11332,12 +13969,17 @@ high.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZREVRANK myzset "one"
-ZREVRANK myzset "four"
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZADD myzset 2 "two"
+(integer) 1
+keydb-cli> ZADD myzset 3 "three"
+(integer) 1
+keydb-cli> ZREVRANK myzset "one"
+(integer) 2
+keydb-cli> ZREVRANK myzset "four"
+(nil)
 ```
 ---
 
@@ -11360,6 +14002,12 @@ See `SCAN` for `ZSCAN` documentation.
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
 
+#### Syntax:
+
+```ZSCORE <key> <member>```
+
+#### Description:
+
 Returns the score of `member` in the sorted set at `key`.
 
 If `member` does not exist in the sorted set, or `key` does not exist, `nil` is
@@ -11372,9 +14020,11 @@ represented as string.
 
 #### Examples:
 
-```cli
-ZADD myzset 1 "one"
-ZSCORE myzset "one"
+```
+keydb-cli> ZADD myzset 1 "one"
+(integer) 1
+keydb-cli> ZSCORE myzset "one"
+"1"
 ```
 ---
 
@@ -11384,6 +14034,14 @@ ZSCORE myzset "one"
 ## ZUNIONSTORE
 
 **Related Commands:** [BZPOPMAX](/docs/commands/#bzpopmax), [BZPOPMIN](/docs/commands/#bzpopmin), [ZADD](/docs/commands/#zadd), [ZCARD](/docs/commands/#zcard), [ZCOUNT](/docs/commands/#zcount), [ZINCRBY](/docs/commands/#zincrby), [ZINTERSTORE](/docs/commands/#zinterstore), [ZLEXCOUNT](/docs/commands/#zlexcount), [ZPOPMAX](/docs/commands/#zpopmax), [ZPOPMIN](/docs/commands/#zpopmin), [ZRANGE](/docs/commands/#zrange), [ZRANGEBYLEX](/docs/commands/#zrangebylex), [ZRANGEBYSCORE](/docs/commands/#zrangebyscore), [ZRANK](/docs/commands/#zrank), [ZREM](/docs/commands/#zrem), [ZREMRANGEBYLEX](/docs/commands/#zremrangebylex), [ZREMRANGEBYRANK](/docs/commands/#zremrangebyrank), [ZREMRANGEBYSCORE](/docs/commands/#zremrangebyscore), [ZREVRANGE](/docs/commands/#zrevrange), [ZREVRANGEBYLEX](/docs/commands/#zrevrangebylex), [ZREVRANGEBYSCORE](/docs/commands/#zrevrangebyscore), [ZREVRANK](/docs/commands/#zrevrank), [ZSCAN](/docs/commands/#zscan), [ZSCORE](/docs/commands/#zscore), [ZUNIONSTORE](/docs/commands/#zunionstore)
+
+#### Syntax: 
+
+```ZUNIONSTORE <destination> <numkeys> <key-of-zset1> ... <key-of-zsetn>```
+
+```ZUNIONSTORE <destination> <numkeys> <key-of-zset1> ... <key-of-zsetn> WEIGHTS <weight-1> ... <weight-numkeys>```
+
+#### Description: 
 
 Computes the union of `numkeys` sorted sets given by the specified keys, and
 stores the result in `destination`.
@@ -11415,13 +14073,33 @@ Integer Reply: the number of elements in the resulting sorted set at
 
 #### Examples:
 
-```cli
-ZADD zset1 1 "one"
-ZADD zset1 2 "two"
-ZADD zset2 1 "one"
-ZADD zset2 2 "two"
-ZADD zset2 3 "three"
-ZUNIONSTORE out 2 zset1 zset2 WEIGHTS 2 3
-ZRANGE out 0 -1 WITHSCORES
 ```
+keydb-cli> ZADD zset1 1 "one"
+(integer) 1
+keydb-cli> ZADD zset1 2 "two"
+(integer) 1
+keydb-cli> ZADD zset2 1 "one"
+(integer) 1
+keydb-cli> ZADD zset2 2 "two"
+(integer) 1
+keydb-cli> ZADD zset2 3 "three"
+(integer) 1
+keydb-cli> ZUNIONSTORE out 2 zset1 zset2 WEIGHTS 2 3
+(integer) 3
+keydb-cli> ZRANGE out 0 -1 WITHSCORES
+1) "one"
+2) "5"
+3) "three"
+4) "9"
+5) "two"
+6) "10"
+```
+
+"one" : 5 = 1 X 2 + 1 X 3 (sorted set score X weight)
+
+"three" : 9 = 3 X 3 (sorted set score X weight)
+
+"two" : 10 = 2 X 2 + 2 X 3 (sorted set score X weight)
+
+
 

@@ -6,10 +6,10 @@ sidebar_label: Persistence
 
 KeyDB provides a different range of persistence options:
 
-* The RDB persistence performs point-in-time snapshots of your dataset at specified intervals.
-* the AOF persistence logs every write operation received by the server, that will be played again at server startup, reconstructing the original dataset. Commands are logged using the same format as the KeyDB protocol itself, in an append-only fashion. KeyDB is able to rewrite the log on background when it gets too big.
-* If you wish, you can disable persistence at all, if you want your data to just exist as long as the server is running.
-* It is possible to combine both AOF and RDB in the same instance. Notice that, in this case, when KeyDB restarts the AOF file will be used to reconstruct the original dataset since it is guaranteed to be the most complete.
+* **RDB** (Redis Database): The RDB persistence performs point-in-time snapshots of your dataset at specified intervals.
+* **AOF** (Append Only File): The AOF persistence logs every write operation received by the server, that will be played again at server startup, reconstructing the original dataset. Commands are logged using the same format as the KeyDB protocol itself, in an append-only fashion. KeyDB is able to rewrite the log in the background when it gets too big.
+* **No persistence**: If you wish, you can disable persistence completely, if you want your data to just exist as long as the server is running.
+* **RDB + AOF**: It is possible to combine both AOF and RDB in the same instance. Notice that, in this case, when KeyDB restarts the AOF file will be used to reconstruct the original dataset since it is guaranteed to be the most complete.
 
 The most important thing to understand is the different trade-offs between the
 RDB and AOF persistence. Let's start with RDB:
@@ -18,9 +18,10 @@ RDB advantages
 ---
 
 * RDB is a very compact single-file point-in-time representation of your KeyDB data. RDB files are perfect for backups. For instance you may want to archive your RDB files every hour for the latest 24 hours, and to save an RDB snapshot every day for 30 days. This allows you to easily restore different versions of the data set in case of disasters.
-* RDB is very good for disaster recovery, being a single compact file can be transferred to far data centers, or on Amazon S3 (possibly encrypted).
+* RDB is very good for disaster recovery, being a single compact file that can be transferred to far data centers, or onto Amazon S3 (possibly encrypted).
 * RDB maximizes KeyDB performances since the only work the KeyDB parent process needs to do in order to persist is forking a child that will do all the rest. The parent instance will never perform disk I/O or alike.
 * RDB allows faster restarts with big datasets compared to AOF.
+* On replicas, RDB supports [partial resynchronizations after restarts and failovers](https://docs.keydb.dev/docs/replication#partial-resynchronizations-after-restarts-and-failovers).
 
 RDB disadvantages
 ---
@@ -31,19 +32,20 @@ RDB disadvantages
 AOF advantages
 ---
 
-* Using AOF KeyDB is much more durable: you can have different fsync policies: no fsync at all, fsync every second, fsync at every query. With the default policy of fsync every second write performances are still great (fsync is performed using a background thread and the main thread will try hard to perform writes when no fsync is in progress.) but you can only lose one second worth of writes.
+* Using AOF KeyDB is much more durable: you can have different fsync policies: no fsync at all, fsync every second, fsync at every query. With the default policy of fsync every second write performances is still great (fsync is performed using a background thread and the main thread will try hard to perform writes when no fsync is in progress.) but you can only lose one second worth of writes.
 * The AOF log is an append only log, so there are no seeks, nor corruption problems if there is a power outage. Even if the log ends with an half-written command for some reason (disk full or other reasons) the keydb-check-aof tool is able to fix it easily.
 * KeyDB is able to automatically rewrite the AOF in background when it gets too big. The rewrite is completely safe as while KeyDB continues appending to the old file, a completely new one is produced with the minimal set of operations needed to create the current data set, and once this second file is ready KeyDB switches the two and starts appending to the new one.
-* AOF contains a log of all the operations one after the other in an easy to understand and parse format. You can even easily export an AOF file. For instance even if you flushed everything for an error using a FLUSHALL command, if no rewrite of the log was performed in the meantime you can still save your data set just stopping the server, removing the latest command, and restarting KeyDB again.
+* AOF contains a log of all the operations one after the other in an easy to understand and parse format. You can even easily export an AOF file. For instance even if you've accidentally flushed everything using the `FLUSHALL` command, as long as no rewrite of the log was performed in the meantime, you can still save your data set just by stopping the server, removing the latest command, and restarting KeyDB again.
+
 
 AOF disadvantages
 ---
 
 * AOF files are usually bigger than the equivalent RDB files for the same dataset.
-* AOF can be slower than RDB depending on the exact fsync policy. In general with fsync set to *every second* performances are still very high, and with fsync disabled it should be exactly as fast as RDB even under high load. Still RDB is able to provide more guarantees about the maximum latency even in the case of an huge write load.
-* In the past we experienced rare bugs in specific commands (for instance there was one involving blocking commands like BRPOPLPUSH) causing the AOF produced to not reproduce exactly the same dataset on reloading. This bugs are rare and we have tests in the test suite creating random complex datasets automatically and reloading them to check everything is ok, but this kind of bugs are almost impossible with RDB persistence. To make this point more clear: the KeyDB AOF works incrementally updating an existing state, like MySQL or MongoDB does, while the RDB snapshotting creates everything from scratch again and again, that is conceptually more robust. However -
+* AOF can be slower than RDB depending on the exact fsync policy. In general with fsync set to *every second* performance is still very high, and with fsync disabled it should be exactly as fast as RDB even under high load. Still RDB is able to provide more guarantees about the maximum latency even in the case of an huge write load.
+* In the past we experienced rare bugs in specific commands (for instance there was one involving blocking commands like `BRPOPLPUSH`) causing the AOF produced to not reproduce exactly the same dataset on reloading. These bugs are rare and we have tests in the test suite creating random complex datasets automatically and reloading them to check everything is fine. However, these kind of bugs are almost impossible with RDB persistence. To make this point more clear: the KeyDB AOF works by incrementally updating an existing state, like MySQL or MongoDB does, while the RDB snapshotting creates everything from scratch again and again, that is conceptually more robust. However -
   1) It should be noted that every time the AOF is rewritten by KeyDB it is recreated from scratch starting from the actual data contained in the data set, making resistance to bugs stronger compared to an always appending AOF file (or one rewritten reading the old AOF instead of reading the data in memory).
-  2) We never had a single report from users about an AOF corruption that was detected in the real world.
+  2) We have never had a single report from users about an AOF corruption that was detected in the real world.
 
 Ok, so what should I use?
 ---
@@ -102,7 +104,7 @@ deal for some applications, there are use cases for full durability, and
 in these cases KeyDB was not a viable option.
 
 The _append-only file_ is an alternative, fully-durable strategy for
-KeyDB.  It became available in version 1.1.
+KeyDB.
 
 You can turn on the AOF in your configuration file:
 
@@ -122,11 +124,8 @@ to rebuild the current state.
 
 So KeyDB supports an interesting feature: it is able to rebuild the AOF
 in the background without interrupting service to clients. Whenever
-you issue a `BGREWRITEAOF` KeyDB will write the shortest sequence of
-commands needed to rebuild the current dataset in memory.  If you're
-using the AOF with KeyDB 2.2 you'll need to run `BGREWRITEAOF` from time to
-time. KeyDB 2.4 is able to trigger log rewriting automatically (see the
-2.4 example configuration file for more information).
+you issue a `BGREWRITEAOF`, KeyDB will write the shortest sequence of
+commands needed to rebuild the current dataset in memory. KeyDB is able to trigger log rewriting automatically (see the [configuration file](https://github.com/EQ-Alpha/KeyDB/blob/unstable/keydb.conf) for more information).
 
 ### How durable is the append only file?
 
@@ -134,9 +133,9 @@ You can configure how many times KeyDB will
 [`fsync`](http://linux.die.net/man/2/fsync) data on disk. There are
 three options:
 
-* appendfsync always: `fsync` every time a new command is appended to the AOF. Very very slow, very safe.
-* appendfsync everysec: `fsync` every second. Fast enough (in 2.4 likely to be as fast as snapshotting), and you can lose 1 second of data if there is a disaster.
-* appendfsync no: Never `fsync`, just put your data in the hands of the Operating System. The faster and less safe method. Normally Linux will flush data every 30 seconds with this configuration, but it's up to the kernel exact tuning.
+* `appendfsync always`: `fsync` every time new commands are appended to the AOF. Very very slow, very safe. Note that the commands are appended to the AOF after a batch of commands from multiple clients or a pipeline are executed, so it means a single write and a single fsync (before sending the replies).
+* `appendfsync everysec`: `fsync` every second. Fast enough, and you can lose 1 second of data if there is a disaster.
+* `appendfsync no`: Never `fsync`, just put your data in the hands of the Operating System. The faster and less safe method. Normally Linux will flush data every 30 seconds with this configuration, but it's up to the kernel exact tuning.
 
 The suggested (and default) policy is to `fsync` every second. It is
 both very fast and pretty safe. The `always` policy is very slow in
@@ -146,7 +145,7 @@ writes KeyDB will try to perform a single `fsync` operation.
 ### What should I do if my AOF gets truncated?
 
 It is possible that the server crashed while writing the AOF file, or that the
-volume where the AOF file is stored is store was full. When this happens the
+volume where the AOF file is stored was full at the time of writing. When this happens the
 AOF still contains consistent data representing a given point-in-time version
 of the dataset (that may be old up to one second with the default AOF fsync
 policy), but the last command in the AOF could be truncated.
@@ -165,7 +164,7 @@ server will emit a log like the following:
 You can change the default configuration to force KeyDB to stop in such
 cases if you want, but the default configuration is to continue regardless
 the fact the last command in the file is not well-formed, in order to guarantee
-availabiltiy after a restart.
+availability after a restart.
 
 Older versions of KeyDB may not recover, and may require the following steps:
 
@@ -194,8 +193,8 @@ offset in the file, and see if it is possible to manually repair the file:
 the AOF uses the same format of the KeyDB protocol and is quite simple to fix
 manually. Otherwise it is possible to let the utility fix the file for us, but
 in that case all the AOF portion from the invalid part to the end of the
-file may be discareded, leading to a massive amount of data lost if the
-corruption happen to be in the initial part of the file.
+file may be discarded, leading to a massive amount of data loss if the
+corruption happened to be in the initial part of the file.
 
 ### How it works
 
@@ -220,11 +219,6 @@ and starts appending new data into the new file.
 
 ### How I can switch to AOF, if I'm currently using dump.rdb snapshots?
 
-There is a different procedure to do this in KeyDB 2.0 and KeyDB 2.2, as you
-can guess it's simpler in KeyDB 2.2 and does not require a restart at all.
-
-**KeyDB >= 2.2**
-
 * Make a backup of your latest dump.rdb file.
 * Transfer this backup into a safe place.
 * Issue the following two commands:
@@ -241,28 +235,16 @@ The second CONFIG command is used to turn off snapshotting persistence. This is 
 when you restart the server the configuration changes will be lost and the
 server will start again with the old configuration.
 
-**KeyDB 2.0**
-
-* Make a backup of your latest dump.rdb file.
-* Transfer this backup into a safe place.
-* Stop all the writes against the database!
-* Issue a keydb-cli bgrewriteaof. This will create the append only file.
-* Stop the server when KeyDB finished generating the AOF dump.
-* Edit KeyDB.conf end enable append only file persistence.
-* Restart the server.
-* Make sure that your database contains the same number of keys it contained.
-* Make sure that writes are appended to the append only file correctly.
-
 Interactions between AOF and RDB persistence
 ---
 
-KeyDB >= 2.4 makes sure to avoid triggering an AOF rewrite when an RDB
-snapshotting operation is already in progress, or allowing a BGSAVE while the
+KeyDB makes sure to avoid triggering an AOF rewrite when an RDB
+snapshotting operation is already in progress, or allowing a `BGSAVE` while the
 AOF rewrite is in progress. This prevents two KeyDB background processes
 from doing heavy disk I/O at the same time.
 
 When snapshotting is in progress and the user explicitly requests a log
-rewrite operation using BGREWRITEAOF the server will reply with an OK
+rewrite operation using `BGREWRITEAOF` the server will reply with an OK
 status code telling the user the operation is scheduled, and the rewrite
 will start once the snapshotting is completed.
 
@@ -317,4 +299,3 @@ a VPS.
 
 You also need some kind of independent alert system if the transfer of fresh
 backups is not working for some reason.
-

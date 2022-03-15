@@ -86,13 +86,7 @@ In the above cases and any other case where the client lost the connection with 
 Sentinel failover disconnection
 ===
 
-Starting with KeyDB 2.8.12, when KeyDB Sentinel changes the configuration of
-an instance, for example promoting a replica to a master, demoting a master to
-replicate to the new master after a failover, or simply changing the master
-address of a stale replica instance, it sends a `CLIENT KILL type normal`
-command to the instance in order to make sure all the clients are disconnected
-from the reconfigured instance. This will force clients to resolve the master
-address again.
+When KeyDB Sentinel changes the configuration of an instance, for example promoting a replica to a master, demoting a master to replicate to the new master after a failover, or simply changing the master address of a stale replica instance, it sends a `CLIENT KILL type normal` command to the instance in order to make sure all the clients are disconnected from the reconfigure instance. This will force clients to resolve the master address again.
 
 If the client will contact a Sentinel with yet not updated information, the verification of the KeyDB instance role via the `ROLE` command will fail, allowing the client to detect that the contacted Sentinel provided stale information, and will try again.
 

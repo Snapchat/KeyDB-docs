@@ -42,13 +42,6 @@ Where “[license-key]” is the license key provided to you following purchase.
 
 If you are using a DEB/RPM package and running KeyDB as a service, you can update your license key at the bottom of `/etc/keydb/keydb.conf` and restart the service.
 
-## Running Without a Key
-
-If you want to play around with KeyDB-Enterprise before purchasing a license Key, you can use it for 120 minutes before the process is killed and you have to restart it. Hence you can use it to develop on and test, but not in production. Simply specify the option to run Enterprise without adding in a license key 
-```
-keydb-server
-```
-
 ## Launching Enhanced FLASH
 ```
 keydb-server --enable-enterprise [license-key] --storage-provider  flash  [path-to-flash-storage] 
@@ -71,7 +64,7 @@ You will likely want to customize your configuration on startup. You can find ou
 ```
 $ docker run -name mycontainername -d eqalpha/keydb-enterprise keydb-server /etc/keydb/keydb.conf --requirepass mypassword --enable-enterprise LKXX-XXXX-XXXX-XXXX-XXXX
 ```
-Here we launched a container with name 'mycontainername', it was launched in 'detached' mode to run in the background, we specified the repository 'eqalpha/keydb-enterprise', followed by calling the program 'keydb-server' with the contained config file and an update to the 'requirepass' parameter and license key. keydb-server will launch by default if a program is not otherwise specified. If you do not have a license key you can use it in trial mode for 120 minutes after which time you will have to restart it.
+Here we launched a container with name 'mycontainername', it was launched in 'detached' mode to run in the background, we specified the repository 'eqalpha/keydb-enterprise', followed by calling the program 'keydb-server' with the contained config file and an update to the 'requirepass' parameter and license key. keydb-server will launch by default if a program is not otherwise specified. KeyDB Enterprise will not work without a license key. Please contact sales@eqalpha.com to discuss options for obtaining a license key.
 
 If you want to bind the container to the node/machine so it is accessible externally pass the parameter `-p 6379:6379`
 

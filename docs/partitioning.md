@@ -37,7 +37,7 @@ Different implementations of partitioning
 Partitioning can be the responsibility of different parts of a software stack.
 
 * **Client side partitioning** means that the clients directly select the right node where to write or read a given key. Many KeyDB clients implement client side partitioning.
-* **Proxy assisted partitioning** means that our clients send requests to a proxy that is able to speak the KeyDB protocol, instead of sending requests directly to the right KeyDB instance. The proxy will make sure to forward our request to the right KeyDB instance accordingly to the configured partitioning schema, and will send the replies back to the client. The KeyDB and Memcached proxy [Twemproxy](https://github.com/twitter/twemproxy) implements proxy assisted partitioning.
+* **Proxy assisted partitioning** means that our clients send requests to a proxy that is able to speak the KeyDB protocol, instead of sending requests directly to the right KeyDB instance. The proxy will make sure to forward our request to the right KeyDB instance according to the configured partitioning schema, and will send the replies back to the client. The KeyDB and Memcached proxy [Twemproxy](https://github.com/twitter/twemproxy) implements proxy assisted partitioning.
 * **Query routing** means that you can send your query to a random instance, and the instance will make sure to forward your query to the right node. KeyDB Cluster implements an hybrid form of query routing, with the help of the client (the request is not directly forwarded from a KeyDB instance to another, but the client gets *redirected* to the right node).
 
 Disadvantages of partitioning
@@ -70,19 +70,19 @@ We learned that a problem with partitioning is that, unless we are using KeyDB a
 
 However the data storage needs may vary over the time. Today I can live with 10 KeyDB nodes (instances), but tomorrow I may need 50 nodes.
 
-Since KeyDB is extremely small footprint and lightweight (a spare instance uses 1 MB of memory), a simple approach to this problem is to start with a lot of instances since the start. Even if you start with just one server, you can decide to live in a distributed world since your first day, and run multiple KeyDB instances in your single server, using partitioning.
+Since KeyDB has an extremely small footprint and is lightweight (a spare instance uses 1 MB of memory), a simple approach to this problem is to start with a lot of instances from the start. Even if you start with just one server, you can decide to live in a distributed world from day one, and run multiple KeyDB instances in your single server, using partitioning.
 
-And you can select this number of instances to be quite big since the start. For example, 32 or 64 instances could do the trick for most users, and will provide enough room for growth.
+And you can select this number of instances to be quite big from the start. For example, 32 or 64 instances could do the trick for most users, and will provide enough room for growth.
 
-In this way as your data storage needs increase and you need more KeyDB servers, what to do is to simply move instances from one server to another. Once you add the first additional server, you will need to move half of the KeyDB instances from the first server to the second, and so forth.
+In this way as your data storage needs increase and you need more KeyDB servers, what you do is simply move instances from one server to another. Once you add the first additional server, you will need to move half of the KeyDB instances from the first server to the second, and so forth.
 
 Using KeyDB replication you will likely be able to do the move with minimal or no downtime for your users:
 
 * Start empty instances in your new server.
-* Move data configuring these new instances as slaves for your source instances.
+* Move data configuring these new instances as replicas for your source instances.
 * Stop your clients.
 * Update the configuration of the moved instances with the new server IP address.
-* Send the `SLAVEOF NO ONE` command to the slaves in the new server.
+* Send the `REPLICAOF NO ONE` command to the replicas in the new server.
 * Restart your clients with the new updated configuration.
 * Finally shut down the no longer used instances in the old server.
 
@@ -94,10 +94,10 @@ So far we covered KeyDB partitioning in theory, but what about practice? What sy
 KeyDB Cluster
 ---
 
-KeyDB Cluster is the preferred way to get automatic sharding and high availability.
+KeyDB Cluster will be the preferred way to get automatic sharding and high availability.
 You can get more information about KeyDB Cluster in the [Cluster tutorial](https://docs.keydb.dev/docs/cluster-tutorial).
 
-Once KeyDB Cluster will be available, and if a KeyDB Cluster compliant client is available for your language, KeyDB Cluster will be the de facto standard for KeyDB partitioning.
+Once KeyDB Cluster is available, and if a KeyDB Cluster compliant client is available for your language, KeyDB Cluster will be the de facto standard for KeyDB partitioning.
 
 KeyDB Cluster is a mix between *query routing* and *client side partitioning*.
 
@@ -115,6 +115,6 @@ Basically Twemproxy is an intermediate layer between clients and KeyDB instances
 Clients supporting consistent hashing
 ---
 
-An alternative to Twemproxy is to use a client that implements client side partitioning via consistent hashing or other similar algorithms. There are multiple KeyDB clients with support for consistent hashing, notably redis-rb and Predis.
+An alternative to Twemproxy is to use a client that implements client side partitioning via consistent hashing or other similar algorithms. There are multiple Redis clients with support for consistent hashing, notably [Redis-rb](https://github.com/redis/redis-rb), [Predis](https://github.com/nrk/predis) and [Jedis](https://github.com/redis/jedis).
 
 Please check the [full list of redis clients](http://redis.io/clients)(KeyDB compatible) to check if there is a mature client with consistent hashing implementation for your language.

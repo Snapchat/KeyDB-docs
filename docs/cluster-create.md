@@ -42,17 +42,17 @@ to clean up files in this folder:
 
 connect with keydb-cli to port 30000 in cluster mode (-c) and try the following:
 ```
-$ redis-cli -c -p 30000
-redis 127.0.0.1:30000> set foo bar
+$ keydb-cli -c -p 30000
+keydb 127.0.0.1:30000> set foo bar
 -> Redirected to slot [12182] located at 127.0.0.1:30002
 OK
-redis 127.0.0.1:30002> set hello world
+keydb 127.0.0.1:30002> set hello world
 -> Redirected to slot [866] located at 127.0.0.1:30000
 OK
-redis 127.0.0.1:30000> get foo
+keydb 127.0.0.1:30000> get foo
 -> Redirected to slot [12182] located at 127.0.0.1:30002
 "bar"
-redis 127.0.0.1:30000> get hello
+keydb 127.0.0.1:30000> get hello
 -> Redirected to slot [866] located at 127.0.0.1:30000
 "world"
 ```

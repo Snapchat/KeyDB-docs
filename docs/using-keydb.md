@@ -25,14 +25,14 @@ KeyDB is compatible with all Redis clients as listed [here](https://redis.io/cli
 KeyDB Cloud is the fastest way to get going with KeyDB. Use the GUI to get a fully configured & managed setup of KeyDB Enterprise running in a few clicks. It is hosted by KeyDB with resources deployed and configured automatically. Pricing is directly proportional to your hardware spend so affordable regardless of your needs. Try any of the KeyDB Enterprise features when using the cloud offering.
 * Click [here](/docs/cloud-getting-started) for instructions getting started with KeyDB Cloud
 * See the [KeyDB Cloud](/docs/cloud-about) section of docs for more on KeyDB Cloud
-* Click [here](https://keydb.dev/keydb-cloud)for a higher level overview of KeyDB Cloud (landing page for cloud)
+* Click [here](https://keydb.dev/keydb-cloud) for a higher level overview of KeyDB Cloud (landing page for cloud)
 
 
 ### KeyDB Open Source
 
 KeyDB Open Source is completely free and open source. It can be downloaded a number of ways and is used for on-prem setups. 
 * Click [here](/docs/open-source-getting-started) for instructions on getting started with KeyDB Open Source.
-* Click [here](https://keydb.dev/keydb-open-source)for a higher level overview of KeyDB Open Source (landing page for open source)
+* Click [here](https://keydb.dev/keydb-open-source) for a higher level overview of KeyDB Open Source (landing page for open source)
 
 
 ### KeyDB Enterprise
@@ -40,7 +40,7 @@ KeyDB Open Source is completely free and open source. It can be downloaded a num
 KeyDB Enterprise is for customers who have more complex needs and want to run installations of KeyDB Enterprise on-prem. For these users we offer support and guidance throughout the process to help ensure KeyDB Enterprise is successful in your application. Please email sales@keydb.dev to determine a pricing plan and solution that works for you. We will work with you to get through your POC testing before purchase.
 * Click [here](/docs/cloud-getting-started) for instructions getting started with KeyDB Enterprise
 * See the [KeyDB Enterprise](/docs/enterprise-intro) section of docs for more on KeyDB Enterprise & features
-* Click [here](https://keydb.dev/keydb-cloud)for a higher level overview of KeyDB Enterprise (landing page for enterprise)
+* Click [here](https://keydb.dev/keydb-cloud) for a higher level overview of KeyDB Enterprise (landing page for enterprise)
 * Click [here](https://calendly.com/keydb-benschermel/free-consultation) to set up a call to discuss your use case/needs and how KeyDB Enterprise can help.
 
 

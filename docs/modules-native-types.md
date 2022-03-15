@@ -5,20 +5,20 @@ sidebar_label: Native Types
 ---
 
 
-Redis modules can access Redis built-in data structures both at high level,
-by calling Redis commands, and at low level, by manipulating the data structures
+KeyDB modules can access KeyDB built-in data structures both at high level,
+by calling KeyDB commands, and at low level, by manipulating the data structures
 directly.
 
 By using these capabilities in order to build new abstractions on top of existing
-Redis data structures, or by using strings DMA in order to encode modules
-data structures into Redis strings, it is possible to create modules that
+KeyDB data structures, or by using strings DMA in order to encode modules
+data structures into KeyDB strings, it is possible to create modules that
 *feel like* they are exporting new data types. However, for more complex
 problems, this is not enough, and the implementation of new data structures
 inside the module is needed.
 
-We call the ability of Redis modules to implement new data structures that
-feel like native Redis ones **native types support**. This document describes
-the API exported by the Redis modules system in order to create new data
+We call the ability of KeyDB modules to implement new data structures that
+feel like native KeyDB ones **native types support**. This document describes
+the API exported by the KeyDB modules system in order to create new data
 structures and handle the serialization in RDB files, the rewriting process
 in AOF, the type reporting via the `TYPE` command, and so forth.
 
@@ -32,17 +32,17 @@ A module exporting a native type is composed of the following main parts:
 * A 9 characters name that is unique to each module native data type.
 * An encoding version, used to persist into RDB files a module-specific data version, so that a module will be able to load older representations from RDB files.
 
-While to handle RDB loading, saving and AOF rewriting may look complex as a first glance, the modules API provide very high level function for handling all this, without requiring the user to handle read/write errors, so in practical terms, writing a new data structure for Redis is a simple task.
+While to handle RDB loading, saving and AOF rewriting may look complex as a first glance, the modules API provide very high level function for handling all this, without requiring the user to handle read/write errors, so in practical terms, writing a new data structure for KeyDB is a simple task.
 
 A **very easy** to understand but complete example of native type implementation
-is available inside the Redis distribution in the `/modules/hellotype.c` file.
+is available inside the KeyDB distribution in the `/modules/hellotype.c` file.
 The reader is encouraged to read the documentation by looking at this example
 implementation to see how things are applied in the practice.
 
 Registering a new data type
 ===
 
-In order to register a new native type into the Redis core, the module needs
+In order to register a new native type into the KeyDB core, the module needs
 to declare a global variable that will hold a reference to the data type.
 The API to register the data type will return a data type reference that will
 be stored in the global variable.
@@ -75,7 +75,7 @@ The `ctx` argument is the context that we receive in the `OnLoad` function.
 The type `name` is a 9 character name in the character set that includes
 from `A-Z`, `a-z`, `0-9`, plus the underscore `_` and minus `-` characters.
 
-Note that **this name must be unique** for each data type in the Redis
+Note that **this name must be unique** for each data type in the KeyDB
 ecosystem, so be creative, use both lower-case and upper case if it makes
 sense, and try to use the convention of mixing the type name with the name
 of the author of the module, to create a 9 character unique name.
@@ -86,7 +86,7 @@ registration of the type will fail. Read more to understand why.
 For example if I'm building a *b-tree* data structure and my name is *antirez*
 I'll call my type **btree1-az**. The name, converted to a 64 bit integer,
 is stored inside the RDB file when saving the type, and will be used when the
-RDB data is loaded in order to resolve what module can load the data. If Redis
+RDB data is loaded in order to resolve what module can load the data. If KeyDB
 finds no matching module, the integer is converted back to a name in order to
 provide some clue to the user about what module is missing in order to load
 the data.
@@ -117,7 +117,7 @@ registration function: `rdb_load`, `rdb_save`, `aof_rewrite`, `digest` and
 
 * `rdb_load` is called when loading data from the RDB file. It loads data in the same format as `rdb_save` produces.
 * `rdb_save` is called when saving data to the RDB file.
-* `aof_rewrite` is called when the AOF is being rewritten, and the module needs to tell Redis what is the sequence of commands to recreate the content of a given key.
+* `aof_rewrite` is called when the AOF is being rewritten, and the module needs to tell KeyDB what is the sequence of commands to recreate the content of a given key.
 * `digest` is called when `DEBUG DIGEST` is executed and a key holding this module type is found. Currently this is not yet implemented so the function ca be left empty.
 * `mem_usage` is called when the `MEMORY` command asks for the total memory consumed by a specific key, and is used in order to get the amount of bytes used by the module value.
 * `free` is called when a key with the module native type is deleted via `DEL` or in any other mean, in order to let the module reclaim the memory associated with such a value.
@@ -128,7 +128,7 @@ Ok, but *why* modules types require a 9 characters name?
 Oh, I understand you need to understand this, so here is a very specific
 explanation.
 
-When Redis persists to RDB files, modules specific data types require to
+When KeyDB persists to RDB files, modules specific data types require to
 be persisted as well. Now RDB files are sequences of key-value pairs
 like the following:
 
@@ -178,7 +178,7 @@ Setting and getting keys
 ---
 
 After registering our new data type in the `RedisModule_OnLoad()` function,
-we also need to be able to set Redis keys having as value our native type.
+we also need to be able to set KeyDB keys having as value our native type.
 
 This normally happens in the context of commands that write data to a key.
 The native types API allow to set and get keys to module native data types,
@@ -186,8 +186,8 @@ and to test if a given key is already associated to a value of a specific data
 type.
 
 The API uses the normal modules `RedisModule_OpenKey()` low level key access
-interface in order to deal with this. This is an eaxmple of setting a
-native type private data structure to a Redis key:
+interface in order to deal with this. This is an example of setting a
+native type private data structure to a KeyDB key:
 
     RedisModuleKey *key = RedisModule_OpenKey(ctx,keyname,REDISMODULE_WRITE);
     struct some_private_struct *data = createMyDataStructure();
@@ -198,7 +198,7 @@ for writing, and gets three arguments: the key handle, the reference to the
 native type, as obtained during the type registration, and finally a `void*`
 pointer that contains the private data implementing the module native type.
 
-Note that Redis has no clues at all about what your data contains. It will
+Note that KeyDB has no clues at all about what your data contains. It will
 just call the callbacks you provided during the method registration in order
 to perform operations on the type.
 
@@ -245,7 +245,7 @@ key if there is already one:
 Free method
 ---
 
-As already mentioned, when Redis needs to free a key holding a native type
+As already mentioned, when KeyDB needs to free a key holding a native type
 value, it needs help from the module in order to release the memory. This
 is the reason why we pass a `free` callback during the type registration:
 
@@ -266,7 +266,7 @@ RDB load and save methods
 ---
 
 The RDB saving and loading callbacks need to create (and load back) a
-representation of the data type on disk. Redis offers an high level API
+representation of the data type on disk. KeyDB offers an high level API
 that can automatically store inside the RDB file the following types:
 
 * Unsigned 64 bit integers.
@@ -276,7 +276,7 @@ that can automatically store inside the RDB file the following types:
 
 It is up to the module to find a viable representation using the above base
 types. However note that while the integer and double values are stored
-and loaded in an architecture and *endianess* agnostic way, if you use
+and loaded in an architecture and *endianness* agnostic way, if you use
 the raw string saving API to, for example, save a structure on disk, you
 have to care those details yourself.
 
@@ -329,7 +329,7 @@ method we'll do something like this:
         da->count = RedisModule_LoadUnsigned(io);
         da->values = RedisModule_Alloc(da->count * sizeof(double));
         for (size_t j = 0; j < da->count; j++)
-            da->values = RedisModule_LoadDouble(io);
+            da->values[j] = RedisModule_LoadDouble(io);
         return da;
     }
 
@@ -338,7 +338,7 @@ we stored in the RDB file.
 
 Note that while there is no error handling on the API that writes and reads
 from disk, still the load callback can return NULL on errors in case what
-it reads does not look correct. Redis will just panic in that case.
+it reads does not look correct. KeyDB will just panic in that case.
 
 AOF rewriting
 ---
@@ -354,11 +354,11 @@ Allocating memory
 ---
 
 Modules data types should try to use `RedisModule_Alloc()` functions family
-in order to allocate, reallocate and release heap memory used to implement the native data structures (see the other Redis Modules documentation for detailed information).
+in order to allocate, reallocate and release heap memory used to implement the native data structures (see the other KeyDB Modules documentation for detailed information).
 
-This is not just useful in order for Redis to be able to account for the memory used by the module, but there are also more advantages:
+This is not just useful in order for KeyDB to be able to account for the memory used by the module, but there are also more advantages:
 
-* Redis uses the `jemalloc` allcator, that often prevents fragmentation problems that could be caused by using the libc allocator.
+* KeyDB uses the `jemalloc` allocator, that often prevents fragmentation problems that could be caused by using the libc allocator.
 * When loading strings from the RDB file, the native types API is able to return strings allocated directly with `RedisModule_Alloc()`, so that the module can directly link this memory into the data structure representation, avoiding an useless copy of the data.
 
 Even if you are using external libraries implementing your data structures, the
@@ -367,16 +367,16 @@ allocation functions provided by the module API is exactly compatible with
 in order to use these functions should be trivial.
 
 In case you have an external library that uses libc `malloc()`, and you want
-to avoid replacing manually all the calls with the Redis Modules API calls,
+to avoid replacing manually all the calls with the KeyDB Modules API calls,
 an approach could be to use simple macros in order to replace the libc calls
-with the Redis API calls. Something like this could work:
+with the KeyDB API calls. Something like this could work:
 
     #define malloc RedisModule_Alloc
     #define realloc RedisModule_Realloc
     #define free RedisModule_Free
     #define strdup RedisModule_Strdup
 
-However take in mind that mixing libc calls with Redis API calls will result
+However take in mind that mixing libc calls with KeyDB API calls will result
 into troubles and crashes, so if you replace calls using macros, you need to
 make sure that all the calls are correctly replaced, and that the code with
 the substituted calls will never, for example, attempt to call

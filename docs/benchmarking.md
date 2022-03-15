@@ -29,7 +29,7 @@ You can also specify memtiers threads (default=4) `--threads=NUMBER`. Ensure you
 
 Use `memtier_benchmark --help` to see options for your testing such as pipelining, data size, etc. for example `memtier_benchmark  -s 172.31.38.149 -p 6379 --hide-histogram --requests=20000 --clients=100 --pipeline=20 --data-size=128`
 
-Memtier has a lot f options you can configure to hopefully predict what your application might experience at high loads. If you are comparing with Redis, make sure you use the same machines, and same benchmark setup. 
+Memtier has a lot of options you can configure to hopefully predict what your application might experience at high loads. If you are comparing with Redis, make sure you use the same machines, and same benchmark setup. 
 
 ## Quick Test
 

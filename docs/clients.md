@@ -9,8 +9,6 @@ This document provides information about how KeyDB handles clients from the
 point of view of the network layer: connections, timeouts, buffers, and
 other similar topics are covered here.
 
-The information contained in this document is **only applicable to KeyDB version 2.6 or greater**.
-
 How client connections are accepted
 ---
 
@@ -49,11 +47,8 @@ However KeyDB does the following two things when serving clients:
 Maximum number of clients
 ---
 
-In KeyDB 2.4 there was a hard-coded limit for the maximum number of clients
-that could be handled simultaneously.
-
-In KeyDB 2.6 this limit is dynamic: by default it is set to 10000 clients, unless
-otherwise stated by the `maxclients` directive in keydb.conf.
+In the past, there was a hard-coded limit for the maximum number of clients
+that could be handled simultaneously. Later on, this limit became dynamic: by default it is set to 10000 clients, unless otherwise stated by the `maxclients` directive in keydb.conf.
 
 However, KeyDB checks with the kernel what is the maximum number of file
 descriptors that we are able to open (the *soft limit* is checked). If the
@@ -107,7 +102,7 @@ Different kind of clients have different default limits:
 
 * **Normal clients** have a default limit of 0, that means, no limit at all, because most normal clients use blocking implementations sending a single command and waiting for the reply to be completely read before sending the next command, so it is always not desirable to close the connection in case of a normal client.
 * **Pub/Sub clients** have a default hard limit of 32 megabytes and a soft limit of 8 megabytes per 60 seconds.
-* **Slaves** have a default hard limit of 256 megabytes and a soft limit of 64 megabyte per 60 second.
+* **Replicas** have a default hard limit of 256 megabytes and a soft limit of 64 megabyte per 60 second.
 
 It is possible to change the limit at runtime using the `CONFIG SET` command or in a permanent way using the KeyDB configuration file `keydb.conf`. See the example `keydb.conf` in the KeyDB distribution for more information about how to set the limit.
 
@@ -144,7 +139,7 @@ The KeyDB client command allows to inspect the state of every connected client, 
 `CLIENT LIST` is used in order to obtain a list of connected clients and their state:
 
 ```
-KeyDB 127.0.0.1:6379> client list
+127.0.0.1:6379> client list
 addr=127.0.0.1:52555 fd=5 name= age=855 idle=0 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=0 qbuf-free=32768 obl=0 oll=0 omem=0 events=r cmd=client
 addr=127.0.0.1:52787 fd=6 name= age=6 idle=5 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=0 qbuf-free=0 obl=0 oll=0 omem=0 events=r cmd=ping
 ```
@@ -171,4 +166,4 @@ latency issues.
 TCP keepalive
 ---
 
-Recent versions of KeyDB (3.2 or greater) have TCP keepalive (`SO_KEEPALIVE` socket option) enabled by default and set to about 300 seconds. This option is useful in order to detect dead peers (clients that cannot be reached even if they look connected). Moreover, if there is network equipment between clients and servers that need to see some traffic in order to take the connection open, the option will prevent unexpected connection closed events.
+KeyDB have TCP keepalive (`SO_KEEPALIVE` socket option) enabled by default and set to about 300 seconds. This option is useful in order to detect dead peers (clients that cannot be reached even if they look connected). Moreover, if there is network equipment between clients and servers that need to see some traffic in order to take the connection open, the option will prevent unexpected connection closed events.

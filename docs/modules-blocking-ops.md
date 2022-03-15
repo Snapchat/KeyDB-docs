@@ -5,25 +5,25 @@ sidebar_label: Blocking Commands
 ---
 
 
-Redis has a few blocking commands among the built-in set of commands.
+KeyDB has a few blocking commands among the built-in set of commands.
 One of the most used is `BLPOP` (or the symmetric `BRPOP`) which blocks
 waiting for elements arriving in a list.
 
 The interesting fact about blocking commands is that they do not block
 the whole server, but just the client calling them. Usually the reason to
 block is that we expect some external event to happen: this can be
-some change in the Redis data structures like in the `BLPOP` case, a
+some change in the KeyDB data structures like in the `BLPOP` case, a
 long computation happening in a thread, to receive some data from the
 network, and so forth.
 
-Redis modules have the ability to implement blocking commands as well,
+KeyDB modules have the ability to implement blocking commands as well,
 this documentation shows how the API works and describes a few patterns
 that can be used in order to model blocking commands.
 
-NOTE: This API si currently *experimental*, so it can only be used if
+NOTE: This API is currently *experimental*, so it can only be used if
 the macro `REDISMODULE_EXPERIMENTAL_API` is defined. This is required because
 these calls are still not in their final stage of design, so may change
-in the future, certain parts may be reprecated and so forth.
+in the future, certain parts may be deprecated and so forth.
 
 To use this part of the modules API include the modules header like that:
 
@@ -33,12 +33,12 @@ To use this part of the modules API include the modules header like that:
 How blocking and resuming works.
 ---
 
-_Note: You may want to check the `helloblock.c` example in the Redis source tree
+_Note: You may want to check the `helloblock.c` example in the KeyDB source tree
 inside the `src/modules` directory, for a simple to understand example
 on how the blocking API is applied._
 
-In Redis modules, commands are implemented by callback functions that
-are invoked by the Redis core when the specific command is called
+In KeyDB modules, commands are implemented by callback functions that
+are invoked by the KeyDB core when the specific command is called
 by the user. Normally the callback terminates its execution sending
 some reply to the client. Using the following function instead, the
 function implementing the module command may request that the client
@@ -101,7 +101,7 @@ int his command, in order to take the example simple.
         RedisModule_UnblockClient(bc,NULL);
     }
 
-The above command blocks the client ASAP, spawining a thread that will
+The above command blocks the client ASAP, spawning a thread that will
 wait a second and will unblock the client. Let's check the reply and
 timeout callbacks, which are in our case very similar, since they
 just reply the client with a different reply type.
@@ -123,7 +123,7 @@ The important bit here is that the reply callback is called when the
 client is unblocked from the thread.
 
 The timeout command returns `NULL`, as it often happens with actual
-Redis blocking commands timing out.
+KeyDB blocking commands timing out.
 
 Passing reply data when unblocking
 ---
@@ -152,7 +152,7 @@ caller. In order to make this working, we modify the functions as follow:
 As you can see, now the unblocking call is passing some private data,
 that is the `mynumber` pointer, to the reply callback. In order to
 obtain this private data, the reply callback will use the following
-fnuction:
+function:
 
     void *RedisModule_GetBlockedClientPrivateData(RedisModuleCtx *ctx);
 
@@ -176,7 +176,7 @@ long value must be freed. Our callback will look like the following:
     }
 
 NOTE: It is important to stress that the private data is best freed in the
-`free_privdata` callback becaues the reply function may not be called
+`free_privdata` callback because the reply function may not be called
 if the client disconnects or timeout.
 
 Also note that the private data is also accessible from the timeout
@@ -271,9 +271,6 @@ user can still execute and inspect their older versions.
 Future work
 ---
 
-An API is work in progress right now in order to allow Redis modules APIs
+An API is work in progress right now in order to allow KeyDB modules APIs
 to be called in a safe way from threads, so that the threaded command
 can access the data space and do incremental operations.
-
-There is no ETA for this feature but it may appear in the course of the
-Redis 4.0 release at some point.

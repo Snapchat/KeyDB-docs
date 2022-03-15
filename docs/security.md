@@ -31,9 +31,6 @@ This is a specific example, but, in general, untrusted access to KeyDB should
 always be mediated by a layer implementing ACLs, validating user input,
 and deciding what operations to perform against the KeyDB instance.
 
-In general, KeyDB is not optimized for maximum security but for maximum
-performance and simplicity.
-
 Network security
 ---
 
@@ -52,14 +49,14 @@ like the following to the **keydb.conf** file:
     bind 127.0.0.1
 
 Failing to protect the KeyDB port from the outside can have a big security
-impact because of the nature of KeyDB. For instance, a single **FLUSHALL** command can be used by an external attacker to delete the whole data set.
+impact because of the nature of KeyDB. For instance, a single `FLUSHALL` command can be used by an external attacker to delete the whole data set.
 
 Protected mode
 ---
 
 Unfortunately many users fail to protect KeyDB instances from being accessed
 from external networks. Many instances are simply left exposed on the
-internet with public IPs. For this reasons since version 3.2.0, when KeyDB is
+internet with public IPs. When KeyDB is
 executed with the default configuration (binding all the interfaces) and
 without any password in order to access it, it enters a special mode called
 **protected mode**. In this mode KeyDB only replies to queries from the
@@ -84,7 +81,7 @@ unauthenticated clients. A client can authenticate itself by sending the
 **AUTH** command followed by the password.
 
 The password is set by the system administrator in clear text inside the
-keydb.conf file. It should be long enough to prevent brute force attacks 
+keydb.conf file. It should be long enough to prevent brute force attacks
 for two reasons:
 
 * KeyDB is very fast at serving queries. Many passwords per second can be tested by an external client.
@@ -92,20 +89,18 @@ for two reasons:
 
 The goal of the authentication layer is to optionally provide a layer of
 redundancy. If firewalling or any other system implemented to protect KeyDB
-from external attackers fail, an external client will still not be able to 
+from external attackers fail, an external client will still not be able to
 access the KeyDB instance without knowledge of the authentication password.
 
-The AUTH command, like every other KeyDB command, is sent unencrypted, so it 
-does not protect against an attacker that has enough access to the network to 
+The AUTH command, like every other KeyDB command, is sent unencrypted, so it
+does not protect against an attacker that has enough access to the network to
 perform eavesdropping.
 
-Data encryption support
+TLS support
 ---
 
-KeyDB does not support encryption. In order to implement setups where
-trusted parties can access a KeyDB instance over the internet or other
-untrusted networks, an additional layer of protection should be implemented,
-such as an SSL proxy. We recommend [spiped](http://www.tarsnap.com/spiped.html).
+KeyDB has optional support for TLS on all communication channels, including
+client connections, replication links and the KeyDB Cluster bus protocol.
 
 Disabling of specific commands
 ---
@@ -118,8 +113,8 @@ service. In this context, normal users should probably not be able to
 call the KeyDB **CONFIG** command to alter the configuration of the instance,
 but the systems that provide and remove instances should be able to do so.
 
-In this case, it is possible to either rename or completely shadow commands from 
-the command table. This feature is available as a statement that can be used 
+In this case, it is possible to either rename or completely shadow commands from
+the command table. This feature is available as a statement that can be used
 inside the keydb.conf configuration file. For example:
 
     rename-command CONFIG b840fc02d524045429941cc15f59e41cb7be6c52
@@ -137,25 +132,25 @@ the ability to insert data into KeyDB that triggers pathological (worst case)
 algorithm complexity on data structures implemented inside KeyDB internals.
 
 For instance an attacker could supply, via a web form, a set of strings that
-is known to hash to the same bucket into a hash table in order to turn the
+are known to hash to the same bucket into a hash table in order to turn the
 O(1) expected time (the average time) to the O(N) worst case, consuming more
 CPU than expected, and ultimately causing a Denial of Service.
 
 To prevent this specific attack, KeyDB uses a per-execution pseudo-random
 seed to the hash function.
 
-KeyDB implements the SORT command using the qsort algorithm. Currently, 
+KeyDB implements the SORT command using the qsort algorithm. Currently,
 the algorithm is not randomized, so it is possible to trigger a quadratic
 worst-case behavior by carefully selecting the right set of inputs.
 
 String escaping and NoSQL injection
 ---
 
-The KeyDB protocol has no concept of string escaping, so injection 
+The KeyDB protocol has no concept of string escaping, so injection
 is impossible under normal circumstances using a normal client library.
 The protocol uses prefixed-length strings and is completely binary safe.
 
-Lua scripts executed by the **EVAL** and **EVALSHA** commands follow the
+Lua scripts executed by the `EVAL` and `EVALSHA` commands follow the
 same rules, and thus those commands are also safe.
 
 While it would be a very strange use case, the application should avoid composing the body of the Lua script using strings obtained from untrusted sources.
@@ -163,8 +158,8 @@ While it would be a very strange use case, the application should avoid composin
 Code security
 ---
 
-In a classical KeyDB setup, clients are allowed full access to the command set, 
-but accessing the instance should never result in the ability to control the 
+In a classical KeyDB setup, clients are allowed full access to the command set,
+but accessing the instance should never result in the ability to control the
 system where KeyDB is running.
 
 Internally, KeyDB uses all the well known practices for writing secure code, to

@@ -133,7 +133,7 @@ on a real server. For this kind of usage you have two different choices:
 * Install KeyDB in your Linux box in a proper way using an init script, so that after a restart everything will start again properly.
 
 A proper install using an init script is strongly suggested.
-The following instructions can be used to perform a proper installation using the init script shipped with KeyDB 2.4 in a Debian or Ubuntu based distribution.
+The following instructions can be used to perform a proper installation using the init script shipped with KeyDB in a Debian or Ubuntu based distribution.
 
 We assume you already copied **keydb-server** and **keydb-cli** executables under /usr/local/bin.
 

@@ -8,8 +8,6 @@ sidebar_label: Signal Handling
 This document provides information about how KeyDB reacts to the reception
 of different POSIX signals such as `SIGTERM`, `SIGSEGV` and so forth.
 
-The information contained in this document is **only applicable to KeyDB version 2.6 or greater**.
-
 Handling of SIGTERM
 ---
 
@@ -33,7 +31,7 @@ The Shutdown performed in this condition includes the following actions:
 * If the Unix domain socket is enabled, it gets removed.
 * The server exits with an exit code of zero.
 
-In case the RDB file can't be saved, the shutdown fails, and the server continues to run in order to ensure no data loss. Since KeyDB 2.6.11 no further attempt to shut down will be made unless a new `SIGTERM` will be received or the `SHUTDOWN` command issued.
+In case the RDB file can't be saved, the shutdown fails, and the server continues to run in order to ensure no data loss. No further attempt to shut down will be made unless a new `SIGTERM` will be received or the `SHUTDOWN` command issued.
 
 Handling of SIGSEGV, SIGBUS, SIGFPE and SIGILL
 ---
@@ -48,7 +46,7 @@ The following follow signals are handled as a KeyDB crash:
 Once one of these signals is trapped, KeyDB aborts any current operation and performs the following actions:
 
 * A bug report is produced on the log file. This includes a stack trace, dump of registers, and information about the state of clients.
-* Since KeyDB 2.8 a fast memory test is performed as a first check of the reliability of the crashing system.
+* A fast memory test is performed as a first check of the reliability of the crashing system.
 * If the server was daemonized, the pid file is removed.
 * Finally the server unregisters its own signal handler for the received signal, and sends the same signal again to itself, in order to make sure that the default action is performed, for instance dumping the core on the file system.
 
@@ -78,7 +76,7 @@ Killing the RDB file without triggering an error condition
 ---
 
 However sometimes the user may want to kill the RDB saving child without
-generating an error. Since KeyDB version 2.6.10 this can be done using the
+generating an error. This can be done using the
 special signal `SIGUSR1` that is handled in a special way:
 it kills the child process as any other signal, but the parent process will
 not detect this as a critical error and will continue to serve write

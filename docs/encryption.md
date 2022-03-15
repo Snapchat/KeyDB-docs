@@ -77,5 +77,5 @@ making KeyDB listening on multiple ports:
 
 1. Startup banner port notification
 2. Proctitle
-3. How slaves announce themselves
+3. How replicas announce themselves
 4. Cluster bus port calculation

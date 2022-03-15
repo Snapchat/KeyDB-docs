@@ -16,7 +16,7 @@ The following builds from the unstable (latest) branch of Github. This will cont
 
 ```
 sudo apt-get update
-sudo apt-get install build-essential nasm autotools-dev autoconf libjemalloc-dev tcl tcl-dev uuid-dev libcurl4-openssl-dev
+sudo apt-get install build-essential nasm autotools-dev autoconf libjemalloc-dev tcl tcl-dev uuid-dev libcurl4-openssl-dev git
 git clone https://github.com/EQ-Alpha/KeyDB.git
 cd KeyDB
 make
@@ -68,7 +68,7 @@ pacman -S --noconfirm base-devel git tcl
 ### Alpine
 
 ```
-apk add --no-cache coreutils gcc linux-headers make musl-dev util-linux-dev openssl-dev curl-dev g++ bash git perl
+apk add --no-cache coreutils gcc linux-headers make musl-dev util-linux-dev openssl-dev curl-dev g++ bash git perl libunwind-dev
 ```
 
 ### CentOS 7

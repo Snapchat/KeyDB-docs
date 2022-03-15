@@ -57,7 +57,7 @@ If persistence is enabled, data is stored in the `VOLUME /data`, which can be us
 $ docker run --name some-app --link some-keydb:eqalpha/keydb -d application-that-uses-keydb
 ```
 
-## Or connect via keydb-cli *(also compantible with redis-cli)*
+## Or connect via keydb-cli *(also compatible with redis-cli)*
 
 you can grab the ip of the container with `docker inspect --format '{{ .NetworkSettings.IPAddress }}' mycontainername` then run the following:
 ```
