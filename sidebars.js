@@ -1,40 +1,19 @@
 module.exports = {
-
 	"docs": [
 		// KeyDB Docs
-		{type: 'category', label: 'KeyDB Docs', collapsed: false, items: ["intro", "coming-soon"]},
+		{type: 'category', label: 'KeyDB Docs', collapsed: false, items: ["intro", "about", "coming-soon", "compatibility", "support"]},
 		//Getting Started
 		{type: 'category', label: 'Getting Started', collapsed: true, items: [
-			"using-keydb",
-			// KeyDB Cloud
-			{type: 'category', label: 'Cloud', collapsed: false, items:  [
-				"cloud-about", "cloud-getting-started",
-				{type: 'link', label: 'More...', href: 'cloud-using-gui'}
-				]},
+			"download",
 			// KeyDB Open Source
-			{type: 'category', label: 'Open Source', collapsed: false, items:  [
+			{type: 'category', label: 'Install/Build Instructions', collapsed: true, items:  [
 				"open-source-getting-started", "ppa-deb", "rpm", "docker-basics", "build"
-				]},
-			// KeyDB Enterprise
-			{type: 'category', label: 'Enterprise', collapsed: false, items:  [
-				"enterprise-getting-started", "enterprise-ppa-deb", "enterprise-rpm", "enterprise-docker-basics",
-				{type: 'link', label: 'More...', href: 'enterprise-intro'}
 				]},
 			// additional docs for getting started
 			"first-test", "migration", "config-file", "intro-admin"
 			]
 		},
-		// KeyDB Enterprise
-		{type: 'category', label: 'KeyDB Enterprise', collapsed: true, items: ["enterprise-intro","enterprise-coming-soon", "enterprise-getting-started",
-	                        {type: 'category', label: 'Features', collapsed: false, items:  ["enterprise-flash", "enterprise-flash-sizing", "enterprise-mvcc", "enterprise-non-blocking-queries"]},
-			]
-		},
-		//KeyDB Cloud
-                {type: 'category', label: 'KeyDB Cloud', collapsed: true, items: ["cloud-about", "cloud-getting-started", "cloud-using-gui", "cloud-spec",
-                                {type: 'category', label: 'Features', collapsed: false, items:  ["enterprise-flash","enterprise-flash-sizing", "enterprise-mvcc", "enterprise-non-blocking-queries"]},
-                        ]
-                },
-		{type: 'category', label: 'Benchmarking', items: ["benchmarking"]},
+		{type: 'category', label: 'Benchmarking', items: ["benchmarking", "keydbdiagnostictool", "latency", "latency-monitor"]},
 		{type: 'category', label: 'Server Infrastructure', items: ["active-rep", "multi-master", "replication", "cluster-spec", "cluster-man", "cluster-create", "cluster-tutorial", "sentinel", "sentinel-clients"]},
 		{type: 'category', label: 'Data Types & Commands', items: ["commands", "pubsub", "transactions", "data-types-intro", "data-types", "indexes", "signals", "notifications", "pipelining", "streams-intro", "partitioning", "mass-insert"]},
 		{type: 'category', label: 'Configuration', collapsed: true, items: ["persistence", "lru-cache", "config-file"]},
@@ -42,8 +21,11 @@ module.exports = {
 			{type: 'link', label: 'Advanced', href: 'https://hub.docker.com/r/eqalpha/keydb'},
 			"docker-active-rep", "dockerfiles"]},
 		{type: 'category', label: 'Load Balancers', items: ["haproxy"]},
+//                {type: 'category', label: 'Third Party Resources', collapsed: true, items: [
+//                        "community-helm",]
+//                },
 		{type: 'category', label: 'Security', items: ["security", "acl", "encryption"]},
-		{type: 'category', label: 'Troubleshooting', items: ["debugging", "ldb", "latency", "latency-monitor"]},
+		{type: 'category', label: 'Troubleshooting', items: ["debugging", "ldb"]},
 		{type: 'category', label: 'Clients/APIs/Protocols', items: ["clients", "keydbcli", "protocol", "gopher"]},
 		{type: 'category', label: 'More', items: ["ARM", "faq", "memory-optimization", "license"]}
 	],
