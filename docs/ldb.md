@@ -43,7 +43,7 @@ Note that with the `--eval` option of `keydb-cli` you can pass key names and arg
     ./keydb-cli --ldb --eval /tmp/script.lua mykey somekey , arg1 arg2
 
 You'll enter a special mode where `keydb-cli` no longer accepts its normal
-commands, but instead prints an help screen and passes the unmodified debugging
+commands, but instead prints a help screen and passes the unmodified debugging
 commands directly to keydb.
 
 The only commands which are not passed to the KeyDB debugger are:
@@ -107,7 +107,7 @@ Termination of the debugging session
 
 When the scripts terminates naturally, the debugging session ends and
 `keydb-cli` returns in its normal non-debugging mode. You can restart the
-session using the `restart` command as usually.
+session using the `restart` command as usual.
 
 Another way to stop a debugging session is just interrupting `keydb-cli`
 manually by pressing `Ctrl+C`. Note that also any event breaking the
@@ -147,8 +147,7 @@ a breakpoint in the next line that will be executed.
 
     if counter > 10 then keydb.breakpoint() end
 
-This feature is extremely useful when debugging, so that we can avoid to
-continue the script execution manually multiple times until a given condition
+This feature is extremely useful when debugging, so that we can avoid continuing the script execution manually multiple times until a given condition
 is encountered.
 
 Synchronous mode
@@ -214,7 +213,7 @@ lua debugger> e keydb.sha1hex('foo')
 Debugging clients
 ---
 
-LDB uses the client-server model where the KeyDB servers acts as a debugging server that communicates using [RESP](https://docs.keydb.dev/docs/protocol). While `keydb-cli` is the default debug client, any [client](https://docs.keydb.dev/docs/clients) can be used for debugging as long as it meets one of the following conditions:
+LDB uses the client-server model where the KeyDB server acts as a debugging server that communicates using [RESP](https://docs.keydb.dev/docs/protocol). While `keydb-cli` is the default debug client, any [client](https://docs.keydb.dev/docs/clients) can be used for debugging as long as it meets one of the following conditions:
 
 1. The client provides a native interface for setting the debug mode and controlling the debug session.
 2. The client provides an interface for sending arbitrary commands over RESP.

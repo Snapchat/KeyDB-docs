@@ -4,9 +4,8 @@ title: In Depth Cluster Tutorial
 sidebar_label: A Cluster Tutorial 
 ---
 
-This document is a gentle introduction to KeyDB Cluster, that does not use
-complex to understand distributed systems concepts. It provides instructions
-about how to setup a cluster, test, and operate it, without
+This document is a gentle introduction to KeyDB Cluster, that does not use difficult to understand concepts of distributed systems. It provides
+instructions about how to setup a cluster, test, and operate it, without 
 going into the details that are covered in
 the [KeyDB Cluster specification](https://docs.keydb.dev/docs/cluster-spec) but just describing
 how the system behaves from the point of view of the user.
@@ -14,8 +13,6 @@ how the system behaves from the point of view of the user.
 However this tutorial tries to provide information about the availability
 and consistency characteristics of KeyDB Cluster from the point of view
 of the final user, stated in a simple to understand way.
-
-Note this tutorial requires KeyDB version 3.0 or higher.
 
 If you plan to run a serious KeyDB Cluster deployment, the
 more formal specification is a suggested reading, even if not
@@ -86,7 +83,7 @@ KeyDB Cluster data sharding
 ---
 
 KeyDB Cluster does not use consistent hashing, but a different form of sharding
-where every key is conceptually part of what we call an **hash slot**.
+where every key is conceptually part of what we call a **hash slot**.
 
 There are 16384 hash slots in KeyDB Cluster, and to compute what is the hash
 slot of a given key, we simply take the CRC16 of the key modulo
@@ -120,27 +117,27 @@ inside the string is hashed, so for example `this{foo}key` and `another{foo}key`
 are guaranteed to be in the same hash slot, and can be used together in a
 command with multiple keys as arguments.
 
-KeyDB Cluster master-slave model
+KeyDB Cluster master-replica model
 ---
 
 In order to remain available when a subset of master nodes are failing or are
 not able to communicate with the majority of nodes, KeyDB Cluster uses a
-master-slave model where every hash slot has from 1 (the master itself) to N
-replicas (N-1 additional slaves nodes).
+master-replica model where every hash slot has from 1 (the master itself) to N
+replicas (N-1 additional replicas nodes).
 
 In our example cluster with nodes A, B, C, if node B fails the cluster is not
 able to continue, since we no longer have a way to serve hash slots in the
 range 5501-11000.
 
-However when the cluster is created (or at a later time) we add a slave
+However when the cluster is created (or at a later time) we add a replica
 node to every master, so that the final cluster is composed of A, B, C
-that are masters nodes, and A1, B1, C1 that are slaves nodes, the system is
+that are master nodes, and A1, B1, C1 that are replica nodes. This way, the system is
 able to continue if node B fails.
 
 Node B1 replicates B, and B fails, the cluster will promote node B1 as the new
 master and will continue to operate correctly.
 
-However note that if nodes B and B1 fail at the same time KeyDB Cluster is not
+However, note that if nodes B and B1 fail at the same time, KeyDB Cluster is not
 able to continue to operate.
 
 KeyDB Cluster consistency guarantees
@@ -156,60 +153,60 @@ happens:
 
 * Your client writes to the master B.
 * The master B replies OK to your client.
-* The master B propagates the write to its slaves B1, B2 and B3.
+* The master B propagates the write to its replicas B1, B2 and B3.
 
-As you can see B does not wait for an acknowledge from B1, B2, B3 before
+As you can see, B does not wait for an acknowledgement from B1, B2, B3 before
 replying to the client, since this would be a prohibitive latency penalty
 for KeyDB, so if your client writes something, B acknowledges the write,
-but crashes before being able to send the write to its slaves, one of the
-slaves (that did not receive the write) can be promoted to master, losing
+but crashes before being able to send the write to its replicas, one of the
+replicas (that did not receive the write) can be promoted to master, losing
 the write forever.
 
 This is **very similar to what happens** with most databases that are
 configured to flush data to disk every second, so it is a scenario you
 are already able to reason about because of past experiences with traditional
 database systems not involving distributed systems. Similarly you can
-improve consistency by forcing the database to flush data on disk before
-replying to the client, but this usually results into prohibitively low
+improve consistency by forcing the database to flush data to disk before
+replying to the client, but this usually results in prohibitively low
 performance. That would be the equivalent of synchronous replication in
 the case of KeyDB Cluster.
 
-Basically there is a trade-off to take between performance and consistency.
+Basically there is a trade-off to be made between performance and consistency.
 
 KeyDB Cluster has support for synchronous writes when absolutely needed,
-implemented via the `WAIT` command, this makes losing writes a lot less
-likely, however note that KeyDB Cluster does not implement strong consistency
-even when synchronous replication is used: it is always possible under more
-complex failure scenarios that a slave that was not able to receive the write
-is elected as master.
+implemented via the `WAIT` command. This makes losing writes a lot less
+likely. However, note that KeyDB Cluster does not implement strong consistency
+even when synchronous replication is used: it is always possible, under more
+complex failure scenarios, that a replica that was not able to receive the write
+will be elected as master.
 
 There is another notable scenario where KeyDB Cluster will lose writes, that
 happens during a network partition where a client is isolated with a minority
 of instances including at least a master.
 
 Take as an example our 6 nodes cluster composed of A, B, C, A1, B1, C1,
-with 3 masters and 3 slaves. There is also a client, that we will call Z1.
+with 3 masters and 3 replicas. There is also a client, that we will call Z1.
 
 After a partition occurs, it is possible that in one side of the
 partition we have A, C, A1, B1, C1, and in the other side we have B and Z1.
 
-Z1 is still able to write to B, that will accept its writes. If the
+Z1 is still able to write to B, which will accept its writes. If the
 partition heals in a very short time, the cluster will continue normally.
-However if the partition lasts enough time for B1 to be promoted to master
-in the majority side of the partition, the writes that Z1 is sending to B
-will be lost.
+However, if the partition lasts enough time for B1 to be promoted to master
+on the majority side of the partition, the writes that Z1 has sent to B
+in the mean time will be lost.
 
 Note that there is a **maximum window** to the amount of writes Z1 will be able
 to send to B: if enough time has elapsed for the majority side of the
-partition to elect a slave as master, every master node in the minority
-side stops accepting writes.
+partition to elect a replica as master, every master node in the minority
+side will have stopped accepting writes.
 
 This amount of time is a very important configuration directive of KeyDB
 Cluster, and is called the **node timeout**.
 
 After node timeout has elapsed, a master node is considered to be failing,
 and can be replaced by one of its replicas.
-Similarly after node timeout has elapsed without a master node to be able
+Similarly, after node timeout has elapsed without a master node to be able
 to sense the majority of the other master nodes, it enters an error state
 and stops accepting writes.
 
@@ -221,12 +218,14 @@ let's introduce the configuration parameters that KeyDB Cluster introduces
 in the `keydb.conf` file. Some will be obvious, others will be more clear
 as you continue reading.
 
-* **cluster-enabled `<yes/no>`**: If yes enables KeyDB Cluster support in a specific KeyDB instance. Otherwise the instance starts as a stand alone instance as usual.
-* **cluster-config-file `<filename>`**: Note that despite the name of this option, this is not an user editable configuration file, but the file where a KeyDB Cluster node automatically persists the cluster configuration (the state, basically) every time there is a change, in order to be able to re-read it at startup. The file lists things like the other nodes in the cluster, their state, persistent variables, and so forth. Often this file is rewritten and flushed on disk as a result of some message reception.
-* **cluster-node-timeout `<milliseconds>`**: The maximum amount of time a KeyDB Cluster node can be unavailable, without it being considered as failing. If a master node is not reachable for more than the specified amount of time, it will be failed over by its slaves. This parameter controls other important things in KeyDB Cluster. Notably, every node that can't reach the majority of master nodes for the specified amount of time, will stop accepting queries.
-* **cluster-slave-validity-factor `<factor>`**: If set to zero, a slave will always try to failover a master, regardless of the amount of time the link between the master and the slave remained disconnected. If the value is positive, a maximum disconnection time is calculated as the *node timeout* value multiplied by the factor provided with this option, and if the node is a slave, it will not try to start a failover if the master link was disconnected for more than the specified amount of time. For example if the node timeout is set to 5 seconds, and the validity factor is set to 10, a slave disconnected from the master for more than 50 seconds will not try to failover its master. Note that any value different than zero may result in KeyDB Cluster to be unavailable after a master failure if there is no slave able to failover it. In that case the cluster will return back available only when the original master rejoins the cluster.
-* **cluster-migration-barrier `<count>`**: Minimum number of slaves a master will remain connected with, for another slave to migrate to a master which is no longer covered by any slave. See the appropriate section about replica migration in this tutorial for more information.
+* **cluster-enabled `<yes/no>`**: If yes, enables KeyDB Cluster support in a specific KeyDB instance. Otherwise the instance starts as a stand alone instance as usual.
+* **cluster-config-file `<filename>`**: Note that despite the name of this option, this is not a user editable configuration file, but the file where a KeyDB Cluster node automatically persists the cluster configuration (the state, basically) every time there is a change, in order to be able to re-read it at startup. The file lists things like the other nodes in the cluster, their state, persistent variables, and so forth. Often this file is rewritten and flushed on disk as a result of some message reception.
+* **cluster-node-timeout `<milliseconds>`**: The maximum amount of time a KeyDB Cluster node can be unavailable, without it being considered as failing. If a master node is not reachable for more than the specified amount of time, it will be failed over by its replicas. This parameter controls other important things in KeyDB Cluster. Notably, every node that can't reach the majority of master nodes for the specified amount of time, will stop accepting queries.
+* **cluster-replica-validity-factor `<factor>`**: If set to zero, a replica will always consider itself valid, and will therefore always try to failover a master, regardless of the amount of time the link between the master and the replica remained disconnected. If the value is positive, a maximum disconnection time is calculated as the *node timeout* value multiplied by the factor provided with this option, and if the node is a replica, it will not try to start a failover if the master link was disconnected for more than the specified amount of time. For example, if the node timeout is set to 5 seconds, and the validity factor is set to 10, a replica disconnected from the master for more than 50 seconds will not try to failover its master. Note that any value different than zero may result in KeyDB Cluster being unavailable after a master failure if there is no replica that is able to failover it. In that case the cluster will return to being available only when the original master rejoins the cluster.
+* **cluster-migration-barrier `<count>`**: Minimum number of replicas a master will remain connected with, for another replica to migrate to a master which is no longer covered by any replica. See the appropriate section about replica migration in this tutorial for more information.
 * **cluster-require-full-coverage `<yes/no>`**: If this is set to yes, as it is by default, the cluster stops accepting writes if some percentage of the key space is not covered by any node. If the option is set to no, the cluster will still serve queries even if only requests about a subset of keys can be processed.
+* **cluster-allow-reads-when-down `<yes/no>`**: If this is set to no, as it is by default, a node in a KeyDB Cluster will stop serving all traffic when the cluster is marked as failed, either when a node can't reach a quorum of masters or when full coverage is not met. This prevents reading potentially inconsistent data from a node that is unaware of changes in the cluster. This option can be set to yes to allow reads from a node during the fail state, which is useful for applications that want to prioritize read availability but still want to prevent inconsistent writes. It can also be used for when using KeyDB Cluster with only one or two shards, as it allows the nodes to continue serving writes when a master fails but automatic failover is impossible. 
+
 
 Creating and using a KeyDB Cluster
 ===
@@ -259,7 +258,7 @@ by the KeyDB Cluster instances, and updated every time it is needed.
 
 Note that the **minimal cluster** that works as expected requires to contain
 at least three master nodes. For your first tests it is strongly suggested
-to start a six nodes cluster with three masters and three slaves.
+to start a six nodes cluster with three masters and three replicas.
 
 To do so, enter a new directory, and create the following directories named
 after the port number of the instance we'll run inside any given directory.
@@ -303,11 +302,7 @@ Creating the cluster
 Now that we have a number of instances running, we need to create our
 cluster by writing some meaningful configuration to the nodes.
 
-If you are using KeyDB 5, this is very easy to accomplish as we are helped by the KeyDB Cluster command line utility embedded into `keydb-cli`, that can be used to create new clusters, check or reshard an existing cluster, and so forth.
-
-For KeyDB version 3 or 4, there is the older tool called `redis-trib.rb` which is very similar. You can find it in the `src` directory of the KeyDB source code distribution.
-
-The first example, that is, the cluster creation, will be shown using both `keydb-cli` in KeyDB 5 and `redis-trib` in KeyDB 3 and 4. However all the next examples will only use `keydb-cli`, since as you can see the syntax is very similar, and you can trivially change one command line into the other by using `redis-trib.rb help` to get info about the old syntax. **Important:** note that you can use KeyDB 5 `keydb-cli` against KeyDB 4 clusters without issues if you wish.
+If you are using KeyDB 5 or higher, this is very easy to accomplish as we are helped by the KeyDB Cluster command line utility embedded into `keydb-cli`, that can be used to create new clusters, check or reshard an existing cluster, and so forth.
 
 To create your cluster for KeyDB 5 with `keydb-cli` simply type:
 
@@ -315,18 +310,11 @@ To create your cluster for KeyDB 5 with `keydb-cli` simply type:
     127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 \
     --cluster-replicas 1
 
-Using `redis-trib.rb` for KeyDB 4 or 3 type:
-
-    ./redis-trib.rb create --replicas 1 127.0.0.1:7000 127.0.0.1:7001 \
-    127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005
-
 The command used here is **create**, since we want to create a new cluster.
-The option `--cluster-replicas 1` means that we want a slave for every master created.
-The other arguments are the list of addresses of the instances I want to use
-to create the new cluster.
+The option `--cluster-replicas 1` means that we want a replica for every master created. The other arguments are the list of addresses of the instances I want to use to create the new cluster.
 
 Obviously the only setup with our requirements is to create a cluster with
-3 masters and 3 slaves.
+3 masters and 3 replicas.
 
 keydb-cli will propose you a configuration. Accept the proposed configuration by typing **yes**.
 The cluster will be configured and *joined*, which means, instances will be
@@ -348,7 +336,7 @@ system (but you'll not learn the same amount of operational details).
 Just check `utils/create-cluster` directory in the KeyDB distribution.
 There is a script called `create-cluster` inside (same name as the directory
 it is contained into), it's a simple bash script. In order to start
-a 6 nodes cluster with 3 masters and 3 slaves just type the following
+a 6 nodes cluster with 3 masters and 3 replicas just type the following
 commands:
 
 1. `create-cluster start`
@@ -380,7 +368,7 @@ OK
 KeyDB 127.0.0.1:7000> get foo
 -> Redirected to slot [12182] located at 127.0.0.1:7002
 "bar"
-KeyDB 127.0.0.1:7000> get hello
+KeyDB 127.0.0.1:7002> get hello
 -> Redirected to slot [866] located at 127.0.0.1:7000
 "world"
 ```
@@ -587,17 +575,22 @@ All the slots will be covered as usual, but this time the master at
 Scripting a resharding operation
 ---
 
-Reshardings can be performed automatically without the need to manually
+Resharding can be performed automatically without the need to manually
 enter the parameters in an interactive way. This is possible using a command
 line like the following:
 
-    keydb-cli reshard <host>:<port> --cluster-from <node-id> --cluster-to <node-id> --cluster-slots <number of slots> --cluster-yes
+    keydb-cli --cluster reshard <host>:<port> --cluster-from <node-id> --cluster-to <node-id> --cluster-slots <number of slots> --cluster-yes
 
 This allows to build some automatism if you are likely to reshard often,
 however currently there is no way for `keydb-cli` to automatically
 rebalance the cluster checking the distribution of keys across the cluster
 nodes and intelligently moving slots as needed. This feature will be added
 in the future.
+
+The `--cluster-yes` option instructs the cluster manager to automatically answer
+"yes" to the command's prompts, allowing it to run in a non-interactive mode.
+Note that this option can also be activated by setting the
+`REDISCLI_CLUSTER_YES` environment variable.
 
 A more interesting example application
 ---
@@ -674,7 +667,7 @@ In order to trigger the failover, the simplest thing we can do (that is also
 the semantically simplest failure that can occur in a distributed system)
 is to crash a single process, in our case a single master.
 
-We can identify a cluster and crash it with the following command:
+We can identify a master and crash it with the following command:
 
 ```
 $ keydb-cli -p 7000 cluster nodes | grep master
@@ -711,14 +704,14 @@ sound unexpected as in the first part of this tutorial we stated that KeyDB
 Cluster can lose writes during the failover because it uses asynchronous
 replication. What we did not say is that this is not very likely to happen
 because KeyDB sends the reply to the client, and the commands to replicate
-to the slaves, about at the same time, so there is a very small window to
+to the replicas, about at the same time, so there is a very small window to
 lose data. However the fact that it is hard to trigger does not mean that it
 is impossible, so this does not change the consistency guarantees provided
 by KeyDB cluster.
 
 We can now check what is the cluster setup after the failover (note that
 in the meantime I restarted the crashed instance so that it rejoins the
-cluster as a slave):
+cluster as a replica{displayed as ```slave```}):
 
 ```
 $ keydb-cli -p 7000 cluster nodes
@@ -731,15 +724,15 @@ a211e242fc6b22a9427fed61285e85892fa04e08 127.0.0.1:7003 slave 97a3a64667477371c4
 ```
 
 Now the masters are running on ports 7000, 7001 and 7005. What was previously
-a master, that is the KeyDB instance running on port 7002, is now a slave of
+a master, that is the KeyDB instance running on port 7002, is now a replica of
 7005.
 
 The output of the `CLUSTER NODES` command may look intimidating, but it is actually pretty simple, and is composed of the following tokens:
 
 * Node ID
 * ip:port
-* flags: master, slave, myself, fail, ...
-* if it is a slave, the Node ID of the master
+* flags: master, slave(represented as replica), myself, fail, ...
+* if it is a replica, the Node ID of the master
 * Time of the last pending PING still waiting for a reply.
 * Time of the last PONG received.
 * Configuration epoch for this node (see the Cluster specification).
@@ -751,11 +744,11 @@ Manual failover
 
 Sometimes it is useful to force a failover without actually causing any problem
 on a master. For example in order to upgrade the KeyDB process of one of the
-master nodes it is a good idea to failover it in order to turn it into a slave
+master nodes it is a good idea to failover it in order to turn it into a replica
 with minimal impact on availability.
 
 Manual failovers are supported by KeyDB Cluster using the `CLUSTER FAILOVER`
-command, that must be executed in one of the **slaves** of the master you want
+command, that must be executed in one of the **replicas** of the master you want
 to failover.
 
 Manual failovers are special and are safer compared to failovers resulting from
@@ -764,7 +757,7 @@ process, by switching clients from the original master to the new master only
 when the system is sure that the new master processed all the replication stream
 from the old one.
 
-This is what you see in the slave log when you perform a manual failover:
+This is what you see in the replica log when you perform a manual failover:
 
     # Manual failover user request accepted.
     # Received replication offset for paused master manual failover: 347540
@@ -774,18 +767,24 @@ This is what you see in the slave log when you perform a manual failover:
     # Failover election won: I'm the new master.
 
 Basically clients connected to the master we are failing over are stopped.
-At the same time the master sends its replication offset to the slave, that
+At the same time the master sends its replication offset to the replica, that
 waits to reach the offset on its side. When the replication offset is reached,
 the failover starts, and the old master is informed about the configuration
 switch. When the clients are unblocked on the old master, they are redirected
 to the new master.
+
+Note:
+
+* To promote a replica to master, it must first be known as a replica by a majority of the masters in the cluster.
+  Otherwise, it cannot win the failover election.
+  If the replica has just been added to the cluster (see [Adding a new node as a replica](#adding-a-new-node-as-a-replica) below), you may need to wait a while before sending the `CLUSTER FAILOVER` command, to make sure the masters in cluster are aware of the new replica.
 
 Adding a new node
 ---
 
 Adding a new node is basically the process of adding an empty node and then
 moving some data into it, in case it is a new master, or telling it to
-setup as a replica of a known node, in case it is a slave.
+setup as a replica of a known node, in case it is a replica.
 
 We'll show both, starting with the addition of a new master instance.
 
@@ -837,7 +836,7 @@ able to redirect client queries correctly and is generally speaking part of
 the cluster. However it has two peculiarities compared to the other masters:
 
 * It holds no data as it has no assigned hash slots.
-* Because it is a master without assigned slots, it does not participate in the election process when a slave wants to become a master.
+* Because it is a master without assigned slots, it does not participate in the election process when a replica (displayed as ```slave```) wants to become a master.
 
 Now it is possible to assign hash slots to this node using the resharding
 feature of `keydb-cli`. It is basically useless to show this as we already
@@ -866,7 +865,7 @@ This way we assign the new replica to a specific master.
 
 A more manual way to add a replica to a specific master is to add the new
 node as an empty master, and then turn it into a replica using the
-`CLUSTER REPLICATE` command. This also works if the node was added as a slave
+`CLUSTER REPLICATE` command. This also works if the node was added as a replica
 but you want to move it as a replica of a different master.
 
 For example in order to add a replica for the node 127.0.0.1:7005 that is
@@ -886,12 +885,12 @@ f093c80dde814da99c5cf72a7dd01590792b783b 127.0.0.1:7006 slave 3c3a0c74aae0b56170
 2938205e12de373867bf38f1ca29d31d0ddb3e46 127.0.0.1:7002 slave 3c3a0c74aae0b56170ccb03a76b60cfe7dc1912e 0 1385543617198 3 connected
 ```
 
-The node 3c3a0c... now has two slaves, running on ports 7002 (the existing one) and 7006 (the new one).
+The node 3c3a0c... now has two replicas (displayed as ```slave```), running on ports 7002 (the existing one) and 7006 (the new one).
 
 Removing a node
 ---
 
-To remove a slave node just use the `del-node` command of keydb-cli:
+To remove a replica node just use the `del-node` command of keydb-cli:
 
     keydb-cli --cluster del-node 127.0.0.1:7000 `<node-id>`
 
@@ -903,14 +902,14 @@ remove a master node it must be empty**. If the master is not empty you need
 to reshard data away from it to all the other master nodes before.
 
 An alternative to remove a master node is to perform a manual failover of it
-over one of its slaves and remove the node after it turned into a slave of the
+over one of its replicas and remove the node after it turned into a replica of the
 new master. Obviously this does not help when you want to reduce the actual
 number of masters in your cluster, in that case, a resharding is needed.
 
 Replicas migration
 ---
 
-In KeyDB Cluster it is possible to reconfigure a slave to replicate with a
+In KeyDB Cluster it is possible to reconfigure a replica to replicate with a
 different master at any time just using the following command:
 
     CLUSTER REPLICATE <master-node-id>
@@ -930,25 +929,25 @@ resistant to failures as the number of replicas attached to a given master.
 For example a cluster where every master has a single replica can't continue
 operations if the master and its replica fail at the same time, simply because
 there is no other instance to have a copy of the hash slots the master was
-serving. However while netsplits are likely to isolate a number of nodes
+serving. However while net-splits are likely to isolate a number of nodes
 at the same time, many other kind of failures, like hardware or software failures
 local to a single node, are a very notable class of failures that are unlikely
 to happen at the same time, so it is possible that in your cluster where
-every master has a slave, the slave is killed at 4am, and the master is killed
+every master has a replica, the replica is killed at 4am, and the master is killed
 at 6am. This still will result in a cluster that can no longer operate.
 
 To improve reliability of the system we have the option to add additional
 replicas to every master, but this is expensive. Replica migration allows to
-add more slaves to just a few masters. So you have 10 masters with 1 slave
+add more replicas to just a few masters. So you have 10 masters with 1 replica
 each, for a total of 20 instances. However you add, for example, 3 instances
-more as slaves of some of your masters, so certain masters will have more
-than a single slave.
+more as replicas of some of your masters, so certain masters will have more
+than a single replica.
 
 With replicas migration what happens is that if a master is left without
-slaves, a replica from a master that has multiple slaves will migrate to
-the *orphaned* master. So after your slave goes down at 4am as in the example
-we made above, another slave will take its place, and when the master
-will fail as well at 5am, there is still a slave that can be elected so that
+replicas, a replica from a master that has multiple replicas will migrate to
+the *orphaned* master. So after your replica goes down at 4am as in the example
+we made above, another replica will take its place, and when the master
+will fail as well at 5am, there is still a replica that can be elected so that
 the cluster can continue to operate.
 
 So what you should know about replicas migration in short?
@@ -960,16 +959,17 @@ So what you should know about replicas migration in short?
 Upgrading nodes in a KeyDB Cluster
 ---
 
-Upgrading slave nodes is easy since you just need to stop the node and restart
+Upgrading replica nodes is easy since you just need to stop the node and restart
 it with an updated version of KeyDB. If there are clients scaling reads using
-slave nodes, they should be able to reconnect to a different slave if a given
+replica nodes, they should be able to reconnect to a different replica if a given
 one is not available.
 
 Upgrading masters is a bit more complex, and the suggested procedure is:
 
-1. Use CLUSTER FAILOVER to trigger a manual failover of the master to one of its slaves (see the "Manual failover" section of this documentation).
-2. Wait for the master to turn into a slave.
-3. Finally upgrade the node as you do for slaves.
+1. Use `CLUSTER FAILOVER` to trigger a manual failover of the master to one of its replicas.
+   (See the [Manual failover](#manual-failover) section in this document.)
+2. Wait for the master to turn into a replica.
+3. Finally upgrade the node as you do for replicas.
 4. If you want the master to be the node you just upgraded, trigger a new manual failover in order to turn back the upgraded node into a master.
 
 Following this procedure you should upgrade one node after the other until
@@ -1005,7 +1005,7 @@ in order to migrate your data set to KeyDB Cluster:
 1. Stop your clients. No automatic live-migration to KeyDB Cluster is currently possible. You may be able to do it orchestrating a live migration in the context of your application / environment.
 2. Generate an append only file for all of your N masters using the BGREWRITEAOF command, and waiting for the AOF file to be completely generated.
 3. Save your AOF files from aof-1 to aof-N somewhere. At this point you can stop your old instances if you wish (this is useful since in non-virtualized deployments you often need to reuse the same computers).
-4. Create a KeyDB Cluster composed of N masters and zero slaves. You'll add slaves later. Make sure all your nodes are using the append only file for persistence.
+4. Create a KeyDB Cluster composed of N masters and zero replicas. You'll add replicas later. Make sure all your nodes are using the append only file for persistence.
 5. Stop all the cluster nodes, substitute their append only file with your pre-existing append only files, aof-1 for the first node, aof-2 for the second node, up to aof-N.
 6. Restart your KeyDB Cluster nodes with the new AOF files. They'll complain that there are keys that should not be there according to their configuration.
 7. Use `keydb-cli --cluster fix` command in order to fix the cluster so that keys will be migrated according to the hash slots each node is authoritative or not.
@@ -1016,9 +1016,5 @@ There is an alternative way to import data from external instances to a KeyDB
 Cluster, which is to use the `keydb-cli --cluster import` command.
 
 The command moves all the keys of a running instance (deleting the keys from
-the source instance) to the specified pre-existing KeyDB Cluster. However
-note that if you use a KeyDB 2.8 instance as source instance the operation
-may be slow since 2.8 does not implement migrate connection caching, so you
-may want to restart your source instance with a KeyDB 3.x version before
-to perform such operation.
+the source instance) to the specified pre-existing KeyDB Cluster.
 

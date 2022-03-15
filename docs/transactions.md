@@ -19,7 +19,7 @@ isolated operation.
 transaction is also atomic. The `EXEC` command
 triggers the execution of all the commands in the transaction, so
 if a client loses the connection to the server in the context of a
-transaction before calling the `MULTI` command none of the operations
+transaction before calling the `EXEC` command none of the operations
 are performed, instead if the `EXEC` command is called, all the
 operations are performed. When using the
 [append-only file](https://docs.keydb.dev/docs/persistence#append-only-file) KeyDB makes sure
@@ -30,7 +30,7 @@ are registered. KeyDB will detect this condition at restart, and will exit with 
 append only file that will remove the partial transaction so that the
 server can start again.
 
-Starting with version 2.2, KeyDB allows for an extra guarantee to the
+KeyDB allows for an extra guarantee to the
 above two, in the form of optimistic locking in a way very similar to a
 check-and-set (CAS) operation.
 This is documented [later](#cas) on this page.
@@ -75,9 +75,7 @@ During a transaction it is possible to encounter two kind of command errors:
 
 Clients used to sense the first kind of errors, happening before the `EXEC` call, by checking the return value of the queued command: if the command replies with QUEUED it was queued correctly, otherwise KeyDB returns an error. If there is an error while queueing a command, most clients will abort the transaction discarding it.
 
-However starting with KeyDB 2.6.5, the server will remember that there was an error during the accumulation of commands, and will refuse to execute the transaction returning also an error during `EXEC`, and discarding the transaction automatically.
-
-Before KeyDB 2.6.5 the behavior was to execute the transaction with just the subset of commands queued successfully in case the client called `EXEC` regardless of previous errors. The new behavior makes it much more simple to mix transactions with pipelining, so that the whole transaction can be sent at once, reading all the replies later at once.
+The server will remember that there was an error during the accumulation of commands, and will refuse to execute the transaction returning also an error during `EXEC`, and discarding the transaction automatically.
 
 Errors happening *after* `EXEC` instead are not handled in a special way: all the other commands will be executed even if some command fails during the transaction.
 
@@ -89,8 +87,7 @@ command will fail when executed even if the syntax is right:
     Escape character is '^]'.
     MULTI
     +OK
-    SET a 3
-    abc
+    SET a abc
     +QUEUED
     LPOP a
     +QUEUED
@@ -199,12 +196,17 @@ there's no need to repeat the operation.
 
 So what is `WATCH` really about? It is a command that will
 make the `EXEC` conditional: we are asking KeyDB to perform
-the transaction only if none of the `WATCH`ed keys were modified.
-(But they might be changed by the same client inside the transaction
-without aborting it.
-Otherwise the transaction is not entered at
-all. (Note that if you `WATCH` a volatile key and KeyDB expires
-the key after you `WATCH`ed it, `EXEC` will still work.
+the transaction only if none of the `WATCH`ed keys were modified. This includes
+modifications made by the client, like write commands, and by KeyDB itself,
+like expiration or eviction. If keys were modified between when they were
+`WATCH`ed and when the `EXEC` was received, the entire transaction will be aborted
+instead.
+
+**NOTE**
+* In KeyDB versions before 6.0.9, an expired key would not cause a transaction
+to be aborted.
+* Commands within a transaction wont trigger the `WATCH` condition since they
+are only queued until the `EXEC` is sent.
 
 `WATCH` can be called multiple times. Simply all the `WATCH` calls will
 have the effects to watch for changes starting from the call, up to
@@ -226,9 +228,10 @@ transactions.
 ### Using `WATCH` to implement ZPOP
 
 A good example to illustrate how `WATCH` can be used to create new
-atomic operations otherwise not supported by KeyDB is to implement ZPOP,
-that is a command that pops the element with the lower score from a
-sorted set in an atomic way. This is the simplest implementation:
+atomic operations otherwise not supported by KeyDB is to implement ZPOP
+(`ZPOPMIN`, `ZPOPMAX` and their blocking variants), that is a command
+that pops the element with the lower score from a sorted set in an atomic way.
+This is the simplest implementation:
 
     WATCH zset
     element = ZRANGE zset 0 0
@@ -244,9 +247,8 @@ A [KeyDB script](https://docs.keydb.dev/docs/commands#eval) is transactional by 
 you can do with a KeyDB transaction, you can also do with a script, and
 usually the script will be both simpler and faster.
 
-This duplication is due to the fact that scripting was introduced in KeyDB 2.6
-while transactions already existed long before. However we are unlikely to
-remove the support for transactions in the short time because it seems
+This duplication is due to the fact that scripting was introduced after transactions already existed long before. However we are unlikely to
+remove the support for transactions in the short-term because it seems
 semantically opportune that even without resorting to KeyDB scripting it is
 still possible to avoid race conditions, especially since the implementation
 complexity of KeyDB transactions is minimal.

@@ -80,7 +80,7 @@ once connected with keydb-cli, you can run `CLUSTER INFO` and `CLUSTER NODES` fo
 
 connect with keydb-cli to port 30000 in cluster mode (-c) and try the following:
 ```
-$ redis-cli -c -p 30000
+$ keydb-cli -c -p 30000
 keydb 127.0.0.1:30000> set foo bar
 -> Redirected to slot [12182] located at 127.0.0.1:30002
 OK

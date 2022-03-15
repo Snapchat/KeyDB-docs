@@ -40,7 +40,7 @@ And now for people with 15 minutes to spend, the details...
 Measuring latency
 -----------------
 
-If you are experiencing latency problems, probably you know how to measure
+If you are experiencing latency problems, you probably know how to measure
 it in the context of your application, or maybe your latency problem is very
 evident even macroscopically. However keydb-cli can be used to measure the
 latency of a KeyDB server in milliseconds, just try:
@@ -50,14 +50,10 @@ latency of a KeyDB server in milliseconds, just try:
 Using the internal KeyDB latency monitoring subsystem
 ---
 
-Since KeyDB 2.8.13, KeyDB provides latency monitoring capabilities that
-are able to sample different execution paths to understand where the
-server is blocking. This makes debugging of the problems illustrated in
-this documentation much simpler, so we suggest to enable latency monitoring
-ASAP. Please refer to the [Latency monitor documentation](https://docs.keydb.dev/docs/latency-monitor).
+KeyDB provides latency monitoring capabilities that are able to sample different execution paths to understand where the server is blocking. This makes debugging of the problems illustrate in this documentation much simpler, so we suggest enabling latency monitoring ASAP. Please refer to the [Latency monitor documentation](https://docs.keydb.dev/docs/latency-monitor).
 
 While the latency monitoring sampling and reporting capabilities will make
-simpler to understand the source of latency in your KeyDB system, it is still
+it simpler to understand the source of latency in your KeyDB system, it is still
 advised that you read this documentation extensively to better understand
 the topic of KeyDB and latency spikes.
 
@@ -69,14 +65,12 @@ you run KeyDB, that is the latency provided by your operating system kernel
 and, if you are using virtualization, by the hypervisor you are using.
 
 While this latency can't be removed it is important to study it because
-it is the baseline, or in other words, you'll not be able to achieve a KeyDB
+it is the baseline, or in other words, you won't be able to achieve a KeyDB
 latency that is better than the latency that every process running in your
 environment will experience because of the kernel or hypervisor implementation
 or setup.
 
-We call this kind of latency **intrinsic latency**, and `keydb-cli` starting
-from KeyDB version 2.8.7 is able to measure it. This is an example run
-under Linux 3.11.0 running on an entry level server.
+We call this kind of latency **intrinsic latency**, and `keydb-cli` is able to measure it. This is an example run under Linux 3.11.0 running on an entry level server.
 
 Note: the argument `100` is the number of seconds the test will be executed.
 The more time we run the test, the more likely we'll be able to spot
@@ -92,7 +86,7 @@ intensive and will likely saturate a single core in your system.
     Max latency so far: 83 microseconds.
     Max latency so far: 115 microseconds.
 
-Note: keydb-cli in this special case needs to **run in the server** where you run or plan to run KeyDB, not in the client. In this special mode keydb-cli does no connect to a KeyDB server at all: it will just try to measure the largest time the kernel does not provide CPU time to run to the keydb-cli process itself.
+Note: keydb-cli in this special case needs to **run in the server** where you run or plan to run KeyDB, not in the client. In this special mode keydb-cli does not connect to a KeyDB server at all: it will just try to measure the largest time the kernel does not provide CPU time to run to the keydb-cli process itself.
 
 In the above example, the intrinsic latency of the system is just 0.115
 milliseconds (or 115 microseconds), which is a good news, however keep in mind
@@ -112,7 +106,7 @@ instance running KeyDB and Apache:
     Max latency so far: 9243 microseconds.
     Max latency so far: 9671 microseconds.
 
-Here we have an intrinsic latency of 9.7 milliseconds: this means that we can't ask better than that to KeyDB. However other runs at different times in different virtualization environments with higher load or with noisy neighbors can easily show even worse values. We were able to measured up to 40 milliseconds in
+Here we have an intrinsic latency of 9.7 milliseconds: this means that we can't ask better than that to KeyDB. However other runs at different times in different virtualization environments with higher load or with noisy neighbors can easily show even worse values. We were able to measure up to 40 milliseconds in
 systems otherwise apparently running normally.
 
 Latency induced by network and communication
@@ -133,8 +127,7 @@ for these network and system related latencies.
 An efficient client will therefore try to limit the number of roundtrips by
 pipelining several commands together. This is fully supported by the servers
 and most clients. Aggregated commands like MSET/MGET can be also used for
-that purpose. Starting with KeyDB 2.4, a number of commands also support
-variadic parameters for all data types.
+that purpose. A number of commands also support variadic parameters for all datatypes.
 
 Here are some guidelines:
 
@@ -154,7 +147,7 @@ placement (taskset), cgroups, real-time priorities (chrt), NUMA
 configuration (numactl), or by using a low-latency kernel. Please note
 vanilla KeyDB is not really suitable to be bound on a **single** CPU core.
 KeyDB can fork background tasks that can be extremely CPU consuming
-like bgsave or AOF rewrite. These tasks must **never** run on the same core
+like `BGSAVE` or `BGREWRITEAOF`. These tasks must **never** run on the same core
 as the main event loop.
 
 In most situations, these kind of system level optimizations are not needed.
@@ -166,7 +159,7 @@ Latency generated by slow commands
 A consequence of only running one thread is that when a request is slow to serve
 all the other clients will wait for this request to be served. When executing
 normal commands, like `GET` or `SET` or `LPUSH` this is not a problem
-at all since this commands are executed in constant (and very small) time.
+at all since these commands are executed in constant (and very small) time.
 However there are commands operating on many elements, like `SORT`, `LREM`,
 `SUNION` and others. For instance taking the intersection of two big sets
 can take a considerable amount of time.
@@ -176,8 +169,7 @@ improve performance.
 
 If you have latency concerns you should either not use slow commands against
 values composed of many elements, or you should run a replica using KeyDB
-replication where to run all your slow queries. Consider running an active-replica
-instance to take advantage of your resources.
+replication where you run all your slow queries. Consider running an active-replica instance to take advantage of your resources.
 
 It is possible to monitor slow commands using the KeyDB
 [Slow Log feature](https://docs.keydb.dev/docs/commands#slowlog).
@@ -190,7 +182,7 @@ a sign that slow commands are used.
 **IMPORTANT NOTE**: a VERY common source of latency generated by the execution
 of slow commands is the use of the `KEYS` command in production environments.
 `KEYS`, as documented in the KeyDB documentation, should only be used for
-debugging purposes. Since KeyDB 2.8 a new commands were introduced in order to
+debugging purposes. New commands were introduced in order to
 iterate the key space and other large collections incrementally, please check
 the `SCAN`, `SSCAN`, `HSCAN` and `ZSCAN` commands for more information.
 
@@ -218,13 +210,13 @@ of a large memory chunk can be expensive.
 Fork time in different systems
 ------------------------------
 
-Modern hardware is pretty fast to copy the page table, but Xen is not.
+Modern hardware is pretty fast at copying the page table, but Xen is not.
 The problem with Xen is not virtualization-specific, but Xen-specific. For instance using VMware or Virtual Box does not result into slow fork time.
 The following is a table that compares fork time for different KeyDB instance
 size. Data is obtained performing a BGSAVE and looking at the `latest_fork_usec` filed in the `INFO` command output.
 
 However the good news is that **new types of EC2 HVM based instances are much
-better with fork times**, almost on pair with physical servers, so for example
+better with fork times**, almost on par with physical servers, so for example
 using m3.medium (or better) instances will provide good results.
 
 * **Linux beefy VM on VMware** 6.0GB RSS forked in 77 milliseconds (12.8 milliseconds per GB).
@@ -235,7 +227,7 @@ using m3.medium (or better) instances will provide good results.
 * **Linux VM on EC2, new instance types (Xen)** 1GB RSS forked in 10 milliseconds (10 milliseconds per GB).
 * **Linux VM on Linode (Xen)** 0.9GBRSS forked into 382 milliseconds (424 milliseconds per GB).
 
-As you can see certain VM running on Xen have a performance hit that is between one order to two orders of magnitude. For EC2 users the suggestion is simple: use modern HVM based instances.
+As you can see certain VMS running on Xen have a performance hit that is between one order to two orders of magnitude. For EC2 users the suggestion is simple: use modern HVM based instances.
 
 Latency induced by transparent huge pages
 -----------------------------------------
@@ -270,7 +262,7 @@ The kernel relocates KeyDB memory pages on disk mainly because of three reasons:
 
 * The system is under memory pressure since the running processes are demanding
 more physical memory than the amount that is available. The simplest instance of
-this problem is simply KeyDB using more memory than the one available.
+this problem is simply KeyDB using more memory than is available.
 * The KeyDB instance data set, or part of the data set, is mostly completely idle
 (never accessed by clients), so the kernel could swap idle memory pages on disk.
 This problem is very rare since even a moderately slow instance will touch all
@@ -466,7 +458,7 @@ The fdatasync(2) call is a worse source of latency as with many combinations
 of kernels and file systems used it can take from a few milliseconds to
 a few seconds to complete, especially in the case of some other process
 doing I/O. For this reason when possible KeyDB does the fdatasync(2) call
-in a different thread since KeyDB 2.4.
+in a different thread.
 
 We'll see how configuration can affect the amount and source of latency
 when using the AOF file.
@@ -542,18 +534,18 @@ The active expiring is designed to be adaptive. An expire cycle is started every
 
 Given that `ACTIVE_EXPIRE_CYCLE_LOOKUPS_PER_LOOP` is set to 20 by default, and the process is performed ten times per second, usually just 200 keys per second are actively expired. This is enough to clean the DB fast enough even when already expired keys are not accessed for a long time, so that the *lazy* algorithm does not help. At the same time expiring just 200 keys per second has no effects in the latency a KeyDB instance.
 
-However the algorithm is adaptive and will loop if it founds more than 25% of keys already expired in the set of sampled keys. But given that we run the algorithm ten times per second, this means that the unlucky event of more than 25% of the keys in our random sample are expiring at least *in the same second*.
+However the algorithm is adaptive and will loop if it finds more than 25% of keys already expired in the set of sampled keys. But given that we run the algorithm ten times per second, this means that the unlucky event of more than 25% of the keys in our random sample are expiring at least *in the same second*.
 
 Basically this means that **if the database has many many keys expiring in the same second, and these make up at least 25% of the current population of keys with an expire set**, KeyDB can block in order to get the percentage of keys already expired below 25%.
 
-This approach is needed in order to avoid using too much memory for keys that area already expired, and usually is absolutely harmless since it's strange that a big number of keys are going to expire in the same exact second, but it is not impossible that the user used `EXPIREAT` extensively with the same Unix time.
+This approach is needed in order to avoid using too much memory for keys that are already expired, and usually is absolutely harmless since it's strange that a big number of keys are going to expire in the same exact second, but it is not impossible that the user used `EXPIREAT` extensively with the same Unix time.
 
 In short: be aware that many keys expiring at the same moment can be a source of latency.
 
 KeyDB software watchdog
 ---
 
-KeyDB 2.6 introduces the *KeyDB Software Watchdog* that is a debugging tool
+*KeyDB Software Watchdog* is a debugging tool
 designed to track those latency problems that for one reason or the other
 escaped an analysis using normal tools.
 
@@ -571,7 +563,7 @@ This is how this feature works:
 * If KeyDB detects that the server is blocked into some operation that is not returning fast enough, and that may be the source of the latency issue, a low level report about where the server is blocked is dumped on the log file.
 * The user contacts the developers writing a message in the KeyDB Google Group, including the watchdog report in the message.
 
-Note that this feature can not be enabled using the KeyDB.conf file, because it is designed to be enabled only in already running instances and only for debugging purposes.
+Note that this feature cannot be enabled using the KeyDB.conf file, because it is designed to be enabled only in already running instances and only for debugging purposes.
 
 To enable the feature just use the following:
 

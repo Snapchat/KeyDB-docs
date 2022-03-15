@@ -19,7 +19,7 @@ a good typing experience.
 
 However `keydb-cli` is not just that. There are options you can use to launch
 the program in order to put it into special modes, so that `keydb-cli` can
-definitely do more complex tasks, like simulate a slave and print the
+definitely do more complex tasks, like simulate a replica and print the
 replication stream it receives from the master, check the latency of a keydb
 server and show statistics or even an ASCII-art spectrogram of latency
 samples and frequencies, and many other things.
@@ -82,7 +82,10 @@ preform authentication saving the need of explicitly using the `AUTH` command:
     $ keydb-cli -a myUnguessablePazzzzzword123 ping
     PONG
 
-Finally, it's possible to send a command that operates a on a database number
+Alternatively, it is possible to provide the password to `keydb-cli` via the
+`REDISCLI_AUTH` environment variable.
+
+Finally, it's possible to send a command that operates on a database number
 other than the default number zero by using the `-n <dbnum>` option:
 
     $ keydb-cli flushall
@@ -100,12 +103,22 @@ option and a valid URI:
     $ keydb-cli -u keydb://p%40ssw0rd@keydb-16379.hosted.com:16379/0 ping
     PONG
 
+## SSL/TLS
+
+By default, `keydb-cli` uses a plain TCP connection to connect to KeyDB.
+You may enable SSL/TLS using the `--tls` option, along with `--cacert` or
+`--cacertdir` to configure a trusted root certificate bundle or directory.
+
+If the target server requires authentication using a client side certificate,
+you can specify a certificate and a corresponding private key using `--cert` and
+`--key`.
+
 ## Getting input from other programs
 
 There are two ways you can use `keydb-cli` in order to get the input from other
 commands (from the standard input, basically). One is to use as last argument
 the payload we read from *stdin*. For example, in order to set a keydb key
-to the content of the file `/etc/services` if my computer, I can use the `-x`
+to the content of the file `/etc/services` of my computer, I can use the `-x`
 option:
 
     $ keydb-cli -x set foo < /etc/services
@@ -207,7 +220,7 @@ of Lua scripting, available starting with keydb 3.2. For this feature, please
 refer to the [keydb Lua debugger documentation](https://docs.keydb.dev/docs/ldb).
 
 However, even without using the debugger, you can use `keydb-cli` to
-run scripts from a file in a way more comfortable compared to typing
+run scripts from a file in a way more comfortable way compared to typing
 the script interactively into the shell or as an argument:
 
     $ cat /tmp/script.lua
@@ -314,9 +327,9 @@ were in the middle of it:
 This is usually not an issue when using the CLI in interactive mode for
 testing, but you should be aware of this limitation.
 
-## Editing, history and completion
+## Editing, history, completion and hints
 
-You can access an history of commands executed, in order to avoid retyping
+You can access a history of commands executed, in order to avoid retyping
 them again and again, by pressing the arrow keys (up and down).
 The history is preserved between restarts of the CLI, in a file called
 `.keydbcli_history` inside the user home directory, as specified
@@ -330,6 +343,24 @@ key, like in the following example:
     127.0.0.1:6379> Z<TAB>
     127.0.0.1:6379> ZADD<TAB>
     127.0.0.1:6379> ZCARD<TAB>
+
+Once you've typed a KeyDB command name at the prompt, the CLI will display
+syntax hints. This behavior can be turned on and off via the CLI preferences.
+
+## Preferences
+
+There are two ways to customize the CLI's behavior. The file `.redisclirc`
+in your home directory is loaded by the CLI on startup. You can override the
+file's default location by setting the `REDISCLI_RCFILE` environment variable to
+an alternative path. Preferences can also be set during a CLI session, in which 
+case they will last only the the duration of the session.
+
+To set preferences, use the special `:set` command. The following preferences
+can be set, either by typing the command in the CLI or adding it to the
+`.redisclirc` file:
+
+* `:set hints` - enables syntax hints
+* `:set nohints` - disables syntax hints
 
 ## Running the same command N times
 
@@ -358,11 +389,11 @@ categories are: `@generic`, `@list`, `@set`, `@sorted_set`, `@hash`,
 
 For example in order to show help for the `PFADD` command, use:
 
-   127.0.0.1:6379> help PFADD
+    127.0.0.1:6379> help PFADD
 
-  PFADD key element [element ...]
-  summary: Adds the specified elements to the specified HyperLogLog.
-  since: 2.8.9
+    PFADD key element [element ...]
+
+Summary: Adds the specified elements to the specified HyperLogLog.
 
 Note that `help` supports TAB completion as well.
 
@@ -389,7 +420,7 @@ are explained in the next sections:
 * Checking the [latency](https://docs.keydb.dev/docs/latency) of a keydb server in different ways.
 * Checking the scheduler latency of the local computer.
 * Transferring RDB backups from a remote keydb server locally.
-* Acting as a keydb slave for showing what a slave receives.
+* Acting as a keydb replica for showing what a replica receives.
 * Simulating [LRU](https://docs.keydb.dev/docs/lru-cache) workloads for showing stats about keys hits.
 * A client for the Lua debugger.
 
@@ -597,7 +628,7 @@ You can change the sampling sessions' length with the `-i <interval>` option.
 
 The most advanced latency study tool, but also a bit harder to
 interpret for non experienced users, is the ability to use color terminals
-to show a spectrum of latencies. You'll see a colored output that indicate the
+to show a spectrum of latencies. You'll see a colored output that indicates the
 different percentages of samples, and different ASCII characters that indicate
 different latency figures. This mode is enabled using the `--latency-dist`
 option:
@@ -648,7 +679,7 @@ millisecond from time to time.
 
 ## Remote backups of RDB files
 
-During keydb replication's first synchronization, the master and the slave
+During keydb replication's first synchronization, the master and the replica
 exchange the whole data set in form of an RDB file. This feature is exploited
 by `keydb-cli` in order to provide a remote backup facility, that allows to
 transfer an RDB file from any keydb instance to the local computer running
@@ -669,15 +700,15 @@ If it is non zero, an error occurred like in the following example:
     $ echo $?
     1
 
-## Slave mode
+## Replica mode
 
-The slave mode of the CLI is an advanced feature useful for
+The replica mode of the CLI is an advanced feature useful for
 keydb developers and for debugging operations.
-It allows to inspect what a master sends to its slaves in the replication
+It allows to inspect what a master sends to its replica in the replication
 stream in order to propagate the writes to its replicas. The option
-name is simply `--slave`. This is how it works:
+name is simply `--replica`. This is how it works:
 
-    $ keydb-cli --slave
+    $ keydb-cli --replica
     SYNC with master, discarding 13256 bytes of bulk transfer...
     SYNC done. Logging commands from master.
     "PING"
@@ -689,7 +720,7 @@ name is simply `--slave`. This is how it works:
 The command begins by discarding the RDB file of the first synchronization
 and then logs each command received as in CSV format.
 
-If you think some of the commands are not replicated correctly in your slaves
+If you think some of the commands are not replicated correctly in your replicas
 this is a good way to check what's happening, and also useful information
 in order to improve the bug report.
 
@@ -713,7 +744,7 @@ different LRU settings (number of samples) and LRU's implementation, which
 is approximated in keydb, changes a lot between different versions. Similarly
 the amount of memory per key may change between versions. That is why this
 tool was built: its main motivation was for testing the quality of keydb' LRU
-implementation, but now is also useful in for testing how a given version 
+implementation, but now is also useful in for testing how a given version
 behaves with the settings you had in mind for your deployment.
 
 In order to use this mode, you need to specify the amount of keys
@@ -753,8 +784,8 @@ the actual figure we can expect in the long time:
     124250 Gets/sec | Hits: 50147 (40.36%) | Misses: 74103 (59.64%)
 
 A miss rage of 59% may not be acceptable for our use case. So we know that
-100MB of memory are no enough. Let's try with half gigabyte. After a few
-minutes we'll see the output to stabilize to the following figures:
+100MB of memory is not enough. Let's try with half gigabyte. After a few
+minutes we'll see the output stabilize to the following figures:
 
     140000 Gets/sec | Hits: 135376 (96.70%) | Misses: 4624 (3.30%)
     141250 Gets/sec | Hits: 136523 (96.65%) | Misses: 4727 (3.35%)

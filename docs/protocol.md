@@ -34,16 +34,14 @@ Once a command is received, it is processed and a reply is sent back to the clie
 This is the simplest model possible, however there are two exceptions:
 
 * KeyDB supports pipelining (covered later in this document). So it is possible for clients to send multiple commands at once, and wait for replies later.
-* When a KeyDB client subscribes to a Pub/Sub channel, the protocol changes semantics and becomes a *push* protocol, that is, the client no longer requires to send commands, because the server will automatically send to the client new messages (for the channels the client is subscribed to) as soon as they are received.
+* When a KeyDB client subscribes to a Pub/Sub channel, the protocol changes semantics and becomes a *push* protocol, that is, the client no longer requires sending commands, because the server will automatically send to the client new messages (for the channels the client is subscribed to) as soon as they are received.
 
 Excluding the above two exceptions, the KeyDB protocol is a simple request-response protocol.
 
 RESP protocol description
 -------------------------
 
-The RESP protocol was introduced in KeyDB 1.2, but it became the
-standard way for talking with the KeyDB server in KeyDB 2.0.
-This is the protocol you should implement in your KeyDB client.
+The RESP protocol became the standard way for talking with the KeyDB server. This is the protocol you should implement in your KeyDB client.
 
 RESP is actually a serialization protocol that supports the following
 data types: Simple Strings, Errors, Integers, Bulk Strings and Arrays.
@@ -267,8 +265,8 @@ The above RESP data type encodes a two elements Array consisting of an Array tha
 Null elements in Arrays
 -----------------------
 
-Single elements of an Array may be Null. This is used in KeyDB replies  in
-order to signal that this elements are missing and not empty strings. This
+Single elements of an Array may be Null. This is used in KeyDB replies in
+order to signal that these elements are missing and not empty strings. This
 can happen with the SORT command when used with the GET _pattern_ option
 when the specified key is missing. Example of an Array reply containing a
 Null element:
@@ -285,17 +283,17 @@ like this:
 
     ["foo",nil,"bar"]
 
-Note that this is not an exception to what said in the previous sections, but
+Note that this is not an exception to what was said in the previous sections, but
 just an example to further specify the protocol.
 
 Sending commands to a KeyDB Server
 ----------------------------------
 
 Now that you are familiar with the RESP serialization format, writing an
-implementation of a KeyDB client library will be easy. We can further specify
+implementation of a KeyDB client library will be easy. We can further to specify
 how the interaction between the client and the server works:
 
-* A client sends to the KeyDB server a RESP Array consisting of just Bulk Strings.
+* A client sends the KeyDB server a RESP Array consisting of just Bulk Strings.
 * A KeyDB server replies to clients sending any valid RESP data type as reply.
 
 So for example a typical interaction could be the following.
@@ -310,7 +308,7 @@ The client sends the command **LLEN mylist** in order to get the length of the l
 
     S: :48293\r\n
 
-As usually we separate different parts of the protocol with newlines for simplicity, but the actual interaction is the client sending `*2\r\n$4\r\nLLEN\r\n$6\r\nmylist\r\n` as a whole.
+As usual we separate different parts of the protocol with newlines for simplicity, but the actual interaction is the client sending `*2\r\n$4\r\nLLEN\r\n$6\r\nmylist\r\n` as a whole.
 
 Multiple commands and pipelining
 --------------------------------
@@ -326,7 +324,7 @@ For more information please check our [page about Pipelining](https://docs.keydb
 Inline Commands
 ---------------
 
-Sometimes you have only `telnet` in your hands and you need to send a command
+Sometimes you have only `telnet` to hand and you need to send a command
 to the KeyDB server. While the KeyDB protocol is simple to implement it is
 not ideal to use in interactive sessions, and `KeyDB-cli` may not always be
 available. For this reason KeyDB also accepts commands in a special way that
@@ -354,7 +352,7 @@ While the KeyDB protocol is very human readable and easy to implement it can
 be implemented with a performance similar to that of a binary protocol.
 
 RESP uses prefixed lengths to transfer bulk data, so there is
-never need to scan the payload for special characters like it happens for
+never a need to scan the payload for special characters like it happens for
 instance with JSON, nor to quote the payload that needs to be sent to the
 server.
 

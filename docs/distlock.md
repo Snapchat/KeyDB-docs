@@ -1,6 +1,6 @@
 ---
 id: distlock          
-title: Distributed Loks
+title: Distributed Locks
 sidebar_label: Distributed Locks
 ---
 
@@ -38,13 +38,13 @@ To understand what we want to improve, let’s analyze the current state of affa
 The simplest way to use KeyDB to lock a resource is to create a key in an instance. The key is usually created with a limited time to live, using the KeyDB expires feature, so that eventually it will get released (property 2 in our list). When the client needs to release the resource, it deletes the key.
 
 Superficially this works well, but there is a problem: this is a single point of failure in our architecture. What happens if the KeyDB master goes down?
-Well, let’s add a slave! And use it if the master is unavailable. This is unfortunately not viable. By doing so we can’t implement our safety property of mutual exclusion, because KeyDB replication is asynchronous.
+Well, let’s add a replica! And use it if the master is unavailable. This is unfortunately not viable. By doing so we can’t implement our safety property of mutual exclusion, because KeyDB replication is asynchronous.
 
 There is an obvious race condition with this model:
 
 1. Client A acquires the lock in the master.
-2. The master crashes before the write to the key is transmitted to the slave.
-3. The slave gets promoted to master.
+2. The master crashes before the write to the key is transmitted to the replica.
+3. The replica gets promoted to master.
 4. Client B acquires the lock to the same resource A already holds a lock for. **SAFETY VIOLATION!**
 
 Sometimes it is perfectly fine that under special circumstances, like during a failure, multiple clients can hold the lock at the same time.
@@ -60,7 +60,7 @@ To acquire the lock, the way to go is the following:
         SET resource_name my_random_value NX PX 30000
 
 The command will set the key only if it does not already exist (NX option), with an expire of 30000 milliseconds (PX option).
-The key is set to a value “my_random_value”. This value must be unique across all clients and all lock requests.
+The key is set to a value “my\_random\_value”. This value must be unique across all clients and all lock requests.
 
 Basically the random value is used in order to release the lock in a safe way, with a script that tells KeyDB: remove the key only if it exists and the value stored at the key is exactly the one I expect to be. This is accomplished by the following Lua script:
 

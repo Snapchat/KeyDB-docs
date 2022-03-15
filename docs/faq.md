@@ -17,7 +17,7 @@ As a result KeyDB introduced features such as active-replication and multi-maste
 Other features such as flash support, aws s3 backup, were also important features we believe should be part of the base code 
 and standard to each instance.
 
-KeyDB is also written largely in c++ allowing this project to accelerate to a different level. Plans to add other highly
+KeyDB is also written largely in C++ allowing this project to accelerate to a different level. Plans to add other highly
 sought after features continue and KeyDB will announce these features as they are released. KeyDB is a leader when it comes
 to performance and you can expect that the KeyDB product will adapt and take advantage of the latest hardware and software as it becomes available. 
 
@@ -46,12 +46,12 @@ To give you a few examples (all obtained using 64-bit instances):
 * 1 Million small Keys -> String Value pairs use ~ 85MB of memory.
 * 1 Million Keys -> Hash value, representing an object with 5 fields, use ~ 160 MB of memory.
 
-To test your use case is trivial using the `KeyDB-benchmark` utility to generate random data sets and check with the `INFO memory` command the space used.
+Testing your use case is trivial. Use the `KeyDB-benchmark` utility to generate random data sets then check the space used with the `INFO memory` command.
 
 64-bit systems will use considerably more memory than 32-bit systems to store the same keys, especially if the keys and values are small. This is because pointers take 8 bytes in 64-bit systems. But of course the advantage is that you can
 have a lot of memory in 64-bit systems, so in order to run large KeyDB servers a 64-bit system is more or less required. The alternative is sharding.
 
-## I like KeyDB's high level operations and features, but I don't like that it takes everything in memory and I can't have a dataset larger the memory. Plans to change this?
+## I like KeyDB's high level operations and features, but I don't like that it keeps everything in memory and I can't have a dataset larger than memory. Are there any plans to change this?
 
 "KeyDB on flash" is a solution that is able to use a mixed RAM/flash approach for
 larger data sets. DRAM is significantly more expensive per GB than non volatile memory such as FLASH. When enabled KeyDB can store less frequently accessed data in non volatile storage instead of RAM. KeyDB will actively page data in and out of non volatile storage as necessary. Of course you can also use plain spinning disks, but it is not recommended as performance will be poor. KeyDB expects the underlying device to have good random I/O performance.
@@ -92,11 +92,11 @@ usage, using the `maxmemory` option in the configuration file to put a limit
 to the memory KeyDB can use. If this limit is reached KeyDB will start to reply
 with an error to write commands (but will continue to accept read-only
 commands), or you can configure it to evict keys when the max memory limit
-is reached in the case you are using KeyDB for caching.
+is reached in the case where you are using KeyDB for caching.
 
 We have detailed documentation in case you plan to use [KeyDB as an LRU cache](https://docs.keydb.dev/docs/lru-cache).
 
-The INFO command will report the amount of memory KeyDB is using so you can
+The `INFO` command reports the amount of memory KeyDB is using so you can
 write scripts that monitor your KeyDB servers checking for critical conditions
 before they are reached.
 
@@ -126,11 +126,9 @@ more optimistic allocation fashion, and this is indeed what you want for KeyDB.
 A good source to understand how Linux Virtual Memory works and other
 alternatives for `overcommit_memory` and `overcommit_ratio` is this classic
 from Red Hat Magazine, ["Understanding Virtual Memory"][redhatvm].
-Beware, this article had `1` and `2` configuration values for `overcommit_memory`
-reversed: refer to the [proc(5)][proc5] man page for the right meaning of the
-available values.
+You can also refer to the [proc(5)][proc5] man page for explanations of the available values.
 
-[redhatvm]: http://www.redhat.com/magazine/001nov04/features/vm/
+[redhatvm]: https://people.redhat.com/nhorman/papers/rhel3_vm.pdf
 [proc5]: http://man7.org/linux/man-pages/man5/proc.5.html
 
 ## Are KeyDB on-disk-snapshots atomic?
@@ -139,7 +137,7 @@ Yes, KeyDB background saving process is always forked when the server is
 outside of the execution of a command, so every command reported to be atomic
 in RAM is also atomic from the point of view of the disk snapshot.
 
-## What is the maximum number of keys a single KeyDB instance can hold? and what the max number of elements in a Hash, List, Set, Sorted Set?
+## What is the maximum number of keys a single KeyDB instance can hold? and what is the max number of elements in a Hash, List, Set, Sorted Set?
 
 KeyDB can handle up to 2^32 keys, and was tested in practice to
 handle at least 250 million keys per instance.
@@ -148,13 +146,13 @@ Every hash, list, set, and sorted set, can hold 2^32 elements.
 
 In other words your limit is likely the available memory in your system.
 
-## My slave claims to have a different number of keys compared to its master, why?
+## My replica claims to have a different number of keys compared to its master, why?
 
 If you use keys with limited time to live (KeyDB expires) this is normal behavior. This is what happens:
 
-* The master generates an RDB file on the first synchronization with the slave.
+* The master generates an RDB file on the first synchronization with the replica.
 * The RDB file will not include keys already expired in the master, but that are still in memory.
 * However these keys are still in the memory of the KeyDB master, even if logically expired. They'll not be considered as existing, but the memory will be reclaimed later, both incrementally and explicitly on access. However while these keys are not logical part of the dataset, they are advertised in `INFO` output and by the `DBSIZE` command.
-* When the slave reads the RDB file generated by the master, this set of keys will not be loaded.
+* When the replica reads the RDB file generated by the master, this set of keys will not be loaded.
 
-As a result of this, it is common for users with many keys with an expire set to see less keys in the slaves, because of this artifact, but there is no actual logical difference in the instances content.
+As a result of this, it is common for users with many keys with an expire set to see less keys in the replicas, because of this artifact, but there is no actual logical difference in the instances content.
