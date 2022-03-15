@@ -1,18 +1,34 @@
 ---
 id: coming-soon
-title: Coming Soon to KeyDB Docs
-sidebar_label: Coming Soon
+title: What is on the Roadmap for the KeyDB Project?
+sidebar_label: Project Roadmap
 ---
 
-## Next Content to be Posted
+## A Single Open Source Codebase
 
-* more on KeyDB Cloud
+KeyDB is going all open source! This means integrating previously Enterprise features into KeyDB Open Source!! Without the need to monitize KeyDB will open source the entire codebase and work with the community to maintain a powerhouse of a database for all!
 
-## Features Coming Soon
+## Introduced in April 2022 Release
+As part of the initial Enterprise-to-OpenSource merge:
+* MVCC architecture introduced to codebase for increased read performance
+* Partial Synchroization for multi-master mode is available
+* Add 'comments' to config, callable from INFO
 
-* support for nested hashes and basic JSON will become available for all our offerings
-* For KeyDB Cloud/Enterprise, RAFT consensus support is in the works
+## Coming Soon!
 
-## Request Documentation
+### KeyDB FLASH Support
+Support for KeyDB FLASH using the RocksDB engine will become available September 2022
 
-If you have requests for how to use features, its likely other people do as well. Please create an issue on the open source [docs repo](https://github.com/EQ-Alpha/KeyDB-docs/issues)
+### Namespaces
+Multi-Tenant support through dedicated namespaces will be available in an upcoming release as tracked through PR#404. This is a community PR by @ederuiter. It will be released first without active-rep support which will be added in a future release.
+
+### JSON
+Native support for nested hashes will be coming to KeyDB. This will support nesting data structures such as hashes, values, and lists within hashes and will enable support for most JSON objects.
+
+### RAFT
+This is a strongly consistent mode using the RAFT algorithm. This enable strong data consistency accross nodes. Check out this blogpost for more details
+
+### More Performance Improvements
+We are always improving the performance of KeyDB. With the introduction of MVCC into the open source codebase, we can now avoid locks and extract more parallelism for different queries.
+
+
