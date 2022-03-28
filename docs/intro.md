@@ -12,7 +12,7 @@ slug: /
 
 If you are new to KeyDB check out our [recommended reading](/docs/#recommended-reading). 
 
-> **KeyDB is a high performance database used at Snap, and powerful drop-in alternative to Redis. While many databases keep the best features locked in their paid offerings, KeyDB is fully open source. This best enables Snap & the community to collaborate and benefit together in the projects development.**
+> **KeyDB is a high performance database used at Snap, and a powerful drop-in alternative to Redis. While many databases keep the best features locked in their paid offerings, KeyDB is fully open source. This best enables Snap & the community to collaborate and benefit together in the projects development.**
 
 ## Download & Build Options
 
@@ -29,7 +29,7 @@ KeyDB offers a number of easy ways to use KeyDB. Click one of the links below or
 
 ## Join the KeyDB Community
 
-Check out our channels below to join in discussions or subscribe to keep up to date with KeyDB develpments.  We look forward to having you as part of our community!
+Check out our channels below to join in discussions or subscribe to keep up to date with KeyDB developments.  We look forward to having you as part of our community!
 
 <a style={{'font-size': '40px'}} href="https://twitter.com/realkeydb" class="fa fa-twitter"></a>
 <a style={{'font-size': '40px'}} href="https://www.linkedin.com/company/eqalphatechnology/" class="fa fa-linkedin"></a>
@@ -48,7 +48,7 @@ Check out our [support guidelines](/docs/support) for the best way to obtain sup
 ### Background on KeyDB, Our Values & More
 * [About KeyDB](/docs/about) - Find out more about the KeyDB Project, its history, and support network
 * [Github Source](https://github.com/EQ-ALpha/KeyDB) - See the source code, readme, and activity
-* [Compatibility with Redis](/docs/compatibility)
+* [Compatibility with Redis](/docs/compatibility) - Some notes regarding compatibility with Redis and it's broader ecosystem
 
 ### Learn Fundamental Concepts
 * [Data Types](/docs/data-types-intro) - Learn about supported data types such as lists, hashes, sets, sorted sets
@@ -65,7 +65,7 @@ Check out our [support guidelines](/docs/support) for the best way to obtain sup
 * [Commands](/docs/commands) - A full list of commands you can use with KeyDB 
 
 ### Optimizing KeyDB
-* [keydb.conf](/docs/config-file) - The KeyDB configuration files outlines all the options for tuning and setting up KeyDB
+* [keydb.conf](/docs/config-file) - The KeyDB configuration file outlines all the options for tuning and setting up KeyDB
 * [Benchmarking](/docs/benchmarking) - Test out your setup to see what kind of throughput it can handle. Expose system bottlenecks and troubleshoot
 
 ### Client Side Resources
