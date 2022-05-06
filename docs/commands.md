@@ -6940,15 +6940,15 @@ keydb-cli> LLEN mylist
 
 #### Syntax:
 
-```LPOP <key>```
+```LPOP <key> [count]```
 
 #### Description:
 
-Removes and returns the first element of the list stored at `key`.
+Removes and returns the first element of the list stored at `key`. If `count` is specified, return `count` number of elements.
 
 #### Return:
 
-Bulk String Reply: the value of the first element, or `nil` when `key` does not exist.
+Bulk String Reply: the value of the first element, or `nil` when `key` does not exist. If `count` is greater than 1, an Array Reply is returned.
 
 #### Examples:
 
@@ -6964,6 +6964,12 @@ keydb-cli> LPOP mylist
 keydb-cli> LRANGE mylist 0 -1
 1) "two"
 2) "three"
+keydb-cli> RPUSH yourlist "one" "two" "three"
+(integer 3)
+keydb-cli> LPOP yourlist 3
+1) "one"
+2) "two"
+3) "three"
 ```
 
 ---
@@ -8973,15 +8979,15 @@ keydb-cli> ROLE
 
 #### Syntax:
 
-```RPOP <key>```
+```RPOP <key> [count]```
 
 #### Description:
 
-Removes and returns the last element of the list stored at `key`.
+Removes and returns the last element of the list stored at `key`. If `count` is specified, return `count` number of elements.
 
 #### Return:
 
-Bulk String Reply: the value of the last element, or `nil` when `key` does not exist.
+Bulk String Reply: the value of the last element, or `nil` when `key` does not exist. If `count` is greater than 1, an Array Reply is returned.
 
 #### Examples:
 
@@ -8997,6 +9003,12 @@ keydb-cli> RPOP mylist
 keydb-cli> LRANGE mylist 0 -1
 1) "one"
 2) "two"
+keydb-cli> RPUSH yourlist "one" "two" "three"
+(integer 3)
+keydb-cli> RPOP yourlist 3
+1) "three"
+2) "two"
+3) "one"
 ```
 
 ---
