@@ -1,42 +1,82 @@
 ---
 id: intro
-title: Welcome to KeyDB's Documentation
-sidebar_label: About Docs
+sidebar_label: Intro
+title: Welcome to KeyDB Docs
 slug: /
 ---
 
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 
-**KeyDB Doc's** is your technical hub where you can find documentation, examples, tutorials, and theory behind KeyDB. Docs is [open source](https://github.com/EQ-Alpha/KeyDB-docs) and we welcome requests, as well as PR's. 
+**KeyDB Docs** is your technical hub where you can find documentation, examples, tutorials, and theory behind KeyDB. Docs is [open source](https://github.com/EQ-Alpha/KeyDB-docs) and we welcome requests, as well as PRs. 
 
-## Make sure to follow KeyDB
+If you are new to KeyDB check out our [recommended reading](/docs/#recommended-reading). 
 
-**We move fast!** Please subscribe/follow us to keep up to date with new features, releases, docs, and product developments. We have a lot of great things in the works and will be keeping our channels up to date to keep you informed.
+> **KeyDB is a high performance open source database used at Snap, and a powerful drop-in alternative to Redis. While many databases keep the best features locked in their paid offerings, KeyDB remains fully open source. This best enables Snap & the community to collaborate and benefit together in the projects development.**
 
-Please select one of the links below to subscribe or follow us! We look forward to having you as part of our community!
+## Download & Build Options
 
-<a style={{'font-size': '40px'}} href="https://twitter.com/realkeydb" class="fa fa-twitter"></a><a style={{'font-size': '40px'}} href="https://eqalpha.us20.list-manage.com/subscribe/post?u=978f486c2f95589b24591a9cc&id=4ab9220500" class="fa fa-envelope"></a><a style={{'font-size': '40px'}} href="https://www.linkedin.com/company/eqalphatechnology/" class="fa fa-linkedin"></a><a style={{'font-size': '40px'}} href="https://github.com/EQ-Alpha/KeyDB" class="fa fa-github"></a><a style={{'font-size': '40px'}} href="https://www.facebook.com/realkeydb/" class="fa fa-facebook"></a><a style={{'font-size': '40px'}} href="https://www.instagram.com/_keydb_/" class="fa fa-instagram"></a>
+KeyDB offers a number of easy ways to use KeyDB. Click one of the links below or see the [detailed breakdown of download offerings here](/docs/download)
+<a href="https://hub.docker.com/r/eqalpha/keydb"><img src="/img/download/docker.svg" style={{width: "50px", padding: "15px"}}/></a>
+<a href="/docs/ppa-deb"><img src="/img/download/ubuntu.svg" style={{width: "40px", padding: "15px"}}/></a>
+<a href="/docs/ppa-deb"><img src="/img/download/debian.svg" style={{width: "40px", padding: "15px"}}/></a>
+<a href="/docs/rpm"><img src="/img/download/centos.svg" style={{width: "40px", padding: "15px"}}/></a>
+<a href="/docs/build"><img src="/img/download/wrench.png" style={{width: "40px", padding: "15px"}}/></a>
+<a href="https://github.com/EQ-Alpha/KeyDB"><img src="/img/download/github.png" style={{width: "40px", padding: "15px"}}/></a>
+<a href="/docs/download#community-contributed-offerings"><img src="/img/download/homebrew.svg" style={{width: "40px", padding: "15px"}}/></a>
+<a href="/docs/download#community-contributed-offerings"><img src="/img/download/kubernetes.svg" style={{width: "40px", padding: "15px"}}/></a>
+<a href="/docs/download#community-contributed-offerings"><img src="/img/download/archlinux.svg" style={{width: "40px", padding: "15px"}}/></a>
 
-## Site Layout
+## Join the KeyDB Community
 
-There are 3 offering levels of KeyDB: <strong>KeyDB Cloud, KeyDB Open Source,</strong> and <strong>KeyDB Enterprise</strong>. Because KeyDB Cloud and Enterprise can be considered a superset of Open Source, all documentation is applicable to all offerings unless its specified as a subcategory under Cloud/Enterprise/Open Source.
+Check out our channels below to join in discussions or subscribe to keep up to date with KeyDB developments.  We look forward to having you as part of our community!
 
-KeyDB Cloud and Enterprise use the same binary packages, so the feature set and some of the documentation is the same, however the cloud offering is fully managed with a GUI for simplified, automated operations.
+<a style={{'font-size': '40px'}} href="https://twitter.com/realkeydb" class="fa fa-twitter"></a>
+<a style={{'font-size': '40px'}} href="https://www.linkedin.com/company/eqalphatechnology/" class="fa fa-linkedin"></a>
+<a style={{'font-size': '40px'}} href="https://github.com/EQ-Alpha/KeyDB" class="fa fa-github"></a>
+<a style={{'font-size': '40px'}} href="https://www.facebook.com/realkeydb/" class="fa fa-facebook"></a>
+<a style={{'font-size': '40px'}} href="/slack" class="fa fa-slack"></a>
+<a style={{'font-size': '40px'}} href="https://community.keydb.dev" class="fa fa-comments"></a>
+<a style={{'font-size': '40px'}} href="/support#contributor-and-super-user-meetup" class="fa fa-video-camera"></a>
 
-## What is KeyDB
+### Support
+Check out our [support guidelines](/docs/support) for the best way to obtain support for your questions, issues, or requests.
 
-KeyDB is a high performance database with a focus on multithreading, memory efficiency, and high throughput. We offer the ability to scale both vertically and horizontally, with several replication options including multi-master replication which can be used cross-region.
 
-KeyDB leverages its power and architecture to provide features that might not otherwise be possible with a single threaded engine such as Redis. KeyDB can be used as a drop in alternative to Redis and maintains compatibility with the Redis API, modules, protocol and clients.
+## Recommended Reading
 
-## Requests
+### Background on KeyDB, Our Values & More
+* [About KeyDB](/docs/about) - Find out more about the KeyDB Project, its history, and support network
+* [Github Source](https://github.com/EQ-ALpha/KeyDB) - See the source code, readme, and activity
+* [Compatibility with Redis](/docs/compatibility) - Some notes regarding compatibility with Redis and it's broader ecosystem
 
-If you have a request for specific documentation it is likely you're not the only one. Please create an issue in the [KeyDB-docs repository](https://github.com/EQ-Alpha/KeyDB-docs) and we will put it in the queue.
+### Learn Fundamental Concepts
+* [Data Types](/docs/data-types-intro) - Learn about supported data types such as lists, hashes, sets, sorted sets
+* KeyDB also supports more complex data types such as [Streams](/docs/streams), [publish/subscribe](/docs/pubsub), and [transactions](/docs/transactions)
+* [Conventional Replication](/docs/replication) or [Active-Replication](/docs/active-rep)
+* [Cluster Mode](/docs/cluster-spec) - for creating a sharded data set
+* [Persistence](/docs/persistence) - Learn about methods for persisting data to disk
+* [Security](/docs/security) - KeyDB offers different ways of securing your database and connections including [TLS encryption](/docs/tls) and [Access Control Lists (ACLs)](/docs/acl)
 
-## Contributions
+### Start Playing with KeyDB
+* [Download KeyDB](/docs/download) - See different download options for KeyDB
+* [Your Fist Command](/docs/first-test) - An intro to connecting to KeyDB
+* [Using keydb-cli](/docs/keydbcli) - Using the powerful KeyDB client interface
+* [Commands](/docs/commands) - A full list of commands you can use with KeyDB 
 
-We want to hear from you! As our users you likely have insights to the application of the product we do not. If you have a markdown tutorial/demonstration/instruction you would like us to post please create a pull request on the [KeyDB-docs Github repository](https://github.com/EQ-Alpha/KeyDB-docs). We will merge after reviewing the content. 
+### Optimizing KeyDB
+* [keydb.conf](/docs/config-file) - The KeyDB configuration file outlines all the options for tuning and setting up KeyDB
+* [Benchmarking](/docs/benchmarking) - Test out your setup to see what kind of throughput it can handle. Expose system bottlenecks and troubleshoot
 
-## Community
+### Client Side Resources
+* [keydb-cli](/docs/keydbcli) - the KeyDB client for interacting with KeyDB
+* [A note on compatibility](/docs/compatibility) - KeyDB is compatible with all Redis client libraries
+* [KeyDB Client Handling](/docs/clients) - how KeyDB handles client connections
 
-Please [join our community forum](https://community.keydb.dev/) where you can reach out directly with other KeyDB users.
+### Community & Support
+* [Support Guidelines](/docs/support) - See how to get connected with the KeyDB team and other developers
+
+
+
+
+

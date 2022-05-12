@@ -3,14 +3,19 @@ id: license
 title: License
 sidebar_label: License
 ---
-<i>
-This license applies to all KeyDB Docs within the repository https://github.com/benschermel/KeyDB-docs. These documents are displayed on https://docs.keydb.dev
 
-This repo gives attribution to https://github.com/antirez/redis-doc/
-</i>
+## Content License
 
+*This license applies to all KeyDB Docs within the repository https://github.com/Snapchat/KeyDB-docs. These documents are displayed on https://docs.keydb.dev/docs/*
 
-Creative Commons Attribution-ShareAlike 4.0 International Public
+*This repo gives attribution to https://github.com/redis/redis-doc/. Since KeyDB originated as a fork of Redis, there is a lot of overlap in documentation and functionality. KeyDB has modified & adapted a number of documents from redis-doc for its use here as applicable to KeyDB. We appreciate all the hard work that has gone into this project and are exicted to continue sharing our learnings with the community!*
+
+> Copyright &copy 2009-2014, Salvatore Sanfilippo<br/>
+Copyright &copy 2020-2021, EQ Alpha Technology Ltd.<br/>
+Copyright &copy 2021, Snap Inc.    
+
+### Creative Commons Attribution-ShareAlike 4.0 International Public
+
 License
 
 By exercising the Licensed Rights (defined below), You accept and agree
@@ -359,3 +364,31 @@ Section 8 -- Interpretation.
      as a limitation upon, or waiver of, any privileges and immunities
      that apply to the Licensor or You, including from the legal
      processes of any jurisdiction or authority.
+
+
+
+## Website Framework License
+
+The KeyDB documentation website is built using [Docusaurus](https://github.com/facebook/docusaurus). This is a great open source project that makes it easy to generate new documentation and lets us support markdown.
+
+### MIT License
+
+Copyright (c) Facebook, Inc. and its affiliates.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

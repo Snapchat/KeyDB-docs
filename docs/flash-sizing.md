@@ -1,5 +1,5 @@
 ---
-id: enterprise-flash-sizing
+id: flash-sizing
 title: "KeyDB on FLASH: Sizing and Hardware Configuration"
 sidebar_label: FLASH Sizing & Config
 ---
@@ -42,7 +42,7 @@ Consider your Backup Volumes:
 * With AWS NMVe SSDs they can be detached if the machine is stopped thus are not considered a reliable persistent storage medium even though the data is persisted there upon a KeyDB failure. As such if you are using RDB saves you should ensure the root SSD volume or S3 bucket is at least 2.5x the size of your FLASH volume. This is because the old RDB is kept until the new one has finished which can use up to 2x the rdb size.
 
 Consider the following when selecting machine size/type:
-* Having more cores with KeyDB-Enterprise FLASH  helps to assist with handling concurrent reads/writes.
+* Having more cores with KeyDB FLASH  helps to assist with handling concurrent reads/writes.
 * Different machines have different provisioned IOPS. Check details and test to validate
 
 ## Determining Number of Cluster Nodes
@@ -72,7 +72,7 @@ defaults,noiversion,auto_da_alloc,noatime,errors=remount-ro,delalloc,barrier=0,n
 ```
 If there are more than one SSD being used consider setting them up in a RAID array.
 
-If you are using AWS you will have to remount to your NVME volume on boot via fstab typicaly using UUIDs. If you want an AWS image with FLASH automatically set up, use the [KeyDB AMI](https://aws.amazon.com/marketplace/pp/B086WNHBGJ). Follow the instructions [here](https://docs.keydb.dev/docs/ami/) to have flash automatically configured.
+If you are using AWS you will have to remount to your NVME volume on boot via fstab typicaly using UUIDs. 
 
 ## Monitoring
 

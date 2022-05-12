@@ -1,5 +1,5 @@
 ---
-id: enterprise-non-blocking-queries
+id: non-blocking-queries
 title: Non-Blocking Queries
 sidebar_label: Non-Blocking Queries
 ---
@@ -14,7 +14,7 @@ Redis put out this meme in light humor of the KEYS command frequently being call
 
 Redis put in SCAN command for a production use to split up the query. However querying is an important aspect when managing data.
 
-## KeyDB-Enterprise Querying
+## KeyDB Querying
 
 There are a lot of O(n) heavy commands that can drastically block resources and reduce performance. Especially with a single threaded engine like Redis. With the implementation of MVCC and KeyDB’s multithreading we can now perform complex queries concurrently without major performance penalties. Hence our answer to Redis’ south park meme comes with one of our philosophies… 
 
@@ -28,7 +28,7 @@ When it comes to database management, if you care about your data you want to be
 
 While KEYS is a dangerous Redis command, it is not with KeyDB. Redis recommends using SCAN to minimize blocking your database. However if you use SCAN frequently or as part of your application, it will take its toll on performance as its still a blocking call.
 
-See below an example of what happens to your workload when using SCAN with Redis, vs how KeyDB Enterprise handled the load with its non-blocking MVCC queries:
+See below an example of what happens to your workload when using SCAN with Redis, vs how KeyDB handled the load with its non-blocking MVCC queries:
 
 ![image](/img/doc/scan_perf_overview.png)
 

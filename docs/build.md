@@ -23,10 +23,6 @@ make
 sudo make install
 ```
 
-### Building with TLS support:
-
-Note that if you are building with TLS support, pass the `BUILD_TLS=yes` flag when calling make.
-
 ### Build Issues & Rebuilding
 
 If you need to update your build, ensure you `make distclean` prior to building again.
@@ -40,6 +36,16 @@ git fetch --all
 git checkout RELEASE_6
 git pull
 ```
+
+## Build Flags
+
+### Building with TLS support:
+
+Note that if you are building with TLS support, pass the `BUILD_TLS=yes` flag when calling make.
+
+### Build with systemd support
+
+To enable using systemd, use the `USE_SYSTEMD=yes` flag when calling make. You can now update your service file to use `Type=notify` and your keydb.conf file to use `supervised systemd` to take advantage of this support.
 
 ## Building Other Linux Distributions
 
@@ -86,6 +92,10 @@ yum install -y openssl openssl-devel curl-devel git
 yum install -y tcl-devel tcltls
 ```
 
+### Fedora 35
+```
+dnf install -y jemalloc-devel g++ libuuid-devel libatomic openssl-devel curl-devel
+```
 
 ## Additional dependencies for packaging:
 

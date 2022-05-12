@@ -1,16 +1,17 @@
 ---
-id: enterprise-mvcc
+id: mvcc
 title: MultiVersion Concurrency Control (MVCC)
 sidebar_label: MVCC 
 ---
 
-EQ Alpha Technology has decided to integrate MVCC into KeyDB-Enterprise. You may have heard the term MVCC tossed around by developers and may recognize terminology from databases such as PostgreSQL. The use of a powerful method such as MVCC brings tools to KeyDB that are not typical in a NoSQL database. It also works in tandem with KeyDB’s multithreaded architecture to provide advanced querying and transactions without the performance penalties expected with a database such as Redis. We believe that a database should allow as many requests to be processed simultaneously as possible.
+You may have heard the term MVCC tossed around by developers and may recognize terminology from databases such as PostgreSQL. The use of a powerful method such as MVCC brings tools to KeyDB that are not typical in a NoSQL database. It also works in tandem with KeyDB’s multithreaded architecture to provide advanced querying and transactions without the performance penalties expected with a database such as Redis. We believe that a database should allow as many requests to be processed simultaneously as possible.
 
 ## What is MVCC?
 
 MultiVersion Concurrency Control as implied in the name enables us to allow concurrent access to a database. For example, when KeyDB needs to update certain data or perform transactions, it doesn’t overwrite the original data, but instead creates a newer version/snapshot of it. This way data being modified is only visible to the transaction that created it until it is committed. Until then other reads are looking at the snapshot prior to the uncommitted changes. When the older snapshot is no longer being accessed it is automatically removed.
 
-By maintaining several versions of the object, MVCC ensures a transaction never has to wait to read a database object making it non-blocking. This is hugely important for workloads that involve transactions, scripts, heavy queries, etc. which would typically be blocking operations with Redis. With MVCC the ability to have isolation with multiple snapshots enables great functionality such as rollbacks. This guarantees atomicity and helps ensure isolation.  
+By maintaining several versions of the object, MVCC ensures a transaction never has to wait to read a database object making it non-blocking. This is hugely important for workloads that involve transactions, scripts, heavy queries, etc. which would typically be blocking operations with Redis. With MVCC the ability to have isolation with multiple snapshots enables great functionality improvements. 
+  
 
 MVCC has much better concurrency than two-phase locking, which makes it much better to use in database systems.
 
