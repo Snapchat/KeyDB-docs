@@ -1,18 +1,18 @@
 ---
 id: intro
 sidebar_label: Intro
-title: Welcome to KeyDB's Docs
+title: Welcome to KeyDB Docs
 slug: /
 ---
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 
-**KeyDB Doc's** is your technical hub where you can find documentation, examples, tutorials, and theory behind KeyDB. Docs is [open source](https://github.com/EQ-Alpha/KeyDB-docs) and we welcome requests, as well as PRs. 
+**KeyDB Docs** is your technical hub where you can find documentation, examples, tutorials, and theory behind KeyDB. Docs is [open source](https://github.com/EQ-Alpha/KeyDB-docs) and we welcome requests, as well as PRs. 
 
 If you are new to KeyDB check out our [recommended reading](/docs/#recommended-reading). 
 
-> **KeyDB is a high performance database used at Snap, and a powerful drop-in alternative to Redis. While many databases keep the best features locked in their paid offerings, KeyDB is fully open source. This best enables Snap & the community to collaborate and benefit together in the projects development.**
+> **KeyDB is a high performance open source database used at Snap, and a powerful drop-in alternative to Redis. While many databases keep the best features locked in their paid offerings, KeyDB remains fully open source. This best enables Snap & the community to collaborate and benefit together in the projects development.**
 
 ## Download & Build Options
 
@@ -37,7 +37,7 @@ Check out our channels below to join in discussions or subscribe to keep up to d
 <a style={{'font-size': '40px'}} href="https://www.facebook.com/realkeydb/" class="fa fa-facebook"></a>
 <a style={{'font-size': '40px'}} href="/slack" class="fa fa-slack"></a>
 <a style={{'font-size': '40px'}} href="https://community.keydb.dev" class="fa fa-comments"></a>
-<a style={{'font-size': '40px'}} href="/support#monthly-super-user-all-hands-meeting" class="fa fa-video-camera"></a>
+<a style={{'font-size': '40px'}} href="/support#contributor-and-super-user-meetup" class="fa fa-video-camera"></a>
 
 ### Support
 Check out our [support guidelines](/docs/support) for the best way to obtain support for your questions, issues, or requests.

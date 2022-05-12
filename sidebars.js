@@ -21,9 +21,6 @@ module.exports = {
 			{type: 'link', label: 'Advanced', href: 'https://hub.docker.com/r/eqalpha/keydb'},
 			"docker-active-rep", "dockerfiles"]},
 		{type: 'category', label: 'Load Balancers', items: ["haproxy"]},
-//                {type: 'category', label: 'Third Party Resources', collapsed: true, items: [
-//                        "community-helm",]
-//                },
 		{type: 'category', label: 'Security', items: ["security", "acl", "encryption"]},
 		{type: 'category', label: 'Troubleshooting', items: ["debugging", "ldb"]},
 		{type: 'category', label: 'Clients/APIs/Protocols', items: ["clients", "keydbcli", "protocol", "gopher"]},

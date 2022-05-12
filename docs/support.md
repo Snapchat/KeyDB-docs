@@ -22,7 +22,7 @@ If there is a bug or perceived issue with the KeyDB product, please [create an i
 
 In addition to the KeyDB team, there are a number of "super-users" within the community who help contribute to the project. This includes users who create PRs, manage supporting KeyDB libraries, perform deep dives on issues, or wish to take a more active role within the project itself. 
 
-For these users, we will have an "All Hands Super-User Monthly Call". Here we will review PRs, issues, and discussion items in detail. These meetings will have a specific agenda which will be posted in advance of each meeting. Join the #monthly-super-user-meet channel for the invite link and to request topics for the call. 
+For these users, we will have an "All Hands Super-User Monthly Call". Here we will review PRs, issues, and discussion items in detail. These meetings will have a specific agenda which will be posted in advance of each meeting. Join the #monthly-meetup channel for the invite link and to request topics for the call. 
 
 We encourage anyone to attend these meetings who is interested, however we will stick to agenda items set in advance to ensure everything gets covered and the right people are on the call ;).
 
