@@ -8,9 +8,9 @@ slug: /
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 
-**KeyDB Docs** is your technical hub where you can find documentation, examples, tutorials, and theory behind KeyDB. Docs is [open source](https://github.com/EQ-Alpha/KeyDB-docs) and we welcome requests, as well as PRs. 
+**KeyDB Docs** is your technical hub where you can find documentation, examples, tutorials, and theory behind KeyDB. Docs is [open source](https://github.com/EQ-Alpha/KeyDB-docs) and we welcome requests, as well as PRs.
 
-If you are new to KeyDB check out our [recommended reading](/docs/#recommended-reading). 
+If you are new to KeyDB check out our [recommended reading](/docs/#recommended-reading).
 
 > **KeyDB is a high performance open source database used at Snap, and a powerful drop-in alternative to Redis. While many databases keep the best features locked in their paid offerings, KeyDB remains fully open source. This best enables Snap & the community to collaborate and benefit together in the projects development.**
 
@@ -56,13 +56,13 @@ Check out our [support guidelines](/docs/support) for the best way to obtain sup
 * [Conventional Replication](/docs/replication) or [Active-Replication](/docs/active-rep)
 * [Cluster Mode](/docs/cluster-spec) - for creating a sharded data set
 * [Persistence](/docs/persistence) - Learn about methods for persisting data to disk
-* [Security](/docs/security) - KeyDB offers different ways of securing your database and connections including [TLS encryption](/docs/tls) and [Access Control Lists (ACLs)](/docs/acl)
+* [Security](/docs/security) - KeyDB offers different ways of securing your database and connections including [TLS encryption](/docs/encryption) and [Access Control Lists (ACLs)](/docs/acl)
 
 ### Start Playing with KeyDB
 * [Download KeyDB](/docs/download) - See different download options for KeyDB
 * [Your Fist Command](/docs/first-test) - An intro to connecting to KeyDB
 * [Using keydb-cli](/docs/keydbcli) - Using the powerful KeyDB client interface
-* [Commands](/docs/commands) - A full list of commands you can use with KeyDB 
+* [Commands](/docs/commands) - A full list of commands you can use with KeyDB
 
 ### Optimizing KeyDB
 * [keydb.conf](/docs/config-file) - The KeyDB configuration file outlines all the options for tuning and setting up KeyDB
