@@ -6,7 +6,7 @@ sidebar_label: Active Replication
 
 ## Set up Your Replica Node to Easily Accept Reads & Writes
 
-KeyDB now has support for active replicas (Also known as "Active Active").  This greatly simplifies fail-over scenarios as replicas no longer need to be promoted to active masters.  In addition, “Active Replica” support can be used to distribute load in high write scenarios.
+KeyDB has support for active replicas (Also known as "Active Active").  This greatly simplifies fail-over scenarios as replicas no longer need to be promoted to active masters.  In addition, “Active Replica” support can be used to distribute load in high write scenarios.
 
 ## How it Works ##
 

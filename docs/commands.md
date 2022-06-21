@@ -8794,6 +8794,9 @@ If a server is already a replica of some master, `REPLICAOF <hostname> <port>` w
 
 The form `REPLICAOF NO ONE` will stop replication, turning the server into a MASTER, but will not discard the replication. So, if the old master stops working, it is possible to turn the replica into a master and set the application to use this new master in read/write. Later when the other KeyDB server is fixed, it can be reconfigured to work as a replica.
 
+If `active-replica yes` is configured, you can use the command `REPLICAOF REMOVE <hostname> <port>` to remove discarded replica nodes from the configuration files of active nodes. It is also possible to have each node replicated to several other nodes. Please see [active-replication](/docs/active-rep) for more details.
+
+
 #### Return:
 
 Simple String Reply

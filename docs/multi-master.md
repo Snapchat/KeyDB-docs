@@ -74,3 +74,14 @@ replicaof 10.0.0.3 6379
 ```
 
 You can also append to config file `keydb-server --multi-master yes --active-replica yes --replicaof [ipaddress] [port] --replicaof [ipaddress] [port]`
+
+
+## Removing A Replica Node
+
+During operation you may want to remove a node without having to reload configuration files & restart nodes. This can be done using keydb-cli:
+
+```
+keydb-cli> REPLICAOF REMOVE [host] [ip]
+```
+
+Note that this command will need to be issued on all nodes within the cluster (we do not yet support automatic propogation accross cluster nodes). 
