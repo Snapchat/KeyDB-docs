@@ -52,7 +52,7 @@ Check out our [support guidelines](/docs/support) for the best way to obtain sup
 
 ### Learn Fundamental Concepts
 * [Data Types](/docs/data-types-intro) - Learn about supported data types such as lists, hashes, sets, sorted sets
-* KeyDB also supports more complex data types such as [Streams](/docs/streams), [publish/subscribe](/docs/pubsub), and [transactions](/docs/transactions)
+* KeyDB also supports more complex data types such as [Streams](/docs/streams-intro), [publish/subscribe](/docs/pubsub), and [transactions](/docs/transactions)
 * [Conventional Replication](/docs/replication) or [Active-Replication](/docs/active-rep)
 * [Cluster Mode](/docs/cluster-spec) - for creating a sharded data set
 * [Persistence](/docs/persistence) - Learn about methods for persisting data to disk
