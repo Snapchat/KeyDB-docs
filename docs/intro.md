@@ -60,7 +60,7 @@ Check out our [support guidelines](/docs/support) for the best way to obtain sup
 
 ### Start Playing with KeyDB
 * [Download KeyDB](/docs/download) - See different download options for KeyDB
-* [Your Fist Command](/docs/first-test) - An intro to connecting to KeyDB
+* [Your First Command](/docs/first-test) - An intro to connecting to KeyDB
 * [Using keydb-cli](/docs/keydbcli) - Using the powerful KeyDB client interface
 * [Commands](/docs/commands) - A full list of commands you can use with KeyDB
 
