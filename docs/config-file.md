@@ -1031,7 +1031,7 @@ aof-load-truncated yes
 # tail.
 aof-use-rdb-preamble yes
 
-################################ LUA SCRIPTING  ###############################
+################################ Lua SCRIPTING  ###############################
 
 # Max execution time of a Lua script in milliseconds.
 #

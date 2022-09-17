@@ -6390,7 +6390,7 @@ All commands prefixed with "KEYDB." are commands specific to KeyDB whereby the p
 
 **Related Commands:** [DEL](/docs/commands/#del), [EVAL](/docs/commands/#eval)
 
-KeyDB's CRON function schedules LUA scripts to run at specified times and intervals.
+KeyDB's CRON function schedules Lua scripts to run at specified times and intervals.
 
 #### Returns:
 
@@ -6407,12 +6407,12 @@ where:
 * `start` is an integer specified in milliseconds since Epoch. If specified, the script will not execute until this Unix time has been reached. If the delay is greater than zero, this delay time will need to elapse prior to the script executing (timer begins to elapse at start time). If a start time 
 is specified, the delay will always remain in reference intervals to that start time.
 * `delay` is an integer specified in milliseconds used as the initial delay. If `repeat` is specified, this will also be the length of the repeating timer which will execute the script each time the delay elapses (will continue to execute indefinitely).
-* `script` is the LUA script to execute. This should be the LUA script itself and NOT the SHA1 digest of a loaded script.
+* `script` is the Lua script to execute. This should be the Lua script itself and NOT the SHA1 digest of a loaded script.
 * `numkeys <key-N> <arg-N>` are the number of keys, keys, and arguments for the script, similar to usage with [EVAL](/docs/commands/#eval)
 
 #### Persistence:
 
-Unlike traditional LUA scripts that may be loaded (cached only), the KEYDB.CRON task will persist across server boots if saved. It can be seen as a KEY in the keyspace and deleted or modified. 
+Unlike traditional Lua scripts that may be loaded (cached only), the KEYDB.CRON task will persist across server boots if saved. It can be seen as a KEY in the keyspace and deleted or modified. 
 
 If the cron function is on repeat and already executing at its interval, then the keydb-server is rebooted, the interval will continue to be referenced to the start time. For example if you had scheduled the task at the beginning of each hour, 
 once booted the task will continue to execute at the beginning of each hour regardless of when the server boots.
