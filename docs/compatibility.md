@@ -8,7 +8,7 @@ The topic of compatibility is important to understand the larger ecosystem that 
 
 ## Compatibility with Redis
 
-KeyDB remains fully compatible with the Redis API, modules and protocol. This means if you are using Redis, you can drop KeyDB in place without any modifications required. This works the same way going back to Redis if you are using a common config, however if you are using features specific to KeyDB such as active-rep, subkey expires, or FLASH, these will not be supported if you migrate back to Redis.
+KeyDB remains fully compatible with the Redis API and protocol. This means if you are using Redis, you can drop KeyDB in place without any modifications required. This works the same way going back to Redis if you are using a common config, however if you are using features specific to KeyDB such as active-rep, subkey expires, or FLASH, these will not be supported if you migrate back to Redis.
 
 ## Parity with Redis
 

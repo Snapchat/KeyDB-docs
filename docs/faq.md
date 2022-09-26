@@ -9,9 +9,7 @@ sidebar_label: FAQ
 KeyDB started as a fork of Redis where our fundamental beliefs differed. 
 We thought Redis should be multithreaded and the core development team of 
 Redis did not plan to support it. The fork started as a way to accelerate 
-development in the areas of interest to us and other users. After multithreading 
-Redis and seeing the benefits and performance gains, we felt there was value 
-in having open source implementations of features currently only supported in some proprietary modules.
+development in the areas of interest to us and other users.
 Some aspects of using Redis introduce a lot of unnecessary complexity such as sharding and high availability setup. 
 As a result KeyDB introduced features such as active-replication and multi-master configuration options. 
 Other features such as flash support, aws s3 backup, were also important features we believe should be part of the base code 
