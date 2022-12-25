@@ -10,7 +10,7 @@ KeyDB loads the default config file as shown below. If you specify the config fi
 When running multiple servers, replicas, etc its a good idea to customize your config file and at the minimum specify the following commands to keep separate:
 * dir
 * logfile
-* port (unless IP differen)
+* port (unless IP different)
 * replicaof
 * requirepass
 * masterauth
