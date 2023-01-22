@@ -1,8 +1,10 @@
 ---
 id: flash-sizing
 title: "KeyDB on FLASH: Sizing and Hardware Configuration"
-sidebar_label: FLASH Sizing & Config
+sidebar_label: FLASH Sizing & Config (Beta)
 ---
+
+** ** Important Notice - KeyDB FLASH is still considered to be a Beta feature (experimental) and should be treated as such. Please keep this in mind as you use it and help by reporting and issues [here](https://github.com/Snapchat/KeyDB/issues)! ** **
 
 
 ## When to use KeyDB on FLASH

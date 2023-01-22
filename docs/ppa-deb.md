@@ -10,8 +10,8 @@ sidebar_label: PPA & DEB Install
 Debian packages make installation of KeyDB easy. No need to worry about building the binaries, or directory setup. Just simply install and go!
 
 We are now using a single freight repository to serve all Ubuntu and Debian packages. We currently support the following distributions/architectures:
-* Debian: stretch (amd64 & arm64), buster (amd64 & arm64)
-* Ubuntu: focal (amd64 & arm64), bionic (amd64 & arm64), xenial (amd64)
+* Debian: stretch (amd64 & arm64), buster (amd64 & arm64), bullseye (amd64 & arm64), bookworm (amd64 & arm64)
+* Ubuntu: xenial (amd64), bionic (amd64 & arm64), focal (amd64 & arm64), jammy (amd64 & arm64)
 
 We plan to support additional distributions in the near future. If you are looking to create your own custom packages or see the source code, the deb packaging scripts can be found here: https://github.com/EQ-Alpha/KeyDB/tree/unstable/pkg/deb
 
@@ -81,6 +81,20 @@ By default the service is disabled and will be disabled if your machine is reboo
 $ sudo systemctl enable keydb-server
 ```
 
+## Setting up FLASH with systemd
+
+If you are running KeyDB as a service with FLASH options enabled, you need to let systemd know you will be accessing the flash volume and make sure the keydb user/group have access. You will need to update the systemd file  `/lib/systemd/system/keydb-server.service` and append the following line below where the others are located:
+```
+ReadWriteDirectories=-/path/to/your/flash/volume/db/folder
+```
+This followed by `sudo systemctl daemon-reload`
+
+You will then need to change the ownership on the directory of the specified flash volume
+```
+sudo chown -R keydb:keydb /path/to/your/flash/volume/db/folder
+
+```
+Now you should be able to run KeyDB FLASH as a service and start/stop with `sudo service keydb-server start/stop/status`
 
 
 ## Uninstall

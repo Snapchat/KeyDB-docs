@@ -1,8 +1,11 @@
 ---
 id: flash          
 title: KeyDB on FLASH (SSD Storage)
-sidebar_label: KeyDB FLASH Storage
+sidebar_label: KeyDB FLASH Storage (Beta)
 ---
+
+
+** ** Important Notice - KeyDB FLASH is still considered to be a Beta feature (experimental) and should be treated as such. Please keep this in mind as you use it and help by reporting and issues [here](https://github.com/Snapchat/KeyDB/issues)! ** **
 
 ## KeyDB FLASH
 
@@ -43,6 +46,7 @@ keydb-server --storage-provider  flash  [path-to-flash-storage] --maxmemory [max
 ```
 sudo docker run -d -it -p 6379:6379 --name mycontainername --mount type=bind,dst=/flash,src=/path/to/flash/ eqalpha/keydb keydb-server /etc/keydb/keydb.conf --storage-provider flash /flash --maxmemory [maxmemory-amount-ie. 500M] --maxmemory-policy [eviction-policy ie. allkeys-lfu]
 ```
+Note that KeyDB is run by user:group keydb:keydb within the container, so depending on how you mount the volume to the container it may require keydb:keydb ownership. You can see the Dockerfiles [here](https://github.com/Snapchat/KeyDB/tree/main/pkg/docker) for details.
 
 ## Using KeyDB on FLASH - Detailed Setup:
 

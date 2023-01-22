@@ -4,20 +4,23 @@ title: What is on the Roadmap for the KeyDB Project?
 sidebar_label: Project Roadmap
 ---
 
-## A Single Open Source Codebase
+## Version 6.3.2 (Now Available)
 
-KeyDB is going all open source! This means integrating previously Enterprise features into KeyDB Open Source!! As part of Snap, KeyDB will open source the entire codebase and work with the community to maintain and grow the project!
+We are excited to announce some major updates that shipped with version 6.3.2 including Beta level support for KeyDB FLASH, new ASYNC commands, latency improvements and a number of bug fixes. 
 
-## Introduced in Version 6.3.0
-* The main branch has moved to what was previously the KeyDB Enterprise branch
-* MVCC architecture is introduced to the codebase for increased read performance. This brings async commands (GET, MGET), non-blocking queries such as SCAN/KEYS, and in-process background saving.
-* Partial Synchronization is also available for multi-master configurations
-* [v6.3.0 Complete Feature Summary](/news/2022/05/11/feature-summary-6_3_0)
+#### KeyDB FLASH Availability
+KeyDB FLASH is included as a Beta feature with this release. Enabling this feature avoids the need to store all data in memory, allowing you to store more data at a lower cost. KeyDB will persist data to the storage medium it is written to avoiding the need for AOF/RDB files. KeyDB uses RocksDB as the persistent storage provider and can be enabled with config `storage-provider flash /path/to/rocksdb/output`. Read more at https://docs.keydb.dev/docs/flash/
+
+#### New ASYNC Commands
+Async commands are commands which can execute without the global lock. In addition to GET/MGET support released with v6.3.0, ASYNC support has been added for the following commands: HGET, HMGET, HKEYS, HVALS, HGETALL, HSCAN and can be enabled with config `enable-async-commands yes`
+
+#### Jammy & Bookworm Support
+Packaging support for Ubuntu 22.04 (Jammy) and Debian 12 (Bookworm) has been included with this release and will be maintained moving forwards. For details on installation please refer to https://docs.keydb.dev/docs/ppa-deb
+
+#### Release Notes
+Please refer to the [v6.3.2 Release Notes](https://github.com/Snapchat/KeyDB/releases/tag/v6.3.2) for a full list of improvements & bug fixes!
 
 ## Coming Soon!
-
-### KeyDB FLASH Support
-Support for KeyDB FLASH using the RocksDB engine will become available **September 2022**. This was offered as part of the previously Enterprise codebase, however for contractual reasons will not be released until September at which point it will remain open source.
 
 ### Namespaces
 Multi-Tenant support through dedicated namespaces will be available in an upcoming release as tracked through PR#404. This is a community PR by @ederuiter. It will be released first without active-rep support which will be added in a future release.
@@ -27,8 +30,5 @@ Native support for nested hashes will be coming to KeyDB. This will support nest
 
 ### RAFT
 This is a strongly consistent mode using the RAFT algorithm. This enables strong data consistency across nodes. Check out [this blogpost](/blog/2021/07/06/blog-post) for more details
-
-### More Performance Improvements
-We are always improving the performance of KeyDB. With the introduction of MVCC into the open source codebase, we can now avoid locks and extract more parallelism for different commands. We plan to have additional async support for the following commands in July, 2022: HGET, HMGET, HKEYS, HVALS, HGETALL, HSCAN.
 
 
