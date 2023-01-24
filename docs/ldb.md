@@ -1,7 +1,7 @@
 ---
 id: ldb
-title: Debugging LUA Scripts With the LUA Debugger
-sidebar_label: LUA Script Debugger
+title: Debugging Lua Scripts With the Lua Debugger
+sidebar_label: Lua Script Debugger
 ---
 
 
