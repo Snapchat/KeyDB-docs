@@ -24,7 +24,9 @@ module.exports = {
 		{type: 'category', label: 'Security', items: ["security", "acl", "encryption"]},
 		{type: 'category', label: 'Troubleshooting', items: ["debugging", "ldb"]},
 		{type: 'category', label: 'Clients/APIs/Protocols', items: ["clients", "keydbcli", "protocol", "gopher"]},
-		{type: 'category', label: 'More', items: ["ARM", "faq", "memory-optimization", "license"]}
+		{type: 'category', label: 'More', items: [
+			{type: 'link', label: 'KeyDB Release Notes (Changelog)', href: 'https://github.com/Snapchat/KeyDB/releases'},
+			"ARM", "faq", "memory-optimization", "license"]}
 	],
 };
 

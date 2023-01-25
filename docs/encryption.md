@@ -13,9 +13,11 @@ Getting Started
 ### Building
 
 To build with TLS support you'll need OpenSSL development libraries (e.g.
-libssl-dev on Debian/Ubuntu).
+libssl-dev on Debian/Ubuntu). 
 
-Run `make BUILD_TLS=yes`.
+KeyDB is now built with TLS enabled by default, where all KeyDB packages and 
+distributions are shipped with TLS enabled. To build without TLS support you 
+will need to run `make BUILD_TLS=no`.
 
 ### Tests
 
