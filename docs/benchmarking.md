@@ -13,7 +13,7 @@ KeyDB is multithreaded on several levels and seeing the differences becomes appa
 
 You can visit [memtiers github rep](https://github.com/RedisLabs/memtier_benchmark) or follow these quick steps to get up and running on typical Ubuntu/Debian:
 ```
-apt-get install build-essential autoconf automake libpcre3-dev libevent-dev pkg-config zlib1g-dev
+apt-get install build-essential autoconf automake libpcre3-dev libevent-dev pkg-config zlib1g-dev libssl-dev
 git clone https://github.com/RedisLabs/memtier_benchmark.git
 cd memtier_benchmark
 autoreconf -ivf
