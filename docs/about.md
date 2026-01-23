@@ -8,7 +8,7 @@ We believe performance ultimately provides freedom to users  – KeyDB is fast, 
 
 > *If you had to move to a new house would you rather use a car or a 40ft truck? One method involves careful thought on what you bring and how to pack it in, the other you throw everything in without a second thought and go*
 
-This is analogous to the database world when it comes to development. While some databases require sharding and several processes running for a basic setup, KeyBD focuses on extracting maximum performance out of each node. This means less moving parts, and for most workloads removes the need to shard or have sentinel nodes for monitoring. For really large workloads requiring sharding, KeyDB can scale horizontally and with less nodes to provide sub-millisecond latencies.
+This is analogous to the database world when it comes to development. While some databases require sharding and several processes running for a basic setup, KeyDB focuses on extracting maximum performance out of each node. This means less moving parts, and for most workloads removes the need to shard or have sentinel nodes for monitoring. For really large workloads requiring sharding, KeyDB can scale horizontally and with less nodes to provide sub-millisecond latencies.
 
 ## Our Story
 
