@@ -22,6 +22,6 @@ For any KeyDB features that may not be supported by the library you are using we
 
 ## GUI Tools
 
-Because KeyDB speaks the Redis protocol, GUI tools built for Redis can generally connect to KeyDB as well. The following tools have been tested against KeyDB:
+The following GUI tools have been tested against KeyDB:
 
 - [LibreDB Studio](https://github.com/libredb/libredb-studio): an open source (MIT), web-based database IDE. It connects to KeyDB through its Redis driver and was tested against KeyDB 6.3.4.
